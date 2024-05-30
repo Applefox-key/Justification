@@ -1,0 +1,438 @@
+.App {
+  text-align: center;
+  min-height: 2500px;
+
+}
+
+.btn,
+button {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  // padding: 5px 15px;
+  // font-family: 'Lato', sans-serif;
+  // font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  // position: relative;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+    7px 7px 20px 0px rgba(0, 0, 0, .1),
+    4px 4px 5px 0px rgba(0, 0, 0, .1);
+  outline: none;
+  // font-size: 14px;
+  border: none;
+  color: #fff;
+  color: #000000;
+  background: linear-gradient(0deg, #b3d0ff 0%, #b3d0ff 100%);
+  text-decoration: none;
+  text-wrap: nowrap;
+  min-height: 1rem;
+  min-width: 1.5rem;
+
+  &:disabled {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    background: burlywood;
+  }
+
+  &:hover {
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
+      -4px -4px 6px 0 rgba(116, 125, 136, .5),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+  }
+
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.main-page {
+  min-width: 100%;
+  min-height: 100vh;
+
+  background-image: url("img/Winter-Mountain-Wallpaper.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.page-body {
+  padding: 15px 20px;
+  max-width: 100vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+}
+
+.un-wrap {
+  display: flex;
+  font-size: 12px;
+  width: 600px;
+  height: 300px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  padding: 5px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.item {
+  width: fit-content;
+  height: fit-content;
+  margin-right: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.activeEl {
+  border: 1px solid red;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.textarea-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.up-part {
+  display: flex;
+  justify-content: space-between;
+  max-height: 80vh;
+
+  .page-part {
+    height: fit-content;
+    background: #f0f8ff61;
+    padding: 5px;
+    border-radius: 5px;
+
+    textarea {
+      width: 490px;
+    }
+  }
+
+  .list-wrap {
+    @extend .un-wrap;
+    font-size: 10px;
+    background-color: #ecedf2;
+    height: fit-content;
+    margin-bottom: 1rem;
+
+  }
+
+  .justif {
+    @extend .un-wrap;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background: #ffffff69;
+    align-content: space-between;
+    overflow: scroll;
+  }
+
+  .justif-body {
+    display: flex;
+    padding: 5px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
+
+  .justif-item {
+    @extend .item;
+    background-color: #9399A0;
+    position: relative;
+    margin-right: 1rem;
+    transition: all 0.4s ease-in-out;
+    color: white;
+
+    button {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      border-radius: 10px;
+      display: none;
+      transition: all 0.4s ease-in-out;
+
+      &:hover {
+        background-color: #50dfff;
+      }
+
+
+    }
+
+    &:hover {
+      button {
+        display: block;
+      }
+    }
+  }
+
+  .justif-all {
+    font-size: 12px;
+    border-top: 1px solid #9399a0;
+    position: relative;
+    width: 100%;
+
+    button {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      border: 1px solid #9399a0;
+      border-radius: 5px;
+      display: none;
+
+      &:hover {
+        background-color: #50dfff;
+      }
+
+    }
+
+    &:hover {
+      button {
+        display: block;
+      }
+    }
+  }
+
+  .text-list-body {
+    @extend .un-wrap;
+    background-color: #c7cacf52;
+    width: fit-content;
+    height: fit-content;
+
+  }
+
+  .current-list {
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100vh;
+
+    // width: 600px;
+    .activeEl {
+      border: 1px solid red;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    }
+
+    .current-list-body {
+      margin-left: 1rem;
+      overflow: auto;
+      @extend .un-wrap;
+      // display: block;
+      background-color: #c7cacf91;
+      width: -webkit-fill-available;
+      min-height: fit-content;
+      height: fit-content;
+      max-height: 80vh;
+      padding-top: 15px;
+    }
+
+
+  }
+
+  .current-item {
+    @extend .item;
+    position: relative;
+    display: flex;
+    background-color: #b3d0ff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    padding-top: 10px;
+    margin-right: 8px;
+
+    div {
+      text-align: start;
+    }
+
+    .ru {
+      margin-left: 5px;
+      color: #0055de;
+      font-style: italic;
+    }
+
+    button {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      border-radius: 10px;
+      display: none;
+      transition: all 0.4s ease-in-out;
+
+      &:hover {
+        background-color: #50dfff;
+      }
+
+
+    }
+
+    &:hover {
+      background-color: #97b2dd;
+
+      button {
+        display: block;
+      }
+    }
+  }
+
+  .hint {
+    background-color: #f8f9c0;
+
+    &:hover {
+      .ru {
+        color: white;
+      }
+
+      color: black;
+
+    }
+  }
+
+  .h-fit {
+    height: fit-content;
+    width: 600px;
+  }
+}
+
+.parts-btn {
+  @extend .item;
+  font-size: 12px;
+  background-color: #FF8346;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.partsBtns {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 10px;
+  justify-content: flex-end;
+
+}
+
+.activeBtn {
+  border: 1px solid rgb(0, 255, 238);
+  background-color: #bd6234;
+  color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+
+.partsBtns-section {
+  @extend .partsBtns;
+  box-shadow: none;
+
+  .current-item {
+    background: #eac0ab;
+  }
+
+}
+
+.level {
+  position: absolute;
+  top: -3px;
+  left: 1px;
+  background-color: #50dfff;
+  background-color: #0055de;
+  color: white;
+  border-radius: 5px;
+  font-size: 10px;
+  padding: 0 2px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+}
+
+.justBtns {
+  display: flex;
+
+  button {
+    border-radius: 5px;
+    border: 1px solid grey;
+    margin: 0 5px;
+  }
+}
+
+.editbox-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #9399a085;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editbox,
+.txt-box {
+  // position: absolute;
+  width: 587px;
+  height: 275px;
+  flex-wrap: wrap;
+  background-color: #fdfeff;
+  border-radius: 10px;
+  padding: 5px;
+  z-index: 3;
+  display: flex;
+  align-content: flex-end;
+  align-items: stretch;
+}
+
+.txt-box {
+  height: 214px;
+}
+
+.btnToHis {
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 3px;
+}
+
+.btnClear {
+  position: absolute;
+}
+
+.fit-height {
+  height: -webkit-fill-available;
+}
+
+.w100 {
+  width: 100%;
+  min-height: 1.5rem;
+  height: fit-content;
+}
+
+textarea.form-control::placeholder {
+  color: rgb(196, 192, 192);
+}
