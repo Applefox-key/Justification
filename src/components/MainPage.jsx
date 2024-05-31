@@ -50,14 +50,11 @@ const MainPage = () => {
               justification={justification}
               setJustification={setJustification}
             />
-            {curSection && !!curSection.hint && <List list={curSection.hint} />}
+            {curSection && !!curSection.hint.length && (
+              <List list={curSection.hint} />
+            )}
           </div>
           <div className="page-part">
-            {/* <FilesList
-              justparts={justparts}
-              currBtn={currBtn}
-              setCurrBtn={setCurrBtn}
-            /> */}
             {currBtn !== null && (
               <FileSheets
                 currentBtn={currBtn}

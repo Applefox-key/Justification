@@ -52,12 +52,8 @@ const FileSheets = ({
         </div>
       )}
 
-      <div className="current-list-body">
-        {/* <div className="textarea-box mb-2">
-          <StrArea placeholder="...your notes" />
-        </div> */}
-
-        {curSection && (
+      {curSection && !!curSection.items.length && (
+        <div className="current-list-body">
           <FileItems
             itemsArr={
               lev === null
@@ -68,8 +64,8 @@ const FileSheets = ({
             setCurrBtn={setCurrBtn}
             currentBtn={currentBtn}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
