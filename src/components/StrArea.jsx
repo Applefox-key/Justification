@@ -14,7 +14,6 @@ const StrArea = ({ str = "", actionFn, his, placeholder = "" }) => {
           save to history
         </Button>
       )}
-      {/* <Button onClick={() => setHandleTxt("")}>✖️</Button> */}
       <Button onClick={() => setHandleTxt("")}>🗑️</Button>
       <Form.Control
         as="textarea"

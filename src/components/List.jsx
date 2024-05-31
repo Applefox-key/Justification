@@ -5,7 +5,7 @@ const List = ({ list }) => {
     <div className="list-wrap">
       {list &&
         list.map((el, i) => (
-          <div className="current-item hint">
+          <div key={i} className="current-item hint">
             <div>{el.en}</div>
             <div className="ru">{el.ru}</div>
           </div>

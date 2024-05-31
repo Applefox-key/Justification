@@ -18,7 +18,7 @@ const JustifBody = ({ justification, setJustification, setEdit }) => {
     <>
       <div className="justif-body">
         {justification.map((el, i) => (
-          <div className="justif-item" onClick={() => setEdit(i)}>
+          <div key={i} className="justif-item" onClick={() => setEdit(i)}>
             {el.en}
             <button
               onClick={(e) => {

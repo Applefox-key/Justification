@@ -13,11 +13,13 @@ const FileSheets = ({
     if (currentBtn === null) return;
     setLev(null);
   }, [currentBtn, curSection]);
+
   return (
     <div className="current-list">
       <div className="partsBtns-section">
         {currentBtn.items.map((el, i) => (
           <div
+            key={i}
             className={
               curSection && curSection.name === el.name
                 ? "current-item activeEl"
@@ -29,7 +31,7 @@ const FileSheets = ({
           //
         ))}
       </div>
-      {curSection && !!curSection.levels && !!curSection.levels.length && (
+      {!!curSection && !!curSection.levels && !!curSection.levels.length && (
         <div className="levels">
           <div
             className={lev === null ? "level active" : "level"}
@@ -41,6 +43,7 @@ const FileSheets = ({
           </div>
           {curSection.levels.map((el, i) => (
             <div
+              key={i}
               className={lev === el ? "level active" : "level"}
               onClick={(e) => {
                 e.stopPropagation();
@@ -52,7 +55,7 @@ const FileSheets = ({
         </div>
       )}
 
-      {curSection && !!curSection.items.length && (
+      {!!curSection && !!curSection.items && !!curSection.items.length && (
         <div className="current-list-body">
           <FileItems
             itemsArr={

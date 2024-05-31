@@ -14,6 +14,7 @@ const FilesList = ({ justparts, currBtn, setCurrBtn, defaultState }) => {
       {!!justparts.length &&
         justparts.map((el, i) => (
           <div
+            key={i}
             className={
               currBtn && currBtn.name === el.name
                 ? "parts-btn activeBtn"

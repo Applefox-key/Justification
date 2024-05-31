@@ -14,7 +14,7 @@ export const getHistory = () => {
   let val = fromLS("History");
   const his = {
     name: "history",
-    hint: "",
+    hint: [],
     items: [{ name: "history", items: val === null ? [] : val }],
   };
   return his;

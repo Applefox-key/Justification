@@ -50,7 +50,7 @@ const MainPage = () => {
               justification={justification}
               setJustification={setJustification}
             />
-            {curSection && !!curSection.hint.length && (
+            {!!curSection && !!curSection.hint && !!curSection.hint.length && (
               <List list={curSection.hint} />
             )}
           </div>
