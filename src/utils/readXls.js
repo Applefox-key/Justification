@@ -19,20 +19,24 @@ export const readXlsFile = (file) => {
         if (sheetData.length === 0) {
           return;
         }
-
         const sheetObj = {
           name: sheetName,
           hint: [],
           items: [],
+          levels: [],
         };
         for (let i = 1; i < sheetData.length; i++) {
           const row = sheetData[i];
           if (row[0] || row[1] || row[2]) {
+            const lev = row[2] || null;
+            if (lev !== null && !sheetObj.levels.includes(lev))
+              sheetObj.levels.push(lev);
             const item = {
               en: row[0] || null,
               ru: row[1] || null,
-              level: row[2] || null,
+              level: lev,
             };
+
             sheetObj.items.push(item);
           }
           if (row[3] || row[4]) {

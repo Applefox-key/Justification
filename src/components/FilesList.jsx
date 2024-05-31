@@ -1,9 +1,16 @@
 import React from "react";
 import { getHistory } from "../utils/localStorage";
 
-const FilesList = ({ justparts, currBtn, setCurrBtn }) => {
+const FilesList = ({ justparts, currBtn, setCurrBtn, defaultState }) => {
   return (
     <div className="partsBtns">
+      <button
+        className="resetBtn"
+        onClick={() => {
+          defaultState(null);
+        }}>
+        reset
+      </button>
       {!!justparts.length &&
         justparts.map((el, i) => (
           <div
