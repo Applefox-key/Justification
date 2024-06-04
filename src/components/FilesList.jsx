@@ -3,7 +3,7 @@ import { getHistory } from "../utils/localStorage";
 
 const FilesList = ({ justparts, currBtn, setCurrBtn, defaultState }) => {
   return (
-    <div className="partsBtns">
+    <div className="bookXlsBtns-wrap">
       <button
         className="resetBtn"
         onClick={() => {

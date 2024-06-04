@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FileItems from "./FileItems";
+import List from "./List";
 
 const FileSheets = ({
   currentBtn,
@@ -15,22 +16,30 @@ const FileSheets = ({
   }, [currentBtn, curSection]);
 
   return (
-    <div className="current-list">
-      <div className="partsBtns-section">
+    <div className="variants-wrap">
+      <div className="sheetsXls-wrap  justif-all-btn">
         {currentBtn.items.map((el, i) => (
-          <div
-            key={i}
-            className={
-              curSection && curSection.name === el.name
-                ? "current-item activeEl"
-                : "current-item"
-            }
-            onClick={() => setCurSection(el)}>
-            <div>{el.name}</div>
+          <div className="sheetsXls">
+            <div
+              key={i}
+              className={
+                curSection && curSection.name === el.name
+                  ? "sheetsXls-item z0 activeEl"
+                  : "sheetsXls-item z0"
+              }
+              onClick={() => setCurSection(el)}>
+              <div>{el.name}</div>
+            </div>{" "}
+            {!!el && !!el.hint && !!el.hint.length && (
+              <List isOnHover list={el.hint.filter((item) => !!item.ru)} />
+            )}
           </div>
           //
         ))}
-      </div>
+      </div>{" "}
+      {/* {!!curSection && !!curSection.hint && !!curSection.hint.length && (
+        <List list={curSection.hint} />
+      )} */}
       {!!curSection && !!curSection.levels && !!curSection.levels.length && (
         <div className="levels">
           <div
@@ -54,9 +63,8 @@ const FileSheets = ({
           ))}
         </div>
       )}
-
       {!!curSection && !!curSection.items && !!curSection.items.length && (
-        <div className="current-list-body">
+        <div className="variants-body">
           <FileItems
             itemsArr={
               lev === null

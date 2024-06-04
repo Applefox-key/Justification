@@ -7,7 +7,7 @@ const FileItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
     <>
       {!!itemsArr.length &&
         itemsArr.map((el, i) => (
-          <div key={i} className="current-item" onClick={() => toJustif(el)}>
+          <div key={i} className="variants-item" onClick={() => toJustif(el)}>
             <div>{el.en}</div>
             <div className="ru">{el.ru}</div>
             {el.level && <div className="level">{el.level}</div>}

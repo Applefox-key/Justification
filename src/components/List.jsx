@@ -1,17 +1,23 @@
 import React from "react";
 
-const List = ({ list }) => {
+const List = ({ list, isOnHover = false }) => {
   return (
-    <div className="list-wrap">
-      {list &&
-        list.map((el, i) => (
-          <div key={i} className="current-item hint">
-            <div>{el.en}</div>
-            <div className="ru">{el.ru}</div>
-          </div>
-        ))}
-      HINT
-    </div>
+    <>
+      {!!list.length && (
+        <div className={isOnHover ? "list-wrap showOnHover " : "list-wrap"}>
+          {list &&
+            list.map((el, i) => (
+              <div
+                key={i}
+                className={isOnHover ? "hint-item pt-3" : "hint-item"}>
+                <div className={isOnHover ? "level" : ""}>{el.en}</div>
+                <div className="ru">{el.ru}</div>
+              </div>
+            ))}
+          HINT
+        </div>
+      )}
+    </>
   );
 };
 

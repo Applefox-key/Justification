@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FileSheets from "./FileSheets";
 import Justification from "./Justification";
-import TxtBtns from "./TxtBtns";
-import List from "./List";
+
 import FileChoose from "./FileChoose";
 import FilesList from "./FilesList";
 import { getHistory } from "../utils/localStorage";
@@ -24,13 +23,14 @@ const MainPage = () => {
       setJustparts([...justparts, data]);
     }
   };
+
   useEffect(() => {
     if (currBtn === null) return;
     setCurSection(currBtn.items.length === 1 ? currBtn.items[0] : null);
   }, [currBtn]);
   return (
     <div className="main-page">
-      <div className="d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
+      <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
         <FileChoose files={justparts} defaultState={defaultState} />
         <FilesList
           justparts={justparts}
@@ -39,20 +39,21 @@ const MainPage = () => {
           defaultState={defaultState}
         />
       </div>
+      <div className="textarea-box ps-3 pe-3">
+        <StrArea
+          placeholder="...add to justification"
+          actionFn={(handleTxt) =>
+            setJustification([...justification, { en: handleTxt, ru: "" }])
+          }
+        />
+      </div>
       <div className="page-body">
         <div className="up-part">
-          <div className="page-part">
-            <div className="textarea-box yourNote mb-2">
-              <StrArea placeholder="...your notes" />
-            </div>
-            <TxtBtns toJustif={toJustif} />
+          <div className="page-part w-50">
             <Justification
               justification={justification}
               setJustification={setJustification}
-            />
-            {!!curSection && !!curSection.hint && !!curSection.hint.length && (
-              <List list={curSection.hint} />
-            )}
+            />{" "}
           </div>
           <div className="page-part">
             {currBtn !== null && (
@@ -66,6 +67,7 @@ const MainPage = () => {
             )}
           </div>
         </div>
+        <StrArea placeholder="...your notes" type="voice" />
       </div>
     </div>
   );
