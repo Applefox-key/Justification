@@ -67,7 +67,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
       <Button className="btnToHis" onClick={(e) => copyToClipboard(handleTxt)}>
         copy
       </Button>{" "}
-      {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "}
+      {/* {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "} */}
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
@@ -86,7 +86,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
           onChange={handleChange}
         />
       </div>
-      <TxtBtns toJustif={toJustif} />
+      <TxtBtns toJustif={toJustif} /> <Button className="w100">OK</Button>{" "}
     </>
   );
 };

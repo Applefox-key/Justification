@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FileItems from "./FileItems";
 import List from "./List";
+import HintItems from "./HintItems";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const FileSheets = ({
   currentBtn,
@@ -14,10 +16,32 @@ const FileSheets = ({
     if (currentBtn === null) return;
     setLev(null);
   }, [currentBtn, curSection]);
-
+  const handleSwitch = () => {
+    if (curSection !== null) {
+      setCurSection(null);
+      return;
+    }
+    if (!!currentBtn && currentBtn.items.length > 0)
+      setCurSection(currentBtn.items[0]);
+  };
+  const hintArr =
+    curSection && curSection.hint
+      ? curSection.hint.filter((item) => !!item.ru)
+      : [];
   return (
     <div className="variants-wrap">
-      <div className="sheetsXls-wrap  justif-all-btn">
+      <div
+        className={
+          curSection === null
+            ? "sheetsXls-wrap  justif-all-btn emptySheet"
+            : "sheetsXls-wrap  justif-all-btn"
+        }>
+        <IoMdArrowDropdown
+          onClick={handleSwitch}
+          className={
+            curSection !== null ? "menuArrow" : "menuArrow menuArrowRight"
+          }
+        />
         {currentBtn.items.map((el, i) => (
           <div className="sheetsXls">
             <div
@@ -30,9 +54,9 @@ const FileSheets = ({
               onClick={() => setCurSection(el)}>
               <div>{el.name}</div>
             </div>{" "}
-            {!!el && !!el.hint && !!el.hint.length && (
+            {/* {!!el && !!el.hint && !!el.hint.length && (
               <List isOnHover list={el.hint.filter((item) => !!item.ru)} />
-            )}
+            )} */}
           </div>
           //
         ))}
@@ -61,20 +85,35 @@ const FileSheets = ({
               {el}
             </div>
           ))}
+          {!!hintArr.length && (
+            <div
+              key={"hint"}
+              className={lev === "hint" ? "levelHint active" : "levelHint"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLev("hint");
+              }}>
+              HINT
+            </div>
+          )}
         </div>
       )}
       {!!curSection && !!curSection.items && !!curSection.items.length && (
         <div className="variants-body">
-          <FileItems
-            itemsArr={
-              lev === null
-                ? curSection.items
-                : curSection.items.filter((el) => el.level === lev)
-            }
-            toJustif={toJustif}
-            setCurrBtn={setCurrBtn}
-            currentBtn={currentBtn}
-          />
+          {lev !== "hint" ? (
+            <FileItems
+              itemsArr={
+                lev === null
+                  ? curSection.items
+                  : curSection.items.filter((el) => el.level === lev)
+              }
+              toJustif={toJustif}
+              setCurrBtn={setCurrBtn}
+              currentBtn={currentBtn}
+            />
+          ) : (
+            <HintItems itemsArr={hintArr} />
+          )}
         </div>
       )}
     </div>

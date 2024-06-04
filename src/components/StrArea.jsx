@@ -49,12 +49,12 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
               copy
             </Button>
           </>
-        )}{" "}
+        )}
         {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "}
         {type !== "editbox" && (
           <Button onClick={() => setHandleTxt("")}>✖️</Button>
-        )}{" "}
-        {type === "voice" && <VoiceEnter />}
+        )}
+        {type === "voice" && <VoiceEnter onChange={setHandleTxt} />}
         {type === "editbox" && (
           <Button onClick={() => setHandleTxt("")}>clear</Button>
         )}{" "}

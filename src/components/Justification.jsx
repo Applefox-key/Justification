@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import EditBox from "./EditBox";
 import { Button } from "react-bootstrap";
-import StrArea from "./StrArea";
 import JustifBody from "./JustifBody";
-import {
-  concatenateEnFields,
-  copyFromTextarea,
-  copyToClipboard,
-} from "../utils/utilStr";
-import TxtBtns from "./TxtBtns";
+import { concatenateEnFields, copyToClipboard } from "../utils/utilStr";
+import TxtBtnsOverlay from "./TxtBtnsOverlay";
+import { RxCopy } from "react-icons/rx";
+import { MdOutlineContentPaste } from "react-icons/md";
 
 const Justification = ({ justification, setJustification }) => {
   const [edit, setEdit] = useState(null);
@@ -46,13 +43,17 @@ const Justification = ({ justification, setJustification }) => {
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
           <Button onClick={() => setEdit("all")}>edit</Button>{" "}
-          <Button onClick={pasteFromClipboard}>paste</Button>
+          <Button onClick={pasteFromClipboard}>
+            <MdOutlineContentPaste />
+            paste
+          </Button>
           {allJust && (
             <>
               {" "}
               <Button
                 className="btnToHis"
                 onClick={(e) => copyToClipboard(allJust)}>
+                <RxCopy />
                 copy
               </Button>{" "}
               <Button
@@ -80,7 +81,8 @@ const Justification = ({ justification, setJustification }) => {
           }
         />
       </div> */}
-      <TxtBtns toJustif={toJustif} />
+      {/* <TxtBtns toJustif={toJustif} /> */}
+      <TxtBtnsOverlay toJustif={toJustif} />
       {allJust && <div className="justif-all">{allJust}</div>}
     </>
   );

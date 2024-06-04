@@ -49,13 +49,13 @@ const MainPage = () => {
       </div>
       <div className="page-body">
         <div className="up-part">
-          <div className="page-part w-50">
+          <div className="page-part">
             <Justification
               justification={justification}
               setJustification={setJustification}
             />{" "}
           </div>
-          <div className="page-part">
+          <div className="page-part right">
             {currBtn !== null && (
               <FileSheets
                 currentBtn={currBtn}

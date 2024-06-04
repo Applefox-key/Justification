@@ -1,3 +1,5 @@
+@import 'animate.css';
+
 .App {
   text-align: center;
   min-height: 2500px;
@@ -149,7 +151,8 @@ textarea.form-control::placeholder {
 }
 
 .activeEl {
-  border: 1px solid red;
+  border: 1px solid #ff8346;
+  transform: translateY(-5px);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
@@ -195,6 +198,12 @@ textarea.form-control::placeholder {
 
     // }
   }
+
+  .right {
+    padding: 0;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
 }
 
 .list-wrap {
@@ -213,15 +222,19 @@ textarea.form-control::placeholder {
     bottom: 0;
     left: 0;
     width: 100%;
-    opacity: 0.8;
+    // opacity: 0.8;
+    display: flex;
+    justify-content: space-between;
 
     button {
-      width: 20%;
+      width: 19%;
       // margin: 5px 5px;
       // width: fit-content;
       height: -moz-fit-content;
       height: fit-content;
       // margin-right: 5px;
+      text-transform: uppercase;
+
       border-radius: 5px;
       padding: 5px;
       // margin-bottom: 5px;
@@ -231,12 +244,16 @@ textarea.form-control::placeholder {
       flex-wrap: wrap;
       position: relative;
       background: linear-gradient(0deg, #f6faff 0%, #dadada 100%);
-      font-size: 10px;
+      font-size: 12px;
       margin: 0;
+      display: flex;
+      padding-left: 10px;
+      padding-right: 10px;
+      // justify-content: space-between;
 
       &:hover {
         background-color: white;
-        transform: translateY(5px);
+        transform: translateY(-5px);
       }
     }
   }
@@ -308,6 +325,7 @@ textarea.form-control::placeholder {
   padding: 5px;
   flex-wrap: wrap;
   align-content: flex-start;
+  height: 200px;
 }
 
 .justif-item {
@@ -359,11 +377,13 @@ textarea.form-control::placeholder {
   border-top: 1px solid #9399a0;
   position: relative;
   width: 100%;
-  background: white;
+  background: #e0e3e8;
   border-radius: 5px;
   font-size: 12px;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   // border: 2px solid grey;
   padding: 5px;
+  max-height: 200px;
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 
   button {
@@ -392,6 +412,7 @@ textarea.form-control::placeholder {
   // background-color: #c7cacf52;
   width: fit-content;
   height: fit-content;
+  font-size: 12px;
   // width: 100px;
 
 }
@@ -434,7 +455,8 @@ textarea.form-control::placeholder {
 
   &:hover {
     background-color: white;
-    transform: translateY(5px);
+    // transform: translateY(5px);
+    transform: scale(1.2);
 
     button {
       display: block;
@@ -456,6 +478,19 @@ textarea.form-control::placeholder {
 //     color: black;
 //   }
 // }
+.overlayWrap {
+  position: absolute;
+  padding: 2px 10px;
+  /* color: white; */
+  border-radius: 3px;
+  inset: 0px auto auto 0px;
+  transform: translate3d(370.667px, 345.778px, 0px);
+  max-width: 560px;
+}
+
+#popover-contained {
+  max-width: 600px;
+}
 
 .variants-wrap {
   text-align: end;
@@ -463,16 +498,22 @@ textarea.form-control::placeholder {
   flex-direction: column;
   align-items: flex-end;
   max-height: 100vh;
+  transition: all 0.4s ease-in-out;
 
   // width: 600px;
   .activeEl {
-    border: 1px solid red;
+    border: 1px solid #ff8346;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   }
 
   .variants-body {
-    margin-left: 1rem;
-    overflow: auto;
+    // margin-left: 1rem;
+
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0 0 15px 15px;
+    width: 100%;
     // z-index: 0;
     @extend .un-wrap;
     // display: block;
@@ -482,13 +523,30 @@ textarea.form-control::placeholder {
     height: fit-content;
     max-height: 60vh;
     padding-top: 15px;
+    animation: fadeIn 0.7s;
+
 
     // border: 3px solid #0055de;
     .variants-item {
       @extend .current-item;
       padding-top: 15px;
 
+      &:hover {
+        transform: scale(1) translateX(5px);
+      }
     }
+
+    // .hintBadge {
+
+    //   // background-color: #bd6234;
+    //   &:hover {
+    //     .level {
+    //       // transform: translateY(-15px);
+    //       opacity: 0.2;
+    //     }
+    //   }
+    // }
+
   }
 
 
@@ -511,36 +569,66 @@ textarea.form-control::placeholder {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
+
 .levels {
   display: flex;
   width: 100%;
   padding-left: 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  animation: fadeIn 0.7s;
+
+  transition: all 0.4s ease-in-out;
 
   .level {
     position: relative;
     margin: 5px;
     font-size: 10px;
     padding: 6px 8px;
+    background: #7e86a3;
 
     &:hover {
       background-color: #2f77ec;
+      transform: translateY(-5px);
     }
   }
 
+
+
   .active {
     background-color: #0221a0;
-
+    transform: translateY(-5px);
     color: white;
     border: 1px solid #ffffff
   }
 }
+
+
 
 .bookXlsBtns-wrap {
   display: flex;
   flex-wrap: wrap;
   font-size: 10px;
   justify-content: flex-end;
+  position: relative;
+  padding-left: 15px;
 
+  .menuArrow {
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    font-size: 25px;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+  }
+
+  .menuArrowRight {
+    // @extend .menuArrow;
+    transform: rotate(-90deg);
+  }
 }
 
 .activeBtn {
@@ -553,9 +641,13 @@ textarea.form-control::placeholder {
 .sheetsXls-wrap {
   @extend .bookXlsBtns-wrap;
   box-shadow: none;
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
   .sheetsXls {
     position: relative;
+    transition: all 0.4s ease-in-out;
   }
 
   .showOnHover {
@@ -570,6 +662,7 @@ textarea.form-control::placeholder {
     // background-color: #e3e0df;
     // transition: all 0.4s ease-in-out;
     transition: opacity 0.5s ease-in-out;
+    transition-delay: 400ms;
     // animation: pulse 2s ease-in-out 3s 2;
     opacity: 0;
     visibility: hidden;
@@ -599,7 +692,10 @@ textarea.form-control::placeholder {
     margin: 0 5px;
     background: linear-gradient(0deg, #f6faff 0%, #dadada 100%);
 
-
+    &:hover {
+      background-color: white;
+      transform: translateY(-5px);
+    }
 
     &:hover+.showOnHover {
 
@@ -612,18 +708,33 @@ textarea.form-control::placeholder {
   }
 }
 
+.emptySheet {
+  border-radius: 15px;
+  margin-bottom: 0;
+}
+
 .level {
   position: absolute;
   top: -3px;
   left: 1px;
-  background-color: #50dfff;
+  // background-color: #50dfff;
   // background-color: #0055de;
   // color: white;
   border-radius: 5px;
   font-size: 10px;
   padding: 0 2px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  border: 2px solid #4280e1;
+  // border: 2px solid #4280e1;
+  background-color: #0221a0;
+  transition: all 0.4s ease-in-out;
+  color: white;
+  border: 1px solid #ffffff
+}
+
+.levelHint {
+  @extend .level;
+  // border: 2px solid #ff8346;
+  color: #a7fbeb;
 }
 
 .justBtns {
@@ -645,7 +756,7 @@ textarea.form-control::placeholder {
   left: 0;
   right: 0;
   background: rgba(128, 128, 128, 0.522);
-  z-index: 500;
+  z-index: 1500;
 }
 
 .editbox-wrap {
@@ -678,15 +789,28 @@ textarea.form-control::placeholder {
   background-color: #fdfeff;
   border-radius: 10px;
   padding: 5px;
-
+  position: relative;
   display: flex;
   align-content: flex-end;
   align-items: stretch;
   z-index: 10;
 }
 
+.btn-back {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+  min-width: 45px;
+}
+
 .txt-box {
   height: 214px;
+
+  button {
+    font-size: 12px;
+    min-width: 100px;
+    text-transform: uppercase;
+  }
 }
 
 .btnToHis {
@@ -732,4 +856,8 @@ textarea.form-control::placeholder {
   // z-index: 1;
 }
 
-.voice-wrap {}
+.activeHint {
+  background-color: #0221a0;
+  color: white;
+  border: 1px solid #ffffff
+}
