@@ -20,7 +20,7 @@ export const stoptV = (onchange) => {
   recognition.stop();
   startBtn.style.display = "block";
   stopBtn.style.display = "none";
-  onchange(textarea.value);
+  if (textarea.value) onchange(textarea.value);
 };
 recognition.onresult = (event) => {
   let interimTranscript = "";

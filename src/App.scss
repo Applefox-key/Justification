@@ -4,6 +4,9 @@
   text-align: center;
   min-height: 2500px;
 
+  @media screen and (max-width:900px) {
+    min-height: 200vh;
+  }
 }
 
 
@@ -64,6 +67,7 @@ button {
     color: black;
   }
 
+
 }
 
 .App-logo {
@@ -103,6 +107,20 @@ textarea.form-control::placeholder {
   top: 0;
   background: #eef0f1;
   z-index: 4;
+
+  @media screen and (max-width:900px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.file-choose {
+  width: 75%;
+
+  @media screen and (max-width:900px) {
+    width: 95vw;
+    margin-bottom: 10px;
+  }
 }
 
 .App-link {
@@ -126,6 +144,11 @@ textarea.form-control::placeholder {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media screen and (max-width:900px) {
+    min-height: 200vh;
+    justify-content: flex-start
+  }
 }
 
 .un-wrap {
@@ -180,6 +203,10 @@ textarea.form-control::placeholder {
     margin: 10px;
     margin-top: 0;
 
+    @media screen and (max-width:900px) {
+      width: 100%;
+    }
+
     textarea {
       width: 377px;
     }
@@ -203,6 +230,12 @@ textarea.form-control::placeholder {
     padding: 0;
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+
+  @media screen and (max-width:900px) {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: unset;
   }
 }
 
@@ -250,6 +283,10 @@ textarea.form-control::placeholder {
       padding-left: 10px;
       padding-right: 10px;
       // justify-content: space-between;
+
+      @media screen and (max-width:900px) {
+        font-size: 11px;
+      }
 
       &:hover {
         background-color: white;
@@ -373,6 +410,11 @@ textarea.form-control::placeholder {
   margin-bottom: 5px;
 }
 
+.hover-target {
+  display: none;
+}
+
+
 .justif-all {
   border-top: 1px solid #9399a0;
   position: relative;
@@ -384,7 +426,12 @@ textarea.form-control::placeholder {
   // border: 2px solid grey;
   padding: 5px;
   max-height: 200px;
+
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  @media screen and (max-width:900px) {
+    display: none;
+
+  }
 
   button {
     position: absolute;
@@ -407,14 +454,20 @@ textarea.form-control::placeholder {
   }
 }
 
+
+
 .text-list-body {
   @extend .un-wrap;
   // background-color: #c7cacf52;
   width: fit-content;
   height: fit-content;
   font-size: 12px;
-  // width: 100px;
 
+  // width: 100px;
+  @media screen and (max-width:900px) {
+    max-width: 100%;
+
+  }
 }
 
 .current-item {
@@ -500,6 +553,11 @@ textarea.form-control::placeholder {
   max-height: 100vh;
   transition: all 0.4s ease-in-out;
 
+  @media screen and (max-width:900px) {
+    max-height: 100vh;
+    width: 90vw;
+  }
+
   // width: 600px;
   .activeEl {
     border: 1px solid #ff8346;
@@ -524,6 +582,8 @@ textarea.form-control::placeholder {
     max-height: 60vh;
     padding-top: 15px;
     animation: fadeIn 0.7s;
+
+
 
 
     // border: 3px solid #0055de;
@@ -576,8 +636,13 @@ textarea.form-control::placeholder {
   padding-left: 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   animation: fadeIn 0.7s;
-
   transition: all 0.4s ease-in-out;
+
+  @media screen and (max-width:900px) {
+    max-height: 100vh;
+    width: 90vw;
+    flex-wrap: wrap;
+  }
 
   .level {
     position: relative;
@@ -618,6 +683,8 @@ textarea.form-control::placeholder {
     bottom: 0px;
     font-size: 25px;
     transition: all 0.5s ease-in-out;
+    border-radius: 0 15px 0 0;
+    background: #cfd2d6;
 
     &:hover {
       cursor: pointer;
@@ -628,6 +695,7 @@ textarea.form-control::placeholder {
   .menuArrowRight {
     // @extend .menuArrow;
     transform: rotate(-90deg);
+    border-radius: 15px 0 15px 0;
   }
 }
 
@@ -644,6 +712,11 @@ textarea.form-control::placeholder {
   width: 100%;
   border-radius: 15px 15px 0 0;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+  @media screen and (max-width:900px) {
+    max-height: 100vh;
+    width: 90vw;
+  }
 
   .sheetsXls {
     position: relative;
@@ -773,9 +846,16 @@ textarea.form-control::placeholder {
   justify-content: center;
   align-items: center;
 
+
+
   textarea.form-control {
     font-size: 16px;
     width: 100%;
+
+    @media screen and (max-width:900px) {
+
+      min-height: 30vh;
+    }
   }
 
 }
@@ -794,6 +874,12 @@ textarea.form-control::placeholder {
   align-content: flex-end;
   align-items: stretch;
   z-index: 10;
+
+  @media screen and (max-width:900px) {
+    width: 95vw;
+    height: fit-content;
+  }
+
 }
 
 .btn-back {
@@ -801,10 +887,23 @@ textarea.form-control::placeholder {
   right: 0;
   font-size: 12px;
   min-width: 45px;
+  z-index: 1600;
+  box-shadow: none;
+  background: transparent;
+
+  &:hover {
+    background-color: transparent;
+    border: transparent;
+  }
 }
 
 .txt-box {
   height: 214px;
+
+  @media screen and (max-width:900px) {
+
+    height: fit-content;
+  }
 
   button {
     font-size: 12px;

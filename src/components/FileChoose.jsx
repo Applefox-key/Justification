@@ -18,7 +18,7 @@ const FileChoose = ({ defaultState }) => {
   };
   return (
     <div>
-      <InputGroup className="w-75">
+      <InputGroup className="file-choose">
         <Form.Control
           size="sm"
           className="mt-1"

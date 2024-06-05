@@ -86,7 +86,10 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
           onChange={handleChange}
         />
       </div>
-      <TxtBtns toJustif={toJustif} /> <Button className="w100">OK</Button>{" "}
+      <TxtBtns toJustif={toJustif} />{" "}
+      <Button className="w100" onClick={onOK}>
+        OK
+      </Button>{" "}
     </>
   );
 };

@@ -48,7 +48,7 @@ const TxtBtnsOverlay = ({ toJustif }) => {
           </Popover>
         </Overlay>
       </div>
-      JUSTIFICATION RESULT:
+      <div className="hover-target">JUSTIFICATION RESULT:</div>
     </div>
   );
 };
