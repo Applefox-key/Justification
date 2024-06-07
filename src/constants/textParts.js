@@ -12,6 +12,7 @@ export const textParts = [
   { en: "is", ru: "" },
   { en: "then", ru: "" },
   { en: "than", ru: "" },
+  { en: "both", ru: "" },
   { en: "because", ru: "" },
   { en: "however", ru: "" },
   { en: "have", ru: "" },
@@ -19,6 +20,7 @@ export const textParts = [
   { en: "better", ru: "" },
   { en: "more", ru: "" },
   { en: "less", ru: "" },
+  { en: "responses", ru: "" },
   { en: "Response A", ru: "" },
   { en: "Response B", ru: "" },
 ];

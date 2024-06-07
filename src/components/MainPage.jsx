@@ -6,7 +6,7 @@ import FileChoose from "./FileChoose";
 import FilesList from "./FilesList";
 import { getHistory } from "../utils/localStorage";
 import StrArea from "./StrArea";
-import CountBtns from "./Responses";
+import Responses from "./Responses";
 
 const MainPage = () => {
   const [justparts, setJustparts] = useState([]);
@@ -35,8 +35,7 @@ const MainPage = () => {
 
   return (
     <div className="main-page">
-      {" "}
-      <CountBtns compliteCrit={compliteCrit} toJustif={toJustif} />
+      <Responses compliteCrit={compliteCrit} toJustif={toJustif} />
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
         <FileChoose files={justparts} defaultState={defaultState} />
         <FilesList

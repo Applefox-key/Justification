@@ -7,6 +7,15 @@ export const defaultEval = {
   recomScore: [],
   maxRecom: "",
 };
+export const labelsVerdict = [
+  "A much better",
+  "A better",
+  "A slightly better",
+  "Same",
+  "B slightly better",
+  "B better",
+  "B much better",
+];
 export const evaluate = (resp, criteria) => {
   let criticalScores = criteria.filter((c) => c.isCrit).map((c) => c[resp]);
   let nonCriticalScores = criteria.filter((c) => !c.isCrit).map((c) => c[resp]);
@@ -24,7 +33,7 @@ export const evaluate = (resp, criteria) => {
       nonCritMinor,
       nonCritMajor,
       recomScore: [1, 2],
-      maxRecom: "much better",
+      maxRecom: "any",
     };
   if (critMinor > 0)
     return {
@@ -34,7 +43,7 @@ export const evaluate = (resp, criteria) => {
       nonCritMinor,
       nonCritMajor,
       recomScore: [2, 3, 4],
-      maxRecom: "better",
+      maxRecom: "better/ slightly better/ same",
     };
 
   let allOnes = criteria.every((c) => c[resp] === 1 || c[resp] === 0);
@@ -46,6 +55,7 @@ export const evaluate = (resp, criteria) => {
       nonCritMinor,
       nonCritMajor,
       recomScore: [5],
+      maxRecom: "better/ slightly better/ same",
     };
 
   let criticalOnes = criticalScores.every(
@@ -61,6 +71,7 @@ export const evaluate = (resp, criteria) => {
       nonCritMinor,
       nonCritMajor,
       recomScore: [4],
+      maxRecom: "slightly better/ same",
     };
 
   return {
@@ -70,6 +81,7 @@ export const evaluate = (resp, criteria) => {
     nonCritMinor,
     nonCritMajor,
     recomScore: [3],
+    maxRecom: "better/ slightly better/ same",
   }; // Default case if none of the above apply
 };
 export const evaluateResponses = (criteria) => {
@@ -82,25 +94,25 @@ const analysisOverall = (respA, respB) => {
   let difference = Math.abs(respA.score - respB.score);
   // Если разница в оценках 0, сравниваем по критическим параметрам
   if (difference === 0) return null;
-  let comparisonResult, comparisonResultNum, comparisonRecom;
+  let comparisonResult, comparisonResultNum;
   if (difference === 1)
-    if (respA.score < respB.score) {
+    if (respB.score < respA.score) {
       comparisonResult = " Response A is slightly better";
       comparisonResultNum = 3;
     } else {
-      comparisonResult = " (respB немного лучше)";
+      comparisonResult = " Response B is slightly better)";
       comparisonResultNum = 5;
     }
   if (difference === 2)
-    if (respA.score < respB.score) {
+    if (respB.score < respA.score) {
       comparisonResult = " Response A is better";
       comparisonResultNum = 2;
     } else {
-      comparisonResult = " (respB лучше)";
+      comparisonResult = " Response B is better";
       comparisonResultNum = 6;
     }
   if (difference === 3)
-    if (respA.score < respB.score) {
+    if (respB.score < respA.score) {
       comparisonResult = "Response A is much better";
       comparisonResultNum = 1;
     } else {
@@ -110,13 +122,15 @@ const analysisOverall = (respA, respB) => {
   return {
     result: comparisonResult,
     resultNum: comparisonResultNum,
-    recom: comparisonRecom,
+    recom: "same/ slightly better/ better/ much better",
+    recomNum: [1, 2, 3, 4, 5, 6, 7],
   };
 };
 const analysisCriter = (respA, respB) => {
-  let comparisonResult, comparisonResultNum, comparisonRecom;
+  let comparisonResult, comparisonResultNum, comparisonRecom, recomNum;
   comparisonResult = "";
   comparisonResultNum = 0;
+  recomNum = 0;
   comparisonRecom = "";
 
   //major CRIT in one or both
@@ -126,6 +140,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Responses are the same.";
       comparisonResultNum = 4;
       comparisonRecom = "SAME/Slightly better";
+      recomNum = [3, 4, 5];
     }
     //A major CRIT - B minor CRIT  SAME/Slightly better ONEA
     else if (!!respA.critMajor && !respB.critMajor && !!respB.critMinor) {
@@ -133,6 +148,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Responses are the same.";
       comparisonResultNum = 4;
       comparisonRecom = "SAME/A Slightly better";
+      recomNum = [3, 4];
     }
     //B major CRIT - A minor CRIT  SAME/Slightly better ONEB
     else if (!!respB.critMajor && !respA.critMajor && !!respA.critMinor) {
@@ -140,6 +156,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Responses are the same.";
       comparisonResultNum = 4;
       comparisonRecom = "SAME/B Slightly better";
+      recomNum = [4, 5];
     }
 
     //A major CRIT --B NO ISSUES
@@ -148,6 +165,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Response B is much better";
       comparisonResultNum = 7;
       comparisonRecom = "B Much better";
+      recomNum = [7];
     }
     //B major CRIT --A NO ISSUES
     else if (!!respB.critMajor && !respA.critMajor && !respA.critMinor) {
@@ -155,6 +173,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Response A is much better";
       comparisonResultNum = 1;
       comparisonRecom = "A Much better";
+      recomNum = [1];
     }
   }
   //no major CRIT: minor CRIT in one or both
@@ -165,12 +184,14 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Responses are the same.";
       comparisonResultNum = 4;
       comparisonRecom = "SAME/Slightly better ";
+      recomNum = [3, 4, 5];
     } //A minor CRIT  - B NO ISSUES  better ONEB
     else if (!!respA.critMinor && !respB.critMinor) {
       // B better
       comparisonResult = "Response B is better";
       comparisonResultNum = 6;
       comparisonRecom = "B better";
+      recomNum = [6];
     }
     //B minor CRIT  - A NO ISSUES  better ONEA
     else if (!!respB.critMinor && !respA.critMinor) {
@@ -178,6 +199,7 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Response A is better";
       comparisonResultNum = 2;
       comparisonRecom = "A better";
+      recomNum = [2];
     }
   }
   //no CRIT:
@@ -190,59 +212,40 @@ const analysisCriter = (respA, respB) => {
       comparisonResult = "Response B is slightly better";
       comparisonResultNum = 5;
       comparisonRecom = "B slightly better";
+      recomNum = [5];
     } // B major -- A NO ISSUES  A Slightly better
     else if (!!respB.nonCritMajor && !respA.nonCritMajor) {
       // A Slightly better
       comparisonResult = "Response A is slightly better";
       comparisonResultNum = 3;
       comparisonRecom = "Response A is slightly better";
+      recomNum = [3];
     }
     //minor -- major  SAME
     // minor -- NO ISSUES  SAME
     comparisonResult = "Responses are the same.";
     comparisonResultNum = 4;
     comparisonRecom = "same";
+    recomNum = [4];
     // SAME
   }
   return {
     result: comparisonResult,
     resultNum: comparisonResultNum,
     recom: comparisonRecom,
+    recomNum: recomNum,
   };
 };
 
-// let comparisonResult, comparisonResultNum, comparisonRecom;
-//   if (respA.critMajor === respB.critMajor) {
-//     comparisonResult = " (same)";
-//     comparisonResultNum = 4;
-//     comparisonRecom = "same";
-//   }
-
-//   if (respA.critMajor > respB.critMajor) {
-//     comparisonResult = " (respA немного лучше)";
-//     comparisonResultNum = 3;
-//   } else {
-//     comparisonResult = " (respB немного лучше)";
-//     comparisonResultNum = 5;
-//   }
-// }
-// no major noncrit
-// };
 export const compareResponses = (evaluation) => {
   const { respA, respB } = evaluation;
+
   if (!respA.score && !respB.score)
     return {
       result: "",
       resultNum: 0,
       recom: "",
     };
-  const comparison = {
-    "0": "такой же",
-    "1": "немного лучше",
-    "2": "лучше",
-    "3": "намного лучше",
-  };
-  //1 2 3
 
   let result = analysisOverall(respA, respB);
   if (result !== null) return result;
@@ -295,20 +298,20 @@ export const createJustifSheema = (
   let just = !!CrProblAB__major.length
     ? "Both responses have major problem with " +
       CrProblAB__major.map((el) => el.name).join(
-        ", (Response A EXAMPLE, Response B EXAMPLE) "
+        ", (Response A EXAMPLE, Response B EXAMPLE).  "
       ) +
-      ", (Response A EXAMPLE, Response B EXAMPLE) "
+      ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
   tmp = !!CrProblA__major.length
     ? CrProblA__major.filter(
         (el) => !CrProblAB__major.some((majorEl) => majorEl.name === el.name)
       )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
 
   just += !!tmp
-    ? "Response A has major problem with " + tmp + ", (EXAMPLE) "
+    ? "Response A has major problem with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!CrProblB__major.length
@@ -319,25 +322,25 @@ export const createJustifSheema = (
         .join(", (EXAMPLE)")
     : "";
   just += !!tmp
-    ? "Response B has major problem with " + tmp + ", (EXAMPLE) "
+    ? "Response B has major problem with " + tmp + ", (EXAMPLE). "
     : "";
 
   just += !!CrProblAB__minor.length
     ? "Both responses have some problem with " +
       CrProblB__minor.map((el) => el.name).join(
-        ", (Response A EXAMPLE, Response B EXAMPLE) "
+        ", (Response A EXAMPLE, Response B EXAMPLE).  "
       ) +
-      ", (Response A EXAMPLE, Response B EXAMPLE) "
+      ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
   tmp = !!CrProblA__minor.length
     ? CrProblA__minor.filter(
         (el) => !CrProblAB__minor.some((majorEl) => majorEl.name === el.name)
       )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has some problem with " + tmp + ", (EXAMPLE) "
+    ? "Response A has some problem with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!CrProblB__minor.length
@@ -345,18 +348,18 @@ export const createJustifSheema = (
         (el) => !CrProblAB__minor.some((majorEl) => majorEl.name === el.name)
       )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has minor problem with " + tmp + ", (EXAMPLE) "
+    ? "Response B has minor problem with " + tmp + ", (EXAMPLE). "
     : "";
   //----------------------------------uncrit
   just += !!unCrProblAB__major.length
     ? "Both responses have major problem with " +
       unCrProblAB__major
         .map((el) => el.name)
-        .join(", (Response A EXAMPLE, Response B EXAMPLE) ") +
-      ", (Response A EXAMPLE, Response B EXAMPLE) "
+        .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
+      ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
   tmp = !!unCrProblA__major.length
     ? unCrProblA__major
@@ -365,10 +368,10 @@ export const createJustifSheema = (
             !unCrProblAB__major.some((majorEl) => majorEl.name === el.name)
         )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has major problem with " + tmp + ", (EXAMPLE) "
+    ? "Response A has major problem with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!unCrProblB__major.length
@@ -378,17 +381,17 @@ export const createJustifSheema = (
             !unCrProblAB__major.some((majorEl) => majorEl.name === el.name)
         )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has major problem with " + tmp + ", (EXAMPLE) "
+    ? "Response B has major problem with " + tmp + ", (EXAMPLE). "
     : "";
   just += !!unCrProblAB__minor.length
     ? "Both responses have some problem with " +
       unCrProblB__minor
         .map((el) => el.name)
-        .join(", (Response A EXAMPLE, Response B EXAMPLE) ") +
-      ", (Response A EXAMPLE, Response B EXAMPLE) "
+        .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
+      ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
   tmp += !!unCrProblA__minor.length
     ? unCrProblA__minor
@@ -397,10 +400,10 @@ export const createJustifSheema = (
             !unCrProblAB__minor.some((majorEl) => majorEl.name === el.name)
         )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has some problem with " + tmp + ", (EXAMPLE) "
+    ? "Response A has some problem with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!unCrProblB__minor.length
@@ -410,10 +413,10 @@ export const createJustifSheema = (
             !unCrProblAB__minor.some((majorEl) => majorEl.name === el.name)
         )
         .map((el) => el.name)
-        .join(", (EXAMPLE) ")
+        .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has minor problem with " + tmp + ", (EXAMPLE) "
+    ? "Response B has minor problem with " + tmp + ", (EXAMPLE). "
     : "";
   //----------------------------------noprobl
   just += !!noProblAB.length

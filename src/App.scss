@@ -850,7 +850,7 @@ textarea.form-control::placeholder {
 
   textarea.form-control {
     font-size: 16px;
-    width: 100%;
+    width: 95%;
 
     @media screen and (max-width:900px) {
 
@@ -910,6 +910,17 @@ textarea.form-control::placeholder {
     min-width: 100px;
     text-transform: uppercase;
   }
+
+  .square-btn {
+
+    width: 1.5rem;
+    margin: 1px;
+    padding: 0;
+    min-width: unset;
+    height: 1.5rem;
+    text-transform: none;
+    font-size: 10px;
+  }
 }
 
 .btnToHis {
@@ -967,6 +978,47 @@ textarea.form-control::placeholder {
   width: fit-content;
   height: fit-content;
   display: block;
+  border-radius: 15px;
+}
+
+.back {
+  background: #f8e0d4;
+}
+
+.drag-head {
+  // background-color: #cfd2d6;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 30px;
+  height: 25px;
+  padding-right: 33px;
+  line-height: 2;
+  border-radius: 15px;
+  min-width: 77px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  transition: all 0.4s ease-in-out;
+  font-weight: 700;
+
+  .menuArrow {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 25px;
+    transition: all 0.5s ease-in-out;
+    border-radius: 0 15px 0 0;
+    background: #cfd2d6;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+  }
+
+  .menuArrowRight {
+    // @extend .menuArrow;
+    transform: rotate(-90deg);
+    border-radius: 15px 0 12px 0;
+  }
 }
 
 .drag-body {
@@ -1099,6 +1151,10 @@ textarea.form-control::placeholder {
   padding: 0;
 }
 
+.rate-recom {
+  color: #ff8346;
+}
+
 .isCrit-true,
 .rate-star1 {
   color: #ff8346;
@@ -1136,11 +1192,15 @@ textarea.form-control::placeholder {
     z-index: 1600;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     display: none;
+    min-width: 110px;
+    font-weight: 400;
+    font-size: 10px;
 
     &::before {
       content: "Recomendation:";
       font-size: 8px;
       position: absolute;
+      color: #0c32cb;
       top: 0;
     }
   }
@@ -1177,6 +1237,12 @@ textarea.form-control::placeholder {
   align-content: flex-end;
   margin-left: 10px;
   position: relative;
+
+  .rate {
+    &:hover {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    }
+  }
 
   .rate-B {
     background: #dbffe1;

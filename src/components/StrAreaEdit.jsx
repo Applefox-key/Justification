@@ -6,7 +6,7 @@ import { copyToClipboard } from "../utils/utilStr";
 import TxtBtns from "./TxtBtns";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
-  const [copyBtn, setCopyBtn] = useState("");
+  const [textSelected, setTextSelected] = useState("");
   const [handleTxt, setHandleTxt] = useState(str);
   const handleChange = (e) => {
     e.stopPropagation();
@@ -20,6 +20,42 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
     const val = handleTxt;
     setHandleTxt("");
     if (!!actionFn) actionFn(val);
+  };
+
+  const capsSwitch = (action) => {
+    const textarea = document.getElementById("editArea");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    if (start === end) {
+      return; // No text selected
+    }
+
+    const selectedText = handleTxt.slice(start, end);
+    let resultText = "";
+    if (action === "Aa")
+      resultText = selectedText.replace(/\b\w/g, (char) => char.toUpperCase());
+    else if (action === "aa")
+      resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
+    else if (action === "AA") resultText = selectedText.toUpperCase();
+    const newText =
+      handleTxt.slice(0, start) + resultText + handleTxt.slice(end);
+
+    setHandleTxt(newText);
+    textarea.setSelectionRange(start, start + resultText.length);
+  };
+  const delSelected = () => {
+    const textarea = document.getElementById("editArea");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    if (start === end) {
+      return; // No text selected
+    }
+
+    const newText = handleTxt.slice(0, start) + handleTxt.slice(end);
+    setHandleTxt(newText);
+    textarea.setSelectionRange(start, start);
   };
   const toJustif = (val) => {
     const newVal = val.en;
@@ -38,7 +74,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
 
     const textBefore = handleTxt.slice(0, start);
     const textAfter = handleTxt.slice(end);
-    const newText = textBefore + newVal + textAfter;
+    const newText = textBefore + " " + newVal + " " + textAfter;
 
     setHandleTxt(newText);
 
@@ -52,8 +88,8 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
 
-    if (selectedText === copyBtn) return;
-    setCopyBtn(selectedText);
+    if (selectedText === textSelected) return;
+    setTextSelected(selectedText);
   };
   return (
     <>
@@ -72,21 +108,39 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
         className="w-100 h-100">
-        <Form.Control
-          as="textarea"
-          id={"editArea"}
-          className={"fit-height"}
-          rows={1}
-          spellCheck="true"
-          placeholder={placeholder}
-          value={handleTxt}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === "Escape") onOK(e);
-          }}
-          onChange={handleChange}
-        />
+        <div className="d-flex h-100 justify-content-start">
+          <Form.Control
+            as="textarea"
+            id={"editArea"}
+            className={"fit-height"}
+            rows={1}
+            spellCheck="true"
+            placeholder={placeholder}
+            value={handleTxt}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === "Escape") onOK(e);
+            }}
+            onChange={handleChange}
+          />
+          {textSelected && (
+            <div className="d-flex flex-column ms-1">
+              <button onClick={() => capsSwitch("Aa")} className="square-btn">
+                Aa
+              </button>{" "}
+              <button onClick={() => capsSwitch("aa")} className="square-btn">
+                aa
+              </button>{" "}
+              <button onClick={() => capsSwitch("AA")} className="square-btn">
+                AA
+              </button>
+              <button className="square-btn" onClick={delSelected}>
+                del
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-      <TxtBtns toJustif={toJustif} />{" "}
+      <TxtBtns toJustif={toJustif} />
       <Button className="w100" onClick={onOK}>
         OK
       </Button>{" "}

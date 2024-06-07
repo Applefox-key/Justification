@@ -8,25 +8,31 @@ import {
   defaultEval,
   evaluate,
   evaluateResponses,
+  labelsVerdict,
 } from "../utils/analysis";
 import Raiting from "./Raiting";
 import FinalRate from "./FinalRate";
-
-const CountBtns = ({ compliteCrit, toJustif }) => {
+import { IoMdArrowDropdown } from "react-icons/io";
+// {result: result.comparisonResult,
+// resultNum: result.comparisonResultNum,
+// recom: result.comparisonRecom,}
+const Responses = ({ compliteCrit, toJustif }) => {
   const [respEval, setRespEval] = useState([]);
+  const [showBox, setShowBox] = useState(false);
   const [overallRate, setOverallRate] = useState({
     respA: defaultEval,
     respB: defaultEval,
   });
   const [verdict, setVerdict] = useState({
-    respA: 0,
-    respB: 0,
-    result: 0,
+    rsult: 0,
+    rsultNum: 0,
+    recom: 0,
   });
   const setOverallRateOne = (field, newVal) => {
+    const newF = { ...overallRate[field], score: newVal };
     setOverallRate({
       ...overallRate,
-      [field]: { ...overallRate.field, score: newVal },
+      [field]: newF,
     });
   };
   //result 1-8;
@@ -38,8 +44,14 @@ const CountBtns = ({ compliteCrit, toJustif }) => {
 
     setRespEval(arrCritResp);
   };
-  const countDec = (e) => {
-    e.preventDefault();
+  const handleChangeVerdict = (val) => {
+    // setVerdict
+    const newvalTxt = labelsVerdict[val - 1];
+    setVerdict({
+      ...verdict,
+      result: newvalTxt,
+      resultNum: val,
+    });
   };
 
   const setNewVal = (crit, field, val) => {
@@ -100,74 +112,110 @@ const CountBtns = ({ compliteCrit, toJustif }) => {
         x: window.visualViewport.width * 0.08,
         y: window.visualViewport.height * 0.6,
       }}>
-      <div className="un-wrap draggable-box">
-        {" "}
-        <div className="drag-footer">
-          <button className="btnA" onClick={() => evalOne("respA")}>
-            evaluate A
-          </button>
-          <button id="cbtn" onClick={compareResp}>
-            compaire responses
-          </button>
-          <button className="btnB" onClick={() => evalOne("respB")}>
-            evaluate B
-          </button>
+      <div
+        className={
+          showBox ? "un-wrap draggable-box" : "un-wrap draggable-box p-0"
+        }>
+        <div className={showBox ? "drag-head" : "drag-head back"}>
+          <IoMdArrowDropdown
+            onClick={() => setShowBox(!showBox)}
+            className={showBox ? "menuArrow" : "menuArrow menuArrowRight"}
+          />
+          Rates
         </div>
-        <div className="drag-part noHover align-items-start pb-1 pt-0 justify-content-between">
-          <div className="header-resp">
-            <Raiting
-              title="A"
-              recom={!!overallRate.respA.recom ? overallRate.respA.recom : ""}
-              // value={evalResp}
-              value={!!overallRate.respA.score ? overallRate.respA.score : 0}
-              setValue={(newVal) => setOverallRateOne("respA", newVal)}
-            />
-          </div>
-          <FinalRate value={verdict} setValue={setOverallRate} />
-          <div className="header-resp">
-            <Raiting
-              title="B"
-              value={!!overallRate.respB.score ? overallRate.respB.score : 0}
-              setValue={(newVal) => setOverallRateOne("respB", newVal)}
-            />
-          </div>
-        </div>
-        <div className="drag-body">
-          <div className="resp">
-            {respEval.map((el, i) => (
-              <div className="drag-part">
-                <SelectRange
-                  oneCrit={el}
-                  onClick={setNewVal}
-                  ChangeCrit={ChangeCrit}
+        {showBox && (
+          <>
+            <div className="drag-footer">
+              <button className="btnA" onClick={() => evalOne("respA")}>
+                evaluate A
+              </button>
+              <button id="cbtn" onClick={compareResp}>
+                compaire responses
+              </button>
+              <button className="btnB" onClick={() => evalOne("respB")}>
+                evaluate B
+              </button>
+            </div>
+            <div className="drag-part noHover align-items-start pb-1 pt-0 justify-content-between">
+              <div className="header-resp">
+                <Raiting
+                  title="A"
+                  recom={
+                    !!overallRate.respA.maxRecom
+                      ? overallRate.respA.maxRecom
+                      : ""
+                  }
+                  recomScore={
+                    !!overallRate.respA.recomScore
+                      ? overallRate.respA.recomScore
+                      : ""
+                  }
+                  // value={evalResp}
+                  value={
+                    !!overallRate.respA.score ? overallRate.respA.score : 0
+                  }
+                  setValue={(newVal) => setOverallRateOne("respA", newVal)}
                 />
-                <button
-                  className="remove-btn"
-                  onClick={() => removeCrit(el.name)}>
-                  X
-                </button>
               </div>
-            ))}
-          </div>
-        </div>
-        <div className="drag-footer">
-          <button id="cbtn" onClick={refresh}>
-            refresh criteries
-          </button>{" "}
-          <button id="cbtn" onClick={evalAndCompare}>
-            evaluate responces
-          </button>
-          <button
-            id="cbtn"
-            onClick={() =>
-              createJustifSheema(respEval, overallRate, verdict, toJustif)
-            }>
-            TO JUSTIFICATION
-          </button>{" "}
-        </div>
+              <FinalRate value={verdict} setValue={handleChangeVerdict} />
+              <div className="header-resp">
+                <Raiting
+                  title="B"
+                  value={
+                    !!overallRate.respB.score ? overallRate.respB.score : 0
+                  }
+                  setValue={(newVal) => setOverallRateOne("respB", newVal)}
+                  recom={
+                    !!overallRate.respB.maxRecom
+                      ? overallRate.respB.maxRecom
+                      : ""
+                  }
+                  recomScore={
+                    !!overallRate.respB.recomScore
+                      ? overallRate.respB.recomScore
+                      : ""
+                  }
+                />
+              </div>
+            </div>
+            <div className="drag-body">
+              <div className="resp">
+                {respEval.map((el, i) => (
+                  <div className="drag-part">
+                    <SelectRange
+                      oneCrit={el}
+                      onClick={setNewVal}
+                      ChangeCrit={ChangeCrit}
+                    />
+                    <button
+                      className="remove-btn"
+                      onClick={() => removeCrit(el.name)}>
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="drag-footer">
+              <button id="cbtn" onClick={refresh}>
+                refresh criteries
+              </button>{" "}
+              <button id="cbtn" onClick={evalAndCompare}>
+                evaluate responces
+              </button>
+              <button
+                id="cbtn"
+                onClick={() =>
+                  createJustifSheema(respEval, overallRate, verdict, toJustif)
+                }>
+                TO JUSTIFICATION
+              </button>{" "}
+            </div>
+          </>
+        )}
       </div>
     </Draggable>
   );
 };
 
-export default CountBtns;
+export default Responses;
