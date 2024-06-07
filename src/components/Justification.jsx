@@ -23,7 +23,12 @@ const Justification = ({ justification, setJustification }) => {
     setJustification(newVal);
     setEdit(null);
   };
-
+  const copyChat = () => {
+    const text =
+      "проверь на грамматические, орфографические и пунктуационные ошибки, и приведи список исправлений:" +
+      allJust;
+    copyToClipboard(text);
+  };
   const pasteFromClipboard = async () => {
     const text = await navigator.clipboard.readText();
     const newVal = [...justification, { en: text }];
@@ -73,16 +78,11 @@ const Justification = ({ justification, setJustification }) => {
           setEdit={setEdit}
         />{" "}
       </div>{" "}
-      {/* <div className="textarea-box mt-3">
-        <StrArea
-          placeholder="...add to justification"
-          actionFn={(handleTxt) =>
-            setJustification([...justification, { en: handleTxt, ru: "" }])
-          }
-        />
-      </div> */}
-      {/* <TxtBtns toJustif={toJustif} /> */}
-      <TxtBtnsOverlay toJustif={toJustif} />
+      <div className="d-flex justify-content-between align-items-center">
+        {" "}
+        <TxtBtnsOverlay toJustif={toJustif} copyChat={copyChat} />
+        <Button onClick={copyChat}>COPY FOR CHAT</Button>
+      </div>
       {allJust && <div className="justif-all">{allJust}</div>}
     </>
   );

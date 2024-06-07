@@ -28,7 +28,6 @@ export const concatenateEnFields = (justification) => {
 //   };
 export async function copyFromTextarea() {
   const textarea = document.getElementById("edit");
-  const text = textarea.value;
 
   textarea.select();
   try {
@@ -47,3 +46,25 @@ export const copyToClipboard = async (text) => {
     console.error("Failed to copy text: ", err);
   }
 };
+
+// (![] + //false
+//   [] + //true
+//   ([] + {})[ //[object Object]
+//     (![] + ([] + {}))[+!+[] + [+[]]] +
+//       ([] + {})[+!+[]] +
+//       ([][[]] + [])[+!+[]] +
+//       (![] + [])[!+[] + !+[] + !+[]] +
+//       (!+[] + [])[+[]] +
+//       (!+![] + [])[+!+[]] +
+//       ([][[]] + [])[+[]] +
+//       (![] + ([] + {}))[+!+[] + [+[]]] +
+//       (!+[] + [])[+[]] +
+//       ([] + {})[+!+[]] +
+//       (!+![] + [])[+!+[]]
+//   ])[+!+[] + !+[] + !+[] + [+[]]] +
+//   (!+![] + [])[+!+[] + !+[] + !+[]] +
+//   (!+![] + [])[+!+[]] +
+//   ([] + {})[+!+[] + !+[]] +
+//   ([![]] + [][[]])[+!+[] + [+[]]] +
+//   (![] + [])[!+[] + !+[]] +
+//   ([] + {})[+!+[]];

@@ -34,8 +34,7 @@ recognition.onresult = (event) => {
       interimTranscript += transcript;
     }
   }
-
-  textarea.value = finalTranscript + interimTranscript;
+  if (textarea) textarea.value = finalTranscript + interimTranscript;
 };
 
 recognition.onerror = (event) => {

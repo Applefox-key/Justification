@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
-import { copyFromTextarea, copyToClipboard } from "../utils/utilStr";
+import { copyToClipboard } from "../utils/utilStr";
 
 import TxtBtns from "./TxtBtns";
 
@@ -77,7 +77,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
           id={"editArea"}
           className={"fit-height"}
           rows={1}
-          spellcheck="true"
+          spellCheck="true"
           placeholder={placeholder}
           value={handleTxt}
           onKeyDown={(e) => {

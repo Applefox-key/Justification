@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import FileItems from "./FileItems";
-import List from "./List";
 import HintItems from "./HintItems";
 import { IoMdArrowDropdown } from "react-icons/io";
 
