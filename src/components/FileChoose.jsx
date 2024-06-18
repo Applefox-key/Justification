@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import { readXlsFile } from "../utils/readXls";
+import { setBackgroundAndSave } from "../utils/localStorage";
 
 const FileChoose = ({ defaultState }) => {
   const inputFileName = useRef();
@@ -19,6 +20,7 @@ const FileChoose = ({ defaultState }) => {
   return (
     <div>
       <InputGroup className="file-choose">
+        <button onClick={() => setBackgroundAndSave(1)}>img</button>
         <Form.Control
           size="sm"
           className="mt-1"

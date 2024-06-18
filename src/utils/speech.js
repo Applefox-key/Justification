@@ -1,25 +1,28 @@
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
-const textarea = document.getElementById("voice");
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = "ru-RU";
+const textarea = document.getElementById("voice");
+const startBtn = document.getElementById("start-record-btn");
+const stopBtn = document.getElementById("stop-record-btn");
 
-export const startV = (onchange) => {
-  const startBtn = document.getElementById("start-record-btn");
-  const stopBtn = document.getElementById("stop-record-btn");
+export const startV = () => {
+  // const startBtn = document.getElementById("start-record-btn");
+  // const stopBtn = document.getElementById("stop-record-btn");
+  if (!startBtn) return;
   recognition.start();
   startBtn.style.display = "none";
   stopBtn.style.display = "block";
 };
+
 export const stoptV = (onchange) => {
-  const startBtn = document.getElementById("start-record-btn");
-  const stopBtn = document.getElementById("stop-record-btn");
   // debugger;
   recognition.stop();
   startBtn.style.display = "block";
   stopBtn.style.display = "none";
+
   if (textarea.value) onchange(textarea.value);
 };
 recognition.onresult = (event) => {

@@ -3,22 +3,21 @@ import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
 import { copyToClipboard } from "../utils/utilStr";
 import VoiceEnter from "./VoiceEnter";
-import TxtBtns from "./TxtBtns";
 
 const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
   const [handleTxt, setHandleTxt] = useState(str);
   const handleChange = (e) => {
     e.stopPropagation();
+
     setHandleTxt(e.target.value);
   };
 
   const onOK = (e) => {
     e.stopPropagation();
-    const val = handleTxt;
-    setHandleTxt("");
+    const val = { en: handleTxt };
     if (!!actionFn) actionFn(val);
+    setHandleTxt("");
   };
-  const toJustif = () => {};
 
   const fragmentPage = () => {
     return (
@@ -58,7 +57,7 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
         {type === "editbox" && (
           <Button onClick={() => setHandleTxt("")}>clear</Button>
         )}{" "}
-        {type === "editbox" && <TxtBtns toJustif={toJustif} />}
+        {/* {type === "editbox" && <TxtBtns toJustif={toJustif} />} */}
       </>
     );
   };

@@ -296,7 +296,7 @@ export const createJustifSheema = (
   let tmp = "";
   console.log(respEval);
   let just = !!CrProblAB__major.length
-    ? "Both responses have major problem with " +
+    ? "Both responses have major problems with " +
       CrProblAB__major.map((el) => el.name).join(
         ", (Response A EXAMPLE, Response B EXAMPLE).  "
       ) +
@@ -311,7 +311,7 @@ export const createJustifSheema = (
     : "";
 
   just += !!tmp
-    ? "Response A has major problem with " + tmp + ", (EXAMPLE). "
+    ? "Response A has major problems with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!CrProblB__major.length
@@ -322,11 +322,11 @@ export const createJustifSheema = (
         .join(", (EXAMPLE)")
     : "";
   just += !!tmp
-    ? "Response B has major problem with " + tmp + ", (EXAMPLE). "
+    ? "Response B has major problems with " + tmp + ", (EXAMPLE). "
     : "";
 
   just += !!CrProblAB__minor.length
-    ? "Both responses have some problem with " +
+    ? "Both responses have some problems with " +
       CrProblB__minor.map((el) => el.name).join(
         ", (Response A EXAMPLE, Response B EXAMPLE).  "
       ) +
@@ -340,7 +340,7 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has some problem with " + tmp + ", (EXAMPLE). "
+    ? "Response A has some problems with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!CrProblB__minor.length
@@ -351,11 +351,11 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has minor problem with " + tmp + ", (EXAMPLE). "
+    ? "Response B has minor problems with " + tmp + ", (EXAMPLE). "
     : "";
   //----------------------------------uncrit
   just += !!unCrProblAB__major.length
-    ? "Both responses have major problem with " +
+    ? "Both responses have major problems with " +
       unCrProblAB__major
         .map((el) => el.name)
         .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
@@ -371,7 +371,7 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has major problem with " + tmp + ", (EXAMPLE). "
+    ? "Response A has major problems with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!unCrProblB__major.length
@@ -384,10 +384,10 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has major problem with " + tmp + ", (EXAMPLE). "
+    ? "Response B has major problems with " + tmp + ", (EXAMPLE). "
     : "";
   just += !!unCrProblAB__minor.length
-    ? "Both responses have some problem with " +
+    ? "Both responses have some problems with " +
       unCrProblB__minor
         .map((el) => el.name)
         .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
@@ -403,7 +403,7 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response A has some problem with " + tmp + ", (EXAMPLE). "
+    ? "Response A has some problems with " + tmp + ", (EXAMPLE). "
     : "";
 
   tmp = !!unCrProblB__minor.length
@@ -416,11 +416,11 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
   just += !!tmp
-    ? "Response B has minor problem with " + tmp + ", (EXAMPLE). "
+    ? "Response B has minor problems with " + tmp + ", (EXAMPLE). "
     : "";
   //----------------------------------noprobl
   just += !!noProblAB.length
-    ? "Both responses have no problem with " +
+    ? "Both responses have no problems with " +
       noProblAB.map((el) => el.name).join(", ")
     : "";
   tmp = !!noProblA.length
@@ -429,15 +429,15 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", ")
     : "";
-  just += !!tmp ? "Response A has no problem with " + tmp : "";
+  just += !!tmp ? "Response A has no problems with " + tmp : "";
   tmp = !!noProblB.length
     ? noProblB
         .filter((el) => !noProblAB.some((majorEl) => majorEl.name === el.name))
         .map((el) => el.name)
         .join(", ")
     : "";
-  just += !!tmp ? "Response B has no problem with " + tmp : "";
-  const { respA, respB } = overallRate;
+  just += !!tmp ? "Response B has no problems with " + tmp : "";
+  // const { respA, respB } = overallRate;
   just += verdict.result;
   if (just && typeof just === "string") toJustif({ en: just });
 };

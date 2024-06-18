@@ -34,10 +34,11 @@ const MainPage = () => {
   }, [currBtn]);
 
   return (
-    <div className="main-page">
+    <div className="main-page bg0" id="mainp">
+      {/* <BackgroundChanger /> */}
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} />
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
-        <FileChoose files={justparts} defaultState={defaultState} />
+        <FileChoose files={justparts} defaultState={defaultState} />{" "}
         <FilesList
           justparts={justparts}
           currBtn={currBtn}
@@ -45,14 +46,14 @@ const MainPage = () => {
           defaultState={defaultState}
         />
       </div>
-      <div className="textarea-box ps-3 pe-3">
+      {/* <div className="textarea-box ps-3 pe-3">
         <StrArea
           placeholder="...add to justification"
           actionFn={(handleTxt) =>
             setJustification([...justification, { en: handleTxt, ru: "" }])
           }
         />
-      </div>
+      </div> */}
       <div className="page-body">
         <div className="up-part">
           <div className="page-part">
@@ -73,7 +74,7 @@ const MainPage = () => {
             )}
           </div>
         </div>
-        <StrArea placeholder="...your notes" type="voice" />
+        <StrArea placeholder="...your notes" type="voice" actionFn={toJustif} />
       </div>
     </div>
   );

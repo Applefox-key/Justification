@@ -118,7 +118,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
             placeholder={placeholder}
             value={handleTxt}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === "Escape") onOK(e);
+              if (e.key === "Escape") onOK(e);
             }}
             onChange={handleChange}
           />

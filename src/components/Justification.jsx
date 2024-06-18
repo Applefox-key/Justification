@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import EditBox from "./EditBox";
 import { Button } from "react-bootstrap";
 import JustifBody from "./JustifBody";
-import { concatenateEnFields, copyToClipboard } from "../utils/utilStr";
+import {
+  cleanAndCapitalize,
+  concatenateEnFields,
+  copyToClipboard,
+  replaceWords,
+} from "../utils/utilStr";
 import TxtBtnsOverlay from "./TxtBtnsOverlay";
 import { RxCopy } from "react-icons/rx";
-import { MdOutlineContentPaste } from "react-icons/md";
+import { MdOutlineContentPaste, MdOutlineJoinInner } from "react-icons/md";
+import { SlMagicWand } from "react-icons/sl";
+import { GrClearOption, GrConnect } from "react-icons/gr";
+import { IoChatbubblesOutline } from "react-icons/io5";
 
 const Justification = ({ justification, setJustification }) => {
   const [edit, setEdit] = useState(null);
@@ -25,9 +33,13 @@ const Justification = ({ justification, setJustification }) => {
   };
   const copyChat = () => {
     const text =
-      "проверь на грамматические, орфографические и пунктуационные ошибки, и приведи список исправлений:" +
+      "проверь на грамматические, орфографические и пунктуационные ошибки, и приведи список исправлений: " +
       allJust;
     copyToClipboard(text);
+  };
+  const replaceSome = () => {
+    const text = replaceWords(allJust);
+    setJustification([{ en: text, ru: "" }]);
   };
   const pasteFromClipboard = async () => {
     const text = await navigator.clipboard.readText();
@@ -41,20 +53,23 @@ const Justification = ({ justification, setJustification }) => {
       {edit !== null && (
         <EditBox
           setEdit={setEdit}
-          el={edit === "all" ? { en: allJust } : justification[edit]}
+          el={
+            edit === "all"
+              ? { en: cleanAndCapitalize(allJust) }
+              : justification[edit]
+          }
           savefn={refresh}
         />
       )}{" "}
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
           <Button onClick={() => setEdit("all")}>edit</Button>{" "}
-          <Button onClick={pasteFromClipboard}>
+          <Button onClick={pasteFromClipboard} className="color">
             <MdOutlineContentPaste />
             paste
           </Button>
           {allJust && (
             <>
-              {" "}
               <Button
                 className="btnToHis"
                 onClick={(e) => copyToClipboard(allJust)}>
@@ -63,9 +78,13 @@ const Justification = ({ justification, setJustification }) => {
               </Button>{" "}
               <Button
                 onClick={() => setJustification([{ en: allJust, ru: "" }])}>
+                <GrConnect />
                 join
               </Button>{" "}
-              <Button onClick={() => setJustification([])}>clear</Button>
+              <Button onClick={() => setJustification([])}>
+                <GrClearOption />
+                clear
+              </Button>
             </>
           )}
         </div>
@@ -78,10 +97,19 @@ const Justification = ({ justification, setJustification }) => {
           setEdit={setEdit}
         />{" "}
       </div>{" "}
-      <div className="d-flex justify-content-between align-items-center">
+      {/* <div className="d-flex justify-content-between align-items-center"> */}
+      <div className="just-menu d-flex justify-content-between align-items-center">
         {" "}
         <TxtBtnsOverlay toJustif={toJustif} copyChat={copyChat} />
-        <Button onClick={copyChat}>COPY FOR CHAT</Button>
+        <div>
+          <Button onClick={replaceSome}>
+            <SlMagicWand />
+            MAGIC
+          </Button>
+          <Button onClick={copyChat}>
+            <IoChatbubblesOutline /> COPY FOR CHAT
+          </Button>
+        </div>
       </div>
       {allJust && <div className="justif-all">{allJust}</div>}
     </>

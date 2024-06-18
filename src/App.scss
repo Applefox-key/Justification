@@ -3,6 +3,7 @@
 .App {
   text-align: center;
   min-height: 2500px;
+  background-size: cover;
 
   @media screen and (max-width:900px) {
     min-height: 200vh;
@@ -114,6 +115,7 @@ textarea.form-control::placeholder {
   }
 }
 
+
 .file-choose {
   width: 75%;
 
@@ -130,11 +132,46 @@ textarea.form-control::placeholder {
 .main-page {
   min-width: 100%;
   min-height: 100vh;
-  background-image: url("img/Winter-Mountain-Wallpaper.jpg");
+  // background-image: url("img/Winter-Mountain-Wallpaper.jpg");
+
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+.bg0 {
+  background-image: url("img/Winter-Mountain-Wallpaper.jpg");
+}
+
+.bg1 {
+  background-image: url("img/pexels-evie-shaffer-1259279-5702289.jpg");
+}
+
+.bg2 {
+  background-image: url("img/pexels-steve-25853909.jpg");
+}
+
+.bg3 {
+  background-image: url("img/pexels-pixabay-68767.jpg");
+}
+
+.bg4 {
+  background-image: url("img/pexels-asadphoto-1320674.jpg");
+}
+
+.bg5 {
+  background-image: url("img/pexels-sara-8693-63340.jpg");
+}
+
+.bg6 {
+  background-image: url("img/pexels-tirachard-kumtanom-112571-733852.jpg");
+}
+
+.bg7 {
+  background-image: url("img/pexels-pnw-prod-8250983.jpg");
+}
+
+// .img0{
+//   background-image: url("img/pexels-evie-shaffer-1259279-5702289.jpg");
 
 
 .page-body {
@@ -283,6 +320,7 @@ textarea.form-control::placeholder {
       padding-left: 10px;
       padding-right: 10px;
       // justify-content: space-between;
+      justify-content: space-between;
 
       @media screen and (max-width:900px) {
         font-size: 11px;
@@ -428,7 +466,7 @@ textarea.form-control::placeholder {
   max-height: 200px;
 
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-  @media screen and (max-width:900px) {
+  @media screen and (max-width:600px) {
     display: none;
 
   }
@@ -864,7 +902,7 @@ textarea.form-control::placeholder {
 .txt-box {
   // position: absolute;
   width: 587px;
-  height: 410px;
+  height: 440px;
   flex-wrap: wrap;
   background-color: #fdfeff;
   border-radius: 10px;
@@ -1316,4 +1354,23 @@ textarea.form-control::placeholder {
     // background: linear-gradient(0deg, #f6faff 0%, #dadada 100%);
   }
 
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+  border: 2px solid #000;
+}
+
+#fileInput {
+  margin-top: 20px;
+}
+
+.color {
+  color: #239aff;
 }
