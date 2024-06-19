@@ -4,14 +4,19 @@ const recognition = new SpeechRecognition();
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = "ru-RU";
-export const textarea = document.getElementById("voice");
-export const startBtn = document.getElementById("start-record-btn");
-export const stopBtn = document.getElementById("stop-record-btn");
+export const textareaM = document.getElementById("voice");
+export const startBtnM = document.getElementById("start-record-btn");
+export const stopBtnM = document.getElementById("stop-record-btn");
 
 export const startV = () => {
   // const startBtn = document.getElementById("start-record-btn");
   // const stopBtn = document.getElementById("stop-record-btn");
-
+  const startBtn = startBtnM
+    ? startBtnM
+    : document.getElementById("start-record-btn");
+  const stopBtn = stopBtnM
+    ? stopBtnM
+    : document.getElementById("stop-record-btn");
   if (!startBtn) return;
   recognition.start();
   startBtn.style.display = "none";
@@ -19,7 +24,13 @@ export const startV = () => {
 };
 
 export const stoptV = (onchange) => {
-  // debugger;
+  const startBtn = startBtnM
+    ? startBtnM
+    : document.getElementById("start-record-btn");
+  const stopBtn = stopBtnM
+    ? stopBtnM
+    : document.getElementById("stop-record-btn");
+  const textarea = textareaM ? textareaM : document.getElementById("voice");
   recognition.stop();
   startBtn.style.display = "block";
   stopBtn.style.display = "none";
@@ -29,7 +40,7 @@ export const stoptV = (onchange) => {
 recognition.onresult = (event) => {
   let interimTranscript = "";
   let finalTranscript = "";
-
+  const textarea = textareaM ? textareaM : document.getElementById("voice");
   for (let i = 0; i < event.results.length; i++) {
     const transcript = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
