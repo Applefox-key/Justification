@@ -11,6 +11,7 @@ const stopBtn = document.getElementById("stop-record-btn");
 export const startV = () => {
   // const startBtn = document.getElementById("start-record-btn");
   // const stopBtn = document.getElementById("stop-record-btn");
+
   if (!startBtn) return;
   recognition.start();
   startBtn.style.display = "none";

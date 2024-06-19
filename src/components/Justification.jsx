@@ -10,7 +10,7 @@ import {
 } from "../utils/utilStr";
 import TxtBtnsOverlay from "./TxtBtnsOverlay";
 import { RxCopy } from "react-icons/rx";
-import { MdOutlineContentPaste, MdOutlineJoinInner } from "react-icons/md";
+import { MdOutlineContentPaste } from "react-icons/md";
 import { SlMagicWand } from "react-icons/sl";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
