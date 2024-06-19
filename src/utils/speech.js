@@ -4,9 +4,9 @@ const recognition = new SpeechRecognition();
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = "ru-RU";
-const textarea = document.getElementById("voice");
-const startBtn = document.getElementById("start-record-btn");
-const stopBtn = document.getElementById("stop-record-btn");
+export const textarea = document.getElementById("voice");
+export const startBtn = document.getElementById("start-record-btn");
+export const stopBtn = document.getElementById("stop-record-btn");
 
 export const startV = () => {
   // const startBtn = document.getElementById("start-record-btn");
