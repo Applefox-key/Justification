@@ -93,14 +93,32 @@ export const cleanAndCapitalize = (text) => {
 };
 
 export const replaceWords = (allJust) => {
+  // Удалить начальные и конечные пробелы
+  // allJust = allJust.trim();
+  allJust = cleanAndCapitalize(allJust);
+
+  // Заменить все последовательности пробелов одним пробелом
+  allJust = allJust.replace(/\s+/g, " ");
   const replacements = [
     {
-      oldT: ["the answer one", "the answer 1", "answer one", "answer 1"],
+      oldT: [
+        "the answer one",
+        "the answer 1",
+        "answer one",
+        "answer 1",
+        "response a",
+      ],
       newT: "Response A",
       caseSensitive: false,
     },
     {
-      oldT: ["the answer two", "the answer 2", "answer two", "answer 2"],
+      oldT: [
+        "the answer two",
+        "the answer 2",
+        "answer two",
+        "answer 2",
+        "response b",
+      ],
       newT: "Response B",
       caseSensitive: false,
     },
@@ -111,7 +129,7 @@ export const replaceWords = (allJust) => {
     },
     {
       oldT: ["respondent "],
-      newT: "Response",
+      newT: "Response ",
       caseSensitive: false,
     },
     {
@@ -130,4 +148,87 @@ export const replaceWords = (allJust) => {
     });
   });
   return allJust;
+};
+
+export const highlightedText1 = (text) => {
+  const parts = text.split(/(example|response A|response B)/gi); // Split the text by "example", keeping the word itself
+  return parts
+    .map((part, index) => {
+      if (part.toLowerCase() === "example")
+        return (
+          <span className="highlight" key={index}>
+            {part}
+          </span>
+        );
+      else if (part.toLowerCase() === "response a")
+        return (
+          <span className="highlight-blue" key={index}>
+            {part}
+          </span>
+        );
+      else if (part.toLowerCase() === "response b")
+        return (
+          <span className="highlight-blueB" key={index}>
+            {part}
+          </span>
+        );
+      else return part;
+    })
+    .join("");
+};
+export const highlightedText = (text) => {
+  const parts = text.split(/(example_a|example_b|response A|response B)/gi); // Split the text by "example", keeping the word itself
+  console.log(
+    parts.map((part, index) => {
+      if (
+        part.toLowerCase() === "example" ||
+        part.toLowerCase() === "example_a" ||
+        part.toLowerCase() === "example_b"
+      )
+        return (
+          <span className="highlight" key={index}>
+            {part}
+          </span>
+        );
+      else if (part.toLowerCase() === "response a")
+        return (
+          <span className="highlight-blue" key={index}>
+            {part}
+          </span>
+        );
+      else if (part.toLowerCase() === "response b")
+        return (
+          <span className="highlight-blueB" key={index}>
+            {part}
+          </span>
+        );
+      else return part;
+    })
+  );
+
+  return parts.map((part, index) => {
+    if (
+      part.toLowerCase() === "example" ||
+      part.toLowerCase() === "example_a" ||
+      part.toLowerCase() === "example_b"
+    )
+      return (
+        <span className="highlight" key={index}>
+          {part}
+        </span>
+      );
+    else if (part.toLowerCase() === "response a")
+      return (
+        <span className="highlight-blue" key={index}>
+          {part}
+        </span>
+      );
+    else if (part.toLowerCase() === "response b")
+      return (
+        <span className="highlight-blueB" key={index}>
+          {part}
+        </span>
+      );
+    else return part;
+  });
 };

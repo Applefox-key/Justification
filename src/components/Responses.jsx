@@ -39,7 +39,31 @@ const Responses = ({ compliteCrit, toJustif }) => {
   const refresh = () => {
     const arrCritNew = compliteCrit();
     const arrCritResp = arrCritNew.map((el, i) => {
-      return { name: el, isCrit: false, respA: 0, respB: 0 };
+      return {
+        name: el,
+        isCrit: [
+          "Accuracy",
+          "Truthfulness",
+          "Completeness",
+          "Instruction Following",
+          "Harmlessness",
+        ].includes(el.trim()),
+        respA: 0,
+        respB: 0,
+      };
+    });
+
+    setRespEval(arrCritResp);
+  };
+
+  const clear = () => {
+    const arrCritNew = [...respEval];
+    const arrCritResp = arrCritNew.map((el, i) => {
+      return {
+        ...el,
+        respA: 0,
+        respB: 0,
+      };
     });
 
     setRespEval(arrCritResp);
@@ -49,7 +73,7 @@ const Responses = ({ compliteCrit, toJustif }) => {
     const newvalTxt = labelsVerdict[val - 1];
     setVerdict({
       ...verdict,
-      result: newvalTxt,
+      result: val === 4 ? "Responses are the same" : "Response " + newvalTxt,
       resultNum: val,
     });
   };
@@ -129,9 +153,14 @@ const Responses = ({ compliteCrit, toJustif }) => {
               <button className="btnA" onClick={() => evalOne("respA")}>
                 evaluate A
               </button>
-              <button id="cbtn" onClick={compareResp}>
-                compaire responses
-              </button>
+              <div>
+                <button id="cbtn" onClick={compareResp}>
+                  compaire responses
+                </button>
+                <button id="cbtn" onClick={clear}>
+                  x
+                </button>
+              </div>
               <button className="btnB" onClick={() => evalOne("respB")}>
                 evaluate B
               </button>

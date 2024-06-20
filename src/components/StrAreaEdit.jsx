@@ -1,13 +1,35 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
-import { copyToClipboard } from "../utils/utilStr";
+import {
+  cleanAndCapitalize,
+  copyToClipboard,
+  highlightedText,
+  replaceWords,
+} from "../utils/utilStr";
 
 import TxtBtns from "./TxtBtns";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");
   const [handleTxt, setHandleTxt] = useState(str);
+  // const handleInput = (e) => {
+  //   const selection = window.getSelection();
+  //   const range = selection.getRangeAt(0);
+  //   const textNode = range.startContainer;
+  //   const offset = range.startOffset;
+  //   debugger;
+  //   setHandleTxt(e.target.innerText);
+
+  //   // Восстанавливаем позицию курсора после изменения текста
+  //   setTimeout(() => {
+  //     const newRange = document.createRange();
+  //     newRange.setStart(textNode, offset);
+  //     //   newRange.collapse(true);
+  //     //   selection.removeAllRanges();
+  //     //   selection.addRange(newRange);
+  //   }, 0);
+  // };
   const handleChange = (e) => {
     e.stopPropagation();
     setHandleTxt(e.target.value);
@@ -93,16 +115,24 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   };
   return (
     <>
-      {" "}
       <Button onClick={() => setHandleTxt("")}>clear</Button>
       <Button
         className="btnToHis"
         onClick={(e) => saveToHistory({ en: handleTxt, ru: "" })}>
         save to history
       </Button>{" "}
+      <Button
+        className="btnToHis"
+        title="remove extra spaces, capitalize all sentences, correct names of responses"
+        onClick={(e) => {
+          const newVal = replaceWords(handleTxt);
+          setHandleTxt(newVal);
+        }}>
+        put it in order
+      </Button>{" "}
       <Button className="btnToHis" onClick={(e) => copyToClipboard(handleTxt)}>
         copy
-      </Button>{" "}
+      </Button>
       {/* {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "} */}
       <div
         onClick={clickOnPhrase}
@@ -118,10 +148,26 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
             placeholder={placeholder}
             value={handleTxt}
             onKeyDown={(e) => {
-              if (e.key === "Escape") onOK(e);
+              if (e.key === "Enter" || e.key === "Escape") onOK(e);
             }}
             onChange={handleChange}
           />
+          {/* <div
+            as="textarea"
+            id={"editArea"}
+            className={"fit-height"}
+            rows={1}
+            spellCheck="true"
+            placeholder={placeholder}
+            contentEditable
+            // value={handleTxt}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === "Escape") onOK(e);
+            }}
+            onInput={handleInput}
+            onChange={handleChange}>
+            {highlightedText(handleTxt)}
+          </div> */}
           {textSelected && (
             <div className="d-flex flex-column ms-1">
               <button onClick={() => capsSwitch("Aa")} className="square-btn">

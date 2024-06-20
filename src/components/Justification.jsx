@@ -47,7 +47,59 @@ const Justification = ({ justification, setJustification }) => {
     // setPreviousTxt(handleTxt);
     setJustification(newVal);
   };
+  const replaceExamples = () => {
+    const arr = [...justification];
+    // Отделяем первый элемент
+    const firstElement = arr.shift();
+
+    // Создаем новый массив из оставшихся элементов
+    const replacements = arr.slice();
+    let index = 0;
+    let replacedCount = 0;
+    let res = firstElement.en.replace(/EXAMPLE_[AB]/g, (match) => {
+      if (replacedCount >= replacements.length) {
+        return match; // Возвращаем оригинальный фрагмент, если закончились замены
+      }
+      const replacement = replacements[index].en;
+      index++;
+      replacedCount++;
+      return replacement;
+    });
+
+    setJustification([
+      { en: res, ru: "" },
+      ...replacements.slice(replacedCount),
+    ]);
+  };
+
   const allJust = concatenateEnFields(justification);
+  const pasteInsideJustif = (val) => {
+    const newVal = val.en;
+    const handleTxt = allJust;
+    const textarea = document.getElementById("editArea");
+    const start = justification.indexOf(allJust);
+    const end = textarea.selectionEnd;
+
+    if (start === end) {
+      // No text selected
+      const textBefore = handleTxt.slice(0, start);
+      const textAfter = handleTxt.slice(end);
+      const newText = textBefore + " " + newVal + " " + textAfter;
+      // setHandleTxt(newText);
+      return;
+    }
+
+    const textBefore = handleTxt.slice(0, start);
+    const textAfter = handleTxt.slice(end);
+    const newText = textBefore + " " + newVal + " " + textAfter;
+
+    // setHandleTxt(newText);
+
+    // Maintain the cursor position after replacement
+    // setTimeout(() => {
+    //   textarea.setSelectionRange(start, start + newVal.length);
+    // }, 0);
+  };
   return (
     <>
       {edit !== null && (
@@ -102,6 +154,12 @@ const Justification = ({ justification, setJustification }) => {
         {" "}
         <TxtBtnsOverlay toJustif={toJustif} copyChat={copyChat} />
         <div>
+          {" "}
+          <Button
+            onClick={replaceExamples}
+            title="replace EXAMPLES in the first justification element with other justification elements">
+            Examples
+          </Button>
           <Button onClick={replaceSome}>
             <SlMagicWand />
             MAGIC

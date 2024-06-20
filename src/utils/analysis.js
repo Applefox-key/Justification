@@ -8,13 +8,13 @@ export const defaultEval = {
   maxRecom: "",
 };
 export const labelsVerdict = [
-  "A much better",
-  "A better",
-  "A slightly better",
+  "A is much better",
+  "A is better",
+  "A is slightly better",
   "Same",
-  "B slightly better",
-  "B better",
-  "B much better",
+  "B is slightly better",
+  "B is better",
+  "B is much better",
 ];
 export const evaluate = (resp, criteria) => {
   let criticalScores = criteria.filter((c) => c.isCrit).map((c) => c[resp]);
@@ -255,12 +255,14 @@ export const compareResponses = (evaluation) => {
 };
 
 //respEvalnoProblA{ name: el, isCrit: false, respA: 0, respB: 0 };
-export const createJustifSheema = (
+export const createJustifSheema1 = (
   respEval,
   overallRate,
   verdict,
   toJustif
 ) => {
+  console.log(respEval);
+
   const noProblA = respEval.filter((el) => el.respA === 1);
   const noProblB = respEval.filter((el) => el.respB === 1);
   const noProblAB = respEval.filter((el) => el.respA === 1 && el.respB === 1);
@@ -295,6 +297,7 @@ export const createJustifSheema = (
   );
   let tmp = "";
   console.log(respEval);
+
   let just = !!CrProblAB__major.length
     ? "Both responses have major problems with " +
       CrProblAB__major.map((el) => el.name).join(
@@ -302,6 +305,9 @@ export const createJustifSheema = (
       ) +
       ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
+  let justAr = [];
+  let part = "";
+  if (just) justAr.push(just);
   tmp = !!CrProblA__major.length
     ? CrProblA__major.filter(
         (el) => !CrProblAB__major.some((majorEl) => majorEl.name === el.name)
@@ -310,9 +316,11 @@ export const createJustifSheema = (
         .join(", (EXAMPLE). ")
     : "";
 
-  just += !!tmp
+  part = !!tmp
     ? "Response A has major problems with " + tmp + ", (EXAMPLE). "
     : "";
+  just += part;
+  if (part) justAr.push(part);
 
   tmp = !!CrProblB__major.length
     ? CrProblB__major.filter(
@@ -321,17 +329,22 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE)")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response B has major problems with " + tmp + ", (EXAMPLE). "
     : "";
+  just += part;
+  if (part) justAr.push(part);
 
-  just += !!CrProblAB__minor.length
+  part = !!CrProblAB__minor.length
     ? "Both responses have some problems with " +
       CrProblB__minor.map((el) => el.name).join(
         ", (Response A EXAMPLE, Response B EXAMPLE).  "
       ) +
       ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
+  just += part;
+  if (part) justAr.push(part);
+
   tmp = !!CrProblA__minor.length
     ? CrProblA__minor.filter(
         (el) => !CrProblAB__minor.some((majorEl) => majorEl.name === el.name)
@@ -339,9 +352,11 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response A has some problems with " + tmp + ", (EXAMPLE). "
     : "";
+  just += part;
+  if (part) justAr.push(part);
 
   tmp = !!CrProblB__minor.length
     ? CrProblB__minor.filter(
@@ -350,17 +365,21 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response B has minor problems with " + tmp + ", (EXAMPLE). "
     : "";
+  just += part;
+  if (part) justAr.push(part);
   //----------------------------------uncrit
-  just += !!unCrProblAB__major.length
+  part = !!unCrProblAB__major.length
     ? "Both responses have major problems with " +
       unCrProblAB__major
         .map((el) => el.name)
         .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
       ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
+  just += part;
+  if (part) justAr.push(part);
   tmp = !!unCrProblA__major.length
     ? unCrProblA__major
         .filter(
@@ -370,10 +389,11 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response A has major problems with " + tmp + ", (EXAMPLE). "
     : "";
-
+  just += part;
+  if (part) justAr.push(part);
   tmp = !!unCrProblB__major.length
     ? unCrProblB__major
         .filter(
@@ -383,17 +403,22 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response B has major problems with " + tmp + ", (EXAMPLE). "
     : "";
-  just += !!unCrProblAB__minor.length
+  just += part;
+  if (part) justAr.push(part);
+  part = !!unCrProblAB__minor.length
     ? "Both responses have some problems with " +
       unCrProblB__minor
         .map((el) => el.name)
         .join(", (Response A EXAMPLE, Response B EXAMPLE).  ") +
       ", (Response A EXAMPLE, Response B EXAMPLE).  "
     : "";
-  tmp += !!unCrProblA__minor.length
+  just += part;
+  if (part) justAr.push(part);
+
+  tmp = !!unCrProblA__minor.length
     ? unCrProblA__minor
         .filter(
           (el) =>
@@ -402,10 +427,11 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response A has some problems with " + tmp + ", (EXAMPLE). "
     : "";
-
+  just += part;
+  if (part) justAr.push(part);
   tmp = !!unCrProblB__minor.length
     ? unCrProblB__minor
         .filter(
@@ -415,29 +441,182 @@ export const createJustifSheema = (
         .map((el) => el.name)
         .join(", (EXAMPLE). ")
     : "";
-  just += !!tmp
+  part = !!tmp
     ? "Response B has minor problems with " + tmp + ", (EXAMPLE). "
     : "";
+  just += part;
+  if (part) justAr.push(part);
   //----------------------------------noprobl
-  just += !!noProblAB.length
+  part = !!noProblAB.length
     ? "Both responses have no problems with " +
       noProblAB.map((el) => el.name).join(", ")
     : "";
+  just += part;
+  if (part) justAr.push(part);
   tmp = !!noProblA.length
     ? noProblA
         .filter((el) => !noProblAB.some((majorEl) => majorEl.name === el.name))
         .map((el) => el.name)
         .join(", ")
     : "";
-  just += !!tmp ? "Response A has no problems with " + tmp : "";
+  part = !!tmp ? "Response A has no problems with " + tmp : "";
+  just += part;
+  if (part) justAr.push(part);
   tmp = !!noProblB.length
     ? noProblB
         .filter((el) => !noProblAB.some((majorEl) => majorEl.name === el.name))
         .map((el) => el.name)
         .join(", ")
     : "";
-  just += !!tmp ? "Response B has no problems with " + tmp : "";
+  part = !!tmp ? "Response B has no problems with " + tmp : "";
+  just += part;
+  if (part) justAr.push(part);
+  justAr.sort((a, b) => (a < b ? -1 : 1));
   // const { respA, respB } = overallRate;
-  just += verdict.result;
-  if (just && typeof just === "string") toJustif({ en: just });
+  part = verdict.result;
+  just += part;
+  if (part) justAr.push(part);
+
+  console.log(justAr);
+  let justT = justAr.join("");
+  if (justT && typeof justT === "string") toJustif({ en: justT });
+};
+export const createJustifSheema2 = (
+  respEval,
+  overallRate,
+  verdict,
+  toJustif
+) => {
+  console.log(respEval);
+  //both[no min maj] a b
+  const evalsParts = [" no issues", " some problems", " major problems"];
+  const evalsPartsBeg = [
+    "Both responses have",
+    "Response A has",
+    "Response B has",
+  ];
+  const exampleParts = [
+    "(Response A:Example. Response B:Example.)",
+    "(EXAMPLE_A)",
+    "(EXAMPLE_B)",
+  ];
+  const resAr = [
+    [[], [], []],
+    [[], [], []],
+    [[], [], []],
+  ];
+
+  respEval.forEach((criteria) => {
+    //both
+    if (criteria.respA === criteria.respB && criteria.respA !== 0) {
+      resAr[0][criteria.respA - 1].push(criteria.name);
+    }
+    //A
+    else {
+      if (criteria.respA !== 0) {
+        resAr[1][criteria.respA - 1].push(criteria.name);
+      }
+      //A
+      if (criteria.respB !== 0) {
+        resAr[2][criteria.respB - 1].push(criteria.name);
+      }
+    }
+  });
+
+  //both
+  let resArr = [];
+  resAr.forEach((resp, ri) => {
+    let rowR = evalsPartsBeg[ri];
+    resp.forEach((lev, li) => {
+      let rowL = "";
+      lev.forEach((crit, ci) => {
+        rowL +=
+          (rowL === "" ? evalsParts[li] + " with " : "") +
+          crit +
+          exampleParts[ri] +
+          (ci === lev.length - 1 ? ". " : ", ");
+      });
+      if (rowL !== "") rowR += rowL;
+    });
+    if (rowR !== evalsPartsBeg[ri]) resArr.push(rowR);
+  });
+
+  // resArr.sort((a, b) => (a < b ? -1 : 1));
+  // const { respA, respB } = overallRate;
+  let part = verdict.result;
+  // just += part;
+  if (part) resArr.push(part);
+
+  console.log(resArr);
+  let justT = resArr.join("");
+  if (justT && typeof justT === "string") toJustif({ en: justT });
+};
+export const createJustifSheema = (
+  respEval,
+  overallRate,
+  verdict,
+  toJustif
+) => {
+  console.log(respEval);
+  //both[no min maj] a b
+  const levParts = [
+    " no issues with ",
+    " some problems with ",
+    " major problems with ",
+  ];
+  const respParts = ["Both responses have", "Response A has", "Response B has"];
+  const exampleParts = [
+    ". Response A: EXAMPLE_A. Response B: EXAMPLE_B. ",
+    ": EXAMPLE_A. ",
+    ": EXAMPLE_B. ",
+  ];
+  const resAr = [
+    [[], [], []],
+    [[], [], []],
+    [[], [], []],
+  ];
+
+  respEval.forEach((criteria) => {
+    //both
+    if (criteria.respA === criteria.respB && criteria.respA !== 0) {
+      resAr[0][criteria.respA - 1].push(criteria.name);
+    }
+    //A
+    else {
+      if (criteria.respA !== 0) {
+        resAr[1][criteria.respA - 1].push(criteria.name);
+      }
+      //A
+      if (criteria.respB !== 0) {
+        resAr[2][criteria.respB - 1].push(criteria.name);
+      }
+    }
+  });
+
+  //both
+  let resArr = [];
+  resAr.forEach((resp, ri) => {
+    // let rowR = "";
+    resp.forEach((lev, li) => {
+      let rowL = "";
+      lev.forEach((crit, ci) => {
+        // debugger;
+        if (li === 0)
+          rowL =
+            (ci === 0 ? respParts[ri] + levParts[li] : "") +
+            crit +
+            (ci === lev.length - 1 ? ". " : ", ");
+        else rowL = respParts[ri] + levParts[li] + crit + exampleParts[ri];
+        resArr.push(rowL);
+      });
+      // if (rowL !== "") rowR += evalsPartsBeg[ri] + rowL;
+    });
+    // if (rowR !== evalsPartsBeg[ri]) resArr.push(rowR);
+  });
+
+  let part = verdict.result;
+  if (part) resArr.push(part + ".");
+  console.log(resArr);
+  let justT = resArr.join("");
+  if (justT && typeof justT === "string") toJustif({ en: justT });
 };
