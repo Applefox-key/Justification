@@ -4,7 +4,7 @@ import Justification from "./Justification";
 
 import FileChoose from "./FileChoose";
 import FilesList from "./FilesList";
-import { getHistory } from "../utils/localStorage";
+import { fromLS, getHistory } from "../utils/localStorage";
 import StrArea from "./StrArea";
 import Responses from "./Responses";
 
@@ -24,17 +24,23 @@ const MainPage = () => {
       setJustparts([...justparts, data]);
     }
   };
-  const compliteCrit = () => {
+  const compliteCrit = (isLowCase = false) => {
     if (currBtn === null) return [];
-    return currBtn.items.map((el) => el.name);
+    return currBtn.items.map((el) =>
+      isLowCase ? el.name.toLowerCase() : el.name
+    );
   };
   useEffect(() => {
     if (currBtn === null) return;
     setCurSection(currBtn.items.length === 1 ? currBtn.items[0] : null);
   }, [currBtn]);
 
+  const getBg = () => {
+    let bg = fromLS("backgr");
+    return bg ? ["main-page", "bg" + bg].join(" ") : "main-page bg0";
+  };
   return (
-    <div className="main-page bg0" id="mainp">
+    <div className={getBg()} id="mainp">
       {/* <BackgroundChanger /> */}
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} />
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
@@ -43,7 +49,6 @@ const MainPage = () => {
           justparts={justparts}
           currBtn={currBtn}
           setCurrBtn={setCurrBtn}
-          defaultState={defaultState}
         />
       </div>
       {/* <div className="textarea-box ps-3 pe-3">
@@ -60,6 +65,7 @@ const MainPage = () => {
             <Justification
               justification={justification}
               setJustification={setJustification}
+              compliteCrit={compliteCrit}
             />{" "}
           </div>
           <div className="page-part right">

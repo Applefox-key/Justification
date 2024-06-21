@@ -1,16 +1,16 @@
 import React from "react";
 import { getHistory } from "../utils/localStorage";
 
-const FilesList = ({ justparts, currBtn, setCurrBtn, defaultState }) => {
+const FilesList = ({ justparts, currBtn, setCurrBtn }) => {
   return (
     <div className="bookXlsBtns-wrap">
-      <button
+      {/* <button
         className="resetBtn"
         onClick={() => {
           defaultState(null);
         }}>
         reset
-      </button>
+      </button> */}
       {!!justparts.length &&
         justparts.map((el, i) => (
           <div

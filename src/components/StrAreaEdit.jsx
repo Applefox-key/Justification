@@ -1,42 +1,19 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
-import {
-  cleanAndCapitalize,
-  copyToClipboard,
-  highlightedText,
-  replaceWords,
-} from "../utils/utilStr";
+import { copyToClipboard, replaceWords } from "../utils/utilStr";
 
 import TxtBtns from "./TxtBtns";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");
   const [handleTxt, setHandleTxt] = useState(str);
-  // const handleInput = (e) => {
-  //   const selection = window.getSelection();
-  //   const range = selection.getRangeAt(0);
-  //   const textNode = range.startContainer;
-  //   const offset = range.startOffset;
-  //   debugger;
-  //   setHandleTxt(e.target.innerText);
 
-  //   // Восстанавливаем позицию курсора после изменения текста
-  //   setTimeout(() => {
-  //     const newRange = document.createRange();
-  //     newRange.setStart(textNode, offset);
-  //     //   newRange.collapse(true);
-  //     //   selection.removeAllRanges();
-  //     //   selection.addRange(newRange);
-  //   }, 0);
-  // };
   const handleChange = (e) => {
     e.stopPropagation();
     setHandleTxt(e.target.value);
   };
-  // const copyToClipboard = async () => {
-  //   await copyFromTextarea();
-  // };
+
   const onOK = (e) => {
     e.stopPropagation();
     const val = handleTxt;
@@ -152,22 +129,6 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
             }}
             onChange={handleChange}
           />
-          {/* <div
-            as="textarea"
-            id={"editArea"}
-            className={"fit-height"}
-            rows={1}
-            spellCheck="true"
-            placeholder={placeholder}
-            contentEditable
-            // value={handleTxt}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === "Escape") onOK(e);
-            }}
-            onInput={handleInput}
-            onChange={handleChange}>
-            {highlightedText(handleTxt)}
-          </div> */}
           {textSelected && (
             <div className="d-flex flex-column ms-1">
               <button onClick={() => capsSwitch("Aa")} className="square-btn">

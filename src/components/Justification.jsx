@@ -15,7 +15,7 @@ import { SlMagicWand } from "react-icons/sl";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-const Justification = ({ justification, setJustification }) => {
+const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
   const toJustif = (el) => {
     setJustification([...justification, el]);
@@ -48,6 +48,7 @@ const Justification = ({ justification, setJustification }) => {
     setJustification(newVal);
   };
   const replaceExamples = () => {
+    // if (!justification.length) return;
     const arr = [...justification];
     // Отделяем первый элемент
     const firstElement = arr.shift();
@@ -73,33 +74,7 @@ const Justification = ({ justification, setJustification }) => {
   };
 
   const allJust = concatenateEnFields(justification);
-  const pasteInsideJustif = (val) => {
-    const newVal = val.en;
-    const handleTxt = allJust;
-    const textarea = document.getElementById("editArea");
-    const start = justification.indexOf(allJust);
-    const end = textarea.selectionEnd;
 
-    if (start === end) {
-      // No text selected
-      const textBefore = handleTxt.slice(0, start);
-      const textAfter = handleTxt.slice(end);
-      const newText = textBefore + " " + newVal + " " + textAfter;
-      // setHandleTxt(newText);
-      return;
-    }
-
-    const textBefore = handleTxt.slice(0, start);
-    const textAfter = handleTxt.slice(end);
-    const newText = textBefore + " " + newVal + " " + textAfter;
-
-    // setHandleTxt(newText);
-
-    // Maintain the cursor position after replacement
-    // setTimeout(() => {
-    //   textarea.setSelectionRange(start, start + newVal.length);
-    // }, 0);
-  };
   return (
     <>
       {edit !== null && (
@@ -147,26 +122,31 @@ const Justification = ({ justification, setJustification }) => {
           justification={justification}
           setJustification={setJustification}
           setEdit={setEdit}
+          compliteCrit={compliteCrit}
         />{" "}
       </div>{" "}
       {/* <div className="d-flex justify-content-between align-items-center"> */}
       <div className="just-menu d-flex justify-content-between align-items-center">
-        {" "}
         <TxtBtnsOverlay toJustif={toJustif} copyChat={copyChat} />
         <div>
-          {" "}
-          <Button
-            onClick={replaceExamples}
-            title="replace EXAMPLES in the first justification element with other justification elements">
-            Examples
-          </Button>
-          <Button onClick={replaceSome}>
-            <SlMagicWand />
-            MAGIC
-          </Button>
-          <Button onClick={copyChat}>
-            <IoChatbubblesOutline /> COPY FOR CHAT
-          </Button>
+          {justification.length > 1 && (
+            <Button
+              onClick={replaceExamples}
+              title="replace EXAMPLES in the first justification element with other justification elements">
+              Examples
+            </Button>
+          )}
+          {justification.length > 0 && (
+            <>
+              <Button onClick={replaceSome}>
+                <SlMagicWand />
+                MAGIC
+              </Button>
+              <Button onClick={copyChat}>
+                <IoChatbubblesOutline /> COPY FOR CHAT
+              </Button>
+            </>
+          )}
         </div>
       </div>
       {allJust && <div className="justif-all">{allJust}</div>}

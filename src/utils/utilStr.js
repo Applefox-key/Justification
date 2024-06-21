@@ -176,54 +176,35 @@ export const highlightedText1 = (text) => {
     })
     .join("");
 };
-export const highlightedText = (text) => {
-  const parts = text.split(/(example_a|example_b|response A|response B)/gi); // Split the text by "example", keeping the word itself
-  console.log(
-    parts.map((part, index) => {
-      if (
-        part.toLowerCase() === "example" ||
-        part.toLowerCase() === "example_a" ||
-        part.toLowerCase() === "example_b"
-      )
-        return (
-          <span className="highlight" key={index}>
-            {part}
-          </span>
-        );
-      else if (part.toLowerCase() === "response a")
-        return (
-          <span className="highlight-blue" key={index}>
-            {part}
-          </span>
-        );
-      else if (part.toLowerCase() === "response b")
-        return (
-          <span className="highlight-blueB" key={index}>
-            {part}
-          </span>
-        );
-      else return part;
-    })
+export const highlightedText = (text, compliteCrit = []) => {
+  const regArrA = ["example_a", "response a"];
+  const regArrB = ["example_b", "response b"];
+
+  const regexPattern = new RegExp(
+    `(${[...compliteCrit, ...regArrA, ...regArrB].join("|")})`,
+    "gi"
   );
 
+  // const parts = text.split(/(example_a|example_b|response A|response B)/gi); // Split the text by "example", keeping the word itself
+  const parts = text.split(regexPattern); // Split the text by "example", keeping the word itself
+
   return parts.map((part, index) => {
-    if (
-      part.toLowerCase() === "example" ||
-      part.toLowerCase() === "example_a" ||
-      part.toLowerCase() === "example_b"
-    )
-      return (
-        <span className="highlight" key={index}>
-          {part}
-        </span>
-      );
-    else if (part.toLowerCase() === "response a")
+    if (regArrA.includes(part.toLowerCase()))
       return (
         <span className="highlight-blue" key={index}>
           {part}
         </span>
       );
-    else if (part.toLowerCase() === "response b")
+    else if (
+      compliteCrit.includes(part) ||
+      compliteCrit.includes(part.toLowerCase())
+    )
+      return (
+        <span className="highlight-crit" key={index}>
+          {part}
+        </span>
+      );
+    else if (regArrB.includes(part.toLowerCase()))
       return (
         <span className="highlight-blueB" key={index}>
           {part}

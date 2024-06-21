@@ -133,8 +133,8 @@ const Responses = ({ compliteCrit, toJustif }) => {
     <Draggable
       cancel="#cbtn"
       defaultPosition={{
-        x: window.visualViewport.width * 0.09,
-        y: window.visualViewport.height * 0.415,
+        x: window.visualViewport.width * 0.08,
+        y: window.visualViewport.height * 0.42,
       }}>
       <div
         className={

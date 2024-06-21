@@ -18,17 +18,26 @@ const FileChoose = ({ defaultState }) => {
     }
   };
   return (
-    <div>
+    <div className="d-flex">
       <InputGroup className="file-choose">
-        <button onClick={() => setBackgroundAndSave(1)}>img</button>
+        <button onClick={() => setBackgroundAndSave(1)}>img</button>{" "}
         <Form.Control
           size="sm"
           className="mt-1"
           ref={inputFileName}
           type="file"
           onChange={FileChange}
-        />
-      </InputGroup>
+        />{" "}
+      </InputGroup>{" "}
+      <button
+        className="resetBtn"
+        onClick={() => {
+          const userConfirmed = window.confirm("Do you want to reset files?");
+          if (!userConfirmed) return;
+          defaultState(null);
+        }}>
+        reset
+      </button>
     </div>
   );
 };
