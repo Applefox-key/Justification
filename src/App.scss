@@ -1280,13 +1280,19 @@ textarea.form-control::placeholder {
   position: relative;
 
   .rate {
+    transition: all 0.4s ease-in-out;
+
     &:hover {
       box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     }
   }
 
   .rate-B {
     background: #dbffe1;
+    background: #73dd85;
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
 
   .rate-same {
@@ -1295,6 +1301,12 @@ textarea.form-control::placeholder {
 
   .rate-A {
     background: #dbecff;
+    background: #82a7d3;
+    // box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+
   }
 
 
@@ -1314,6 +1326,23 @@ textarea.form-control::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.rate1,
+.rate2,
+.rate3 {
+  &:hover {
+    background: #dbecff;
+  }
+}
+
+.rate5,
+.rate6,
+.rate7:hover {
+  &:hover {
+    background: #dbffe1;
+  }
+
 }
 
 .rate3,
