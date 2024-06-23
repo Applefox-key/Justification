@@ -13,7 +13,6 @@ const FileChoose = ({ defaultState }) => {
       defaultState(data);
     } catch (error) {
       inputFileName.current.value = "";
-
       return;
     }
   };

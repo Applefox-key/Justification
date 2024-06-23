@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditBox from "./EditBox";
-import { Button } from "react-bootstrap";
+import { Button, Toast } from "react-bootstrap";
 import JustifBody from "./JustifBody";
 import {
   cleanAndCapitalize,
@@ -17,6 +17,7 @@ import { IoChatbubblesOutline } from "react-icons/io5";
 
 const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
+  const [showB, setShowB] = useState(false);
   const toJustif = (el) => {
     setJustification([...justification, el]);
   };
@@ -44,22 +45,17 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
   const pasteFromClipboard = async () => {
     const text = await navigator.clipboard.readText();
     const newVal = [...justification, { en: text }];
-    // setPreviousTxt(handleTxt);
     setJustification(newVal);
   };
   const replaceExamples = () => {
-    // if (!justification.length) return;
     const arr = [...justification];
-    // Отделяем первый элемент
     const firstElement = arr.shift();
-
-    // Создаем новый массив из оставшихся элементов
     const replacements = arr.slice();
     let index = 0;
     let replacedCount = 0;
     let res = firstElement.en.replace(/EXAMPLE_[AB]/g, (match) => {
       if (replacedCount >= replacements.length) {
-        return match; // Возвращаем оригинальный фрагмент, если закончились замены
+        return match;
       }
       const replacement = replacements[index].en;
       index++;
@@ -74,7 +70,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
   };
 
   const allJust = concatenateEnFields(justification);
-
+  const toggleShowB = () => setShowB(!showB);
   return (
     <>
       {edit !== null && (
@@ -91,10 +87,6 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
           <Button onClick={() => setEdit("all")}>edit</Button>{" "}
-          <Button onClick={pasteFromClipboard} className="color">
-            <MdOutlineContentPaste />
-            paste
-          </Button>
           {allJust && (
             <>
               <Button
@@ -113,7 +105,11 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
                 clear
               </Button>
             </>
-          )}
+          )}{" "}
+          <Button onClick={pasteFromClipboard} className="color">
+            <MdOutlineContentPaste />
+            paste
+          </Button>
         </div>
       </div>
       <div className="justif glas">
@@ -128,7 +124,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
       {/* <div className="d-flex justify-content-between align-items-center"> */}
       <div className="just-menu d-flex justify-content-between align-items-center">
         <TxtBtnsOverlay toJustif={toJustif} copyChat={copyChat} />
-        <div>
+        <div className="justif-all-btn">
           {justification.length > 1 && (
             <Button
               onClick={replaceExamples}
@@ -136,11 +132,15 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
               Examples
             </Button>
           )}
+
           {justification.length > 0 && (
             <>
               <Button onClick={replaceSome}>
                 <SlMagicWand />
                 MAGIC
+              </Button>{" "}
+              <Button onClick={toggleShowB} className="mb-2">
+                show justification as text
               </Button>
               <Button onClick={copyChat}>
                 <IoChatbubblesOutline /> COPY FOR CHAT
@@ -149,7 +149,15 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           )}
         </div>
       </div>
-      {allJust && <div className="justif-all">{allJust}</div>}
+      <Toast onClose={toggleShowB} show={showB} animation={false}>
+        <Toast.Header>
+          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+          <strong className="me-auto">Justification as text</strong>
+          {/* <small>11 mins ago</small> */}
+        </Toast.Header>
+        <Toast.Body>{allJust}</Toast.Body>
+      </Toast>
+      {/* {showB && <div className="justif-all">{allJust}</div>} */}
     </>
   );
 };

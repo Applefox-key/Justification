@@ -633,6 +633,7 @@ textarea.form-control::placeholder {
     .variants-item {
       @extend .current-item;
       padding-top: 15px;
+      font-size: 10px;
 
       &:hover {
         transform: scale(1) translateX(5px);
@@ -1413,7 +1414,8 @@ textarea.form-control::placeholder {
 }
 
 .highlight-crit {
-  color: maroon;
+  color: rgb(0, 0, 0);
+  // color: rgb(255 131 70);
   font-weight: 700;
 }
 
@@ -1422,7 +1424,37 @@ textarea.form-control::placeholder {
   font-weight: 700;
 }
 
+.highlight-black {
+  // color: rgb(237, 11, 45);
+  color: rgb(0, 0, 0);
+  font-weight: 700;
+}
+
 .highlight-blueB {
   color: rgb(56, 187, 89);
   font-weight: 700;
+}
+
+.highlight-ex {
+  color: #d82c2c;
+  font-weight: 700;
+}
+
+.toast {
+  width: 100%;
+  font-size: x-small;
+
+  .toast-header {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.asText {
+  // background-color: rgba(255, 255, 255, 0.85);
+  background-color: #f8f9fc;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
+
+  font-size: 10px;
 }

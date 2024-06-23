@@ -177,14 +177,16 @@ export const highlightedText1 = (text) => {
     .join("");
 };
 export const highlightedText = (text, compliteCrit = []) => {
-  const regArrA = ["example_a", "response a"];
-  const regArrB = ["example_b", "response b"];
-
+  const regArrA = ["response a"];
+  const regArrB = ["response b"];
+  const exArr = ["example_b", "example_a"];
+  const regArr = ["some", "major", "minor", "no problems"];
   const regexPattern = new RegExp(
-    `(${[...compliteCrit, ...regArrA, ...regArrB].join("|")})`,
+    `(${[...compliteCrit, ...regArrA, ...regArrB, ...regArr, ...exArr].join(
+      "|"
+    )})`,
     "gi"
   );
-
   // const parts = text.split(/(example_a|example_b|response A|response B)/gi); // Split the text by "example", keeping the word itself
   const parts = text.split(regexPattern); // Split the text by "example", keeping the word itself
 
@@ -207,6 +209,18 @@ export const highlightedText = (text, compliteCrit = []) => {
     else if (regArrB.includes(part.toLowerCase()))
       return (
         <span className="highlight-blueB" key={index}>
+          {part}
+        </span>
+      );
+    else if (exArr.includes(part.toLowerCase()))
+      return (
+        <span className="highlight-ex" key={index}>
+          {part}
+        </span>
+      );
+    else if (regArr.includes(part.toLowerCase()))
+      return (
+        <span className="highlight-black" key={index}>
           {part}
         </span>
       );

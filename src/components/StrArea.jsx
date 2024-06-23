@@ -66,7 +66,7 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
     <>
       {type === "voice" ? (
         <div>
-          {!!handleTxt && <div className="justif-all">{handleTxt}</div>}
+          {!!handleTxt && <div className="justif-all asText">{handleTxt}</div>}
           <div className="textarea-box  mb-2">{fragmentPage()}</div>
         </div>
       ) : (
