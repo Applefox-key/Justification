@@ -76,7 +76,9 @@ export const cleanAndCapitalize = (text) => {
   // Исправляем ошибку в слове "respons" и делаем первую букву заглавной
   text = text.replace(/\brespons\b/gi, "Response");
   text = text.replace(/\bresponse\b/gi, "Response");
-
+  text = text.replace(/\binteraction\b/gi, "Interaction");
+  text = text.replace(/\binteration\b/gi, "Interaction");
+  text = text.replace(/\bintention\b/gi, "Interaction");
   // Разбиваем текст на предложения
   let sentences = text.split(/([.!?]\s*)/);
 
@@ -149,6 +151,76 @@ export const replaceWords = (allJust) => {
   });
   return allJust;
 };
+export const replaceWordsInteractions = (allJust) => {
+  // Удалить начальные и конечные пробелы
+  // allJust = allJust.trim();
+  allJust = cleanAndCapitalize(allJust);
+
+  // Заменить все последовательности пробелов одним пробелом
+  allJust = allJust.replace(/\s+/g, " ");
+  const replacements = [
+    {
+      oldT: ["the answer"],
+      newT: "response",
+      caseSensitive: false,
+    },
+    {
+      oldT: [
+        "interation a",
+        "interation 1",
+        "interation one",
+        "intention a",
+        "intention 1",
+        "intention one",
+        "interaction a",
+        "interaction 1",
+        "interaction one",
+      ],
+      newT: "Interaction A",
+      caseSensitive: false,
+    },
+    {
+      oldT: [
+        "interation b",
+        "interation 1",
+        "interation two",
+        "intention b",
+        "intention 2",
+        "intention two",
+        "interaction b",
+        "interaction 2",
+        "interaction two",
+      ],
+      newT: "Interaction B",
+      caseSensitive: false,
+    },
+    {
+      oldT: ["answers"],
+      newT: "responses",
+      caseSensitive: true,
+    },
+    {
+      oldT: ["respondent "],
+      newT: "response ",
+      caseSensitive: false,
+    },
+    {
+      oldT: ["Answers"],
+      newT: "Responses",
+      caseSensitive: true,
+    },
+  ];
+  replacements.forEach(({ oldT, newT, caseSensitive }) => {
+    oldT.forEach((oldWord) => {
+      // Создаем регулярное выражение с глобальным флагом для поиска всех вхождений
+      const flags = caseSensitive ? "g" : "gi";
+      const regex = new RegExp(oldWord, flags);
+      // Заменяем все вхождения oldWord на newT
+      allJust = allJust.replace(regex, newT);
+    });
+  });
+  return allJust;
+};
 
 export const highlightedText1 = (text) => {
   const parts = text.split(/(example|response A|response B)/gi); // Split the text by "example", keeping the word itself
@@ -177,8 +249,8 @@ export const highlightedText1 = (text) => {
     .join("");
 };
 export const highlightedText = (text, compliteCrit = []) => {
-  const regArrA = ["response a"];
-  const regArrB = ["response b"];
+  const regArrA = ["response a", "interaction a"];
+  const regArrB = ["response b", "interaction b"];
   const exArr = ["example_b", "example_a"];
   const regArr = ["some", "major", "minor", "no problems"];
   const regexPattern = new RegExp(

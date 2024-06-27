@@ -7,6 +7,7 @@ import {
   concatenateEnFields,
   copyToClipboard,
   replaceWords,
+  replaceWordsInteractions,
 } from "../utils/utilStr";
 import TxtBtnsOverlay from "./TxtBtnsOverlay";
 import { RxCopy } from "react-icons/rx";
@@ -139,6 +140,16 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
                 <SlMagicWand />
                 MAGIC
               </Button>{" "}
+              <Button
+                className="btnToHis"
+                title="remove extra spaces, capitalize all sentences, correct names of responses"
+                onClick={(e) => {
+                  const text = replaceWordsInteractions(allJust);
+                  setJustification([{ en: text, ru: "" }]);
+                }}>
+                <SlMagicWand />
+                Interaction
+              </Button>
               <Button onClick={toggleShowB} className="mb-2">
                 show justification as text
               </Button>

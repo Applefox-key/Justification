@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
-import { copyToClipboard, replaceWords } from "../utils/utilStr";
+import {
+  copyToClipboard,
+  replaceWords,
+  replaceWordsInteractions,
+} from "../utils/utilStr";
 
 import TxtBtns from "./TxtBtns";
+import { SlMagicWand } from "react-icons/sl";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -102,10 +107,22 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
         className="btnToHis"
         title="remove extra spaces, capitalize all sentences, correct names of responses"
         onClick={(e) => {
+          const newVal = replaceWordsInteractions(handleTxt);
+          setHandleTxt(newVal);
+        }}>
+        <SlMagicWand />
+        Interaction
+      </Button>
+      <Button
+        className="btnToHis"
+        title="remove extra spaces, capitalize all sentences, correct names of responses"
+        onClick={(e) => {
           const newVal = replaceWords(handleTxt);
           setHandleTxt(newVal);
         }}>
-        put it in order
+        {" "}
+        <SlMagicWand />
+        Response
       </Button>{" "}
       <Button className="btnToHis" onClick={(e) => copyToClipboard(handleTxt)}>
         copy
