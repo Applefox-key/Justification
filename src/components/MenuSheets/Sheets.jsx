@@ -1,9 +1,9 @@
 import React from "react";
 
 import { IoMdArrowDropdown } from "react-icons/io";
-import DownloadBtn from "./DownloadBtn";
+import DownloadHisBtn from "./DownloadHisBtn";
 
-const FileSheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
+const Sheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
   const handleSwitch = () => {
     if (curSection !== null) {
       setCurSection(null);
@@ -21,12 +21,11 @@ const FileSheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
             ? "sheetsXls-wrap  justif-all-btn emptySheet"
             : "sheetsXls-wrap  justif-all-btn"
         }>
-        {" "}
         {currentBtn.name === "history" &&
           !!curSection &&
           !!curSection.items &&
           !!curSection.items.length && (
-            <DownloadBtn list={curSection.items} setCurrBtn={setCurrBtn} />
+            <DownloadHisBtn list={curSection.items} setCurrBtn={setCurrBtn} />
           )}
         {currentBtn.items.map((el, i) => (
           <div className="sheetsXls">
@@ -43,12 +42,8 @@ const FileSheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
               }}>
               <div>{el.name}</div>
             </div>{" "}
-            {/* {!!el && !!el.hint && !!el.hint.length && (
-              <List isOnHover list={el.hint.filter((item) => !!item.ru)} />
-            )} */}
           </div>
-          //
-        ))}{" "}
+        ))}
         <IoMdArrowDropdown
           onClick={handleSwitch}
           className={
@@ -60,4 +55,4 @@ const FileSheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
   );
 };
 
-export default FileSheets;
+export default Sheets;

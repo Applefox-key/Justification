@@ -1,5 +1,5 @@
 import React from "react";
-import { highlightedText } from "../utils/utilStr";
+import { highlightedText } from "../../utils/utilStr";
 
 const JustifBody = ({
   justification,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import FileItems from "./FileItems";
-import HintItems from "../HintItems";
+import ContentSideItems from "./ContentSideItems";
+import HintItems from "../Hint/HintItems";
 
 const ContentSide = ({ currentBtn, toJustif, setCurrBtn, curSection }) => {
   const [lev, setLev] = useState(null);
@@ -51,7 +51,7 @@ const ContentSide = ({ currentBtn, toJustif, setCurrBtn, curSection }) => {
       {!!curSection && !!curSection.items && !!curSection.items.length && (
         <div className="variants-body">
           {lev !== "hint" ? (
-            <FileItems
+            <ContentSideItems
               itemsArr={
                 lev === null
                   ? curSection.items

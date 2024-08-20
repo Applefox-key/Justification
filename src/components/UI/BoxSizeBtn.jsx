@@ -29,7 +29,6 @@ const BoxSizeBtn = () => {
   };
   return (
     <Button className="btn-back" onClick={handleClick}>
-      {/* {isFull ? <AiOutlineFullscreenExit /> : <BsArrowsFullscreen />} */}
       {isFull ? <PiCopySimple /> : <LiaSquare />}
     </Button>
   );

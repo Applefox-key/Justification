@@ -1,24 +1,7 @@
 import React from "react";
 import { labelsVerdict } from "../../utils/analysis";
-// import StarIcon from "@mui/icons-material/Star";
 
-// function getLabelText(value) {
-//   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-// }
-// {result: result.comparisonResult,
-// resultNum: result.comparisonResultNum,
-// recom: result.comparisonRecom,}
 const FinalRate = ({ value, setValue }) => {
-  // const labels = [
-  //   "A much better",
-  //   "A better",
-  //   "A slightly better",
-  //   "Same",
-  //   "B slightly better",
-  //   "B better",
-  //   "B much better",
-  // ];
-
   const setClassName = (i) => {
     let cl = `rate rate${i + 1} `;
 

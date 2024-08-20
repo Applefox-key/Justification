@@ -20,7 +20,6 @@ const Responses = ({ compliteCrit, toJustif }) => {
   const [overallRate, setOverallRate] = useState(defaultOverAll);
   const [verdict, setVerdict] = useState(defaultVerdict);
 
-  //result 1-8;
   const refresh = () => {
     const arrCritNew = compliteCrit();
     const arrCritResp = arrCritNew.map((el, i) => {
@@ -72,25 +71,11 @@ const Responses = ({ compliteCrit, toJustif }) => {
   };
 
   const evalOne = (field) => {
-    // {
-    //   score: 2,
-    //   critMinor,
-    //   critMajor,
-    //   nonCritMinor,
-    //   nonCritMajor,
-    //   recomScore: [1, 2],
-    //   maxRecom: "much better",
-    // }
-
     const res = evaluate(field, [...respEval]);
     setOverallRate({ ...overallRate, [field]: res });
     console.log(res);
   };
   const compareResp = () => {
-    // {result: result.comparisonResult,
-    // resultNum: result.comparisonResultNum,
-    // recom: result.comparisonRecom,}
-
     const res = compareResponses(overallRate);
     setVerdict(res);
     console.log(res);

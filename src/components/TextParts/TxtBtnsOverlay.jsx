@@ -17,7 +17,7 @@ const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
     <>
       <div ref={ref} className={edit ? "mr" : "w19"}>
         <Button onClick={handleClick} className={edit ? "w100 " : "w-100"}>
-          frequent
+          templates
         </Button>
         <Overlay
           show={show}
@@ -26,14 +26,11 @@ const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
           container={ref}
           containerPadding={20}>
           <Popover id={edit ? "popover-containedR" : "popover-contained"}>
-            {/* <Popover.Header as="h3">Popover bottom</Popover.Header> */}
-            {/* <Popover.Body> */}
             <TxtBtns toJustif={toJustif} edit={edit} />
-            {/* </Popover.Body> */}
           </Popover>
         </Overlay>
       </div>
-      <div className="hover-target">JUSTIFICATION RESULT:</div>
+      <div className="hover-target">COMMENT:</div>
     </>
   );
 };

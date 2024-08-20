@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { delFromHistory, getHistory } from "../../utils/localStorage";
 
-const FileItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
+const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   return (
     <>
       {!!itemsArr.length &&
@@ -27,4 +27,4 @@ const FileItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   );
 };
 
-export default FileItems;
+export default ContentSideItems;

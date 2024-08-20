@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "./tgb.scss";
-
-import { getTheme, changeTheme } from "../utils/thema";
+import { getTheme, changeTheme } from "../../utils/thema";
 
 const ThemeSwitch = ({ isPlay }) => {
   const [isCheckedDay, setIsCheckedDay] = useState(true);

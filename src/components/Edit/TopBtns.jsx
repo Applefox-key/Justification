@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Hint from "../Hint";
+import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../../utils/localStorage";
 import { copyToClipboard, replaceWords } from "../../utils/utilStr";

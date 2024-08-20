@@ -20,7 +20,6 @@ const CategoriesSumm = ({ overallRate, respL, setCat }) => {
         </button>
       </div>
       <div className="d-flex">
-        {/* <BsExclamationCircle /> */}
         <button
           title="noncrit Major"
           className={

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import FileSheets from "./MenuSheets/FileSheets";
-import Justification from "./Justification";
-
+import Sheets from "./MenuSheets/Sheets";
+import Justification from "./Comment/Justification";
 import MainBtns from "./MenuSheets/MainBtns";
 import FilesList from "./MenuSheets/FilesList";
-import { firstBack, fromLS, getHistory } from "../utils/localStorage";
+import { firstBack, getHistory } from "../utils/localStorage";
 import Responses from "./Rate/Responses";
 import FileChooseBtn from "./UI/FileChooseBtn";
 import ContentSide from "./MenuSheets/ContentSide";
@@ -39,10 +38,7 @@ const MainPage = () => {
   useEffect(() => {
     firstBack();
   }, []);
-  // const getBg = () => {
-  //   let bg = fromLS("backgr");
-  //   return bg ? ["main-page", "bg" + bg].join(" ") : "main-page bg0";
-  // };
+
   return (
     <div className={"bg-main"} id="mainp">
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} />{" "}
@@ -59,7 +55,7 @@ const MainPage = () => {
       </div>
       <div className="page-body">
         {currBtn !== null && (
-          <FileSheets
+          <Sheets
             currentBtn={currBtn}
             curSection={curSection}
             setCurSection={setCurSection}

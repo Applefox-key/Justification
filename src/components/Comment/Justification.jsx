@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import EditBox from "./Edit/EditBox";
-import { Button, Toast } from "react-bootstrap";
+import EditBox from "../Edit/EditBox";
+import { Button } from "react-bootstrap";
 import JustifBody from "./JustifBody";
 import {
   cleanAndCapitalize,
   concatenateEnFields,
   copyToClipboard,
-  highlightedText,
-} from "../utils/utilStr";
-import TxtBtnsOverlay from "./TextParts/TxtBtnsOverlay";
+} from "../../utils/utilStr";
+import TxtBtnsOverlay from "../TextParts/TxtBtnsOverlay";
 import { RxCopy } from "react-icons/rx";
 import { MdOutlineContentPaste } from "react-icons/md";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import StrArea from "./StrArea";
-import VoiceOverlay from "./VoiceOverlay";
+import VoiceOverlay from "../Voice/VoiceOverlay";
 
 const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
@@ -145,17 +143,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           </div>
         </div>
       )}
-      {/* <Toast onClose={toggleShowB} show={showB} animation={false}>
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-          <strong className="me-auto">Justification as text</strong>
-        </Toast.Header>
-        <Toast.Body>{allJust}</Toast.Body>
-      </Toast>{" "} */}
 
-      {/* {edit === null && (
-        <StrArea placeholder="...your notes" type="voice" actionFn={toJustif} />
-      )} */}
       {edit === null && <VoiceOverlay toJustif={toJustif} />}
     </>
   );

@@ -12,7 +12,6 @@ const RateHead = ({ overallRate, verdict, setOverallRate, setVerdict }) => {
     });
   };
   const handleChangeVerdict = (val) => {
-    // setVerdict
     const newvalTxt = labelsVerdict[val - 1];
     setVerdict({
       ...verdict,
@@ -21,7 +20,6 @@ const RateHead = ({ overallRate, verdict, setOverallRate, setVerdict }) => {
     });
   };
 
-  //   useEffect(() => {}, [overallRate.]);
   return (
     <div className="drag-part noHover align-items-start pb-1 pt-0 justify-content-between">
       <div className="header-resp">
@@ -31,7 +29,6 @@ const RateHead = ({ overallRate, verdict, setOverallRate, setVerdict }) => {
           recomScore={
             !!overallRate.respA.recomScore ? overallRate.respA.recomScore : ""
           }
-          // value={evalResp}
           value={!!overallRate.respA.score ? overallRate.respA.score : 0}
           setValue={(newVal) => setOverallRateOne("respA", newVal)}
         />

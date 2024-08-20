@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-
 import { readXlsFile } from "../../utils/readXls";
-
 import { FiPlus } from "react-icons/fi";
 import { BiReset } from "react-icons/bi";
 
@@ -20,7 +18,7 @@ const FileChooseBtn = ({ defaultState }) => {
   };
   return (
     <div className="input-file-wrap">
-      <button className="input-file">
+      <button className="input-file" title="Choose file">
         <FiPlus />
         <input
           size="sm"
@@ -30,13 +28,14 @@ const FileChooseBtn = ({ defaultState }) => {
         />
       </button>
       <button
+        title="RESET"
         className="reset-btn"
         onClick={() => {
           const userConfirmed = window.confirm("Do you want to reset files?");
           if (!userConfirmed) return;
           defaultState(null);
         }}>
-        <BiReset />
+        <BiReset title="RESET" />
       </button>
     </div>
   );

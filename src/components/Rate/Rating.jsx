@@ -26,7 +26,6 @@ const Rating = ({ value, setValue, title, recom, recomScore }) => {
         )}
       </div>
       {title}
-      {/* {labels[value - 1]} */}
       <span className="span-result">{labels[value - 1]}</span>
       {!!recom && <div className="recom">{recom}</div>}
     </>

@@ -69,20 +69,11 @@ const RatingOverlay = ({ toJustif, edit = false }) => {
           container={ref}
           containerPadding={20}>
           <Popover id={"popover-edit"}>
-            {/* <Popover.Header as="h3">Popover bottom</Popover.Header> */}
-            {/* <Popover.Body> */}
             <div className="drag-footer ms-4">
               <button className="btnA" onClick={() => evalOne("respA")}>
                 evaluate A
               </button>
-              <div>
-                {/* <button id="cbtn" onClick={compareResp}>
-                  compaire responses
-                </button> */}
-                {/* <button id="cbtn" onClick={clear}>
-                  x
-                </button> */}
-              </div>
+              <div></div>
               <button id="cbtn" onClick={compareResp}>
                 compaire
               </button>{" "}
@@ -103,13 +94,6 @@ const RatingOverlay = ({ toJustif, edit = false }) => {
                 evaluate B
               </button>
             </div>
-            {/* <div className="m-auto">
-              <button>Evaluate A</button>
-              <button>result to text</button>
-              <button>Clear</button>
-              <button>Overall</button>
-              <button>Evaluate B</button>
-            </div> */}
             <div className="d-flex mt-3 justify-content-between">
               <CategoriesSumm
                 overallRate={overallRate}
@@ -135,8 +119,6 @@ const RatingOverlay = ({ toJustif, edit = false }) => {
               -CRITICAL MAJOR
               <PiFlowerLight className="crit" /> - CRITICAL MINOR
             </div>
-            {/* <TxtBtns toJustif={toJustif} /> */}
-            {/* </Popover.Body> */}
           </Popover>
         </Overlay>
       </div>

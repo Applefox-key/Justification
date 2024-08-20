@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { setBackgroundAndSave } from "../utils/localStorage";
+import { setBackgroundAndSave } from "../../utils/localStorage";
 import { Spinner } from "react-bootstrap";
 
 const OneImg = ({ index, curImg, setCurImg }) => {
@@ -13,8 +13,7 @@ const OneImg = ({ index, curImg, setCurImg }) => {
       {!isLoaded && <Spinner animation="grow" variant="secondary" />}
       <img
         key={index}
-        // src={image}
-        src={require(`../img/img${index}.jpg`)}
+        src={require(`../../img/img${index}.jpg`)}
         alt={`img${index}`}
         style={!isLoaded ? { display: "none" } : {}}
         onLoad={handleImageLoaded}

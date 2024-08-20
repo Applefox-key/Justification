@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { getHistory } from "../../utils/localStorage";
 
-const DownloadBtn = ({ list, setCurrBtn }) => {
+const DownloadHisBtn = ({ list, setCurrBtn }) => {
   const [textFile, settextFile] = useState(null);
   const createFile = () => {
     if (list.length === 0) {
@@ -31,22 +31,18 @@ const DownloadBtn = ({ list, setCurrBtn }) => {
         </a>
       )}
       <Button
-        // className="fs-4 menuBtn w-50"
         className="sheetsXls-item z0"
         size="lg"
         variant="outline-black"
-        // disabled={!contentList}
         onClick={() => {
           createFile();
         }}>
         💾Create file for download
       </Button>
       <Button
-        // className="fs-4 menuBtn w-50"
         className="sheetsXls-item z0"
         size="lg"
         variant="outline-black"
-        // disabled={!contentList}
         onClick={() => {
           const userConfirmed = window.confirm(
             "Do you want to clear your history?"
@@ -61,4 +57,4 @@ const DownloadBtn = ({ list, setCurrBtn }) => {
   );
 };
 
-export default DownloadBtn;
+export default DownloadHisBtn;

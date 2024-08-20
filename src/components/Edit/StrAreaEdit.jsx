@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { voiceToEdit, replaceWords } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
-import VoiceOverlay from "../VoiceOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
+import VoiceOverlay from "../Voice/VoiceOverlay";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");

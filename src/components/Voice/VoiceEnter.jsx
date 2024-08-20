@@ -1,11 +1,9 @@
 import React from "react";
-import { startV, stoptV } from "../utils/speech";
+import { startV, stoptV } from "../../utils/speech";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 const VoiceEnter = ({ onChange }) => {
   return (
     <>
-      {/*  <div className="textarea-box  mb-2 yourNote voice-wrap">
-      <textarea id="textarea" placeholder="Start dictating..."></textarea> */}
       {!!onChange && (
         <>
           <button
@@ -23,8 +21,6 @@ const VoiceEnter = ({ onChange }) => {
           </button>
         </>
       )}
-
-      {/* </div> */}
     </>
   );
 };

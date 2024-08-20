@@ -74,14 +74,10 @@ const TxtBtns = ({ toJustif, edit }) => {
             .filter((item) => (lev ? item.level === lev : item))
             .map((el, i) => (
               <div
-                // onMouseDown={() => handleMouseDown(el)}
-                // onMouseUp={() => handleMouseUp(el)}
                 onContextMenu={handleContextMenu}
                 onMouseDown={(e) => handleClick(e, el)}
                 key={i}
-                className="current-item-txt"
-                // onClick={() => toJustif(el)}
-              >
+                className="current-item-txt">
                 <div>{el.en}</div>
                 <div className="ru">{el.ru}</div>{" "}
               </div>

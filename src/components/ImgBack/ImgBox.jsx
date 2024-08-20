@@ -1,30 +1,21 @@
 import React, { useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
-
 import Draggable from "react-draggable";
 import { IoIosClose, IoIosImages } from "react-icons/io";
-import { currentBack, setBackgroundAndSave } from "../utils/localStorage";
-import { imgCount } from "../constants/images";
+import { currentBack } from "../../utils/localStorage";
+import { imgCount } from "../../constants/images";
 import OneImg from "./OneImg";
 
-const ImgBox = ({ el, setEdit, savefn }) => {
+const ImgBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [curImg, setCurImg] = useState(currentBack());
-
-  // const images = Array.from({ length: imgCount }, (_, i) =>
-  //   require(`../img/img${i}.jpg`)
-  // );
   const images = Array.from({ length: imgCount }, (_, i) => i);
-  const openModal = (image) => {
-    // setBackgroundAndSave(image);
-    setIsOpen(true);
-  };
+
   return (
     <>
-      <IoIosImages onClick={() => openModal(1)} />
+      <IoIosImages onClick={() => setIsOpen(true)} />
       {isOpen && (
         <div className="module-wrap">
-          {/* <div className="editbox-wrap" onClick={() => setEdit(null)}> */}
           <div className="editbox-wrap">
             <Draggable handle=".handle">
               <div className="editbox" onClick={(e) => e.stopPropagation()}>
@@ -48,9 +39,7 @@ const ImgBox = ({ el, setEdit, savefn }) => {
                   <Spinner animation="grow" variant="secondary" />
                 )}
               </div>
-              {/* </div>{" "}
-          </ResizableBox> */}
-            </Draggable>{" "}
+            </Draggable>
           </div>
         </div>
       )}
