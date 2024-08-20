@@ -9,8 +9,6 @@ export const startBtnM = document.getElementById("start-record-btn");
 export const stopBtnM = document.getElementById("stop-record-btn");
 
 export const startV = () => {
-  // const startBtn = document.getElementById("start-record-btn");
-  // const stopBtn = document.getElementById("stop-record-btn");
   const startBtn = startBtnM
     ? startBtnM
     : document.getElementById("start-record-btn");
@@ -54,4 +52,16 @@ recognition.onresult = (event) => {
 
 recognition.onerror = (event) => {
   console.error("Speech recognition error detected: " + event.error);
+};
+
+export const startOrStopV = (onchange) => {
+  const startBtn = startBtnM
+    ? startBtnM
+    : document.getElementById("start-record-btn");
+  const stopBtn = stopBtnM
+    ? stopBtnM
+    : document.getElementById("stop-record-btn");
+
+  if (stopBtn.style.display === "none") startV();
+  else if (startBtn.style.display === "none") stoptV(onchange);
 };

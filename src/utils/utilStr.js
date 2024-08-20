@@ -1,3 +1,13 @@
+import {
+  replacementsGeneral,
+  replacementsInteractions,
+  replacementsPunctuation,
+  replacementsResponses,
+  replacementsResponsesNum,
+} from "../constants/replacements";
+const escapeSpecialCharacters = (text) => {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+};
 export const concatenateEnFields = (justification) => {
   if (!justification.length) return "";
   return justification
@@ -16,17 +26,7 @@ export const concatenateEnFields = (justification) => {
     }, "")
     .trim();
 };
-// export const concatenateEnFields = (justification) => {
-//     return justification
-//       .map((obj) => obj.en)
-//       .reduce((acc, val) => {
-//         if (val === "." || val === ",") {
-//           return acc + val;
-//         }
-//         return acc + " " + val;
-//       }, "")
-//       .trim();
-//   };
+
 export async function copyFromTextarea() {
   const textarea = document.getElementById("edit");
 
@@ -47,181 +47,73 @@ export const copyToClipboard = async (text) => {
     console.error("Failed to copy text: ", err);
   }
 };
-
-// (![] + //false
-//   [] + //true
-//   ([] + {})[ //[object Object]
-//     (![] + ([] + {}))[+!+[] + [+[]]] +
-//       ([] + {})[+!+[]] +
-//       ([][[]] + [])[+!+[]] +
-//       (![] + [])[!+[] + !+[] + !+[]] +
-//       (!+[] + [])[+[]] +
-//       (!+![] + [])[+!+[]] +
-//       ([][[]] + [])[+[]] +
-//       (![] + ([] + {}))[+!+[] + [+[]]] +
-//       (!+[] + [])[+[]] +
-//       ([] + {})[+!+[]] +
-//       (!+![] + [])[+!+[]]
-//   ])[+!+[] + !+[] + !+[] + [+[]]] +
-//   (!+![] + [])[+!+[] + !+[] + !+[]] +
-//   (!+![] + [])[+!+[]] +
-//   ([] + {})[+!+[] + !+[]] +
-//   ([![]] + [][[]])[+!+[] + [+[]]] +
-//   (![] + [])[!+[] + !+[]] +
-//   ([] + {})[+!+[]];
-export const cleanAndCapitalize = (text) => {
-  // Убираем лишние пробелы
-  text = text.replace(/\s+/g, " ").trim();
-
-  // Исправляем ошибку в слове "respons" и делаем первую букву заглавной
-  text = text.replace(/\brespons\b/gi, "Response");
-  text = text.replace(/\bresponse\b/gi, "Response");
-  text = text.replace(/\binteraction\b/gi, "Interaction");
-  text = text.replace(/\binteration\b/gi, "Interaction");
-  text = text.replace(/\bintention\b/gi, "Interaction");
-  // Разбиваем текст на предложения
+const sentencesCaps = (text) => {
+  // Splitting the text into sentences
   let sentences = text.split(/([.!?]\s*)/);
-
-  // Проходим по каждому предложению и делаем первую букву заглавной
+  // We go through each sentence and make the first letter capital
   for (let i = 0; i < sentences.length; i++) {
     if (sentences[i].length > 0) {
       sentences[i] =
         sentences[i].charAt(0).toUpperCase() + sentences[i].slice(1);
     }
   }
-
-  // Собираем предложения обратно в текст
+  // Putting the sentences back into the text
   return sentences.join("");
 };
 
-export const replaceWords = (allJust) => {
-  // Удалить начальные и конечные пробелы
-  // allJust = allJust.trim();
-  allJust = cleanAndCapitalize(allJust);
+export const cleanAndCapitalize = (text) => {
+  text = text.replace(/\s+/g, " ").trim();
+  text = text.replace(/\.\./g, ".");
+  text = text.replace(/\s\./g, ".");
+  text = text.replace(/\s:/g, ":");
+  text = text.replace(/\s,/g, ",");
 
-  // Заменить все последовательности пробелов одним пробелом
-  allJust = allJust.replace(/\s+/g, " ");
-  const replacements = [
-    {
-      oldT: [
-        "the answer one",
-        "the answer 1",
-        "answer one",
-        "answer 1",
-        "response a",
-      ],
-      newT: "Response A",
-      caseSensitive: false,
-    },
-    {
-      oldT: [
-        "the answer two",
-        "the answer 2",
-        "answer two",
-        "answer 2",
-        "response b",
-      ],
-      newT: "Response B",
-      caseSensitive: false,
-    },
-    {
-      oldT: ["answers"],
-      newT: "responses",
-      caseSensitive: true,
-    },
-    {
-      oldT: ["respondent "],
-      newT: "Response ",
-      caseSensitive: false,
-    },
-    {
-      oldT: ["Answers"],
-      newT: "Responses",
-      caseSensitive: true,
-    },
-  ];
-  replacements.forEach(({ oldT, newT, caseSensitive }) => {
+  text = text.toLowerCase();
+
+  text = sentencesCaps(text);
+
+  if (!/[.,:!?]$/.test(text.trim()) && text.split(" ").length > 2) {
+    return text.trim() + ".";
+  }
+
+  return text;
+};
+
+const replaceByArr = (replacementsArr, text) => {
+  replacementsArr.forEach(({ oldT, newT, caseSensitive }) => {
     oldT.forEach((oldWord) => {
-      // Создаем регулярное выражение с глобальным флагом для поиска всех вхождений
       const flags = caseSensitive ? "g" : "gi";
-      const regex = new RegExp(oldWord, flags);
-      // Заменяем все вхождения oldWord на newT
-      allJust = allJust.replace(regex, newT);
+      const regex = new RegExp(escapeSpecialCharacters(oldWord), flags);
+      // Replacing all occurrences of old Word with newT
+      text = text.replace(regex, newT);
     });
   });
-  return allJust;
+  return text;
+};
+export const replacePunctuations = (allJust) => {
+  return replaceByArr(replacementsPunctuation, allJust);
+};
+const replacegen = (txt) => {
+  let tmpText = replacePunctuations(txt);
+  tmpText = cleanAndCapitalize(tmpText);
+  // Replace all sequences of spaces with a single space
+  tmpText = tmpText.replace(/\s+/g, " ");
+  return replaceByArr(replacementsGeneral, tmpText);
+};
+export const replaceWords = (allJust) => {
+  allJust = replacegen(allJust);
+  return replaceByArr(replacementsResponses, allJust);
 };
 export const replaceWordsInteractions = (allJust) => {
-  // Удалить начальные и конечные пробелы
-  // allJust = allJust.trim();
-  allJust = cleanAndCapitalize(allJust);
-
-  // Заменить все последовательности пробелов одним пробелом
-  allJust = allJust.replace(/\s+/g, " ");
-  const replacements = [
-    {
-      oldT: ["the answer"],
-      newT: "response",
-      caseSensitive: false,
-    },
-    {
-      oldT: [
-        "interation a",
-        "interation 1",
-        "interation one",
-        "intention a",
-        "intention 1",
-        "intention one",
-        "interaction a",
-        "interaction 1",
-        "interaction one",
-      ],
-      newT: "Interaction A",
-      caseSensitive: false,
-    },
-    {
-      oldT: [
-        "interation b",
-        "interation 1",
-        "interation two",
-        "intention b",
-        "intention 2",
-        "intention two",
-        "interaction b",
-        "interaction 2",
-        "interaction two",
-      ],
-      newT: "Interaction B",
-      caseSensitive: false,
-    },
-    {
-      oldT: ["answers"],
-      newT: "responses",
-      caseSensitive: true,
-    },
-    {
-      oldT: ["respondent "],
-      newT: "response ",
-      caseSensitive: false,
-    },
-    {
-      oldT: ["Answers"],
-      newT: "Responses",
-      caseSensitive: true,
-    },
-  ];
-  replacements.forEach(({ oldT, newT, caseSensitive }) => {
-    oldT.forEach((oldWord) => {
-      // Создаем регулярное выражение с глобальным флагом для поиска всех вхождений
-      const flags = caseSensitive ? "g" : "gi";
-      const regex = new RegExp(oldWord, flags);
-      // Заменяем все вхождения oldWord на newT
-      allJust = allJust.replace(regex, newT);
-    });
-  });
-  return allJust;
+  allJust = replacegen(allJust);
+  return replaceByArr(replacementsInteractions, allJust);
 };
 
+export const NumIsteadLetter = (text, setText) => {
+  text = replacegen(text);
+  let newTxt = replaceByArr(replacementsResponsesNum, text);
+  setText(newTxt);
+};
 export const highlightedText1 = (text) => {
   const parts = text.split(/(example|response A|response B)/gi); // Split the text by "example", keeping the word itself
   return parts
@@ -249,8 +141,8 @@ export const highlightedText1 = (text) => {
     .join("");
 };
 export const highlightedText = (text, compliteCrit = []) => {
-  const regArrA = ["response a", "interaction a"];
-  const regArrB = ["response b", "interaction b"];
+  const regArrA = ["response a", "interaction a", "@response 1"];
+  const regArrB = ["response b", "interaction b", "@response 2"];
   const exArr = ["example_b", "example_a"];
   const regArr = ["some", "major", "minor", "no problems"];
   const regexPattern = new RegExp(
@@ -259,9 +151,8 @@ export const highlightedText = (text, compliteCrit = []) => {
     )})`,
     "gi"
   );
-  // const parts = text.split(/(example_a|example_b|response A|response B)/gi); // Split the text by "example", keeping the word itself
+  // Split the text by "example", keeping the word itself
   const parts = text.split(regexPattern); // Split the text by "example", keeping the word itself
-
   return parts.map((part, index) => {
     if (regArrA.includes(part.toLowerCase()))
       return (
@@ -296,6 +187,91 @@ export const highlightedText = (text, compliteCrit = []) => {
           {part}
         </span>
       );
-    else return part;
+    else if (part.toLowerCase() === ". \n") {
+      return (
+        <>
+          .<br />
+          {" \n"}
+        </>
+      );
+    } else return part;
   });
+};
+const wordCaps = (text) =>
+  text
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+export const voiceToEdit = (val, handleTxt, setHandleTxt) => {
+  const newVal = val.en;
+  let start = handleTxt.length;
+  let end = handleTxt.length;
+  let textarea = null;
+
+  textarea = document.getElementById("editArea");
+  if (textarea !== null) {
+    start = textarea.selectionStart;
+    end = textarea.selectionEnd;
+  }
+
+  if (start === end) {
+    // No text selected
+    const textBefore = handleTxt.slice(0, start);
+    const textAfter = handleTxt.slice(end);
+    const lastSymb = textBefore[textBefore.length - 1];
+    const newText =
+      textBefore +
+      (lastSymb === "." || textarea === null ? " " : "") +
+      newVal +
+      " " +
+      textAfter;
+    setHandleTxt(newText);
+    return;
+  }
+
+  const textBefore = handleTxt.slice(0, start);
+  const textAfter = handleTxt.slice(end);
+  const newText = textBefore + " " + newVal + " " + textAfter;
+
+  setHandleTxt(newText);
+
+  // Maintain the cursor position after replacement
+  setTimeout(() => {
+    textarea.setSelectionRange(start, start + newVal.length);
+  }, 0);
+};
+export const editTextAction = (text, setText, action) => {
+  const textarea = document.getElementById("editArea");
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  if (start === end) {
+    return; // No text selected
+  }
+  if (action === "delSel") {
+    const newText = text.slice(0, start) + text.slice(end);
+    setText(newText);
+    if (textarea !== null) textarea.setSelectionRange(start, start);
+    return;
+  }
+  const selectedText = text.slice(start, end);
+
+  let resultText = "";
+
+  if (action === "upFirst") {
+    resultText = wordCaps(selectedText);
+  } else if (action === "down")
+    // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
+    resultText = selectedText.toLowerCase();
+  else if (action === "up") resultText = selectedText.toUpperCase();
+  else if (action === "accent")
+    resultText = `"${selectedText}" instead of "${selectedText}"`;
+  else if (action === "quotation") resultText = `"${selectedText}"`;
+  else if (action === "staples") resultText = `(${selectedText})`;
+
+  const newText = text.slice(0, start) + resultText + text.slice(end);
+
+  setText(newText);
+  if (textarea !== null)
+    textarea.setSelectionRange(start, start + resultText.length);
 };

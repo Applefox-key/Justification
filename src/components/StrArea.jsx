@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../utils/localStorage";
-import { copyToClipboard } from "../utils/utilStr";
+import { copyToClipboard, replaceWords } from "../utils/utilStr";
 import VoiceEnter from "./VoiceEnter";
+import { startOrStopV } from "../utils/speech";
+import { FaDeleteLeft } from "react-icons/fa6";
+import { RiDeleteBack2Line } from "react-icons/ri";
 
 const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
   const [handleTxt, setHandleTxt] = useState(str);
   const handleChange = (e) => {
     e.stopPropagation();
-
     setHandleTxt(e.target.value);
   };
 
   const onOK = (e) => {
     e.stopPropagation();
-    const val = { en: handleTxt };
+    let txt = handleTxt;
+    if (type === "voice" || type === "voiceOver") {
+      txt = replaceWords(txt);
+    }
+    const val = { en: txt };
     if (!!actionFn) actionFn(val);
     setHandleTxt("");
   };
@@ -24,7 +30,7 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
       <>
         <Form.Control
           as="textarea"
-          id={type}
+          id={type === "voice" || type === "voiceOver" ? "voice" : type}
           className={type === "editbox" ? "fit-height " : ""}
           rows={1}
           spellCheck="true"
@@ -40,7 +46,7 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
             <Button
               className="btnToHis"
               onClick={(e) => saveToHistory({ en: handleTxt, ru: "" })}>
-              save to history
+              to history
             </Button>{" "}
             <Button
               className="btnToHis"
@@ -50,13 +56,25 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
           </>
         )}
         {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "}
-        {type !== "editbox" && (
-          <Button onClick={() => setHandleTxt("")}>✖️</Button>
+        {type === "voice" && (
+          <button
+            className="square-btn intense"
+            title="add a dot"
+            onClick={() => setHandleTxt(handleTxt + ".")}>
+            .
+          </button>
         )}
-        {type === "voice" && <VoiceEnter onChange={setHandleTxt} />}
+        {(type === "voice" || type === "voiceOver") && (
+          <VoiceEnter onChange={setHandleTxt} />
+        )}
         {type === "editbox" && (
           <Button onClick={() => setHandleTxt("")}>clear</Button>
         )}{" "}
+        {type !== "editbox" && (
+          <Button onClick={() => setHandleTxt("")}>
+            <RiDeleteBack2Line />
+          </Button>
+        )}
         {/* {type === "editbox" && <TxtBtns toJustif={toJustif} />} */}
       </>
     );
@@ -64,10 +82,18 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
 
   return (
     <>
-      {type === "voice" ? (
-        <div>
-          {!!handleTxt && <div className="justif-all asText">{handleTxt}</div>}
-          <div className="textarea-box  mb-2">{fragmentPage()}</div>
+      {type === "voice" || type === "voiceOver" ? (
+        <div
+          className={type}
+          onMouseDown={(e) => {
+            if (e.button === 1) {
+              e.preventDefault();
+              e.stopPropagation();
+              startOrStopV(setHandleTxt);
+            }
+          }}>
+          {/* {!!handleTxt && <div className="justif-all asText">{handleTxt}</div>} */}
+          <div className="textarea-box">{fragmentPage()}</div>
         </div>
       ) : (
         fragmentPage()

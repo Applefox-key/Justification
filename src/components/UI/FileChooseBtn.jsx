@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
-import { Form, InputGroup } from "react-bootstrap";
-import { readXlsFile } from "../utils/readXls";
-import { setBackgroundAndSave } from "../utils/localStorage";
 
-const FileChoose = ({ defaultState }) => {
+import { readXlsFile } from "../../utils/readXls";
+
+import { FiPlus } from "react-icons/fi";
+import { BiReset } from "react-icons/bi";
+
+const FileChooseBtn = ({ defaultState }) => {
   const inputFileName = useRef();
   const FileChange = async (e) => {
     try {
@@ -17,28 +19,27 @@ const FileChoose = ({ defaultState }) => {
     }
   };
   return (
-    <div className="d-flex">
-      <InputGroup className="file-choose">
-        <button onClick={() => setBackgroundAndSave(1)}>img</button>{" "}
-        <Form.Control
+    <div className="input-file-wrap">
+      <button className="input-file">
+        <FiPlus />
+        <input
           size="sm"
-          className="mt-1"
           ref={inputFileName}
           type="file"
           onChange={FileChange}
-        />{" "}
-      </InputGroup>{" "}
+        />
+      </button>
       <button
-        className="resetBtn"
+        className="reset-btn"
         onClick={() => {
           const userConfirmed = window.confirm("Do you want to reset files?");
           if (!userConfirmed) return;
           defaultState(null);
         }}>
-        reset
+        <BiReset />
       </button>
     </div>
   );
 };
 
-export default FileChoose;
+export default FileChooseBtn;

@@ -1,3 +1,21 @@
+/* #063553 */
+:root {
+  --main-back:#fdfeff;;
+  --main-color:#000000;
+  --line1:#f6faff;
+  --line2:#dadada ;
+  --item-back:#e5e9ea;
+  --accent:#bcc5e8;
+  --menu:#e2e2e2;
+  --sec-back:#c7cacf91;
+  --sec-menu:#86898e91;
+  --vertical-font: 1.2rem;
+  --second-color: #868686;
+  --edit-width: 72vw;
+  --edit-max-height:550px;
+  --edit-AreaMax-height:360px;
+  --img-back: url("img/img0.jpg");
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

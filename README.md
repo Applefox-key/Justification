@@ -1,5 +1,16 @@
 # Getting Started with Create React App
 
+This project is designed to assist AI testers in crafting supporting comments to justify the selection between two answer choices. It simplifies the process of providing clear and structured reasoning by offering the following features:
+
+Voice Input: Allows users to input comments via voice, enhancing ease of use and speed.
+Comment Formatting: Supports text formatting, enabling testers to create well-structured and clear comments.
+Comment History: Automatically stores a history of all comments, with the option to export this history to a text file for further analysis or record-keeping.
+Instruction Import: Facilitates the import of instructions from an Excel file (.xls) with multiple sheets. The file must adhere to a specific format:
+The first three columns should contain the main text, a comment about it, and a label.
+The next two columns should include the label and a short description of it.
+This project aims to streamline the AI testing process, making it more efficient and effective for testers.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

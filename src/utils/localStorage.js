@@ -1,4 +1,4 @@
-import { arrImg, imgCount } from "../constants/images";
+import { textParts } from "../constants/textParts";
 
 export const toLS = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
@@ -27,32 +27,46 @@ export const delFromHistory = (i) => {
   let newVal = val.slice(0, i).concat(val.slice(i + 1));
   toLS("History", newVal);
 };
-
-export const setBackgroundAndSave = (next = 0) => {
+export const setBackgroundAndSave = (newVal) => {
   const storedI = JSON.parse(localStorage.getItem("backgr"));
   let old;
-  let newVal;
 
   if (storedI !== undefined) {
     old = storedI;
   } else {
     old = 0;
   }
-  newVal = old;
-  if (next) newVal = old === imgCount - 1 ? 0 : old + next;
-
-  // const arrEl = arrImg.find((el) => el.id === i);
-
-  if (arrImg) {
-    const mainp = document.getElementById("mainp");
-    if (mainp) {
-      mainp.classList.remove("bg" + old);
-      mainp.classList.add("bg" + newVal);
-
-      if (!!next) toLS("backgr", newVal);
-    } else {
-      console.error("Element with id 'mainp' not found.");
-    }
+  const img_ = require(`../img/img${newVal}.jpg`);
+  document.documentElement.style.setProperty("--img-back", `url(${img_})`);
+  toLS("backgr", newVal);
+};
+export const firstBack = () => {
+  const storedI = JSON.parse(localStorage.getItem("backgr"));
+  let old;
+  if (storedI !== undefined) {
+    old = storedI;
+    const img_ = require(`../img/img${old}.jpg`);
+    document.documentElement.style.setProperty("--img-back", `url(${img_})`);
   } else {
+    old = 0;
   }
+};
+export const currentBack = () => {
+  const storedI = JSON.parse(localStorage.getItem("backgr"));
+  return storedI;
+};
+
+export const txtTemplatesGet = () => {
+  let val = fromLS("txtTmp");
+  if (val === null) return textParts;
+  return val;
+};
+export const txtTemplatesSet = (val = null, setArr = null) => {
+  if (val === null) {
+    localStorage.removeItem("txtTmp");
+    if (setArr !== 0) setArr(textParts);
+    return;
+  }
+  toLS("txtTmp", val.items);
+  if (setArr !== 0) setArr(val.items);
 };

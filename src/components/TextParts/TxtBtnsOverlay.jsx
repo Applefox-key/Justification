@@ -4,7 +4,7 @@ import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
 import TxtBtns from "./TxtBtns";
 
-const TxtBtnsOverlay = ({ toJustif, copyChat }) => {
+const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
@@ -15,35 +15,20 @@ const TxtBtnsOverlay = ({ toJustif, copyChat }) => {
 
   return (
     <>
-      {/* <Button variant="danger" ref={target} onClick={() => setShow(!show)}>
-        Click me to see
-      </Button>{" "}
-      <Overlay target={target.current} show={show} placement="right">
-        {({
-          placement: _placement,
-          arrowProps: _arrowProps,
-          show: _show,
-          popper: _popper,
-          hasDoneInitialMeasure: _hasDoneInitialMeasure,
-          ...props
-        }) => (
-          <div {...props} className="overlayWrap">
-            <TxtBtns toJustif={toJustif} />
-          </div>
-        )}
-      </Overlay> */}{" "}
-      <div ref={ref}>
-        <Button onClick={handleClick}>frequent</Button>
+      <div ref={ref} className={edit ? "mr" : "w19"}>
+        <Button onClick={handleClick} className={edit ? "w100 " : "w-100"}>
+          frequent
+        </Button>
         <Overlay
           show={show}
           target={target}
-          placement="bottom"
+          placement={edit ? "left" : "bottom"}
           container={ref}
           containerPadding={20}>
-          <Popover id="popover-contained">
+          <Popover id={edit ? "popover-containedR" : "popover-contained"}>
             {/* <Popover.Header as="h3">Popover bottom</Popover.Header> */}
             {/* <Popover.Body> */}
-            <TxtBtns toJustif={toJustif} />
+            <TxtBtns toJustif={toJustif} edit={edit} />
             {/* </Popover.Body> */}
           </Popover>
         </Overlay>

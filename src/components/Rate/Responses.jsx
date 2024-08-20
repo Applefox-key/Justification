@@ -5,36 +5,21 @@ import SelectRange from "./SelectRange";
 import {
   compareResponses,
   createJustifSheema,
-  defaultEval,
+  defaultOverAll,
+  defaultVerdict,
   evaluate,
   evaluateResponses,
-  labelsVerdict,
-} from "../utils/analysis";
-import Raiting from "./Raiting";
-import FinalRate from "./FinalRate";
+} from "../../utils/analysis";
+
 import { IoMdArrowDropdown } from "react-icons/io";
-// {result: result.comparisonResult,
-// resultNum: result.comparisonResultNum,
-// recom: result.comparisonRecom,}
+import RateHead from "./RateHead";
+
 const Responses = ({ compliteCrit, toJustif }) => {
   const [respEval, setRespEval] = useState([]);
   const [showBox, setShowBox] = useState(false);
-  const [overallRate, setOverallRate] = useState({
-    respA: defaultEval,
-    respB: defaultEval,
-  });
-  const [verdict, setVerdict] = useState({
-    rsult: 0,
-    rsultNum: 0,
-    recom: 0,
-  });
-  const setOverallRateOne = (field, newVal) => {
-    const newF = { ...overallRate[field], score: newVal };
-    setOverallRate({
-      ...overallRate,
-      [field]: newF,
-    });
-  };
+  const [overallRate, setOverallRate] = useState(defaultOverAll);
+  const [verdict, setVerdict] = useState(defaultVerdict);
+
   //result 1-8;
   const refresh = () => {
     const arrCritNew = compliteCrit();
@@ -67,15 +52,6 @@ const Responses = ({ compliteCrit, toJustif }) => {
     });
 
     setRespEval(arrCritResp);
-  };
-  const handleChangeVerdict = (val) => {
-    // setVerdict
-    const newvalTxt = labelsVerdict[val - 1];
-    setVerdict({
-      ...verdict,
-      result: val === 4 ? "Responses are the same" : "Response " + newvalTxt,
-      resultNum: val,
-    });
   };
 
   const setNewVal = (crit, field, val) => {
@@ -114,6 +90,7 @@ const Responses = ({ compliteCrit, toJustif }) => {
     // {result: result.comparisonResult,
     // resultNum: result.comparisonResultNum,
     // recom: result.comparisonRecom,}
+
     const res = compareResponses(overallRate);
     setVerdict(res);
     console.log(res);
@@ -133,8 +110,8 @@ const Responses = ({ compliteCrit, toJustif }) => {
     <Draggable
       cancel="#cbtn"
       defaultPosition={{
-        x: window.visualViewport.width * 0.08,
-        y: window.visualViewport.height * 0.42,
+        x: window.visualViewport.width * 0.05,
+        y: window.visualViewport.height * 0.02,
       }}>
       <div
         className={
@@ -155,7 +132,7 @@ const Responses = ({ compliteCrit, toJustif }) => {
               </button>
               <div>
                 <button id="cbtn" onClick={compareResp}>
-                  compaire responses
+                  compaire
                 </button>
                 <button id="cbtn" onClick={clear}>
                   x
@@ -165,48 +142,13 @@ const Responses = ({ compliteCrit, toJustif }) => {
                 evaluate B
               </button>
             </div>
-            <div className="drag-part noHover align-items-start pb-1 pt-0 justify-content-between">
-              <div className="header-resp">
-                <Raiting
-                  title="A"
-                  recom={
-                    !!overallRate.respA.maxRecom
-                      ? overallRate.respA.maxRecom
-                      : ""
-                  }
-                  recomScore={
-                    !!overallRate.respA.recomScore
-                      ? overallRate.respA.recomScore
-                      : ""
-                  }
-                  // value={evalResp}
-                  value={
-                    !!overallRate.respA.score ? overallRate.respA.score : 0
-                  }
-                  setValue={(newVal) => setOverallRateOne("respA", newVal)}
-                />
-              </div>
-              <FinalRate value={verdict} setValue={handleChangeVerdict} />
-              <div className="header-resp">
-                <Raiting
-                  title="B"
-                  value={
-                    !!overallRate.respB.score ? overallRate.respB.score : 0
-                  }
-                  setValue={(newVal) => setOverallRateOne("respB", newVal)}
-                  recom={
-                    !!overallRate.respB.maxRecom
-                      ? overallRate.respB.maxRecom
-                      : ""
-                  }
-                  recomScore={
-                    !!overallRate.respB.recomScore
-                      ? overallRate.respB.recomScore
-                      : ""
-                  }
-                />
-              </div>
-            </div>
+
+            <RateHead
+              overallRate={overallRate}
+              verdict={verdict}
+              setOverallRate={setOverallRate}
+              setVerdict={setVerdict}
+            />
             <div className="drag-body">
               <div className="resp">
                 {respEval.map((el, i) => (
@@ -234,10 +176,8 @@ const Responses = ({ compliteCrit, toJustif }) => {
               </button>
               <button
                 id="cbtn"
-                onClick={() =>
-                  createJustifSheema(respEval, overallRate, verdict, toJustif)
-                }>
-                TO JUSTIFICATION
+                onClick={() => createJustifSheema(respEval, verdict, toJustif)}>
+                TO COMMENT
               </button>{" "}
             </div>
           </>

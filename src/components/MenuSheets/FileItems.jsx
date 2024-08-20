@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { delFromHistory, getHistory } from "../utils/localStorage";
+import { delFromHistory, getHistory } from "../../utils/localStorage";
 
 const FileItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   return (

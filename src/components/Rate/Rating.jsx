@@ -2,7 +2,7 @@ import React from "react";
 // import StarIcon from "@mui/icons-material/Star";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
-const Raiting = ({ value, setValue, title, recom, recomScore }) => {
+const Rating = ({ value, setValue, title, recom, recomScore }) => {
   const labels = ["Very Bad", "Bad", "Ok", "Good", "Excellent"];
   const setClassName = (i) => {
     let cl = `rate-star0`;
@@ -33,4 +33,4 @@ const Raiting = ({ value, setValue, title, recom, recomScore }) => {
   );
 };
 
-export default Raiting;
+export default Rating;
