@@ -14,7 +14,7 @@
   --edit-width: 72vw;
   --edit-max-height:550px;
   --edit-AreaMax-height:360px;
-  --img-back: url("img/img0.jpg");
+  --img-back: url("./img/img0.jpg");
 }
 body {
   margin: 0;

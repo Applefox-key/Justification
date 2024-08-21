@@ -69,7 +69,11 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
             </div>
           ) : (
             <div className="d-flex w-100 h-100">
-              {isTemplates ? <TxtBtns edit /> : <></>}
+              {isTemplates ? (
+                <TxtBtns edit toJustif={(val) => toText(val.en)} />
+              ) : (
+                <></>
+              )}
               <Form.Control
                 as="textarea"
                 id={"editArea"}

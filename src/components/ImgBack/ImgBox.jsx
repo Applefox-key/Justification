@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Draggable from "react-draggable";
 import { IoIosClose, IoIosImages } from "react-icons/io";
 import { currentBack } from "../../utils/localStorage";
@@ -25,19 +25,17 @@ const ImgBox = () => {
                     <IoIosClose />
                   </Button>
                 </div>
-                {images.length === imgCount ? (
-                  <div className="image-grid">
-                    {images.map((image, index) => (
+
+                <div className="image-grid">
+                  {images.length === imgCount &&
+                    images.map((image, index) => (
                       <OneImg
                         index={index}
                         setCurImg={setCurImg}
                         curImg={curImg}
                       />
                     ))}
-                  </div>
-                ) : (
-                  <Spinner animation="grow" variant="secondary" />
-                )}
+                </div>
               </div>
             </Draggable>
           </div>

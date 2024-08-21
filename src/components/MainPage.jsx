@@ -35,6 +35,7 @@ const MainPage = () => {
     if (currBtn === null) return;
     setCurSection(currBtn.items.length === 1 ? currBtn.items[0] : null);
   }, [currBtn]);
+
   useEffect(() => {
     firstBack();
   }, []);

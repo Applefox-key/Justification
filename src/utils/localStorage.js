@@ -28,28 +28,17 @@ export const delFromHistory = (i) => {
   toLS("History", newVal);
 };
 export const setBackgroundAndSave = (newVal) => {
-  const storedI = JSON.parse(localStorage.getItem("backgr"));
-  let old;
+  const imgF = require(`../img/img${newVal}.jpg`);
 
-  if (storedI !== undefined) {
-    old = storedI;
-  } else {
-    old = 0;
-  }
-  const img_ = require(`../img/img${newVal}.jpg`);
-  document.documentElement.style.setProperty("--img-back", `url(${img_})`);
+  document.documentElement.style.setProperty("--img-back", `url(${imgF})`);
   toLS("backgr", newVal);
 };
 export const firstBack = () => {
-  const storedI = JSON.parse(localStorage.getItem("backgr"));
-  let old;
-  if (storedI !== undefined) {
-    old = storedI;
-    const img_ = require(`../img/img${old}.jpg`);
-    document.documentElement.style.setProperty("--img-back", `url(${img_})`);
-  } else {
-    old = 0;
-  }
+  let img_ = JSON.parse(localStorage.getItem("backgr"));
+  if (img_ === undefined || img_ === null) return;
+  const imgF = require(`../img/img${img_}.jpg`);
+  document.documentElement.style.setProperty("--img-back", `url(${imgF})`);
+  console.log(document.documentElement.style.getPropertyValue("--img-back"));
 };
 export const currentBack = () => {
   const storedI = JSON.parse(localStorage.getItem("backgr"));
