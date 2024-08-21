@@ -297,7 +297,7 @@ textarea.form-control::placeholder {
       &:hover {
         box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
         color: black;
-
+        transform: none;
       }
 
       input {
@@ -465,7 +465,9 @@ textarea.form-control::placeholder {
   max-height: 300px;
   overflow-y: scroll;
   padding: 5px 20px 35px 20px;
-
+  border: none;
+  border-radius: 0 0 15px 15px;
+  margin: 5px;
 }
 
 .text-list-body-edit {
@@ -481,6 +483,8 @@ textarea.form-control::placeholder {
   border-radius: 0 0 15px 15px;
 
 }
+
+.text-list-body {}
 
 .current-item {
   @extend .item;
@@ -667,6 +671,7 @@ textarea.form-control::placeholder {
   border-radius: 15px;
   transition: all 0.4s ease-in-out;
   background: var(--main-back);
+  min-width: 250px;
 
   .activeEl {
     border: 1px solid #ff8346;

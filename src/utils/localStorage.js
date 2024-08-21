@@ -48,7 +48,7 @@ export const currentBack = () => {
 export const txtTemplatesGet = () => {
   let val = fromLS("txtTmp");
   if (val === null) return textParts;
-  return val.items;
+  return val;
 };
 export const txtTemplatesSet = (val = null, setArr = null) => {
   if (val === null) {

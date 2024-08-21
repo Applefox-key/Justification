@@ -5,6 +5,7 @@ import FileChooseBtn from "../UI/FileChooseBtn";
 
 const TxtBtns = ({ toJustif, edit }) => {
   const [lev, setLev] = useState(null);
+
   const [arr, setArr] = useState(txtTemplatesGet());
   const [showMessage, setShowMessage] = useState(false);
   const defaultState = (val) => {
@@ -34,7 +35,7 @@ const TxtBtns = ({ toJustif, edit }) => {
       <div className={"levels-txt" + (edit ? "-edit" : "") + " "}>
         {" "}
         <div className="input-file-text">
-          <FileChooseBtn defaultState={defaultState} />
+          <FileChooseBtn defaultState={defaultState} onlyFirstSheet />
         </div>
         <div
           className={lev === null ? "level active" : "level"}

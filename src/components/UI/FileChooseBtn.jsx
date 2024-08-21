@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
-import { readXlsFile } from "../../utils/readXls";
+import { readXlsFile, readXlsFileOne } from "../../utils/readXls";
 import { FiPlus } from "react-icons/fi";
 import { BiReset } from "react-icons/bi";
 
-const FileChooseBtn = ({ defaultState }) => {
+const FileChooseBtn = ({ defaultState, onlyFirstSheet = false }) => {
   const inputFileName = useRef();
   const FileChange = async (e) => {
     try {
-      const data = await readXlsFile(e.target.files[0]);
+      const data = onlyFirstSheet
+        ? await readXlsFileOne(e.target.files[0])
+        : await readXlsFile(e.target.files[0]);
       inputFileName.current.value = "";
       console.log(JSON.stringify(data, null, 2));
       defaultState(data);
