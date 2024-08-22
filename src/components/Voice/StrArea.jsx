@@ -4,6 +4,7 @@ import { replaceWords } from "../../utils/utilStr";
 import { startOrStopV } from "../../utils/speech";
 import { RiDeleteBack2Line } from "react-icons/ri";
 import VoiceEnter from "./VoiceEnter";
+import { TbHttpDelete } from "react-icons/tb";
 
 const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
   const [handleTxt, setHandleTxt] = useState(str);
@@ -46,8 +47,8 @@ const StrArea = ({ str = "", actionFn, placeholder = "", type = "edit" }) => {
         />
         {!!actionFn && <Button onClick={onOK}>OK</Button>}
         <VoiceEnter onChange={setHandleTxt} />
-        <Button onClick={() => setHandleTxt("")}>
-          <RiDeleteBack2Line />
+        <Button onClick={() => setHandleTxt("")} className="delbtn">
+          <TbHttpDelete />
         </Button>
       </div>
     </div>

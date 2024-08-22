@@ -24,7 +24,7 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
     console.log("paste from clipboard:", text);
   };
   return (
-    <div className="d-flex">
+    <>
       {/* <TxtBtnsOverlay
         toJustif={(val) => voiceToEdit(val, handleTxt, setHandleTxt)}
         edit
@@ -88,7 +88,7 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
           </button>
         </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,26 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Draggable from "react-draggable";
-import { IoIosClose, IoIosImages } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
 import { currentBack } from "../../utils/localStorage";
 import { imgCount } from "../../constants/images";
 import OneImg from "./OneImg";
+import { getTheme, changeTheme } from "../../utils/thema";
+import { GoMoon, GoSun } from "react-icons/go";
 
-const ImgBox = () => {
+const ThemeBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [curImg, setCurImg] = useState(currentBack());
   const images = Array.from({ length: imgCount }, (_, i) => i);
-
+  const [isCheckedDay, setIsCheckedDay] = useState(true);
+  useEffect(() => {
+    let theme = getTheme();
+    if (theme !== "day") {
+      setIsCheckedDay(false);
+      changeTheme(false);
+    }
+  }, []);
+  const handleChange = (e) => {
+    e.stopPropagation();
+    changeTheme(!isCheckedDay);
+    setIsCheckedDay(!isCheckedDay);
+  };
   return (
-    <>
-      <IoIosImages onClick={() => setIsOpen(true)} />
+    <div className="backgr">
+      {/* <IoIosImages onClick={() => setIsOpen(true)} /> */}
+      <div onClick={() => setIsOpen(true)}>
+        {isCheckedDay ? <GoSun /> : <GoMoon />}
+        {/* <BsMoon onClick={() => setIsOpen(true)} /> */}
+      </div>
       {isOpen && (
         <div className="module-wrap">
           <div className="editbox-wrap">
             <Draggable handle=".handle">
               <div className="editbox" onClick={(e) => e.stopPropagation()}>
                 <div className="handle">
-                  IMG
+                  IMG{" "}
+                  <label className="themeSwitch">
+                    <input
+                      type="checkbox"
+                      checked={isCheckedDay}
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <span className="slider"></span>
+                  </label>
                   <Button className="btn-back" onClick={() => setIsOpen(false)}>
                     <IoIosClose />
                   </Button>
@@ -41,8 +67,8 @@ const ImgBox = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default ImgBox;
+export default ThemeBox;

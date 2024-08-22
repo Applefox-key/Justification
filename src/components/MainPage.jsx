@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Sheets from "./MenuSheets/Sheets";
 import Justification from "./Comment/Justification";
-import MainBtns from "./MenuSheets/MainBtns";
 import FilesList from "./MenuSheets/FilesList";
 import { firstBack, getHistory } from "../utils/localStorage";
 import Responses from "./Rate/Responses";
 import FileChooseBtn from "./UI/FileChooseBtn";
 import ContentSide from "./MenuSheets/ContentSide";
+import ThemeBox from "./ImgBack/ThemeBox";
 
 const MainPage = () => {
   const [justparts, setJustparts] = useState([]);
@@ -44,7 +44,8 @@ const MainPage = () => {
     <div className={"bg-main"} id="mainp">
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} />{" "}
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
-        <MainBtns files={justparts} defaultState={defaultState} />{" "}
+        {/* <MainBtns files={justparts} defaultState={defaultState} />{" "} */}
+        <ThemeBox files={justparts} defaultState={defaultState} />{" "}
         <div className="d-flex">
           <FilesList
             justparts={justparts}

@@ -6,6 +6,7 @@ import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
+import { TiArrowLeftThick } from "react-icons/ti";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -44,18 +45,26 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
 
   return (
     <>
-      <Button
-        className={"btnToHis" + (isTemplates ? " isTmp" : "")}
-        onClick={(e) => setIsTemplates(!isTemplates)}>
-        Templates
-      </Button>
-      <TopBtns
-        handleTxt={handleTxt}
-        setHandleTxt={setHandleTxt}
-        isTxt={isTxt}
-        setIsTxt={setIsTxt}
-        onOK={onOK}
-      />
+      <div className="d-flex flex-wrap">
+        <Button
+          className={"btnToHis" + (isTemplates ? " isTmp" : "")}
+          onClick={(e) => setIsTemplates(!isTemplates)}>
+          Templates
+        </Button>
+        {/* <Button
+          title="save selection as a template"
+          disabled={!textSelected}
+          className="btnToHis  toTempBtn ordinary">
+          <TiArrowLeftThick />
+        </Button> */}
+        <TopBtns
+          handleTxt={handleTxt}
+          setHandleTxt={setHandleTxt}
+          isTxt={isTxt}
+          setIsTxt={setIsTxt}
+          onOK={onOK}
+        />
+      </div>
 
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
         <div className="d-flex h-100 justify-content-start">
