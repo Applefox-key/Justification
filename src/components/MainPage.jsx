@@ -44,7 +44,6 @@ const MainPage = () => {
     <div className={"bg-main"} id="mainp">
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} />{" "}
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
-        {/* <MainBtns files={justparts} defaultState={defaultState} />{" "} */}
         <ThemeBox files={justparts} defaultState={defaultState} />{" "}
         <div className="d-flex">
           <FilesList
