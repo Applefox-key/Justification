@@ -16,8 +16,8 @@ import {
   RxLetterCaseUppercase,
 } from "react-icons/rx";
 const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
-  const capsSwitch = (action) => {
-    editTextAction(handleTxt, setHandleTxt, action);
+  const capsSwitch = (action, isIgnore = false) => {
+    editTextAction(handleTxt, setHandleTxt, action, isIgnore);
   };
   const respOrder = (e) => {
     const newVal = replaceWords(handleTxt);
@@ -52,6 +52,20 @@ const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
         onClick={() => setHandleTxt(handleTxt + ". ")}>
         .
       </button>{" "}
+      <button
+        title="dash"
+        className="square-btn ordinary"
+        // disabled={!textSelected}
+        onClick={() => capsSwitch("dash", true)}>
+        —
+      </button>{" "}
+      <button
+        title="add quotation2 for selection"
+        onClick={() => capsSwitch("quotation2", true)}
+        // disabled={!textSelected}
+        className="square-btn ordinary">
+        «»
+      </button>
       {!isTxt && (
         <>
           <button

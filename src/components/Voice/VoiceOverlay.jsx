@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
-import StrArea from "./StrArea";
+import StrAreaVoice from "./StrAreaVoice";
 
 const VoiceOverlay = ({ toJustif, edit = false }) => {
   const [show, setShow] = useState(false);
@@ -29,7 +29,7 @@ const VoiceOverlay = ({ toJustif, edit = false }) => {
           container={ref}
           containerPadding={20}>
           <Popover id={"popover-voice" + edit}>
-            <StrArea
+            <StrAreaVoice
               placeholder="...your notes"
               type="voiceOver"
               actionFn={toJustif}

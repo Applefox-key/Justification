@@ -240,12 +240,17 @@ export const voiceToEdit = (val, handleTxt, setHandleTxt) => {
     textarea.setSelectionRange(start, start + newVal.length);
   }, 0);
 };
-export const editTextAction = (text, setText, action) => {
+export const editTextAction = (
+  text,
+  setText,
+  action,
+  ignoreNoselected = false
+) => {
   const textarea = document.getElementById("editArea");
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
-  if (start === end) {
+  if (start === end && !ignoreNoselected) {
     return; // No text selected
   }
   if (action === "delSel") {
@@ -267,8 +272,9 @@ export const editTextAction = (text, setText, action) => {
   else if (action === "accent")
     resultText = `"${selectedText}" instead of "${selectedText}"`;
   else if (action === "quotation") resultText = `"${selectedText}"`;
+  else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "staples") resultText = `(${selectedText})`;
-
+  else if (action === "dash") resultText = ` — ${selectedText}`;
   const newText = text.slice(0, start) + resultText + text.slice(end);
 
   setText(newText);

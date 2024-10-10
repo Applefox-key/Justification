@@ -1796,7 +1796,7 @@ textarea.form-control::placeholder {
 }
 
 #popover-voicetrue {
-  max-width: 800px;
+  max-width: 100vw;
   width: 100%;
   padding: 5px;
   border: 4px solid #239aff;
@@ -1988,4 +1988,133 @@ textarea.form-control::placeholder {
 .fade-enter-active,
 .fade-exit-active {
   transition: opacity 500ms;
+}
+
+.voice-mainBox {
+  position: relative;
+  width: 4rem;
+
+  .voice-wrap {
+    position: absolute;
+    padding-right: 25px;
+
+    .langs {
+      z-index: 500;
+      position: absolute;
+      right: 0px;
+      top: -15px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 15px;
+      transition: all 0.2s ease-in-out;
+      height: 30px;
+      background-color: var(--menu);
+
+      .lang,
+      .langElfalse,
+      .langEltrue {
+        z-index: 500;
+        // position: absolute;
+        // right: -15px;
+        // top: -15px;
+        border-radius: 50%;
+        border: 2px solid var(--color-fill);
+        height: 30px;
+        width: 30px;
+        background: var(--color-accent);
+        color: var(--color-nav);
+        transition: all 0.2s ease-in-out;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      p {
+        display: inline;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 0;
+        margin: 0;
+      }
+
+      &:hover {
+        color: var(--color-bg-wrap);
+        box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+      }
+
+
+    }
+
+    // .roundBtn,
+    // .start-record-btn,
+    // .stop-record-btn,
+    // #start-record-btn,
+    // #stop-record-btn {
+    //   position: relative;
+    //   margin: 0 5px;
+    //   border: none;
+    //   background: var(--color-fill);
+    //   color: var(--color-intense);
+    //   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    //   min-width: 4rem;
+    //   min-height: 4rem;
+    //   width: 4rem;
+    //   border-radius: 50%;
+    //   transition: all 0.2s ease-in-out;
+
+    //   &:hover {
+    //     background-color: var(--color-nav);
+    //     color: white;
+    //   }
+    // }
+    #stop-record-btn {
+
+      box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+      color: black;
+      color: var(--main-color);
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+
+    .langs {
+      .langElfalse {
+        // display: none;
+        visibility: hidden;
+        display: flex;
+        height: 0;
+        scale: 0;
+        transition: all 0.7s ease-in-out;
+      }
+
+      .langEltrue {
+        display: flex;
+        background-color: var(--main-back);
+        color: var(--main-color);
+      }
+
+      &:hover {
+        .langElfalse {
+          scale: 1;
+          // display: flex;
+          visibility: visible;
+          height: 30px;
+        }
+      }
+    }
+
+
+  }
+
+  &:hover {
+    .voice-wrap .langs {
+      display: flex;
+      height: fit-content;
+    }
+  }
 }

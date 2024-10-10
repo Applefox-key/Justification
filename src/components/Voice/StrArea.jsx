@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { replaceWords } from "../../utils/utilStr";
 import { startOrStopV } from "../../utils/speech";
-import { RiDeleteBack2Line } from "react-icons/ri";
 import VoiceEnter from "./VoiceEnter";
 import { TbHttpDelete } from "react-icons/tb";
 
