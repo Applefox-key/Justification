@@ -6,7 +6,7 @@ import {
   replaceWords,
   replaceWordsInteractions,
 } from "../../utils/utilStr";
-import { TbQuotes, TbSlashes } from "react-icons/tb";
+import { TbSlashes } from "react-icons/tb";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { PiBracketsRoundBold, PiSquareHalfDuotone } from "react-icons/pi";
 import { BiSolidEraser } from "react-icons/bi";
@@ -15,6 +15,7 @@ import {
   RxLetterCaseLowercase,
   RxLetterCaseUppercase,
 } from "react-icons/rx";
+
 const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
   const capsSwitch = (action, isIgnore = false) => {
     editTextAction(handleTxt, setHandleTxt, action, isIgnore);
@@ -24,7 +25,7 @@ const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
     setHandleTxt(newVal);
   };
   return (
-    <div className="d-flex flex-column ms-1">
+    <div className="sidebtns-box">
       <button
         className="square-btn intense"
         title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
@@ -69,12 +70,26 @@ const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
       {!isTxt && (
         <>
           <button
-            title="delete selection"
-            className="square-btn ordinary"
+            title="add quotation for selection"
+            onClick={() => capsSwitch("quotation")}
             disabled={!textSelected}
-            onClick={() => capsSwitch("delSel")}>
-            <BiSolidEraser />
+            className="square-btn ordinary">
+            {`""`}
           </button>
+          <button
+            title="add staples for selection"
+            onClick={() => capsSwitch("staples")}
+            disabled={!textSelected}
+            className="square-btn ordinary">
+            <PiBracketsRoundBold />
+          </button>
+          <button
+            title="add for selection text about instead"
+            onClick={() => capsSwitch("accent")}
+            disabled={!textSelected}
+            className="square-btn ordinary">
+            <TbSlashes />
+          </button>{" "}
           <button
             title="Uppercase first letter for selection"
             onClick={() => capsSwitch("upFirst")}
@@ -97,25 +112,11 @@ const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
             <RxLetterCaseUppercase />
           </button>{" "}
           <button
-            title="add quotation for selection"
-            onClick={() => capsSwitch("quotation")}
+            title="delete selection"
+            className="square-btn ordinary"
             disabled={!textSelected}
-            className="square-btn ordinary">
-            <TbQuotes />
-          </button>
-          <button
-            title="add staples for selection"
-            onClick={() => capsSwitch("staples")}
-            disabled={!textSelected}
-            className="square-btn ordinary">
-            <PiBracketsRoundBold />
-          </button>
-          <button
-            title="add accent error text for selection"
-            onClick={() => capsSwitch("accent")}
-            disabled={!textSelected}
-            className="square-btn ordinary">
-            <TbSlashes />
+            onClick={() => capsSwitch("delSel")}>
+            <BiSolidEraser />
           </button>
         </>
       )}

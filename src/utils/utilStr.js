@@ -244,7 +244,8 @@ export const editTextAction = (
   text,
   setText,
   action,
-  ignoreNoselected = false
+  ignoreNoselected = false,
+  newVal = null
 ) => {
   const textarea = document.getElementById("editArea");
   const start = textarea.selectionStart;
@@ -253,6 +254,7 @@ export const editTextAction = (
   if (start === end && !ignoreNoselected) {
     return; // No text selected
   }
+
   if (action === "delSel") {
     const newText = text.slice(0, start) + text.slice(end);
     setText(newText);
@@ -263,7 +265,9 @@ export const editTextAction = (
 
   let resultText = "";
 
-  if (action === "upFirst") {
+  if (action === "add") {
+    resultText = newVal || "";
+  } else if (action === "upFirst") {
     resultText = wordCaps(selectedText);
   } else if (action === "down")
     // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
@@ -280,4 +284,8 @@ export const editTextAction = (
   setText(newText);
   if (textarea !== null)
     textarea.setSelectionRange(start, start + resultText.length);
+};
+
+export const replaceText = (str, oldText, newText) => {
+  return str.replace(oldText, newText);
 };

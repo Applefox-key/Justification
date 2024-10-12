@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { voiceToEdit, replaceWords } from "../../utils/utilStr";
+import { voiceToEdit, replaceWords, editTextAction } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
-import { TiArrowLeftThick } from "react-icons/ti";
 
 const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -42,7 +41,9 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
     const newVal = replaceWords(handleTxt);
     setHandleTxt(newVal);
   };
-
+  const pasteToText = (val) => {
+    editTextAction(handleTxt, setHandleTxt, "add", true, val.en);
+  };
   return (
     <>
       <div className="d-flex flex-wrap">
@@ -54,6 +55,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
         {/* <Button
           title="save selection as a template"
           disabled={!textSelected}
+          onClick={()=>addNewElement(setA)}
           className="btnToHis  toTempBtn ordinary">
           <TiArrowLeftThick />
         </Button> */}
@@ -78,11 +80,7 @@ const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
             </div>
           ) : (
             <div className="d-flex w-100 h-100">
-              {isTemplates ? (
-                <TxtBtns edit toJustif={(val) => toText(val.en)} />
-              ) : (
-                <></>
-              )}
+              {isTemplates ? <TxtBtns edit toJustif={pasteToText} /> : <></>}
               <Form.Control
                 as="textarea"
                 id={"editArea"}

@@ -5,8 +5,10 @@ import { saveToHistory } from "../../utils/localStorage";
 import { copyToClipboard, replaceWords } from "../../utils/utilStr";
 import BtnFontSize from "./BtnFontSize";
 import { TbTxt } from "react-icons/tb";
+import BtnFragm from "./BtnFragm";
 const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
   const [autohis, setAutohis] = useState(true);
+
   const pasteFromClipboard = async () => {
     let start = 0;
     let end = 0;
@@ -23,12 +25,9 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
     setHandleTxt(newVal);
     console.log("paste from clipboard:", text);
   };
+
   return (
     <>
-      {/* <TxtBtnsOverlay
-        toJustif={(val) => voiceToEdit(val, handleTxt, setHandleTxt)}
-        edit
-      /> */}
       <Hint />
       <div className="his-auto">
         <Form.Check
@@ -73,21 +72,24 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
       </Button>
       <Button className="btnToHis" onClick={onOK}>
         OK
-      </Button>
-      {handleTxt && (
-        <>
-          <BtnFontSize />
-          <button
-            id="setIsTxt"
-            className={
-              isTxt ? "square-btn intense isTxtAct" : "square-btn intense"
-            }
-            title="add from voice text area"
-            onClick={() => setIsTxt(!isTxt)}>
-            <TbTxt />
-          </button>
-        </>
-      )}
+      </Button>{" "}
+      <div className="topsmallbtns-box">
+        <BtnFontSize />
+        {handleTxt && (
+          <>
+            <button
+              id="setIsTxt"
+              className={
+                isTxt ? "square-btn intense isTxtAct" : "square-btn intense"
+              }
+              title="add from voice text area"
+              onClick={() => setIsTxt(!isTxt)}>
+              <TbTxt />
+            </button>
+          </>
+        )}
+        <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
+      </div>
     </>
   );
 };

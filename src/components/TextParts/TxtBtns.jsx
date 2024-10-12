@@ -10,8 +10,9 @@ const TxtBtns = ({ toJustif, edit }) => {
   const [showMessage, setShowMessage] = useState(false);
   const defaultState = (val) => {
     txtTemplatesSet(val, setArr);
-    // setArr(val====null?val.items);
   };
+  console.log(arr);
+
   const handleClick = (e, el) => {
     let b = e.button;
     //left mouse button
@@ -33,10 +34,16 @@ const TxtBtns = ({ toJustif, edit }) => {
   return (
     <div className={"variants-wrap-txt" + (edit ? "-edit" : " h-fit ")}>
       <div className={"levels-txt" + (edit ? "-edit" : "") + " "}>
-        {" "}
         <div className="input-file-text">
           <FileChooseBtn defaultState={defaultState} onlyFirstSheet />
         </div>
+        {/* <button
+          title="save selection as a template"
+          // disabled={!textSelected}
+          onClick={() => addNewElement(lev, setArr, arr)}
+          className="btnToHis  toTempBtn ordinary">
+          <TiArrowLeftThick />
+        </button> */}
         <div
           className={lev === null ? "level active" : "level"}
           onClick={(e) => {
