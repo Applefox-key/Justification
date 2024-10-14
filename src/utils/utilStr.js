@@ -197,6 +197,57 @@ export const highlightedText = (text, compliteCrit = []) => {
     } else return part;
   });
 };
+export const highlightedCheckedText = (text, compliteCrit = []) => {
+  const regQ = [`"`];
+  const regD = [`-`];
+  const regS = [`  `];
+  // const reg = ["response b", "interaction b", "@response 2"];
+  // const exArr = ["example_b", "example_a"];
+  // const regArr = ["some", "major", "minor", "no problems"];
+  const regexPattern = new RegExp(
+    `(${[...compliteCrit, ...regQ, ...regD, ...regS].join("|")})`,
+    "gi"
+  );
+  // Split the text by "example", keeping the word itself
+  const parts = text.split(regexPattern); // Split the text by "example", keeping the word itself
+  return parts.map((part, index) => {
+    if (regQ.includes(part.toLowerCase()))
+      return (
+        <span className="highlight-blue" key={index}>
+          {part}
+        </span>
+      );
+    else if (
+      compliteCrit.includes(part) ||
+      compliteCrit.includes(part.toLowerCase())
+    )
+      return (
+        <span className="highlight-crit" key={index}>
+          {part}
+        </span>
+      );
+    else if (regD.includes(part.toLowerCase()))
+      return (
+        <span className="highlight-blueB" key={index}>
+          {part}
+        </span>
+      );
+    else if (regS.includes(part.toLowerCase()))
+      return (
+        <span className="highlight-ex" key={index}>
+          {part}
+        </span>
+      );
+    else if (part.toLowerCase() === ". \n") {
+      return (
+        <>
+          .<br />
+          {" \n"}
+        </>
+      );
+    } else return part;
+  });
+};
 const wordCaps = (text) =>
   text
     .split(" ")

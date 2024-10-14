@@ -7,11 +7,17 @@ import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
 
-const StrAreaEdit = ({ str = "", actionFn, placeholder = "" }) => {
+const StrAreaEdit = ({
+  actionFn,
+  placeholder = "",
+  handleTxt,
+  setHandleTxt,
+}) => {
   const [textSelected, setTextSelected] = useState("");
-  const [handleTxt, setHandleTxt] = useState(str);
+  // const [handleTxt, setHandleTxt] = useState(str);
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
+
   const handleChange = (e) => {
     e.stopPropagation();
     setHandleTxt(e.target.value);

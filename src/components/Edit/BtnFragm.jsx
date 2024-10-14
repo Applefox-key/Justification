@@ -4,24 +4,27 @@ import { replaceText } from "../../utils/utilStr";
 
 const BtnFragm = ({ handleTxt, setHandleTxt }) => {
   const [fragments, setFragments] = useState([]);
+  const replace = (oldV, newV) => {
+    const newVal = replaceText(handleTxt, oldV, newV);
+    setHandleTxt(newVal);
+  };
   // remember quotes from the text
   const extractFragments = () => {
-    const matches = handleTxt.match(/"([^"]*)"/g);
+    const matches = handleTxt.match(/["«]([^"»]*)["»]/g);
     if (matches) {
-      const cleanedMatches = matches.map((match) => match.replace(/"/g, ""));
+      const cleanedMatches = matches.map((match) =>
+        match.replace(/["«»]/g, "")
+      );
       setFragments(cleanedMatches);
     } else {
       setFragments([]);
     }
   };
-  const replace = (oldV, newV) => {
-    const newVal = replaceText(handleTxt, oldV, newV);
-    setHandleTxt(newVal);
-  };
+
   //back to the text
   const replaceFragments = () => {
     let index = 0;
-    const newString = handleTxt.replace(/"([^"]*)"/g, () => {
+    const newString = handleTxt.replace(/["«]([^"]*)["»]/g, () => {
       return `"${fragments[index++] || ""}"`;
     });
     setHandleTxt(newString);

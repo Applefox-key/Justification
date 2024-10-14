@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import StrAreaEdit from "./StrAreaEdit";
 import Draggable from "react-draggable";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
 import { IoIosClose } from "react-icons/io";
+import TextChecker from "../UI/TextChecker";
+import { BsCardText, BsPatchCheck } from "react-icons/bs";
 
 const EditBox = ({ el, setEdit, savefn }) => {
+  const [ischeckerMode, setIsCheckerMode] = useState(false);
+  const [handleTxt, setHandleTxt] = useState(el.en);
   return (
     <div className="module-wrap">
       <div className="editbox-wrap">
@@ -14,6 +18,11 @@ const EditBox = ({ el, setEdit, savefn }) => {
             <div className="handle">
               EDIT COMMENT
               <div>
+                <Button
+                  className="btn-back"
+                  onClick={() => setIsCheckerMode(!ischeckerMode)}>
+                  {ischeckerMode ? <BsCardText /> : <BsPatchCheck />}
+                </Button>
                 <BoxSizeBtn />
                 <Button className="btn-back" onClick={() => setEdit(null)}>
                   <IoIosClose />
@@ -21,7 +30,15 @@ const EditBox = ({ el, setEdit, savefn }) => {
               </div>
             </div>
             <div className="txt-box ">
-              <StrAreaEdit str={el.en} actionFn={savefn} />
+              {ischeckerMode ? (
+                <TextChecker />
+              ) : (
+                <StrAreaEdit
+                  handleTxt={handleTxt}
+                  setHandleTxt={setHandleTxt}
+                  actionFn={savefn}
+                />
+              )}
             </div>
           </div>
         </Draggable>
