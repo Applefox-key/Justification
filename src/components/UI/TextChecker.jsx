@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import { highlightedCheckedText } from "../../utils/utilStr";
 
 const TextChecker = () => {
   const [text, setText] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [errors, setErrors] = useState([]);
-
+  const [isTxt, setIsTxt] = useState(false);
   const checkText = () => {
     const doubleSpacesRegex = / {2,}/g;
     const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
@@ -47,9 +48,12 @@ const TextChecker = () => {
         matches: dashesMatches,
       });
     }
+    if (foundErrors.length > 0) {
+      setErrors(foundErrors);
+    } else showErrors(["ошибок нет"]);
 
-    setErrors(foundErrors.length > 0 ? foundErrors : ["ошибок нет"]);
-    showErrors(foundErrors);
+    // setErrors(foundErrors.length > 0 ? foundErrors : ["ошибок нет"]);
+    // showErrors(foundErrors);
   };
 
   const showErrors = (foundErrors) => {
@@ -76,16 +80,28 @@ const TextChecker = () => {
 
   return (
     <div className="w-100 h-100">
-      {" "}
-      <Form.Control
-        as="textarea"
-        className={"fit-height w-100"}
-        rows={1}
-        spellCheck
-        placeholder="input text for checking..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      {errors.length > 0 ? (
+        <div
+          className={"setIsTxt-check"}
+          onMouseDown={(e) => {
+            if (e.button === 1) setIsTxt(!isTxt);
+          }}>
+          {highlightedCheckedText(text)}
+        </div>
+      ) : (
+        <div className="d-flex w-100 h-100">
+          <Form.Control
+            as="textarea"
+            className={"fit-height w-100"}
+            rows={1}
+            spellCheck
+            placeholder="input text for checking..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
+      )}
+
       {/* <textarea
         value={text}
         className={"fit-height w-100"}
@@ -96,7 +112,11 @@ const TextChecker = () => {
         placeholder="Введите текст для проверки..."
       /> */}
       <br />
-      <button onClick={checkText}>Проверить текст</button>
+      {errors.length > 0 ? (
+        <button onClick={() => setErrors([])}>Показать текст</button>
+      ) : (
+        <button onClick={checkText}>Проверить текст</button>
+      )}
     </div>
   );
 };

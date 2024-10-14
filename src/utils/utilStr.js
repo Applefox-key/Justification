@@ -201,9 +201,7 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
   const regQ = [`"`];
   const regD = [`-`];
   const regS = [`  `];
-  // const reg = ["response b", "interaction b", "@response 2"];
-  // const exArr = ["example_b", "example_a"];
-  // const regArr = ["some", "major", "minor", "no problems"];
+
   const regexPattern = new RegExp(
     `(${[...compliteCrit, ...regQ, ...regD, ...regS].join("|")})`,
     "gi"
@@ -213,7 +211,7 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
   return parts.map((part, index) => {
     if (regQ.includes(part.toLowerCase()))
       return (
-        <span className="highlight-blue" key={index}>
+        <span className="highlight-red" key={index}>
           {part}
         </span>
       );
@@ -222,19 +220,19 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
       compliteCrit.includes(part.toLowerCase())
     )
       return (
-        <span className="highlight-crit" key={index}>
+        <span className="highlight-orange" key={index}>
           {part}
         </span>
       );
     else if (regD.includes(part.toLowerCase()))
       return (
-        <span className="highlight-blueB" key={index}>
+        <span className="highlight-green" key={index}>
           {part}
         </span>
       );
     else if (regS.includes(part.toLowerCase()))
       return (
-        <span className="highlight-ex" key={index}>
+        <span className="highlight-yellow" key={index}>
           {part}
         </span>
       );

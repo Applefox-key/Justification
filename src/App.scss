@@ -957,7 +957,8 @@ textarea.form-control::placeholder {
   }
 
   textarea.form-control,
-  .setIsTxt {
+  .setIsTxt,
+  .setIsTxt-check {
     font-size: 16px;
     font-size: var(--vertical-font);
     width: 97%;
@@ -975,8 +976,13 @@ textarea.form-control::placeholder {
     }
   }
 
-  .setIsTxt {
+  .setIsTxt,
+  .setIsTxt-check {
     background-color: var(--accent);
+  }
+
+  .setIsTxt-check {
+    overflow: auto;
   }
 }
 
@@ -1525,6 +1531,27 @@ textarea.form-control::placeholder {
 
 .highlight-blueB {
   color: rgb(56, 187, 89);
+  font-weight: 700;
+}
+
+.highlight-yellow {
+  background-color: yellow;
+  font-weight: 700;
+}
+
+.highlight-red {
+  background-color: #ff0400;
+  font-weight: 700;
+}
+
+.highlight-green {
+  background-color: greenyellow;
+  font-weight: 700;
+  color: black;
+}
+
+.highlight-orange {
+  background-color: rgb(242, 160, 19);
   font-weight: 700;
 }
 
