@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../../utils/localStorage";
-import { copyToClipboard, replaceWords } from "../../utils/utilStr";
-import BtnFontSize from "./BtnFontSize";
-import { TbTxt } from "react-icons/tb";
+import {
+  copyToClipboard,
+  numIsteadLetter,
+  replaceWords,
+  replaceWordsInteractions,
+} from "../../utils/utilStr";
+
 import BtnFragm from "./BtnFragm";
-const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
+import { PiSquareHalfDuotone } from "react-icons/pi";
+import { IoChatbubblesOutline } from "react-icons/io5";
+
+const TopBtns = ({ statesVal, onOK }) => {
+  const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const [autohis, setAutohis] = useState(true);
 
   const pasteFromClipboard = async () => {
@@ -24,6 +32,10 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
 
     setHandleTxt(newVal);
     console.log("paste from clipboard:", text);
+  };
+  const respOrder = (e) => {
+    const newVal = replaceWords(handleTxt);
+    setHandleTxt(newVal);
   };
 
   return (
@@ -65,8 +77,9 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
       <Button
         className="btnToHis"
         onClick={(e) => {
-          const newVal = replaceWords(handleTxt);
-          setHandleTxt(newVal);
+          numIsteadLetter(handleTxt, setHandleTxt);
+          // const newVal = replaceWords(handleTxt);
+          // setHandleTxt(newVal);
         }}>
         FORMAT (F2)
       </Button>
@@ -74,21 +87,28 @@ const TopBtns = ({ handleTxt, setHandleTxt, isTxt, setIsTxt, onOK }) => {
         OK
       </Button>{" "}
       <div className="topsmallbtns-box">
-        <BtnFontSize />
-        {handleTxt && (
-          <>
-            <button
-              id="setIsTxt"
-              className={
-                isTxt ? "square-btn intense isTxtAct" : "square-btn intense"
-              }
-              title="add from voice text area"
-              onClick={() => setIsTxt(!isTxt)}>
-              <TbTxt />
-            </button>
-          </>
-        )}
         <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
+        <button
+          className="square-btn intense"
+          title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
+          onClick={respOrder}>
+          <PiSquareHalfDuotone />
+        </button>
+        <button
+          className="square-btn intense"
+          title="INTERACTIONS: remove extra spaces, capitalize all sentences, correct names of INTERACTIONS"
+          onClick={(e) => {
+            const newVal = replaceWordsInteractions(handleTxt);
+            setHandleTxt(newVal);
+          }}>
+          <IoChatbubblesOutline />
+        </button>
+        <button
+          className="square-btn intense"
+          title="@RESPONSES: A B -> 1 2"
+          onClick={() => numIsteadLetter(handleTxt, setHandleTxt)}>
+          @
+        </button>
       </div>
     </>
   );

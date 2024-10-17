@@ -6,6 +6,7 @@ import BoxSizeBtn from "../UI/BoxSizeBtn";
 import { IoIosClose } from "react-icons/io";
 import TextChecker from "../UI/TextChecker";
 import { BsCardText, BsPatchCheck } from "react-icons/bs";
+import BtnFontSize from "./BtnFontSize";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [ischeckerMode, setIsCheckerMode] = useState(false);
@@ -18,13 +19,14 @@ const EditBox = ({ el, setEdit, savefn }) => {
             <div className="handle">
               EDIT COMMENT
               <div>
+                <BtnFontSize />
                 <Button
                   className="btn-back"
                   onClick={() => setIsCheckerMode(!ischeckerMode)}>
                   {ischeckerMode ? <BsCardText /> : <BsPatchCheck />}
                 </Button>
                 <BoxSizeBtn />
-                <Button className="btn-back" onClick={() => setEdit(null)}>
+                <Button className="btn-backXl" onClick={() => setEdit(null)}>
                   <IoIosClose />
                 </Button>
               </div>

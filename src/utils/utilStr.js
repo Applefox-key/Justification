@@ -62,15 +62,34 @@ const sentencesCaps = (text) => {
 };
 
 export const cleanAndCapitalize = (text) => {
-  text = text.replace(/\s+/g, " ").trim();
+  // text = text.replace(/\s+/g, " ").trim();
+  text = text.trim();
+  text = text.replace(/ +/g, " ").replace(/ ?\n ?/g, "\n");
   text = text.replace(/\.\./g, ".");
   text = text.replace(/\s\./g, ".");
   text = text.replace(/\s:/g, ":");
   text = text.replace(/\s,/g, ",");
+  //  links
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-  text = text.toLowerCase();
+  let parts = text.split(/(\n+|https?:\/\/[^\s]+)/g);
+  // capitalise all exept links
+  parts = parts.map((part, index) => {
+    if (urlRegex.test(part) || part.startsWith("\n")) {
+      // a link or new line
+      return part;
+    } else {
+      // not a link
+      part = part.toLowerCase();
+      part = sentencesCaps(part);
+      return part;
+    }
+  });
 
-  text = sentencesCaps(text);
+  // combine
+  text = parts.join("");
+  // text = text.toLowerCase();
+  // text = sentencesCaps(text);
 
   if (!/[.,:!?]$/.test(text.trim()) && text.split(" ").length > 2) {
     return text.trim() + ".";
@@ -84,6 +103,10 @@ const replaceByArr = (replacementsArr, text) => {
     oldT.forEach((oldWord) => {
       const flags = caseSensitive ? "g" : "gi";
       const regex = new RegExp(escapeSpecialCharacters(oldWord), flags);
+      // const regex = new RegExp(
+      //   `\\b${escapeSpecialCharacters(oldWord)}\\b`,
+      //   flags
+      // );
       // Replacing all occurrences of old Word with newT
       text = text.replace(regex, newT);
     });
@@ -93,11 +116,11 @@ const replaceByArr = (replacementsArr, text) => {
 export const replacePunctuations = (allJust) => {
   return replaceByArr(replacementsPunctuation, allJust);
 };
-const replacegen = (txt) => {
+export const replacegen = (txt) => {
   let tmpText = replacePunctuations(txt);
   tmpText = cleanAndCapitalize(tmpText);
   // Replace all sequences of spaces with a single space
-  tmpText = tmpText.replace(/\s+/g, " ");
+  // tmpText = tmpText.replace(/\s+/g, " ");
   return replaceByArr(replacementsGeneral, tmpText);
 };
 export const replaceWords = (allJust) => {
@@ -108,9 +131,14 @@ export const replaceWordsInteractions = (allJust) => {
   allJust = replacegen(allJust);
   return replaceByArr(replacementsInteractions, allJust);
 };
-
-export const NumIsteadLetter = (text, setText) => {
+export const replaceNum = (text, setText) => {
   text = replacegen(text);
+
+  return replaceByArr(replacementsResponsesNum, text);
+};
+export const numIsteadLetter = (text, setText) => {
+  text = replacegen(text);
+
   let newTxt = replaceByArr(replacementsResponsesNum, text);
   setText(newTxt);
 };
@@ -199,7 +227,7 @@ export const highlightedText = (text, compliteCrit = []) => {
 };
 export const highlightedCheckedText = (text, compliteCrit = []) => {
   const regQ = [`"`];
-  const regD = [`-`];
+  const regD = [`-`, `–`];
   const regS = [`  `];
 
   const regexPattern = new RegExp(
@@ -294,7 +322,8 @@ export const editTextAction = (
   setText,
   action,
   ignoreNoselected = false,
-  newVal = null
+  newVal = null,
+  finalFn = null
 ) => {
   const textarea = document.getElementById("editArea");
   const start = textarea.selectionStart;
@@ -328,13 +357,35 @@ export const editTextAction = (
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
-  const newText = text.slice(0, start) + resultText + text.slice(end);
+  const newText = text.slice(0, start) + " " + resultText + text.slice(end);
 
   setText(newText);
   if (textarea !== null)
-    textarea.setSelectionRange(start, start + resultText.length);
+    textarea.setSelectionRange(start, start + resultText.length + 1);
 };
 
-export const replaceText = (str, oldText, newText) => {
-  return str.replace(oldText, newText);
+export const replaceText = (handleTxt, oldText, newVal) => {
+  const textarea = document.getElementById("editArea");
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const isSelected = start !== end;
+
+  if (isSelected) {
+    // only selection
+    const textBefore = handleTxt.slice(0, start);
+    const selectedText = handleTxt.slice(start, end);
+    const newSelectedText = selectedText.replace(
+      new RegExp(oldText, "g"),
+      newVal
+    );
+    const textAfter = handleTxt.slice(end);
+    const newText = textBefore + " " + newSelectedText + " " + textAfter;
+    return newText;
+
+    // return str.replace(selectedText, newText);
+  } else {
+    // all
+    return handleTxt.replace(new RegExp(oldText, "g"), newVal);
+  }
+  // return str.replace(oldText, newText);
 };

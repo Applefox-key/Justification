@@ -19,13 +19,15 @@ const BtnFontSize = () => {
   return (
     <>
       <button
-        className="square-btn intense"
+        // className="square-btn intense"
+        className="btn-back"
         title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
         onClick={() => setSize(-0.1)}>
         <FiMinus />
       </button>{" "}
       <button
-        className="square-btn intense"
+        // className="square-btn intense"
+        className="btn-back"
         title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
         onClick={() => setSize(0.1)}>
         <FiPlus />

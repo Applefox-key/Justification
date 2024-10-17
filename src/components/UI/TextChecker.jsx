@@ -8,9 +8,10 @@ const TextChecker = () => {
   const [errors, setErrors] = useState([]);
   const [isTxt, setIsTxt] = useState(false);
   const checkText = () => {
+    if (!text) return;
     const doubleSpacesRegex = / {2,}/g;
     const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
-    const dashesRegex = /(\S+)\s*-\s*(\S+)/g; // Найти дефис и слова вокруг него
+    const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
 
     const foundErrors = [];
 
@@ -50,33 +51,33 @@ const TextChecker = () => {
     }
     if (foundErrors.length > 0) {
       setErrors(foundErrors);
-    } else showErrors(["ошибок нет"]);
+    } else alert("ошибок нет");
 
     // setErrors(foundErrors.length > 0 ? foundErrors : ["ошибок нет"]);
     // showErrors(foundErrors);
   };
 
-  const showErrors = (foundErrors) => {
-    let message = "";
-    if (foundErrors.length === 0) {
-      message = "Ошибок нет";
-    } else {
-      message = foundErrors
-        .map((error) => {
-          const matchesList = error.matches.join(", ");
-          return `Найдены ${
-            error.type === "double-space"
-              ? "двойные пробелы"
-              : error.type === "quote"
-              ? "кавычки"
-              : "дефисы"
-          }: ${matchesList}`;
-        })
-        .join("\n");
-    }
+  //   const showErrors = (foundErrors) => {
+  //     let message = "";
+  //     if (foundErrors.length === 0) {
+  //       message = "Ошибок нет";
+  //     } else {
+  //       message = foundErrors
+  //         .map((error) => {
+  //           const matchesList = error.matches.join(", ");
+  //           return `Найдены ${
+  //             error.type === "double-space"
+  //               ? "двойные пробелы"
+  //               : error.type === "quote"
+  //               ? "кавычки"
+  //               : "дефисы"
+  //           }: ${matchesList}`;
+  //         })
+  //         .join("\n");
+  //     }
 
-    alert(message);
-  };
+  //     alert(message);
+  //   };
 
   return (
     <div className="w-100 h-100">

@@ -28,6 +28,7 @@ const TxtBtns = ({ toJustif, edit }) => {
       }, 3000);
     }
   };
+  const newLev = () => {};
   const handleContextMenu = (event) => {
     event.preventDefault(); // Блокировка контекстного меню
   };
@@ -66,7 +67,15 @@ const TxtBtns = ({ toJustif, edit }) => {
               }}>
               {el}
             </div>
-          ))}
+          ))}{" "}
+        {/* <div
+          className="level"
+          onClick={(e) => {
+            e.stopPropagation();
+            newLev();
+          }}>
+          +
+        </div> */}
       </div>
       <div
         className={

@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { voiceToEdit, replaceWords, editTextAction } from "../../utils/utilStr";
+import {
+  voiceToEdit,
+  replaceWords,
+  editTextAction,
+  replacegen,
+  numIsteadLetter,
+  replaceWordsInteractions,
+} from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
+import HotBtns from "../Hint/HotBtns";
 
 const StrAreaEdit = ({
   actionFn,
@@ -17,6 +25,7 @@ const StrAreaEdit = ({
   // const [handleTxt, setHandleTxt] = useState(str);
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
+  const [isHotBtns, setIsHotBtns] = useState(false);
 
   const handleChange = (e) => {
     e.stopPropagation();
@@ -47,9 +56,20 @@ const StrAreaEdit = ({
     const newVal = replaceWords(handleTxt);
     setHandleTxt(newVal);
   };
-  const pasteToText = (val) => {
-    editTextAction(handleTxt, setHandleTxt, "add", true, val.en);
+  const refLast = useRef(null);
+  const lasttxt = {
+    saveLast: () => {
+      refLast.current = handleTxt;
+    },
+    pasteLast: () => {
+      if (refLast.current !== "") setHandleTxt(refLast.current);
+      refLast.current = "";
+    },
   };
+  const pasteToText = (val) => {
+    editTextAction(handleTxt, setHandleTxt, "add", true, val.en || val);
+  };
+
   return (
     <>
       <div className="d-flex flex-wrap">
@@ -57,6 +77,11 @@ const StrAreaEdit = ({
           className={"btnToHis" + (isTemplates ? " isTmp" : "")}
           onClick={(e) => setIsTemplates(!isTemplates)}>
           Templates
+        </Button>
+        <Button
+          className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")}
+          onClick={(e) => setIsHotBtns(!isHotBtns)}>
+          HOT
         </Button>
         {/* <Button
           title="save selection as a template"
@@ -66,12 +91,16 @@ const StrAreaEdit = ({
           <TiArrowLeftThick />
         </Button> */}
         <TopBtns
-          handleTxt={handleTxt}
-          setHandleTxt={setHandleTxt}
-          isTxt={isTxt}
-          setIsTxt={setIsTxt}
+          statesVal={{ handleTxt, setHandleTxt, isTxt, setIsTxt }}
           onOK={onOK}
         />
+        {isHotBtns && (
+          <HotBtns
+            toJustif={pasteToText}
+            handleTxt={handleTxt}
+            setHandleTxt={setHandleTxt}
+          />
+        )}
       </div>
 
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
@@ -100,16 +129,22 @@ const StrAreaEdit = ({
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Escape") onOK(e);
-                  else if (e.key === "F2") respOrder(e);
+                  else {
+                    lasttxt.saveLast();
+                    if (e.key === "F2")
+                      //respOrder(e);
+                      numIsteadLetter(handleTxt, setHandleTxt);
+                    else if (e.key === "F4")
+                      numIsteadLetter(handleTxt, setHandleTxt);
+                  }
+                  // NumIsteadLetter(handleTxt, setHandleTxt);
                 }}
                 onChange={handleChange}
               />
             </div>
           )}
           <SideBtns
-            handleTxt={handleTxt}
-            setHandleTxt={setHandleTxt}
-            isTxt={isTxt}
+            statesVal={{ handleTxt, setHandleTxt, isTxt, setIsTxt }}
             textSelected={textSelected}
           />
         </div>

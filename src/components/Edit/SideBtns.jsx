@@ -1,14 +1,9 @@
 import React from "react";
+import BtnReplace from "./BtnReplace";
+import { editTextAction } from "../../utils/utilStr";
+import { TbSlashes, TbTxt } from "react-icons/tb";
 
-import {
-  editTextAction,
-  NumIsteadLetter,
-  replaceWords,
-  replaceWordsInteractions,
-} from "../../utils/utilStr";
-import { TbSlashes } from "react-icons/tb";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { PiBracketsRoundBold, PiSquareHalfDuotone } from "react-icons/pi";
+import { PiBracketsRoundBold } from "react-icons/pi";
 import { BiSolidEraser } from "react-icons/bi";
 import {
   RxLetterCaseCapitalize,
@@ -16,70 +11,66 @@ import {
   RxLetterCaseUppercase,
 } from "react-icons/rx";
 
-const SideBtns = ({ handleTxt, setHandleTxt, isTxt, textSelected }) => {
+const SideBtns = ({ statesVal, textSelected }) => {
+  const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const capsSwitch = (action, isIgnore = false) => {
     editTextAction(handleTxt, setHandleTxt, action, isIgnore);
   };
-  const respOrder = (e) => {
-    const newVal = replaceWords(handleTxt);
-    setHandleTxt(newVal);
-  };
+
   return (
     <div className="sidebtns-box">
+      {handleTxt && (
+        <>
+          <button
+            id="setIsTxt"
+            className={
+              isTxt ? "square-btn intense isTxtAct" : "square-btn intense"
+            }
+            title="add from voice text area"
+            onClick={() => setIsTxt(!isTxt)}>
+            <TbTxt />
+          </button>
+        </>
+      )}
+      <BtnReplace
+        handleTxt={handleTxt}
+        setHandleTxt={setHandleTxt}
+        textSelected={textSelected}
+      />
       <button
-        className="square-btn intense"
-        title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
-        onClick={respOrder}>
-        <PiSquareHalfDuotone />
-      </button>
-      <button
-        className="square-btn intense"
-        title="INTERACTIONS: remove extra spaces, capitalize all sentences, correct names of INTERACTIONS"
-        onClick={(e) => {
-          const newVal = replaceWordsInteractions(handleTxt);
-          setHandleTxt(newVal);
-        }}>
-        <IoChatbubblesOutline />
-      </button>
-      <button
-        className="square-btn intense"
-        title="@RESPONSES: A B -> 1 2"
-        onClick={() => NumIsteadLetter(handleTxt, setHandleTxt)}>
-        @
-      </button>
-      <button
-        className="square-btn intense"
+        className="square-btn ordinary"
         title="add a dot"
         onClick={() => setHandleTxt(handleTxt + ". ")}>
         .
       </button>{" "}
-      <button
-        title="dash"
-        className="square-btn ordinary"
-        // disabled={!textSelected}
-        onClick={() => capsSwitch("dash", true)}>
-        —
-      </button>{" "}
-      <button
-        title="add quotation2 for selection"
-        onClick={() => capsSwitch("quotation2", true)}
-        // disabled={!textSelected}
-        className="square-btn ordinary">
-        «»
-      </button>
       {!isTxt && (
         <>
+          {" "}
+          <button
+            title="dash"
+            className="square-btn ordinary"
+            // disabled={!textSelected}
+            onClick={() => capsSwitch("dash", true)}>
+            —
+          </button>{" "}
+          <button
+            title="add quotation2 for selection"
+            onClick={() => capsSwitch("quotation2", true)}
+            // disabled={!textSelected}
+            className="square-btn ordinary">
+            «»
+          </button>
           <button
             title="add quotation for selection"
-            onClick={() => capsSwitch("quotation")}
-            disabled={!textSelected}
+            onClick={() => capsSwitch("quotation", true)}
+            // disabled={!textSelected}
             className="square-btn ordinary">
             {`""`}
           </button>
           <button
             title="add staples for selection"
-            onClick={() => capsSwitch("staples")}
-            disabled={!textSelected}
+            onClick={() => capsSwitch("staples", true)}
+            // disabled={!textSelected}
             className="square-btn ordinary">
             <PiBracketsRoundBold />
           </button>

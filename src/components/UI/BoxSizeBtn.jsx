@@ -28,7 +28,7 @@ const BoxSizeBtn = () => {
     setIsFull(!isFull);
   };
   return (
-    <Button className="btn-back" onClick={handleClick}>
+    <Button className="btn-backXl" onClick={handleClick}>
       {isFull ? <PiCopySimple /> : <LiaSquare />}
     </Button>
   );
