@@ -85,6 +85,20 @@ export const autoreplaceDash = [
     show: true,
     title: "«both» ",
   },
+  {
+    oldT: ["dash1"],
+    newT: `In BotModel A  the hyphen should be replaced with a dash and the quotation marks should be replaced with «».`,
+    caseSensitive: false,
+    show: true,
+    title: "-«1»",
+  },
+  {
+    oldT: ["dash1"],
+    newT: `In BotModel B  the hyphen should be replaced with a dash and the quotation marks should be replaced with «».`,
+    caseSensitive: false,
+    show: true,
+    title: "-«2»",
+  },
 ];
 export const hotreplaceSuggest = [
   {

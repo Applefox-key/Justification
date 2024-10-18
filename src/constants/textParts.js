@@ -70,8 +70,7 @@ export const textParts = [
   },
 ];
 
-export const mainTmp = `@Response 1 is slightly much better than @Response 2
-@Response 1 and @Response 2 are about the same.
+export const mainTmp = `@Response is slightly much better than @Response /@Response 1 and @Response 2 are about the same.
 @Response 1
 @Response 2
 Both`;
