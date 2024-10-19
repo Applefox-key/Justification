@@ -20,6 +20,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
   useEffect(() => {
     const itm = splitString(el.en);
     if (!itm) setItem(itm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="module-wrap">

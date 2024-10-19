@@ -2,11 +2,8 @@ import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import {
   voiceToEdit,
-  replaceWords,
   editTextAction,
-  replacegen,
   numIsteadLetter,
-  replaceWordsInteractions,
 } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
@@ -52,10 +49,7 @@ const StrAreaEdit = ({
     const newVal = handleTxt + text;
     setHandleTxt(newVal);
   };
-  const respOrder = (e) => {
-    const newVal = replaceWords(handleTxt);
-    setHandleTxt(newVal);
-  };
+
   const refLast = useRef(null);
   const lasttxt = {
     saveLast: () => {

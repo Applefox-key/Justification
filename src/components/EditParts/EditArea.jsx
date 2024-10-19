@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { voiceToEdit, editTextActionRef } from "../../utils/utilStr";
-import RatingOverlay from "../Rate/RatingOverlay";
-
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
 import HotBtns from "../Hint/HotBtns";
@@ -38,10 +36,6 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
     setTextSelected(selectedText);
   };
 
-  const toText = (text) => {
-    const newVal = handleTxt + text;
-    fieldFn.setNewVal(newVal);
-  };
   const fieldFn = {
     onFocus: (ref) => {
       if (textRef) {
@@ -142,7 +136,7 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
               <div className="edit-parts-menu">
                 <FinalRate value={rate} setValue={handleChangeVerdict} />{" "}
                 <button onClick={compose}>compose</button>
-                <button onClick={clear}>clear</button>
+                <button onClick={clear}>clear all parts</button>
               </div>
               <EditField
                 autoF

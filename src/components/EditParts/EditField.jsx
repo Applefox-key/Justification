@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
-import { numIsteadLetter } from "../../utils/utilStr";
 
 const EditField = ({ autoF, fieldName, placeholder, fieldVal, fieldFn }) => {
   const ref = useRef(null);
@@ -12,6 +11,7 @@ const EditField = ({ autoF, fieldName, placeholder, fieldVal, fieldFn }) => {
   };
   useEffect(() => {
     if (autoF && ref) fieldFn.onFocus(ref);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Form.Control
