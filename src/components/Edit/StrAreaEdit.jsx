@@ -67,7 +67,14 @@ const StrAreaEdit = ({
     },
   };
   const pasteToText = (val) => {
-    editTextAction(handleTxt, setHandleTxt, "add", true, val.en || val);
+    editTextAction(
+      "editArea",
+      handleTxt,
+      setHandleTxt,
+      "add",
+      true,
+      val.en || val
+    );
   };
 
   return (
@@ -91,6 +98,7 @@ const StrAreaEdit = ({
           <TiArrowLeftThick />
         </Button> */}
         <TopBtns
+          field="editArea"
           statesVal={{ handleTxt, setHandleTxt, isTxt, setIsTxt }}
           onOK={onOK}
         />
@@ -144,6 +152,7 @@ const StrAreaEdit = ({
             </div>
           )}
           <SideBtns
+            fieldId="editArea"
             statesVal={{ handleTxt, setHandleTxt, isTxt, setIsTxt }}
             textSelected={textSelected}
           />

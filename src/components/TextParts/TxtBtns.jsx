@@ -28,7 +28,7 @@ const TxtBtns = ({ toJustif, edit }) => {
       }, 3000);
     }
   };
-  const newLev = () => {};
+
   const handleContextMenu = (event) => {
     event.preventDefault(); // Блокировка контекстного меню
   };

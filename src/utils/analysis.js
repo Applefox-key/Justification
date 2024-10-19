@@ -17,6 +17,15 @@ export const labelsVerdict = [
   "B is better",
   "B is much better",
 ];
+export const labelsVerdictEdit = [
+  "@Response 1 is much better than @Response 2.",
+  "@Response 1 is better than @Response 2.",
+  "@Response 1 is slightly better than @Response 2.",
+  "@Response 1 and @Response 2 are the same.",
+  "@Response 2 is slightly better than @Response 1.",
+  "@Response 2 is better than @Response 1.",
+  "@Response 2 is much better than @Response 1.",
+];
 export const defaultOverAll = {
   respA: defaultEval,
   respB: defaultEval,

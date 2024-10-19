@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import StrAreaEdit from "./StrAreaEdit";
 import Draggable from "react-draggable";
@@ -7,17 +7,34 @@ import { IoIosClose } from "react-icons/io";
 import TextChecker from "../UI/TextChecker";
 import { BsCardText, BsPatchCheck } from "react-icons/bs";
 import BtnFontSize from "./BtnFontSize";
+import { LuAppWindow } from "react-icons/lu";
+import { FaRegWindowRestore } from "react-icons/fa";
+import EditArea from "../EditParts/EditArea";
+import { splitString } from "../../utils/utilStr";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [ischeckerMode, setIsCheckerMode] = useState(false);
+  const [isFragmentMode, setIsFragmentMode] = useState(true);
   const [handleTxt, setHandleTxt] = useState(el.en);
+  const [item, setItem] = useState(splitString(el.en));
+  useEffect(() => {
+    const itm = splitString(el.en);
+    if (!itm) setItem(itm);
+  }, []);
   return (
     <div className="module-wrap">
       <div className="editbox-wrap">
         <Draggable handle=".handle">
           <div className="editbox" onClick={(e) => e.stopPropagation()}>
             <div className="handle">
-              EDIT COMMENT
+              <div>
+                <Button
+                  className="btn-back"
+                  onClick={() => setIsFragmentMode(!isFragmentMode)}>
+                  {isFragmentMode ? <LuAppWindow /> : <FaRegWindowRestore />}
+                </Button>{" "}
+                EDIT COMMENT
+              </div>
               <div>
                 <BtnFontSize />
                 <Button
@@ -34,9 +51,17 @@ const EditBox = ({ el, setEdit, savefn }) => {
             <div className="txt-box ">
               {ischeckerMode ? (
                 <TextChecker />
-              ) : (
+              ) : isFragmentMode ? (
                 <StrAreaEdit
                   handleTxt={handleTxt}
+                  setHandleTxt={setHandleTxt}
+                  actionFn={savefn}
+                />
+              ) : (
+                <EditArea
+                  handleTxt={handleTxt}
+                  item={item}
+                  setItem={setItem}
                   setHandleTxt={setHandleTxt}
                   actionFn={savefn}
                 />

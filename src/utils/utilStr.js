@@ -318,6 +318,7 @@ export const voiceToEdit = (val, handleTxt, setHandleTxt) => {
   }, 0);
 };
 export const editTextAction = (
+  fieldId,
   text,
   setText,
   action,
@@ -325,7 +326,7 @@ export const editTextAction = (
   newVal = null,
   finalFn = null
 ) => {
-  const textarea = document.getElementById("editArea");
+  const textarea = document.getElementById(fieldId);
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
@@ -363,9 +364,56 @@ export const editTextAction = (
   if (textarea !== null)
     textarea.setSelectionRange(start, start + resultText.length + 1);
 };
+export const editTextActionRef = (
+  ref,
+  text,
+  setText,
+  action,
+  ignoreNoselected = false,
+  newVal = null,
+  finalFn = null
+) => {
+  const textarea = ref.current;
+  // const textarea = document.getElementById("R1");
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
 
-export const replaceText = (handleTxt, oldText, newVal) => {
-  const textarea = document.getElementById("editArea");
+  if (start === end && !ignoreNoselected) {
+    return; // No text selected
+  }
+
+  if (action === "delSel") {
+    const newText = text.slice(0, start) + text.slice(end);
+    setText(newText);
+    if (textarea !== null) textarea.setSelectionRange(start, start);
+    return;
+  }
+  const selectedText = text.slice(start, end);
+
+  let resultText = "";
+
+  if (action === "add") {
+    resultText = newVal || "";
+  } else if (action === "upFirst") {
+    resultText = wordCaps(selectedText);
+  } else if (action === "down")
+    // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
+    resultText = selectedText.toLowerCase();
+  else if (action === "up") resultText = selectedText.toUpperCase();
+  else if (action === "accent")
+    resultText = `"${selectedText}" instead of "${selectedText}"`;
+  else if (action === "quotation") resultText = `"${selectedText}"`;
+  else if (action === "quotation2") resultText = `«${selectedText}»`;
+  else if (action === "staples") resultText = `(${selectedText})`;
+  else if (action === "dash") resultText = ` — ${selectedText}`;
+  const newText = text.slice(0, start) + " " + resultText + text.slice(end);
+
+  setText(newText);
+  if (textarea !== null)
+    textarea.setSelectionRange(start, start + resultText.length + 1);
+};
+export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
+  const textarea = document.getElementById(fieldId);
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
   const isSelected = start !== end;
@@ -388,4 +436,18 @@ export const replaceText = (handleTxt, oldText, newVal) => {
     return handleTxt.replace(new RegExp(oldText, "g"), newVal);
   }
   // return str.replace(oldText, newText);
+};
+export const splitString = (input) => {
+  const regex = /R1(.*?)R2(.*?)R3(.*)/s; // регулярное выражение для разделения на три части
+  const match = input.match(regex); // ищем совпадения
+
+  if (match) {
+    return {
+      R1: match[1].trim(),
+      R2: match[2].trim(),
+      R3: match[3].trim(),
+    };
+  } else {
+    return { R1: "", R2: "", R3: input };
+  }
 };

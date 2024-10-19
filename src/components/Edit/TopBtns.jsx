@@ -13,7 +13,7 @@ import BtnFragm from "./BtnFragm";
 import { PiSquareHalfDuotone } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-const TopBtns = ({ statesVal, onOK }) => {
+const TopBtns = ({ fieldid, statesVal, onOK }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const [autohis, setAutohis] = useState(true);
 
@@ -22,7 +22,7 @@ const TopBtns = ({ statesVal, onOK }) => {
     let end = 0;
     const text = await navigator.clipboard.readText();
     let newVal = handleTxt + text;
-    const textarea = document.getElementById("editArea");
+    const textarea = document.getElementById(fieldid);
 
     if (textarea !== null) {
       start = textarea.selectionStart;

@@ -11,10 +11,10 @@ import {
   RxLetterCaseUppercase,
 } from "react-icons/rx";
 
-const SideBtns = ({ statesVal, textSelected }) => {
+const SideBtns = ({ statesVal, textSelected, fieldId }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const capsSwitch = (action, isIgnore = false) => {
-    editTextAction(handleTxt, setHandleTxt, action, isIgnore);
+    editTextAction(fieldId, handleTxt, setHandleTxt, action, isIgnore);
   };
 
   return (
@@ -33,6 +33,7 @@ const SideBtns = ({ statesVal, textSelected }) => {
         </>
       )}
       <BtnReplace
+        fieldid={fieldId}
         handleTxt={handleTxt}
         setHandleTxt={setHandleTxt}
         textSelected={textSelected}

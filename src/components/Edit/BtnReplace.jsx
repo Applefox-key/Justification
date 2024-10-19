@@ -2,9 +2,9 @@ import React from "react";
 
 import { replaceText } from "../../utils/utilStr";
 
-const BtnReplace = ({ handleTxt, setHandleTxt }) => {
+const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
   const replace = (oldV, newV) => {
-    const newVal = replaceText(handleTxt, oldV, newV);
+    const newVal = replaceText(fieldid, handleTxt, oldV, newV);
     setHandleTxt(newVal);
   };
   const replaceQuotes = () => {
