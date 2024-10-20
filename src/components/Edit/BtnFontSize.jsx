@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiMinus, FiPlus } from "react-icons/fi";
 
 const BtnFontSize = () => {
-  const [font, setFont] = useState(1.8);
+  const [font, setFont] = useState(1.2);
   const setVerticalCardFonrSize = (prop = "") => {
     if (prop) {
       document.documentElement.style.setProperty(
@@ -17,10 +17,11 @@ const BtnFontSize = () => {
     setVerticalCardFonrSize(newValue);
   };
   useEffect(() => {
-    const size = parseFloat(
-      document.documentElement.style.getPropertyValue("--vertical-font"),
-      2
-    );
+    const size =
+      parseFloat(
+        document.documentElement.style.getPropertyValue("--vertical-font"),
+        2
+      ) || 1.2;
     console.log(size);
     if (size !== font) setFont(size);
   }, []);

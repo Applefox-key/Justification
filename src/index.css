@@ -13,8 +13,13 @@
   --second-color: #868686;
   --edit-width: 72vw;
   --edit-max-height:550px;
+  --r3-max-height:150px;
   --edit-AreaMax-height:360px;
+  --edit-AreaMax-padding:0px;
   --img-back: url("./img/img0.jpg");
+  --box-position:relative;
+  --box-position-points:unset;
+
 }
 body {
   margin: 0;

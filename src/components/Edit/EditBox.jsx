@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import StrAreaEdit from "./StrAreaEdit";
 import Draggable from "react-draggable";
@@ -15,8 +15,15 @@ import { splitString } from "../../utils/utilStr";
 const EditBox = ({ el, setEdit, savefn }) => {
   const [ischeckerMode, setIsCheckerMode] = useState(false);
   const [isOneFieldMode, setIsOneFieldMode] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
+  // const positionRef = useRef({ x: 0, y: 0 });
+  // const handleDrag = (e, data) => {
+  //   // Обновляем координаты, ограничивая их не менее 0
+  //   positionRef.current.x = Math.max(-160, positionRef.current.x + data.deltaX);
+  //   positionRef.current.y = Math.max(0, positionRef.current.y + data.deltaY);
+  // };
   useEffect(() => {
     const itm = splitString(el.en);
     if (!itm) setItem(itm);
@@ -25,8 +32,16 @@ const EditBox = ({ el, setEdit, savefn }) => {
   return (
     <div className="module-wrap">
       <div className="editbox-wrap">
-        <Draggable handle=".handle">
-          <div className="editbox" onClick={(e) => e.stopPropagation()}>
+        <Draggable
+          disabled={isFullScreen}
+          handle=".handle"
+          // position={{ x: positionRef.current.x, y: positionRef.current.y }}
+          // onDrag={handleDrag}
+        >
+          <div
+            className="editbox"
+            onClick={(e) => e.stopPropagation()}
+            id="editbox">
             <div className="handle">
               <div>
                 <Button
@@ -52,7 +67,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   onClick={() => setIsCheckerMode(!ischeckerMode)}>
                   {ischeckerMode ? <BsCardText /> : <BsPatchCheck />}
                 </Button>
-                <BoxSizeBtn />
+                <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
                 <Button className="btn-backXl" onClick={() => setEdit(null)}>
                   <IoIosClose />
                 </Button>

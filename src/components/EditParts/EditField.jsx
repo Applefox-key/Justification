@@ -34,9 +34,7 @@ const EditField = ({
           as="textarea"
           id={fieldName}
           autoFocus
-          className={
-            isActive ? "fit-height w-100 active-field" : "fit-height w-100"
-          }
+          className={isActive ? "field active-field" : "field"}
           onFocus={() => fieldFn.onFocus(ref)}
           rows={1}
           spellCheck

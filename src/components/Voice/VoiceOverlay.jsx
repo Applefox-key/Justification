@@ -16,7 +16,7 @@ const VoiceOverlay = ({ toJustif, edit = false }) => {
 
   return (
     <>
-      <div ref={ref} className={"w100 " + (!edit ? "voice-main m-0" : "")}>
+      <div ref={ref} className={"vw100T " + (!edit ? "voice-main m-0" : "")}>
         <Button
           onClick={handleClick}
           className={edit ? "w100 m-0" : "vw100 m-0"}>

@@ -164,6 +164,13 @@ export const hotreplaceSuggest = [
     show: true,
     title: "need",
   },
+  {
+    oldT: ["should"],
+    newT: `It's should be ""`,
+    caseSensitive: false,
+    show: true,
+    title: "should",
+  },
 ];
 const autoReplaceToModels = [
   {
