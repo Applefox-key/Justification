@@ -150,6 +150,20 @@ export const hotreplaceSuggest = [
     show: true,
     title: "rephrase",
   },
+  {
+    oldT: ["formal"],
+    newT: `The response is written in a rather formal style, you need to add warmth.`,
+    caseSensitive: false,
+    show: true,
+    title: "formal",
+  },
+  {
+    oldT: ["need"],
+    newT: `It is need to be `,
+    caseSensitive: false,
+    show: true,
+    title: "need",
+  },
 ];
 const autoReplaceToModels = [
   {

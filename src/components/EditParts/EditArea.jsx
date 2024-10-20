@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { voiceToEdit, editTextActionRef } from "../../utils/utilStr";
 import TxtBtns from "../TextParts/TxtBtns";
@@ -9,24 +9,34 @@ import SideBtns from "../Edit/SideBtns";
 import EditField from "./EditField";
 import FinalRate from "../Rate/FinalRate";
 import { defaultVerdict, labelsVerdictEdit } from "../../utils/analysis";
+import { saveToHistory } from "../../utils/localStorage";
 
-const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
+const EditArea = ({ actionFn, item, setItem }) => {
   const [textSelected, setTextSelected] = useState("");
   const [rate, setRate] = useState(defaultVerdict);
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
   const [textRef, setTextRef] = useState(null);
-  const clear = () => {
-    setItem({ R1: "", R2: "", R3: "" });
+  const fieldId = useMemo(() => {
+    return textRef && textRef.current && textRef.current.id
+      ? textRef.current.id
+      : "R3";
+  }, [textRef]);
+  const fieldFn = {
+    onFocus: (ref) => {
+      if (textRef && textRef.current) {
+        const field = fieldId;
+        const val = textRef.current.value || "";
+        setItem({ ...item, [field]: val });
+      }
+      setTextRef(ref);
+    },
+    setNewVal: (val) => {
+      const field = fieldId;
+      setItem({ ...item, [field]: val });
+    },
   };
-  const onOK = (e) => {
-    e.stopPropagation();
-    const val = ` R1${item.R1}, R2${item.R2} R3${item.R3}`;
-    clear();
-    if (!!actionFn) actionFn(val);
-  };
-
   const clickOnPhrase = (e) => {
     e.stopPropagation();
     const selection = window.getSelection();
@@ -35,37 +45,10 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
     if (selectedText === textSelected) return;
     setTextSelected(selectedText);
   };
-
-  const fieldFn = {
-    onFocus: (ref) => {
-      if (textRef) {
-        const field = textRef.current.id;
-        const val = textRef.current.value;
-
-        // const oldVal = item[field];
-        setItem({ ...item, [field]: val });
-      }
-      setTextRef(ref);
-    },
-    setNewVal: (val) => {
-      const field = textRef.current.id;
-      setItem({ ...item, [field]: val });
-    },
-  };
-  const refLast = useRef(null);
-  const lasttxt = {
-    saveLast: () => {
-      refLast.current = item[textRef.current.id || "R3"];
-    },
-    pasteLast: () => {
-      if (refLast.current !== "") fieldFn.setNewVal(refLast.current);
-      refLast.current = "";
-    },
-  };
   const pasteToText = (val) => {
     editTextActionRef(
       textRef,
-      item[textRef.current.id],
+      item[fieldId],
       fieldFn.setNewVal,
       "add",
       true,
@@ -76,10 +59,25 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
     const newV = rate.resultNum ? labelsVerdictEdit[rate.resultNum - 1] : "";
     setItem({
       ...item,
-      "R3": `${newV}\n @Response 1: ${item.R1}\n @Response 2:${item.R2}`,
+      "R3": `${newV} ${item.R0}\n @Response 1: ${item.R1}\n @Response 2:${item.R2}`,
     });
   };
+  const clear = () => {
+    const handleTxt =
+      !item.R1 && !item.R1 && !item.R1 && !item.R0
+        ? ""
+        : `R1:${item.R1} R2:${item.R2}, R3:${item.R3}, R0:${item.R0}`;
 
+    saveToHistory({ en: handleTxt, ru: "" });
+    setItem({ R1: "", R2: "", R3: "", R0: "" });
+    setRate(defaultVerdict);
+  };
+  const onOK = (e) => {
+    e.stopPropagation();
+    const val = ` R0${item.R0} R1${item.R1}, R2${item.R2} R3${item.R3}`;
+    clear();
+    if (!!actionFn) actionFn(val);
+  };
   const handleChangeVerdict = (val) => {
     const newvalTxt = labelsVerdictEdit[val - 1];
     setRate({
@@ -104,7 +102,7 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
         </Button>
         <TopBtns
           statesVal={{
-            handleTxt: textRef ? item[textRef.current.id] : item["R3"],
+            handleTxt: item[fieldId],
             setHandleTxt: fieldFn.setNewVal,
             isTxt,
             setIsTxt,
@@ -113,45 +111,60 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
         />
         {isHotBtns && <HotBtns toJustif={pasteToText} />}
       </div>
-
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
         <div className="d-flex h-100 justify-content-start">
           <div className="d-flex w-100 h-100">
             {isTemplates && <TxtBtns edit toJustif={pasteToText} />}
             <div className="editParts-wrap">
               <div className="d-flex w-100">
-                <EditField
-                  fieldName="R1"
-                  placeholder="A"
-                  fieldVal={item.R1}
-                  fieldFn={fieldFn}
-                />{" "}
-                <EditField
-                  fieldName="R2"
-                  placeholder="B"
-                  fieldVal={item.R2}
-                  fieldFn={fieldFn}
-                />{" "}
-              </div>{" "}
-              <div className="edit-parts-menu">
-                <FinalRate value={rate} setValue={handleChangeVerdict} />{" "}
-                <button onClick={compose}>compose</button>
-                <button onClick={clear}>clear all parts</button>
+                {["R1", "R2"].map((field, i) => (
+                  <EditField
+                    key={i}
+                    fieldName={field}
+                    placeholder={i + 1}
+                    setIsTxt={setIsTxt}
+                    isTxt={isTxt && fieldId === field}
+                    isActive={fieldId === field}
+                    fieldVal={item[field]}
+                    fieldFn={fieldFn}
+                  />
+                ))}
               </div>
+              <div className="edit-parts-menu">
+                <FinalRate value={rate} setValue={handleChangeVerdict} />
+                <span>{labelsVerdictEdit[rate.resultNum - 1]}</span>
+                <div>
+                  <button onClick={compose}>compose</button>
+                  <button onClick={clear}>clear all parts</button>{" "}
+                </div>
+              </div>{" "}
               <EditField
-                autoF
+                setIsTxt={setIsTxt}
+                isTxt={isTxt && fieldId === "R0"}
+                autoFocus
+                fieldName="R0"
+                isActive={fieldId === "R0"}
+                placeholder="Reason"
+                fieldVal={item.R0}
+                fieldFn={fieldFn}
+              />{" "}
+              <EditField
+                setIsTxt={setIsTxt}
+                isTxt={isTxt && fieldId === "R3"}
+                autoFocus
                 fieldName="R3"
+                isActive={fieldId === "R3"}
                 placeholder="Both"
                 fieldVal={item.R3}
                 fieldFn={fieldFn}
-              />
+              />{" "}
             </div>
           </div>
 
           <SideBtns
-            fieldId={textRef ? textRef.current.id : "R3"}
+            fieldId={fieldId}
             statesVal={{
-              handleTxt: textRef ? item[textRef.current.id] : item["R3"],
+              handleTxt: item[fieldId],
               setHandleTxt: fieldFn.setNewVal,
               isTxt,
               setIsTxt,
@@ -164,14 +177,9 @@ const EditArea = ({ actionFn, placeholder = "", handleTxt, item, setItem }) => {
         <VoiceOverlay
           edit
           toJustif={(txt) => {
-            voiceToEdit(
-              txt,
-              textRef.current ? item[textRef.current.id] : item["R3"],
-              fieldFn.setNewVal
-            );
+            voiceToEdit(txt, item[fieldId], fieldFn.setNewVal, fieldId);
           }}
         />
-        {/* <RatingOverlay toJustif={toText} /> */}
         <Button className="w-100 m-0" onClick={onOK}>
           OK
         </Button>

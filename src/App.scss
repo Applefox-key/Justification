@@ -680,6 +680,8 @@ textarea.form-control::placeholder {
   }
 }
 
+
+
 .variants-wrap {
   border-radius: 0;
 }
@@ -1063,6 +1065,22 @@ textarea.form-control::placeholder {
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+
+  h5 {
+    margin: 0;
+    position: relative;
+
+    span {
+      position: absolute;
+      // right: 35%;
+      font-style: italic;
+      width: fit-content;
+      text-wrap: nowrap;
+      font-size: 12px;
+    }
+  }
+
+
 }
 
 .txt-box {
@@ -1831,19 +1849,6 @@ textarea.form-control::placeholder {
     min-width: unset;
     min-width: 23px;
     margin: 0;
-    //new
-    // min-width: 23px;
-    // margin: 0;
-    // max-width: unset;
-    // width: fit-content;
-    // border-radius: 5px;
-    // font-size: 12px;
-    // font-weight: 600;
-    // display: flex;
-    // flex-direction: row;
-    // flex-wrap: nowrap;
-
-
   }
 
   span {
@@ -1865,6 +1870,7 @@ textarea.form-control::placeholder {
 
 .templates-wrap {
   position: relative;
+  top: -3px;
 
   .templates-menu {
     position: absolute;
@@ -2273,27 +2279,62 @@ textarea.form-control::placeholder {
 .editParts-wrap {
   height: 100%;
   width: 100%;
+
+  .setIsTxt {
+    max-height: 180px;
+  }
 }
 
 .edit-parts-menu {
   display: flex;
   background-color: var(--color-accent);
   position: relative;
-  justify-content: center;
+  justify-content: space-between;
+  margin-left: 5px;
+  margin-right: 5px;
+  align-items: center;
+  // color: #ff8346;
+
+  .header-fin {
+    display: flex;
+    align-items: center;
+    scale: 1.4;
+    position: relative;
+    left: 35px;
+
+    span {
+      display: none;
+    }
+  }
 
   span {
-    font-size: 10px;
-    position: relative;
-    top: -10px;
+    font-weight: 600;
+    color: #ff8346;
   }
+
 }
 
 #R1,
 #R2 {
   width: 100%;
-  max-height: 180px;
+  max-height: 250px;
 }
 
 #R3 {
-  max-height: 150px;
+  max-height: 230px;
+}
+
+#R0 {
+  max-height: 30px;
+  min-height: 50px;
+  height: 50px;
+  // max-width: 300px;
+  // outline: none;
+  // border: none;
+  // text-overflow: clip;
+}
+
+.active-field {
+  border: 5px solid #ff8346;
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }

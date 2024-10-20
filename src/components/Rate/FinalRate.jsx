@@ -1,7 +1,7 @@
 import React from "react";
 import { labelsVerdict } from "../../utils/analysis";
 
-const FinalRate = ({ value, setValue }) => {
+const FinalRate = ({ value, setValue, lg = false }) => {
   const setClassName = (i) => {
     let cl = `rate rate${i + 1} `;
 

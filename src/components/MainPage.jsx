@@ -60,6 +60,7 @@ const MainPage = () => {
             currentBtn={currBtn}
             curSection={curSection}
             setCurSection={setCurSection}
+            setCurrBtn={setCurrBtn}
           />
         )}
         <div className="up-part">

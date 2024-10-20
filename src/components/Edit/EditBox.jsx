@@ -14,7 +14,7 @@ import { splitString } from "../../utils/utilStr";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [ischeckerMode, setIsCheckerMode] = useState(false);
-  const [isFragmentMode, setIsFragmentMode] = useState(true);
+  const [isOneFieldMode, setIsOneFieldMode] = useState(true);
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
   useEffect(() => {
@@ -31,15 +31,24 @@ const EditBox = ({ el, setEdit, savefn }) => {
               <div>
                 <Button
                   className="btn-back"
-                  onClick={() => setIsFragmentMode(!isFragmentMode)}>
-                  {isFragmentMode ? <LuAppWindow /> : <FaRegWindowRestore />}
-                </Button>{" "}
-                EDIT COMMENT
-              </div>
-              <div>
+                  onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
+                  {isOneFieldMode ? <LuAppWindow /> : <FaRegWindowRestore />}
+                </Button>
                 <BtnFontSize />
+              </div>
+              <h5>
+                EDIT COMMENT
+                <span>
+                  {ischeckerMode
+                    ? "check text mode"
+                    : isOneFieldMode
+                    ? "one-window mode"
+                    : "multi-window mode"}
+                </span>
+              </h5>
+              <div>
                 <Button
-                  className="btn-back"
+                  className="btn-backXl"
                   onClick={() => setIsCheckerMode(!ischeckerMode)}>
                   {ischeckerMode ? <BsCardText /> : <BsPatchCheck />}
                 </Button>
@@ -52,20 +61,14 @@ const EditBox = ({ el, setEdit, savefn }) => {
             <div className="txt-box ">
               {ischeckerMode ? (
                 <TextChecker />
-              ) : isFragmentMode ? (
+              ) : isOneFieldMode ? (
                 <StrAreaEdit
                   handleTxt={handleTxt}
                   setHandleTxt={setHandleTxt}
                   actionFn={savefn}
                 />
               ) : (
-                <EditArea
-                  handleTxt={handleTxt}
-                  item={item}
-                  setItem={setItem}
-                  setHandleTxt={setHandleTxt}
-                  actionFn={savefn}
-                />
+                <EditArea item={item} setItem={setItem} actionFn={savefn} />
               )}
             </div>
           </div>

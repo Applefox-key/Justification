@@ -32,21 +32,21 @@ const SideBtns = ({ statesVal, textSelected, fieldId }) => {
           </button>
         </>
       )}
-      <BtnReplace
-        fieldid={fieldId}
-        handleTxt={handleTxt}
-        setHandleTxt={setHandleTxt}
-        textSelected={textSelected}
-      />
-      <button
-        className="square-btn ordinary"
-        title="add a dot"
-        onClick={() => setHandleTxt(handleTxt + ". ")}>
-        .
-      </button>{" "}
+
       {!isTxt && (
         <>
-          {" "}
+          <BtnReplace
+            fieldid={fieldId}
+            handleTxt={handleTxt}
+            setHandleTxt={setHandleTxt}
+            textSelected={textSelected}
+          />
+          <button
+            className="square-btn ordinary"
+            title="add a dot"
+            onClick={() => setHandleTxt(handleTxt + ". ")}>
+            .
+          </button>
           <button
             title="dash"
             className="square-btn ordinary"

@@ -279,13 +279,18 @@ const wordCaps = (text) =>
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
-export const voiceToEdit = (val, handleTxt, setHandleTxt) => {
+export const voiceToEdit = (
+  val,
+  handleTxt,
+  setHandleTxt,
+  fieldId = "editArea"
+) => {
   const newVal = val.en;
   let start = handleTxt.length;
   let end = handleTxt.length;
   let textarea = null;
 
-  textarea = document.getElementById("editArea");
+  textarea = document.getElementById(fieldId);
   if (textarea !== null) {
     start = textarea.selectionStart;
     end = textarea.selectionEnd;
@@ -370,9 +375,9 @@ export const editTextActionRef = (
   setText,
   action,
   ignoreNoselected = false,
-  newVal = null,
-  finalFn = null
+  newVal = null
 ) => {
+  if (!ref || !ref.current) return;
   const textarea = ref.current;
   // const textarea = document.getElementById("R1");
   const start = textarea.selectionStart;
@@ -438,16 +443,19 @@ export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
   // return str.replace(oldText, newText);
 };
 export const splitString = (input) => {
-  const regex = /R1(.*?)R2(.*?)R3(.*)/s; // регулярное выражение для разделения на три части
+  // const regex = /R1(.*?)R2(.*?)R3(.*?)R0(.*)/s; // регулярное выражение для разделения на три части
+  const regex = /R0(.*?)R1(.*?)R2(.*?)R3(.*)/s; // регулярное выражение для разделения на три части
   const match = input.match(regex); // ищем совпадения
 
   if (match) {
     return {
-      R1: match[1].trim(),
-      R2: match[2].trim(),
-      R3: match[3].trim(),
+      R0: match[1].trim(),
+      R1: match[2].trim(),
+      R2: match[3].trim(),
+      R3: match[4].trim(),
+      // R0: match[4].trim(),
     };
   } else {
-    return { R1: "", R2: "", R3: input };
+    return { R1: "", R2: "", R3: input, R0: "" };
   }
 };
