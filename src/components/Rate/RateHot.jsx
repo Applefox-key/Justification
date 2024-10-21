@@ -1,5 +1,5 @@
 import React from "react";
-import { labelsVerdict, labelsVerdictEdit } from "../../utils/analysis";
+import RateBoxes from "./RateBoxes";
 
 const RateHot = ({ callback, setIsOpen, isOpen }) => {
   return (
@@ -11,18 +11,7 @@ const RateHot = ({ callback, setIsOpen, isOpen }) => {
         EVAL
       </button>
       {isOpen === "EVAL" && (
-        <div className="header-fin">
-          <div className="final-rate">
-            {labelsVerdict.map((el, i) => (
-              <div
-                onClick={() => callback(labelsVerdictEdit[i])}
-                title={labelsVerdictEdit[i]}
-                className={`rate rate${i + 1} `}>
-                {el[0]}
-              </div>
-            ))}
-          </div>
-        </div>
+        <RateBoxes callback={(val) => callback(val.title)} />
       )}
     </div>
   );

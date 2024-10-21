@@ -10,6 +10,7 @@ const EditField = ({
   placeholder,
   fieldVal,
   fieldFn,
+  classN,
 }) => {
   const ref = useRef(null);
 
@@ -34,7 +35,8 @@ const EditField = ({
           as="textarea"
           id={fieldName}
           autoFocus
-          className={isActive ? "field active-field" : "field"}
+          // className={isActive ? "field active-field" : "field"}
+          className={"field " + classN}
           onFocus={() => fieldFn.onFocus(ref)}
           rows={1}
           spellCheck

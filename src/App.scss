@@ -37,6 +37,9 @@ button {
   &:disabled {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
     background: burlywood;
+    // background: #e6e6e6;
+    /* opacity: 0.6; */
+    // color: black;
   }
 
   &:hover {
@@ -60,6 +63,7 @@ button {
 
 textarea.form-control {
   font-size: 12px;
+  border-width: 2px;
 }
 
 textarea.form-control::placeholder {
@@ -961,6 +965,8 @@ textarea.form-control::placeholder {
   textarea.form-control,
   .setIsTxt,
   .setIsTxt-check {
+    // border-color: rgb(230 231 233);
+    // border-color: var(--line2);
     font-size: 16px;
     font-size: var(--vertical-font);
     width: 97%;
@@ -2348,10 +2354,12 @@ textarea.form-control::placeholder {
 .edit-parts-menu {
   display: flex;
   background-color: var(--color-accent);
+  background: var(--menu);
   position: relative;
   justify-content: space-between;
   margin-left: 5px;
   margin-right: 5px;
+  margin: 2px 5px;
   align-items: center;
   // color: #ff8346;
 
@@ -2407,7 +2415,19 @@ textarea.form-control::placeholder {
 }
 
 .active-field {
-  border: 5px solid #ff8346;
+  // border: 5px solid #ff8346;
+  border: 5px solid #257e90;
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.best-field {
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  // border: 5px solid #ff8346;
+  box-shadow: rgb(255, 156, 85) 0px 0px 0px 4px;
+  // outline: 3px solid #ff8346;
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 

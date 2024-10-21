@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import { voiceToEdit, editTextActionRef } from "../../utils/utilStr";
 import TxtBtns from "../TextParts/TxtBtns";
@@ -10,10 +10,12 @@ import EditField from "./EditField";
 import FinalRate from "../Rate/FinalRate";
 import { defaultVerdict, labelsVerdictEdit } from "../../utils/analysis";
 import { saveToHistory } from "../../utils/localStorage";
+import RateBoxes from "../Rate/RateBoxes";
 
 const EditArea = ({ actionFn, item, setItem }) => {
   const [textSelected, setTextSelected] = useState("");
-  const [rate, setRate] = useState(defaultVerdict);
+
+  const [best, setBest] = useState({ num: -1, title: "", fields: [] });
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
@@ -23,6 +25,14 @@ const EditArea = ({ actionFn, item, setItem }) => {
       ? textRef.current.id
       : "R3";
   }, [textRef]);
+
+  const bestField = useCallback((i) => {
+    const result = [];
+    if (i > -1 && i < 4) result.push("R1");
+    if (i > 2) result.push("R2");
+    return result;
+  }, []);
+
   const fieldFn = {
     onFocus: (ref) => {
       if (textRef && textRef.current) {
@@ -56,7 +66,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
     );
   };
   const compose = () => {
-    const newV = rate.resultNum ? labelsVerdictEdit[rate.resultNum - 1] : "";
+    const newV = best.title;
     setItem({
       ...item,
       "R3": `${newV} ${item.R0}\n @Response 1: ${item.R1}\n @Response 2: ${item.R2}`,
@@ -70,21 +80,13 @@ const EditArea = ({ actionFn, item, setItem }) => {
 
     saveToHistory({ en: handleTxt, ru: "" });
     setItem({ R1: "", R2: "", R3: "", R0: "" });
-    setRate(defaultVerdict);
+    setBest({ num: -1, title: "" });
   };
   const onOK = (e) => {
     e.stopPropagation();
     const val = ` R0${item.R0} R1${item.R1}, R2${item.R2} R3${item.R3}`;
     clear();
     if (!!actionFn) actionFn(val);
-  };
-  const handleChangeVerdict = (val) => {
-    const newvalTxt = labelsVerdictEdit[val - 1];
-    setRate({
-      ...rate,
-      result: val === 4 ? "Responses are the same" : "Response " + newvalTxt,
-      resultNum: val,
-    });
   };
 
   return (
@@ -123,6 +125,10 @@ const EditArea = ({ actionFn, item, setItem }) => {
                     fieldName={field}
                     placeholder={i + 1}
                     setIsTxt={setIsTxt}
+                    classN={
+                      (fieldId === field ? "active-field" : "") +
+                      (best.fields.includes(field) ? " best-field" : "")
+                    }
                     isTxt={isTxt && fieldId === field}
                     isActive={fieldId === field}
                     fieldVal={item[field]}
@@ -131,8 +137,19 @@ const EditArea = ({ actionFn, item, setItem }) => {
                 ))}
               </div>
               <div className="edit-parts-menu">
-                <FinalRate value={rate} setValue={handleChangeVerdict} />
-                <span>{labelsVerdictEdit[rate.resultNum - 1]}</span>
+                <RateBoxes
+                  callback={(val) => {
+                    let v = best.num === val.num ? -1 : val.num;
+                    setBest(
+                      v === -1
+                        ? { num: -1, title: "", fields: [] }
+                        : { ...val, fields: bestField(v) }
+                    );
+                  }}
+                  choosed={best.num}
+                />
+
+                <span>{best.title}</span>
                 <div>
                   <button onClick={compose}>compose</button>
                   <button onClick={clear}>clear all parts</button>{" "}
@@ -143,6 +160,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
                 isTxt={isTxt && fieldId === "R0"}
                 autoFocus
                 fieldName="R0"
+                classN={fieldId === "R0" ? "active-field" : ""}
                 isActive={fieldId === "R0"}
                 placeholder="Reason"
                 fieldVal={item.R0}
@@ -153,11 +171,12 @@ const EditArea = ({ actionFn, item, setItem }) => {
                 isTxt={isTxt && fieldId === "R3"}
                 autoFocus
                 fieldName="R3"
+                classN={fieldId === "R3" ? "active-field" : ""}
                 isActive={fieldId === "R3"}
                 placeholder="Both"
                 fieldVal={item.R3}
                 fieldFn={fieldFn}
-              />{" "}
+              />
             </div>
           </div>
 
