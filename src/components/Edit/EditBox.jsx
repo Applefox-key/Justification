@@ -1,43 +1,38 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import StrAreaEdit from "./StrAreaEdit";
 import Draggable from "react-draggable";
-import BoxSizeBtn from "../UI/BoxSizeBtn";
-import { IoIosClose } from "react-icons/io";
-import TextChecker from "../UI/TextChecker";
-import { BsCardText, BsPatchCheck } from "react-icons/bs";
 import BtnFontSize from "./BtnFontSize";
-import { LuAppWindow } from "react-icons/lu";
+import { BsCardText, BsPatchCheck } from "react-icons/bs";
 import { FaRegWindowRestore } from "react-icons/fa";
-import EditArea from "../EditParts/EditArea";
+import { LuAppWindow } from "react-icons/lu";
+import { IoIosClose } from "react-icons/io";
 import { splitString } from "../../utils/utilStr";
+import EditArea from "../EditParts/EditArea";
+import TextChecker from "../UI/TextChecker";
+import BoxSizeBtn from "../UI/BoxSizeBtn";
+import StrAreaEdit from "./StrAreaEdit";
 
 const EditBox = ({ el, setEdit, savefn }) => {
-  const [ischeckerMode, setIsCheckerMode] = useState(false);
+  const [isСheckerMode, setIsCheckerMode] = useState(false);
   const [isOneFieldMode, setIsOneFieldMode] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
-  // const positionRef = useRef({ x: 0, y: 0 });
-  // const handleDrag = (e, data) => {
-  //   // Обновляем координаты, ограничивая их не менее 0
-  //   positionRef.current.x = Math.max(-160, positionRef.current.x + data.deltaX);
-  //   positionRef.current.y = Math.max(0, positionRef.current.y + data.deltaY);
-  // };
+
+  const modeText = {
+    checker: "check text mode",
+    oneField: "one-window mode",
+    multiField: "multi-window mode",
+  };
   useEffect(() => {
     const itm = splitString(el.en);
-    if (!itm) setItem(itm);
+    setItem(itm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="module-wrap">
       <div className="editbox-wrap">
-        <Draggable
-          disabled={isFullScreen}
-          handle=".handle"
-          // position={{ x: positionRef.current.x, y: positionRef.current.y }}
-          // onDrag={handleDrag}
-        >
+        <Draggable disabled={isFullScreen} handle=".handle">
           <div
             className="editbox"
             onClick={(e) => e.stopPropagation()}
@@ -54,18 +49,18 @@ const EditBox = ({ el, setEdit, savefn }) => {
               <h5>
                 EDIT COMMENT
                 <span>
-                  {ischeckerMode
-                    ? "check text mode"
+                  {isСheckerMode
+                    ? modeText.checker
                     : isOneFieldMode
-                    ? "one-window mode"
-                    : "multi-window mode"}
+                    ? modeText.oneField
+                    : modeText.multiField}
                 </span>
               </h5>
               <div>
                 <Button
                   className="btn-backXl"
-                  onClick={() => setIsCheckerMode(!ischeckerMode)}>
-                  {ischeckerMode ? <BsCardText /> : <BsPatchCheck />}
+                  onClick={() => setIsCheckerMode(!isСheckerMode)}>
+                  {isСheckerMode ? <BsCardText /> : <BsPatchCheck />}
                 </Button>
                 <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
                 <Button className="btn-backXl" onClick={() => setEdit(null)}>
@@ -74,7 +69,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
               </div>
             </div>
             <div className="txt-box ">
-              {ischeckerMode ? (
+              {isСheckerMode ? (
                 <TextChecker />
               ) : isOneFieldMode ? (
                 <StrAreaEdit

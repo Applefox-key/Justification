@@ -17,6 +17,7 @@ export const labelsVerdict = [
   "B is better",
   "B is much better",
 ];
+
 export const labelsVerdictEdit = [
   "@Response 1 is much better than @Response 2.",
   "@Response 1 is better than @Response 2.",

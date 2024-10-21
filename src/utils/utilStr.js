@@ -103,10 +103,6 @@ const replaceByArr = (replacementsArr, text) => {
     oldT.forEach((oldWord) => {
       const flags = caseSensitive ? "g" : "gi";
       const regex = new RegExp(escapeSpecialCharacters(oldWord), flags);
-      // const regex = new RegExp(
-      //   `\\b${escapeSpecialCharacters(oldWord)}\\b`,
-      //   flags
-      // );
       // Replacing all occurrences of old Word with newT
       text = text.replace(regex, newT);
     });

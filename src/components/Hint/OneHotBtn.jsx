@@ -13,16 +13,30 @@ const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
       {isOpen === oneBtn.name && (
         <div className="hot-sum">
           {oneBtn.btns.map((btn) => (
-            <button
-              className="square-btn hot-sub-btn"
-              title={btn.newT}
-              onClick={() => {
-                if (btn.action) btn.action();
-                else toJustif(btn.newT);
-                // setIsOpen(null);
-              }}>
-              {btn.title || btn.oldT[0]}
-            </button>
+            <div className="hot-one">
+              <button
+                className="square-btn hot-sub-btn"
+                title={btn.newT}
+                onClick={() => toJustif(btn.newT)}>
+                {btn.title || btn.oldT[0]}
+              </button>
+              {btn.newT.includes("BotModel") && (
+                <div>
+                  <button
+                    className="square-btn hot-sub-btn"
+                    title={btn.newT}
+                    onClick={() => toJustif(btn.newT, "A")}>
+                    {"Resp A"}
+                  </button>{" "}
+                  <button
+                    className="square-btn hot-sub-btn"
+                    title={btn.newT}
+                    onClick={() => toJustif(btn.newT, "B")}>
+                    {"Resp B"}
+                  </button>{" "}
+                </div>
+              )}
+            </div>
           ))}
         </div>
       )}

@@ -1,28 +1,142 @@
+//hot list
+export const autoreplaceFormat = [
+  {
+    oldT: ["num"],
+    newT: `BotModel uses a numbered list unnecessarily`,
+    caseSensitive: false,
+    show: true,
+    title: "num list",
+  },
+  {
+    oldT: ["numbul"],
+    newT: `BotModel uses a numbered list instead of a bulleted list`,
+    caseSensitive: false,
+    show: true,
+    title: "num instead bull",
+  },
+  {
+    oldT: ["dash"],
+    newT: `In BotModel the hyphen should be replaced with a dash.`,
+    caseSensitive: false,
+    show: true,
+    title: "—",
+  },
+  {
+    oldT: ["quotes"],
+    newT: `In BotModel the quotation marks should be replaced with «».`,
+    caseSensitive: false,
+    show: true,
+    title: "« »",
+  },
+  {
+    oldT: ["quotesDash"],
+    newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
+    caseSensitive: false,
+    show: true,
+    title: "« » —",
+  },
+  {
+    oldT: ["bolding"],
+    newT: `BotModel could be improved by bolding the main points of the text.`,
+    caseSensitive: false,
+    show: true,
+    title: "bolding",
+  },
+];
+export const hotReplaceTone = [
+  {
+    oldT: ["robotic"],
+    newT: `BotModel sounds a bit robotic.`,
+    caseSensitive: false,
+    show: true,
+    title: "robo",
+  },
+  {
+    oldT: ["you"],
+    newT: `BotModel sounds impolite, it uses the address "ты", in Russian it is better to use "вы".`,
+    caseSensitive: false,
+    show: true,
+    title: "ты-вы",
+  },
+  {
+    oldT: ["imperative"],
+    newT: `BotModel sounds impolite, it uses the imperative mood ("").`,
+    caseSensitive: false,
+    show: true,
+    title: "imperative!",
+  },
+  {
+    oldT: ["pleasantries"],
+    newT: `BotModel contains pleasantries in intro outro.`,
+    caseSensitive: false,
+    show: true,
+    title: "pleasantries",
+  },
+  {
+    oldT: ["unnatural"],
+    newT: `Some phrases in BotModel sound unnatural ("").`,
+    caseSensitive: false,
+    show: true,
+    title: "unnatural",
+  },
+  {
+    oldT: ["formal"],
+    newT: `BotModel is written in a rather formal style, you need to add warmth.`,
+    caseSensitive: false,
+    show: true,
+    title: "formal",
+  },
+];
+export const hotReplaceSuggestion = [
+  {
+    oldT: ["rephrase"],
+    newT: `It is better to rephrase some fragments in BotModel ("").`,
+    caseSensitive: false,
+    show: true,
+    title: "rephrase",
+  },
+  {
+    oldT: ["need"],
+    newT: `It is need to be `,
+    caseSensitive: false,
+    show: true,
+    title: "need",
+  },
+  {
+    oldT: ["should"],
+    newT: `It's should be ""`,
+    caseSensitive: false,
+    show: true,
+    title: "should",
+  },
+];
+
+//autorepl
 export const autoreplaceNum = [
   {
     oldT: ["num1"],
-    newT: `BotModel A uses a numbered list unnecessarily`,
+    newT: `BotModelauses a numbered list unnecessarily`,
     caseSensitive: false,
     show: true,
     title: "1",
   },
   {
     oldT: ["numb1"],
-    newT: `BotModel A uses a numbered list instead of a bulleted list`,
+    newT: `BotModelauses a numbered list instead of a bulleted list`,
     caseSensitive: false,
     show: true,
     title: "1->b",
   },
   {
     oldT: ["num2"],
-    newT: `BotModel B uses a numbered list unnecessarily`,
+    newT: `BotModelb uses a numbered list unnecessarily`,
     caseSensitive: false,
     show: true,
     title: "2",
   },
   {
     oldT: ["numb2"],
-    newT: `BotModel B uses a numbered list instead of a bulleted list`,
+    newT: `BotModelb uses a numbered list instead of a bulleted list`,
     caseSensitive: false,
     show: true,
     title: "2->b",
@@ -42,64 +156,7 @@ export const autoreplaceNum = [
     title: "both->b",
   },
 ];
-export const autoreplaceDash = [
-  {
-    oldT: ["dash1"],
-    newT: `In BotModel A  the hyphen should be replaced with a dash.`,
-    caseSensitive: false,
-    show: true,
-    title: "-1",
-  },
-  {
-    oldT: ["dash2"],
-    newT: `In BotModel B  the hyphen should be replaced with a dash.`,
-    caseSensitive: false,
-    show: true,
-    title: "-2",
-  },
-  {
-    oldT: ["dash2"],
-    newT: `In both responses the hyphen should be replaced with a dash.`,
-    caseSensitive: false,
-    show: true,
-    title: "-both",
-  },
-  {
-    oldT: ["quotes1"],
-    newT: `In BotModel A the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "«1»",
-  },
-  {
-    oldT: ["quotes2"],
-    newT: `In BotModel B the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "«2»",
-  },
-  {
-    oldT: ["quotes1"],
-    newT: `In both responses the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "«both» ",
-  },
-  {
-    oldT: ["dash1"],
-    newT: `In BotModel A  the hyphen should be replaced with a dash and the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "-«1»",
-  },
-  {
-    oldT: ["dash1"],
-    newT: `In BotModel B  the hyphen should be replaced with a dash and the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "-«2»",
-  },
-];
+
 export const hotreplaceSuggest = [
   {
     oldT: ["robotic"],
@@ -211,7 +268,7 @@ const autoReplaceToModels = [
       "interaction one",
       " 1 ",
     ],
-    newT: "BotModel A",
+    newT: "BotModela",
     caseSensitive: false,
   },
   {
@@ -252,7 +309,7 @@ const autoReplaceToModels = [
       "interaction two",
       " 2 ",
     ],
-    newT: "BotModel B",
+    newT: "BotModelb",
     caseSensitive: false,
   },
   {
@@ -284,13 +341,13 @@ const autoReplaceExamples = [
 const autoReplaceInstead = [
   {
     oldT: ["уд1", "em1"],
-    newT: ` There is a wrong accent in BotModel A: `,
+    newT: ` There is a wrong accent in BotModela: `,
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["уд2", "em2"],
-    newT: ` There is a wrong accent in BotModel B: `,
+    newT: ` There is a wrong accent in BotModelb: `,
     caseSensitive: false,
     show: true,
   },
@@ -298,13 +355,13 @@ const autoReplaceInstead = [
 const autoReplaceQuestionnaire = [
   {
     oldT: ["рои1", "rq1"],
-    newT: `The question in the questionnaire of BotModel A "" marked YES NO, because`,
+    newT: `The question in the questionnaire of BotModela"" marked YES NO, because`,
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["рои2", "rq2"],
-    newT: `The question in the questionnaire of BotModel B "" marked YES NO, because`,
+    newT: `The question in the questionnaire of BotModelb "" marked YES NO, because`,
     caseSensitive: false,
     show: true,
   },
@@ -318,77 +375,77 @@ export const autoReplaceEval = [
   },
   {
     oldT: ["12+++"],
-    newT: "BotModel A is much better than BotModel B.",
+    newT: "BotModelais much better than BotModelb.",
     caseSensitive: false,
     show: true,
   },
 
   {
     oldT: ["21+++"],
-    newT: "BotModel B is much better than BotModel A.",
+    newT: "BotModelb is much better than BotModela.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["12++"],
-    newT: "BotModel A is better than BotModel B.",
+    newT: "BotModelais better than BotModelb.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["21++"],
-    newT: "BotModel B is better than BotModel A.",
+    newT: "BotModelb is better than BotModela.",
     caseSensitive: false,
     show: true,
   },
 
   {
     oldT: ["21+"],
-    newT: "BotModel B is slightly better than BotModel A.",
+    newT: "BotModelb is slightly better than BotModela.",
     caseSensitive: false,
     show: true,
   },
 
   {
     oldT: ["12+"],
-    newT: "BotModel A is slightly better than BotModel B.",
+    newT: "BotModelais slightly better than BotModelb.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["1+++"],
-    newT: "BotModel A is much better.",
+    newT: "BotModelais much better.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["2+++"],
-    newT: "BotModel B is much better.",
+    newT: "BotModelb is much better.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["1++"],
-    newT: "BotModel A is better.",
+    newT: "BotModelais better.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["2++"],
-    newT: "BotModel B is better.",
+    newT: "BotModelb is better.",
     caseSensitive: false,
     show: true,
   },
   {
     oldT: ["1+"],
-    newT: "BotModel A is slightly better.",
+    newT: "BotModelais slightly better.",
     caseSensitive: false,
     show: true,
   },
 
   {
     oldT: ["2+"],
-    newT: "BotModel B is slightly better.",
+    newT: "BotModelb is slightly better.",
     caseSensitive: false,
     show: true,
   },
@@ -402,12 +459,12 @@ const autoReplaceModels = [
   },
   {
     oldT: ["m1 ", "м1 "],
-    newT: "the model in BotModel A",
+    newT: "the model in BotModela",
     caseSensitive: false,
   },
   {
     oldT: ["m2 ", "м2 "],
-    newT: "the model in BotModel B",
+    newT: "the model in BotModelb",
     caseSensitive: false,
     show: true,
   },
@@ -452,7 +509,8 @@ export const replacementsGeneral = [
   ...autoReplaceToModels,
 ];
 export const replacementsInteractions = [
-  { oldT: ["BotModel"], newT: "Interaction", caseSensitive: false },
+  { oldT: ["BotModela"], newT: "Interaction A", caseSensitive: false },
+  { oldT: ["BotModelb"], newT: "Interaction B", caseSensitive: false },
   { oldT: ["the answer"], newT: "response", caseSensitive: false },
   { oldT: ["Responses"], newT: "Interactions", caseSensitive: true },
   {
@@ -467,8 +525,10 @@ export const replacementsInteractions = [
   },
 ];
 export const replacementsResponses = [
-  { oldT: ["BotModel"], newT: "Response", caseSensitive: false },
-  { oldT: ["the answer"], newT: "response", caseSensitive: false },
+  { oldT: ["BotModela"], newT: "Response A", caseSensitive: false },
+  { oldT: ["BotModelb"], newT: "Response B", caseSensitive: false },
+  { oldT: ["BotModel, botmodel"], newT: "The Response", caseSensitive: false },
+  { oldT: ["the answer"], newT: "the response", caseSensitive: false },
   {
     oldT: ["answers"],
     newT: "responses",
@@ -481,10 +541,11 @@ export const replacementsResponses = [
   },
 ];
 export const replacementsResponsesNum = [
-  { oldT: ["BotModel A"], newT: "@Response 1", caseSensitive: false },
-  { oldT: ["BotModel B"], newT: "@Response 2", caseSensitive: false },
+  { oldT: ["BotModela"], newT: "@Response 1", caseSensitive: false },
+  { oldT: ["BotModelb"], newT: "@Response 2", caseSensitive: false },
   { oldT: ["BotModels"], newT: "Responses", caseSensitive: false },
-  { oldT: ["the answer"], newT: "response", caseSensitive: false },
+  { oldT: ["BotModel"], newT: "The response", caseSensitive: false },
+  { oldT: ["the answer"], newT: "the response", caseSensitive: false },
   {
     oldT: ["answers"],
     newT: "responses",

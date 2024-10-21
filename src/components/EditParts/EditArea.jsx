@@ -59,7 +59,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
     const newV = rate.resultNum ? labelsVerdictEdit[rate.resultNum - 1] : "";
     setItem({
       ...item,
-      "R3": `${newV} ${item.R0}\n @Response 1: ${item.R1}\n @Response 2:${item.R2}`,
+      "R3": `${newV} ${item.R0}\n @Response 1: ${item.R1}\n @Response 2: ${item.R2}`,
     });
   };
   const clear = () => {
@@ -113,7 +113,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
       </div>
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
         <div className="d-flex h-100 justify-content-start">
-          <div className="d-flex w-100 h-100">
+          <div className="d-flex edit100 h-100">
             {isTemplates && <TxtBtns edit toJustif={pasteToText} />}
             <div className="editParts-wrap">
               <div className="d-flex w-100">
@@ -147,7 +147,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
                 placeholder="Reason"
                 fieldVal={item.R0}
                 fieldFn={fieldFn}
-              />{" "}
+              />
               <EditField
                 setIsTxt={setIsTxt}
                 isTxt={isTxt && fieldId === "R3"}
@@ -173,14 +173,14 @@ const EditArea = ({ actionFn, item, setItem }) => {
           />
         </div>
       </div>
-      <div className="w-100 mt-11">
+      <div className="edit100 mt-11">
         <VoiceOverlay
           edit
           toJustif={(txt) => {
             voiceToEdit(txt, item[fieldId], fieldFn.setNewVal, fieldId);
           }}
         />
-        <Button className="w-100 m-0" onClick={onOK}>
+        <Button className="edit100 m-0" onClick={onOK}>
           OK
         </Button>
       </div>

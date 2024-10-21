@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  autoreplaceDash,
-  autoReplaceEval,
-  autoreplaceNum,
-  hotreplaceSuggest,
+  autoreplaceFormat,
+  hotReplaceSuggestion,
+  hotReplaceTone,
 } from "../../constants/replacements";
 
 import OneHotBtn from "./OneHotBtn";
@@ -15,6 +14,7 @@ import {
   replaceWordsInteractions,
 } from "../../utils/utilStr";
 import { mainTmp } from "../../constants/textParts";
+import RateHot from "../Rate/RateHot";
 
 const HotBtns = ({ toJustif, handleTxt, setHandleTxt }) => {
   const [isOpen, setIsOpen] = useState(null);
@@ -29,12 +29,24 @@ const HotBtns = ({ toJustif, handleTxt, setHandleTxt }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const btnsArr = [
-    { name: "num", btns: autoreplaceNum },
-    { name: "eval", btns: autoReplaceEval },
-    { name: "dash", btns: autoreplaceDash },
-    { name: "advice", btns: hotreplaceSuggest },
-  ];
+    { name: "FORMAT", btns: autoreplaceFormat },
+    { name: "TONE", btns: hotReplaceTone },
+    { name: "ADVICE", btns: hotReplaceSuggestion },
 
+    // { name: "eval", btns: autoReplaceEval },
+
+    // { name: "advice", btns: hotreplaceSuggest },
+  ];
+  const onHandleCLick = (newT, model = "") => {
+    let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
+    const newVal =
+      action === "@R"
+        ? replaceNum(newFr_)
+        : action === "RAB"
+        ? replaceWords(newFr_)
+        : replaceWordsInteractions(newFr_);
+    toJustif(newVal);
+  };
   return (
     <div className="hot " ref={refBox}>
       <button
@@ -51,19 +63,12 @@ const HotBtns = ({ toJustif, handleTxt, setHandleTxt }) => {
         <OneHotBtn
           key={btni}
           oneBtn={oneBtn}
-          toJustif={(newFr) => {
-            const newVal =
-              action === "@R"
-                ? replaceNum(newFr)
-                : action === "RAB"
-                ? replaceWords(newFr)
-                : replaceWordsInteractions(newFr);
-            toJustif(newVal);
-          }}
+          toJustif={onHandleCLick}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         />
       ))}
+      <RateHot callback={onHandleCLick} isOpen={isOpen} setIsOpen={setIsOpen} />
       <button
         className="square-btn hotBtnGr intense"
         onClick={() => {
