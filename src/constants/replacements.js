@@ -109,6 +109,13 @@ export const hotReplaceSuggestion = [
     show: true,
     title: "should",
   },
+  {
+    oldT: ["intro"],
+    newT: `According to the instructions, the response must contain an intro and outro, they should be added.`,
+    caseSensitive: false,
+    show: true,
+    title: "add intro/outro",
+  },
 ];
 
 //autorepl

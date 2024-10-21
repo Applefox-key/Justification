@@ -34,12 +34,20 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
         onClick={extractFragments}>
         <BsChatQuote />
       </button>
-      <button
-        className="square-btn intense"
-        title="paste fragments in quotation marks"
-        onClick={replaceFragments}>
-        <BsChatQuote />
-      </button>
+      <div className="fragmBtn">
+        <button
+          className="square-btn intense"
+          disabled={!fragments.length}
+          title="paste fragments in quotation marks"
+          onClick={replaceFragments}>
+          <BsChatQuote />
+        </button>
+        <div className="fragments-box">
+          {fragments.map((oneF, i) => (
+            <span>{oneF}</span>
+          ))}
+        </div>
+      </div>
       {/* <button
         className="square-btn intense"
         title="replace dash"
