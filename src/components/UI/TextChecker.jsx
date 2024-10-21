@@ -85,7 +85,7 @@ const TextChecker = () => {
         <div
           className={"setIsTxt-check"}
           onMouseDown={(e) => {
-            if (e.button === 1) setIsTxt(!isTxt);
+            if (e.button === 1) setErrors([]);
           }}>
           {highlightedCheckedText(text)}
         </div>
@@ -98,6 +98,11 @@ const TextChecker = () => {
             spellCheck
             placeholder="input text for checking..."
             value={text}
+            onMouseDown={(e) => {
+              if (e.button !== 1) return;
+              if (errors.length > 0) setErrors([]);
+              else checkText();
+            }}
             onChange={(e) => setText(e.target.value)}
           />
         </div>

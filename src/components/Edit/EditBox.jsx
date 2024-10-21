@@ -3,14 +3,14 @@ import { Button } from "react-bootstrap";
 import Draggable from "react-draggable";
 import BtnFontSize from "./BtnFontSize";
 import { BsCardText, BsPatchCheck } from "react-icons/bs";
-import { FaRegWindowRestore } from "react-icons/fa";
-import { LuAppWindow } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import { splitString } from "../../utils/utilStr";
 import EditArea from "../EditParts/EditArea";
 import TextChecker from "../UI/TextChecker";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
 import StrAreaEdit from "./StrAreaEdit";
+import { PiCopySimple } from "react-icons/pi";
+import { LiaSquare } from "react-icons/lia";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
@@ -42,7 +42,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
                 <Button
                   className="btn-back"
                   onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
-                  {isOneFieldMode ? <LuAppWindow /> : <FaRegWindowRestore />}
+                  {isOneFieldMode ? <PiCopySimple /> : <LiaSquare />}
                 </Button>
                 <BtnFontSize />
               </div>

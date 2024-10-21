@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { LiaSquare } from "react-icons/lia";
-import { PiCopySimple } from "react-icons/pi";
+
+import { SlSizeActual, SlSizeFullscreen } from "react-icons/sl";
 
 const BoxSizeBtn = ({ id, callback }) => {
   // const [isFull, setIsFull] = useState(false);
@@ -57,20 +57,10 @@ const BoxSizeBtn = ({ id, callback }) => {
   };
 
   return (
-    <Button className="btn-backXl" onClick={handleClick}>
-      {isFull ? <PiCopySimple /> : <LiaSquare />}
+    <Button className="btn-back" onClick={handleClick}>
+      {isFull ? <SlSizeActual /> : <SlSizeFullscreen />}
     </Button>
   );
 };
 
 export default BoxSizeBtn;
-// position: absolute;
-// top: 0;
-// bottom: 0;
-// left: 0;
-// right: 0;
-// max-width: 100vw;
-// max-height: 100vh;
-// height: 100vh;
-// width: 100vw;
-// export default BoxSizeBtn;
