@@ -80,7 +80,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
 
     saveToHistory({ en: handleTxt, ru: "" });
     setItem({ R1: "", R2: "", R3: "", R0: "" });
-    setBest({ num: -1, title: "" });
+    setBest({ num: -1, title: "", fields: [] });
   };
   const onOK = (e) => {
     e.stopPropagation();
