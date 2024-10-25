@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
+import { replaceEndings } from "../../utils/utilStr";
+import { replacementsEnding } from "../../constants/replacements";
 
 const EditField = ({
   autoFocus,
   isTxt,
-  isActive,
   setIsTxt,
   fieldName,
   placeholder,
@@ -16,7 +17,8 @@ const EditField = ({
 
   const handleChange = (e) => {
     e.stopPropagation();
-    fieldFn.setNewVal(e.target.value);
+    const repl = replaceEndings(e.target.value, replacementsEnding);
+    fieldFn.setNewVal(repl);
   };
 
   return (
@@ -34,8 +36,7 @@ const EditField = ({
           ref={ref}
           as="textarea"
           id={fieldName}
-          autoFocus
-          // className={isActive ? "field active-field" : "field"}
+          autoFocus={autoFocus}
           className={"field " + classN}
           onFocus={() => fieldFn.onFocus(ref)}
           rows={1}
@@ -43,7 +44,6 @@ const EditField = ({
           placeholder={placeholder}
           value={fieldVal}
           onKeyDown={fieldFn.onKeyDown}
-          // NumIsteadLetter(handleTxt, setHandleTxt);
           onChange={handleChange}
         />
       )}

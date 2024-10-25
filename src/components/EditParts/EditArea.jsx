@@ -1,20 +1,24 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { act, useCallback, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
-import { voiceToEdit, editTextActionRef } from "../../utils/utilStr";
+import {
+  voiceToEdit,
+  editTextActionRef,
+  applyAction,
+} from "../../utils/utilStr";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
 import HotBtns from "../Hint/HotBtns";
 import TopBtns from "../Edit/TopBtns";
 import SideBtns from "../Edit/SideBtns";
 import EditField from "./EditField";
-import FinalRate from "../Rate/FinalRate";
-import { defaultVerdict, labelsVerdictEdit } from "../../utils/analysis";
 import { saveToHistory } from "../../utils/localStorage";
 import RateBoxes from "../Rate/RateBoxes";
+import BtnArchive from "../Edit/BtnArchive";
+import { baseRespName } from "../../constants/replacements";
+import { FaStar } from "react-icons/fa";
 
-const EditArea = ({ actionFn, item, setItem }) => {
+const EditArea = ({ actionFn, item, setItem, action }) => {
   const [textSelected, setTextSelected] = useState("");
-
   const [best, setBest] = useState({ num: -1, title: "", fields: [] });
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
@@ -28,8 +32,8 @@ const EditArea = ({ actionFn, item, setItem }) => {
 
   const bestField = useCallback((i) => {
     const result = [];
-    if (i > -1 && i < 4) result.push("R1");
-    if (i > 2) result.push("R2");
+    if (i > -1 && i < 5) result.push("R1");
+    if (i > 3) result.push("R2");
     return result;
   }, []);
 
@@ -56,21 +60,34 @@ const EditArea = ({ actionFn, item, setItem }) => {
     setTextSelected(selectedText);
   };
   const pasteToText = (val) => {
+    const newVal = applyAction(val.en || val, action);
     editTextActionRef(
       textRef,
       item[fieldId],
       fieldFn.setNewVal,
       "add",
       true,
-      val.en || val
+      newVal
     );
   };
-  const compose = () => {
-    const newV = best.title;
-    setItem({
-      ...item,
-      "R3": `${newV} ${item.R0}\n @Response 1: ${item.R1}\n @Response 2: ${item.R2}`,
-    });
+
+  const compose = (r3targ = true) => {
+    const rateStr = best.title;
+
+    console.log(baseRespName[action].R1);
+
+    if (r3targ)
+      setItem({
+        ...item,
+        "R3": `${rateStr} ${item.R0}\n ${baseRespName[action].R1} : ${item.R1}\n ${baseRespName[action].R2} : ${item.R2}`,
+      });
+    else {
+      const newVal = item[fieldId] + rateStr + " " + item.R0;
+      setItem({
+        ...item,
+        [fieldId]: newVal,
+      });
+    }
   };
   const clear = () => {
     const handleTxt =
@@ -84,14 +101,22 @@ const EditArea = ({ actionFn, item, setItem }) => {
   };
   const onOK = (e) => {
     e.stopPropagation();
-    const val = ` R0${item.R0} R1${item.R1}, R2${item.R2} R3${item.R3}`;
+    const val = `R1${item.R1} R2${item.R2} R3${item.R3} R0${item.R0}`;
     clear();
     if (!!actionFn) actionFn(val);
+  };
+  const handleRate = (val) => {
+    let v = best.num === val.num ? -1 : val.num;
+    setBest(
+      v === -1
+        ? { num: -1, title: "", fields: [] }
+        : { ...val, title: val.title, fields: bestField(v) }
+    );
   };
 
   return (
     <>
-      <div className="d-flex flex-wrap">
+      <div className="d-flex flex-wrap align-items-center">
         <Button
           className={"btnToHis" + (isTemplates ? " isTmp" : "")}
           onClick={(e) => setIsTemplates(!isTemplates)}>
@@ -103,6 +128,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
           HOT
         </Button>
         <TopBtns
+          action={action}
           statesVal={{
             handleTxt: item[fieldId],
             setHandleTxt: fieldFn.setNewVal,
@@ -111,6 +137,7 @@ const EditArea = ({ actionFn, item, setItem }) => {
           }}
           onOK={onOK}
         />
+        <BtnArchive txt={item} setTxt={setItem} />
         {isHotBtns && <HotBtns toJustif={pasteToText} />}
       </div>
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
@@ -118,40 +145,40 @@ const EditArea = ({ actionFn, item, setItem }) => {
           <div className="d-flex edit100 h-100">
             {isTemplates && <TxtBtns edit toJustif={pasteToText} />}
             <div className="editParts-wrap">
-              <div className="d-flex w-100">
+              <div className="resp12">
                 {["R1", "R2"].map((field, i) => (
-                  <EditField
-                    key={i}
-                    fieldName={field}
-                    placeholder={i + 1}
-                    setIsTxt={setIsTxt}
-                    classN={
-                      (fieldId === field ? "active-field" : "") +
-                      (best.fields.includes(field) ? " best-field" : "")
-                    }
-                    isTxt={isTxt && fieldId === field}
-                    isActive={fieldId === field}
-                    fieldVal={item[field]}
-                    fieldFn={fieldFn}
-                  />
+                  <>
+                    <EditField
+                      key={i}
+                      fieldName={field}
+                      placeholder={i + 1}
+                      setIsTxt={setIsTxt}
+                      classN={
+                        (fieldId === field ? "active-field" : "") +
+                        (best.fields.includes(field) ? " best-field" : "")
+                      }
+                      isTxt={isTxt && fieldId === field}
+                      isActive={fieldId === field}
+                      fieldVal={item[field]}
+                      fieldFn={fieldFn}
+                    />
+                    {best.fields.includes(field) && (
+                      <FaStar className={field + "best"} />
+                    )}
+                  </>
                 ))}
               </div>
               <div className="edit-parts-menu">
                 <RateBoxes
-                  callback={(val) => {
-                    let v = best.num === val.num ? -1 : val.num;
-                    setBest(
-                      v === -1
-                        ? { num: -1, title: "", fields: [] }
-                        : { ...val, fields: bestField(v) }
-                    );
-                  }}
+                  action={action}
                   choosed={best.num}
+                  callback={handleRate}
                 />
-
-                <span>{best.title}</span>
                 <div>
-                  <button onClick={compose}>compose</button>
+                  <button onClick={() => compose(false)}>
+                    rate to active text field
+                  </button>
+                  <button onClick={() => compose(true)}>compose</button>
                   <button onClick={clear}>clear all parts</button>{" "}
                 </div>
               </div>{" "}

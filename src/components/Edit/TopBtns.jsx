@@ -3,6 +3,7 @@ import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../../utils/localStorage";
 import {
+  applyAction,
   copyToClipboard,
   numIsteadLetter,
   replaceWords,
@@ -13,7 +14,7 @@ import BtnFragm from "./BtnFragm";
 import { PiSquareHalfDuotone } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-const TopBtns = ({ fieldid, statesVal, onOK }) => {
+const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const [autohis, setAutohis] = useState(true);
 
@@ -77,9 +78,9 @@ const TopBtns = ({ fieldid, statesVal, onOK }) => {
       <Button
         className="btnToHis"
         onClick={(e) => {
-          numIsteadLetter(handleTxt, setHandleTxt);
-          // const newVal = replaceWords(handleTxt);
-          // setHandleTxt(newVal);
+          // numIsteadLetter(handleTxt, setHandleTxt);
+          const newVal = applyAction(handleTxt, action);
+          setHandleTxt(newVal);
         }}>
         FORMAT (F2)
       </Button>

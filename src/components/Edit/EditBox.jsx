@@ -18,7 +18,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
-
+  const [action, setAction] = useState("@R");
   const modeText = {
     checker: "check text mode",
     oneField: "one-window mode",
@@ -26,9 +26,12 @@ const EditBox = ({ el, setEdit, savefn }) => {
   };
   useEffect(() => {
     const itm = splitString(el.en);
+    const newVal = localStorage.getItem("lastAction") || "@R";
     setItem(itm);
+    if (newVal !== action) setAction(newVal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="module-wrap">
       <div className="editbox-wrap">
@@ -39,6 +42,16 @@ const EditBox = ({ el, setEdit, savefn }) => {
             id="editbox">
             <div className="handle">
               <div>
+                <button
+                  className="square-btn hotBtnGr "
+                  onClick={() => {
+                    const newval =
+                      action === "@R" ? "RAB" : action === "RAB" ? "INT" : "@R";
+                    localStorage.setItem("lastAction", newval);
+                    setAction(newval);
+                  }}>
+                  {action}
+                </button>
                 <Button
                   className="btn-back"
                   onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
@@ -63,7 +76,11 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   {isСheckerMode ? <BsCardText /> : <BsPatchCheck />}
                 </Button>
                 <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
-                <Button className="btn-backXl" onClick={() => setEdit(null)}>
+                <Button
+                  className="btn-backXl"
+                  onClick={() => {
+                    if (window.confirm("Quit without changies?")) setEdit(null);
+                  }}>
                   <IoIosClose />
                 </Button>
               </div>
@@ -76,9 +93,15 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   handleTxt={handleTxt}
                   setHandleTxt={setHandleTxt}
                   actionFn={savefn}
+                  action={action}
                 />
               ) : (
-                <EditArea item={item} setItem={setItem} actionFn={savefn} />
+                <EditArea
+                  item={item}
+                  setItem={setItem}
+                  actionFn={savefn}
+                  action={action}
+                />
               )}
             </div>
           </div>

@@ -1,3 +1,16 @@
+export const baseRespName = {
+  "INT": { R1: "Interaction 1", R2: "Interaction 1" },
+  "@R": { R1: "@Response 1", R2: "@Response 1" },
+  "RAB": { R1: "Response A", R2: "Response B" },
+};
+export const replacementsEnding = [
+  ["resa", "Response A"],
+  ["Responsea", "Response A"],
+  ["resb", "Response B"],
+  ["Responseb", "Response B"],
+  ["resp", "Response"],
+  ["iss", "issue"],
+];
 //hot list
 export const autoreplaceFormat = [
   {
@@ -41,6 +54,13 @@ export const autoreplaceFormat = [
     caseSensitive: false,
     show: true,
     title: "bolding",
+  },
+  {
+    oldT: ["listA"],
+    newT: `The list must be rearranged in accordance with the rules of the Russian language, after the colon should be a small letter. Although you may have noticed a capital letter after the colon in the instructions, this is correct  for the English language, not for Russian.`,
+    caseSensitive: false,
+    show: true,
+    title: ": Aa",
   },
 ];
 export const hotReplaceTone = [
@@ -87,6 +107,22 @@ export const hotReplaceTone = [
     title: "formal",
   },
 ];
+export const hotReplaceIssues = [
+  {
+    oldT: ["truth"],
+    newT: `BotModel has issues with truthfulness.`,
+    caseSensitive: false,
+    show: true,
+    title: "truthfulness",
+  },
+  {
+    oldT: ["you"],
+    newT: `BotModel does not follow  the instructions.`,
+    caseSensitive: false,
+    show: true,
+    title: "Instructions",
+  },
+];
 export const hotReplaceSuggestion = [
   {
     oldT: ["rephrase"],
@@ -108,6 +144,13 @@ export const hotReplaceSuggestion = [
     caseSensitive: false,
     show: true,
     title: "should",
+  },
+  {
+    oldT: ["better"],
+    newT: `It is better to in BotModel ("").`,
+    caseSensitive: false,
+    show: true,
+    title: "better",
   },
   {
     oldT: ["intro"],

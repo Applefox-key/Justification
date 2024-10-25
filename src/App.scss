@@ -378,16 +378,18 @@ textarea.form-control::placeholder {
   button {
     position: absolute;
     top: -7px;
-    right: -25px;
+    right: -9px;
     border-radius: 10px;
     display: none;
     transition: all 0.4s ease-in-out;
     height: 33px;
+    width: 33px;
     background: aliceblue;
     opacity: 0.9;
     font-size: 25px;
     line-height: 0.4;
     transition: all 0.2s ease-in-out;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
     &:hover {
       background-color: #50dfff;
@@ -1544,6 +1546,55 @@ textarea.form-control::placeholder {
   font-size: 16px;
 }
 
+
+//==
+.rates1,
+.rates2,
+.rates3,
+.rates4 {
+  &:hover {
+    background: #dbecff;
+  }
+}
+
+.rates9,
+.rates8,
+.rates6,
+.rates7:hover {
+  &:hover {
+    background: #dbffe1;
+  }
+
+}
+
+.rates5 {
+  font-size: 12px;
+}
+
+.rates4,
+.rates6 {
+  font-size: 12px;
+}
+
+.rates3,
+.rates7 {
+  font-size: 14px;
+}
+
+.rates2,
+.rates8 {
+  font-size: 16px;
+}
+
+.rates1,
+.rates9 {
+  font-size: 18px;
+}
+
+//==
+
+
+
 .drag-footer {
   display: flex;
   flex-wrap: nowrap;
@@ -2000,7 +2051,7 @@ textarea.form-control::placeholder {
 }
 
 #popover-voicetrue {
-  max-width: 100vw;
+  max-width: 95vw;
   width: 100%;
   padding: 5px;
   border: 4px solid #239aff;
@@ -2362,25 +2413,47 @@ textarea.form-control::placeholder {
   margin-right: 5px;
   margin: 2px 5px;
   align-items: center;
+
   // color: #ff8346;
+  .final-rate {
+    max-width: max-content;
+    flex-wrap: wrap;
+  }
 
   .header-fin {
     display: flex;
     align-items: center;
-    scale: 1.4;
+    // scale: 1.4;
     position: relative;
-    left: 35px;
+    // left: 35px;
+    // max-width: max-content;
+    flex-wrap: wrap;
 
-    span {
-      display: none;
+    .rate {
+      width: 1.4rem;
+      height: 1.4rem;
     }
+
+
   }
 
   span {
     font-weight: 600;
+    font-size: 18px;
     color: #ff8346;
   }
 
+}
+
+#R1,
+#R2,
+#R3,
+#R0 {
+  color: #7e86a3;
+
+  &:focus {
+    color: var(--main-color);
+  }
 }
 
 #R1,
@@ -2388,6 +2461,7 @@ textarea.form-control::placeholder {
   width: 50%;
   max-height: 240px;
   margin: 0 5px;
+
 
 }
 
@@ -2428,8 +2502,42 @@ textarea.form-control::placeholder {
   // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   // border: 5px solid #ff8346;
   box-shadow: rgb(255, 156, 85) 0px 0px 0px 4px;
+  position: relative;
+
+
+
   // outline: 3px solid #ff8346;
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.resp12 {
+  width: 100%;
+  display: flex;
+  position: relative;
+
+  svg {
+    stroke: var(--main-color);
+    stroke-width: 8px;
+    stroke-opacity: 1;
+  }
+}
+
+.R1best,
+.R2best {
+  position: absolute;
+  left: 8px;
+  top: 2px;
+  color: rgb(255, 156, 85);
+  text-shadow: 1px 1px 0px rgba(66, 68, 90, 1);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.R2best {
+  left: unset;
+  right: 6px;
 }
 
 .fullScreen {
@@ -2445,8 +2553,10 @@ textarea.form-control::placeholder {
 }
 
 .fragmBtn {
+  position: relative;
 
-  .fragments-box {
+  .fragments-box,
+  .archive-box {
     position: absolute;
     font-size: 12px;
     display: none;
@@ -2461,11 +2571,56 @@ textarea.form-control::placeholder {
     border-radius: 5px;
     align-items: flex-start;
     padding: 5px;
+
+
+
   }
 
   &:hover {
-    .fragments-box {
+
+    .fragments-box,
+    .archive-box {
       display: flex;
+    }
+  }
+
+  .archive-box {
+    right: -100px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    button {
+      width: 100%;
+      font-size: 10px;
+      line-height: 1;
+      margin-left: 0;
+    }
+
+    .one-item {
+      border: 1px solid var(--accent);
+      border-radius: 5px;
+      padding: 5px;
+
+      button {
+        display: flex;
+        flex-direction: column;
+        max-width: 200px;
+        font-size: 10px;
+        margin-bottom: 0;
+        margin-top: 0;
+        text-transform: none;
+        margin-right: 0;
+
+        span {
+          padding: 0 3px;
+          max-width: 200px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          font-size: 10px;
+          // white-space:      
+        }
+      }
     }
   }
 }

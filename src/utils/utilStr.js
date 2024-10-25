@@ -440,18 +440,38 @@ export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
 };
 export const splitString = (input) => {
   // const regex = /R1(.*?)R2(.*?)R3(.*?)R0(.*)/s; // регулярное выражение для разделения на три части
-  const regex = /R0(.*?)R1(.*?)R2(.*?)R3(.*)/s; // регулярное выражение для разделения на три части
+  const regex = /R1:(.*?)R2:(.*?)R3:(.*?)R0:(.*)/s; // регулярное выражение для разделения на три части
   const match = input.match(regex); // ищем совпадения
 
   if (match) {
     return {
-      R0: match[1].trim(),
-      R1: match[2].trim(),
-      R2: match[3].trim(),
-      R3: match[4].trim(),
+      R1: match[1].trim(),
+      R2: match[2].trim(),
+      R3: match[3].trim(),
+      R0: match[4].trim(),
       // R0: match[4].trim(),
     };
   } else {
     return { R1: "", R2: "", R3: input, R0: "" };
   }
+};
+
+export const applyAction = (newFr_, action = "") => {
+  if (!action) return newFr_;
+  const newVal =
+    action === "@R"
+      ? replaceNum(newFr_)
+      : action === "RAB"
+      ? replaceWords(newFr_)
+      : replaceWordsInteractions(newFr_);
+  return newVal;
+};
+
+export const replaceEndings = (str, replacements) => {
+  for (const [oldEnding, newEnding] of replacements) {
+    if (str.endsWith(oldEnding)) {
+      return str.slice(0, -oldEnding.length) + newEnding;
+    }
+  }
+  return str;
 };

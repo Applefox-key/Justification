@@ -4,6 +4,7 @@ import {
   voiceToEdit,
   editTextAction,
   numIsteadLetter,
+  applyAction,
 } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
@@ -17,6 +18,7 @@ const StrAreaEdit = ({
   placeholder = "",
   handleTxt,
   setHandleTxt,
+  action,
 }) => {
   const [textSelected, setTextSelected] = useState("");
   // const [handleTxt, setHandleTxt] = useState(str);
@@ -61,14 +63,8 @@ const StrAreaEdit = ({
     },
   };
   const pasteToText = (val) => {
-    editTextAction(
-      "editArea",
-      handleTxt,
-      setHandleTxt,
-      "add",
-      true,
-      val.en || val
-    );
+    const newVal = applyAction(val.en || val, action);
+    editTextAction("editArea", handleTxt, setHandleTxt, "add", true, newVal);
   };
 
   return (
@@ -84,25 +80,14 @@ const StrAreaEdit = ({
           onClick={(e) => setIsHotBtns(!isHotBtns)}>
           HOT
         </Button>
-        {/* <Button
-          title="save selection as a template"
-          disabled={!textSelected}
-          onClick={()=>addNewElement(setA)}
-          className="btnToHis  toTempBtn ordinary">
-          <TiArrowLeftThick />
-        </Button> */}
+
         <TopBtns
           field="editArea"
           statesVal={{ handleTxt, setHandleTxt, isTxt, setIsTxt }}
           onOK={onOK}
+          action={action}
         />
-        {isHotBtns && (
-          <HotBtns
-            toJustif={pasteToText}
-            handleTxt={handleTxt}
-            setHandleTxt={setHandleTxt}
-          />
-        )}
+        {isHotBtns && <HotBtns toJustif={pasteToText} action={action} />}
       </div>
 
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
