@@ -708,9 +708,9 @@ textarea.form-control::placeholder {
   border-radius: 0 0 15px 15px;
   width: 100%;
   @extend .un-wrap;
-  min-height: fit-content;
+  // min-height: fit-content;
   height: fit-content;
-  max-height: 60vh;
+  max-height: 80vh;
   padding-top: 15px;
   animation: fadeIn 0.7s;
 

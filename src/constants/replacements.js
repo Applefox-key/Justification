@@ -5,8 +5,10 @@ export const baseRespName = {
 };
 export const replacementsEnding = [
   ["resa", "Response A"],
+  ["куызф", "Response A"],
   ["Responsea", "Response A"],
   ["resb", "Response B"],
+  ["куызи", "Response B"],
   ["Responseb", "Response B"],
   ["resp", "Response"],
   ["iss", "issue"],
