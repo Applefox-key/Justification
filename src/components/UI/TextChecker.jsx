@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { highlightedCheckedText } from "../../utils/utilStr";
 
-const TextChecker = () => {
+const TextChecker = ({ close }) => {
   const [text, setText] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [errors, setErrors] = useState([]);
-  const [isTxt, setIsTxt] = useState(false);
+
   const checkText = () => {
     if (!text) return;
     const doubleSpacesRegex = / {2,}/g;
@@ -52,32 +52,7 @@ const TextChecker = () => {
     if (foundErrors.length > 0) {
       setErrors(foundErrors);
     } else alert("ошибок нет");
-
-    // setErrors(foundErrors.length > 0 ? foundErrors : ["ошибок нет"]);
-    // showErrors(foundErrors);
   };
-
-  //   const showErrors = (foundErrors) => {
-  //     let message = "";
-  //     if (foundErrors.length === 0) {
-  //       message = "Ошибок нет";
-  //     } else {
-  //       message = foundErrors
-  //         .map((error) => {
-  //           const matchesList = error.matches.join(", ");
-  //           return `Найдены ${
-  //             error.type === "double-space"
-  //               ? "двойные пробелы"
-  //               : error.type === "quote"
-  //               ? "кавычки"
-  //               : "дефисы"
-  //           }: ${matchesList}`;
-  //         })
-  //         .join("\n");
-  //     }
-
-  //     alert(message);
-  //   };
 
   return (
     <div className="w-100 h-100">
@@ -123,6 +98,7 @@ const TextChecker = () => {
       ) : (
         <button onClick={checkText}>Проверить текст</button>
       )}
+      <button onClick={close}>Вернуться к обоснованию</button>
     </div>
   );
 };

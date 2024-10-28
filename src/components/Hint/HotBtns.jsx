@@ -3,6 +3,7 @@ import {
   autoreplaceFormat,
   hotReplaceIssues,
   hotReplaceSuggestion,
+  hotReplaceTmp,
   hotReplaceTone,
 } from "../../constants/replacements";
 
@@ -24,6 +25,7 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
     { name: "TONE", btns: hotReplaceTone },
     { name: "ADVICE", btns: hotReplaceSuggestion },
     { name: "ISSUES", btns: hotReplaceIssues },
+    { name: "TEMPLATES", btns: hotReplaceTmp },
   ];
   const onHandleCLick = (newT, model = "") => {
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;

@@ -18,7 +18,10 @@ const FinalRate = ({ value, setValue, lg = false }) => {
     <div className="header-fin">
       <div className="final-rate">
         {labelsVerdict.map((el, i) => (
-          <div onClick={() => setValue(i + 1)} className={setClassName(i)}>
+          <div
+            key={i}
+            onClick={() => setValue(i + 1)}
+            className={setClassName(i)}>
             {el[0]}
           </div>
         ))}

@@ -7,6 +7,7 @@ const SelectRange = ({ oneCrit, onClick, ChangeCrit }) => {
     <>
       {arrLev.map((el, i) => (
         <button
+          key={i}
           onClick={() =>
             onClick(oneCrit.name, "respA", oneCrit.respA - 1 === i ? 0 : i + 1)
           }
@@ -22,6 +23,7 @@ const SelectRange = ({ oneCrit, onClick, ChangeCrit }) => {
       </div>
       {arrLev.map((el, i) => (
         <button
+          key={i}
           onClick={() =>
             onClick(oneCrit.name, "respB", oneCrit.respB - 1 === i ? 0 : i + 1)
           }

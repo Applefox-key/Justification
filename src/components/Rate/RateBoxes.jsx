@@ -6,6 +6,7 @@ const RateBoxes = ({ callback, choosed = -1, action = "RAB" }) => {
   const rateStr = (i) =>
     i > -1 ? applyAction(labelsFullVerdictEdit[i], action) : "";
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const titleChoosed = useMemo(() => rateStr(choosed), [action, choosed]);
 
   const clN = useMemo(() => {
@@ -20,6 +21,7 @@ const RateBoxes = ({ callback, choosed = -1, action = "RAB" }) => {
       <div className="final-rate">
         {labelsFullVerdict.map((el, i) => (
           <div
+            key={i}
             onClick={() => callback({ title: rateStr(i), num: i })}
             title={labelsFullVerdictEdit[i]}
             className={`rate rates${i + 1} ${i === choosed ? clN : ""}`}>

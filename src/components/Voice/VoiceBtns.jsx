@@ -42,8 +42,11 @@ const VoiceBtns = ({ textRef, stopBtn, startBtn, disable }) => {
       className={disable ? "voice-mainBox voice-hide" : "voice-mainBox"}>
       <div className={"voice-wrap"}>
         <div className="langs">
-          {langArr.map((el) => (
-            <p onClick={() => setLang(el)} className={"langEl" + (lang === el)}>
+          {langArr.map((el, i) => (
+            <p
+              key={i}
+              onClick={() => setLang(el)}
+              className={"langEl" + (lang === el)}>
               {el}
             </p>
           ))}

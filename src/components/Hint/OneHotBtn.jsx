@@ -12,8 +12,8 @@ const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
 
       {isOpen === oneBtn.name && (
         <div className="hot-sum">
-          {oneBtn.btns.map((btn) => (
-            <div className="hot-one">
+          {oneBtn.btns.map((btn, i) => (
+            <div className="hot-one" key={i}>
               <button
                 className="square-btn hot-sub-btn"
                 title={btn.newT}

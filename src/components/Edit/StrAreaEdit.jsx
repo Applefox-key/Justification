@@ -1,11 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import {
-  voiceToEdit,
-  editTextAction,
-  numIsteadLetter,
-  applyAction,
-} from "../../utils/utilStr";
+import { voiceToEdit, editTextAction, applyAction } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
@@ -21,7 +16,6 @@ const StrAreaEdit = ({
   action,
 }) => {
   const [textSelected, setTextSelected] = useState("");
-  // const [handleTxt, setHandleTxt] = useState(str);
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
@@ -118,11 +112,10 @@ const StrAreaEdit = ({
                   if (e.key === "Escape") onOK(e);
                   else {
                     lasttxt.saveLast();
-                    if (e.key === "F2")
-                      //respOrder(e);
-                      numIsteadLetter(handleTxt, setHandleTxt);
-                    else if (e.key === "F4")
-                      numIsteadLetter(handleTxt, setHandleTxt);
+                    if (e.key === "F2") {
+                      const newVal = applyAction(handleTxt, action);
+                      setHandleTxt(newVal);
+                    }
                   }
                   // NumIsteadLetter(handleTxt, setHandleTxt);
                 }}

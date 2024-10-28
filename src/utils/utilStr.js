@@ -88,9 +88,6 @@ export const cleanAndCapitalize = (text) => {
 
   // combine
   text = parts.join("");
-  // text = text.toLowerCase();
-  // text = sentencesCaps(text);
-
   if (!/[.,:!?]$/.test(text.trim()) && text.split(" ").length > 2) {
     return text.trim() + ".";
   }
@@ -407,7 +404,11 @@ export const editTextActionRef = (
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
-  const newText = text.slice(0, start) + " " + resultText + text.slice(end);
+  const newText =
+    text.slice(0, start) +
+    (start === 0 ? "" : " ") +
+    resultText +
+    text.slice(end);
 
   setText(newText);
   if (textarea !== null)
@@ -467,11 +468,47 @@ export const applyAction = (newFr_, action = "") => {
   return newVal;
 };
 
-export const replaceEndings = (str, replacements) => {
+export const replaceEndings1 = (str, replacements) => {
   for (const [oldEnding, newEnding] of replacements) {
     if (str.endsWith(oldEnding)) {
       return str.slice(0, -oldEnding.length) + newEnding;
     }
   }
+  return str;
+};
+export const addinside = (ref, str, setVal = null) => {
+  const cursorPos = ref.current.selectionStart;
+  const text = ref.current.value;
+  const newVal = text.slice(0, cursorPos) + str + text.slice(cursorPos);
+  if (setVal === null) return newVal;
+  setVal(newVal);
+  ref.current.selectionStart = ref.current.selectionEnd =
+    cursorPos + str.length;
+};
+export const replaceEndings = (e, replacements) => {
+  const str = e.target.value;
+  const cursorPos = e.target.selectionStart;
+
+  // Определяем границы текущего слова вокруг курсора
+  const beforeCursor = str.slice(0, cursorPos);
+  const afterCursor = str.slice(cursorPos);
+
+  const matchBefore = beforeCursor.match(/(\S+)$/);
+  const matchAfter = afterCursor.match(/^(\S*)/);
+
+  if (matchBefore && matchAfter) {
+    const word = matchBefore[0] + matchAfter[0];
+    for (const [oldEnding, newEnding] of replacements) {
+      if (word.endsWith(oldEnding)) {
+        const newWord = word.slice(0, -oldEnding.length) + newEnding;
+        return (
+          beforeCursor.slice(0, beforeCursor.length - matchBefore[0].length) +
+          newWord +
+          afterCursor.slice(matchAfter[0].length)
+        );
+      }
+    }
+  }
+
   return str;
 };

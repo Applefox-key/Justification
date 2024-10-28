@@ -28,9 +28,8 @@ const Sheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
             <DownloadHisBtn list={curSection.items} setCurrBtn={setCurrBtn} />
           )}
         {currentBtn.items.map((el, i) => (
-          <div className="sheetsXls">
+          <div className="sheetsXls" key={i}>
             <div
-              key={i}
               className={
                 curSection && curSection.name === el.name
                   ? "sheetsXls-item z0 activeEl"

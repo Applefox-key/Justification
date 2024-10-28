@@ -16,9 +16,14 @@ const Rating = ({ value, setValue, title, recom, recomScore }) => {
       <div className="d-flex pb-1">
         {labels.map((el, i) =>
           i === value - 1 ? (
-            <FaStar className="rate-star1" onClick={() => setValue(0)} />
+            <FaStar
+              className="rate-star1"
+              onClick={() => setValue(0)}
+              key={i}
+            />
           ) : (
             <FaRegStar
+              key={i}
               className={setClassName(i)}
               onClick={() => setValue(i + 1)}
             />

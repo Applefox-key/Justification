@@ -3,12 +3,14 @@ export const baseRespName = {
   "@R": { R1: "@Response 1", R2: "@Response 1" },
   "RAB": { R1: "Response A", R2: "Response B" },
 };
+
 export const replacementsEnding = [
   ["resa", "Response A"],
-  ["куызф", "Response A"],
+  ["куыф", "Response A"],
+  ["ress", "responses"],
   ["Responsea", "Response A"],
   ["resb", "Response B"],
-  ["куызи", "Response B"],
+  ["куыи", "Response B"],
   ["Responseb", "Response B"],
   ["resp", "Response"],
   ["iss", "issue"],
@@ -28,6 +30,13 @@ export const autoreplaceFormat = [
     caseSensitive: false,
     show: true,
     title: "num instead bull",
+  },
+  {
+    oldT: ["listru"],
+    newT: `The list should be reformatted by the rules of the Russian language, according to which a colon is followed by a lowercase letter, or the name of the list item should end with a dot.`,
+    caseSensitive: false,
+    show: true,
+    title: "list rules",
   },
   {
     oldT: ["dash"],
@@ -103,7 +112,7 @@ export const hotReplaceTone = [
   },
   {
     oldT: ["formal"],
-    newT: `BotModel is written in a rather formal style, you need to add warmth.`,
+    newT: `BotModel is written in a rather formal style, it is needed to add warmth.`,
     caseSensitive: false,
     show: true,
     title: "formal",
@@ -115,14 +124,21 @@ export const hotReplaceIssues = [
     newT: `BotModel has issues with truthfulness.`,
     caseSensitive: false,
     show: true,
-    title: "truthfulness",
+    title: "Truthfulness",
   },
   {
-    oldT: ["you"],
+    oldT: ["instr"],
     newT: `BotModel does not follow  the instructions.`,
     caseSensitive: false,
     show: true,
     title: "Instructions",
+  },
+  {
+    oldT: ["present"],
+    newT: `BotModel has issues with Presantation.`,
+    caseSensitive: false,
+    show: true,
+    title: "Presantation",
   },
 ];
 export const hotReplaceSuggestion = [
@@ -156,13 +172,35 @@ export const hotReplaceSuggestion = [
   },
   {
     oldT: ["intro"],
-    newT: `According to the instructions, the response must contain an intro and outro, they should be added.`,
+    newT: `According to the instructions, the response must contain a friendly intro and outro, they should be added.`,
     caseSensitive: false,
     show: true,
     title: "add intro/outro",
   },
 ];
-
+export const hotReplaceTmp = [
+  {
+    oldT: ["sbs"],
+    newT: `Response is slightly much better than Response /@Response 1 and @Response 2 are about the same.
+@Response 1
+@Response 2
+Both`,
+    caseSensitive: false,
+    show: true,
+    title: "SBS",
+  },
+  {
+    oldT: ["turns"],
+    newT: `Turn1:
+    Turn2:
+    Turn3:
+    Turn4:
+    `,
+    caseSensitive: false,
+    show: true,
+    title: "TURNS",
+  },
+];
 //autorepl
 export const autoreplaceNum = [
   {
@@ -261,7 +299,7 @@ export const hotreplaceSuggest = [
   },
   {
     oldT: ["formal"],
-    newT: `The response is written in a rather formal style, you need to add warmth.`,
+    newT: `The response is written in a rather formal style, it is needed to add warmth.`,
     caseSensitive: false,
     show: true,
     title: "formal",
@@ -293,6 +331,7 @@ const autoReplaceToModels = [
       "и1",
       "о1",
       "р1",
+      "a1",
       "ответ1",
       "ответ 1",
       "ответ один",
@@ -327,6 +366,7 @@ const autoReplaceToModels = [
     oldT: [
       "response два",
       "в2",
+      "a2",
       "@2",
       "р2",
       "r2",
@@ -565,6 +605,7 @@ export const replacementsInteractions = [
   { oldT: ["BotModelb"], newT: "Interaction B", caseSensitive: false },
   { oldT: ["the answer"], newT: "response", caseSensitive: false },
   { oldT: ["Responses"], newT: "Interactions", caseSensitive: true },
+  { oldT: ["Botmodel"], newT: "Interaction", caseSensitive: true },
   {
     oldT: ["answers"],
     newT: "responses",
@@ -580,7 +621,11 @@ export const replacementsResponses = [
   { oldT: ["BotModela"], newT: "Response A", caseSensitive: false },
   { oldT: ["BotModelb"], newT: "Response B", caseSensitive: false },
   { oldT: ["BotModel, botmodel"], newT: "The Response", caseSensitive: false },
-  { oldT: ["the answer"], newT: "the response", caseSensitive: false },
+  {
+    oldT: ["the answer", "Botmodel"],
+    newT: "the response",
+    caseSensitive: false,
+  },
   {
     oldT: ["answers"],
     newT: "responses",
@@ -597,7 +642,11 @@ export const replacementsResponsesNum = [
   { oldT: ["BotModelb"], newT: "@Response 2", caseSensitive: false },
   { oldT: ["BotModels"], newT: "Responses", caseSensitive: false },
   { oldT: ["BotModel"], newT: "The response", caseSensitive: false },
-  { oldT: ["the answer"], newT: "the response", caseSensitive: false },
+  {
+    oldT: ["the answer", "Botmodel"],
+    newT: "the response",
+    caseSensitive: false,
+  },
   {
     oldT: ["answers"],
     newT: "responses",

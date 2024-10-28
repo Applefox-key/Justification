@@ -137,7 +137,7 @@ const Responses = ({ compliteCrit, toJustif }) => {
             <div className="drag-body">
               <div className="resp">
                 {respEval.map((el, i) => (
-                  <div className="drag-part">
+                  <div className="drag-part" key={i}>
                     <SelectRange
                       oneCrit={el}
                       onClick={setNewVal}

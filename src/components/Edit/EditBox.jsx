@@ -87,7 +87,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
             </div>
             <div className="txt-box ">
               {isСheckerMode ? (
-                <TextChecker />
+                <TextChecker close={() => setIsCheckerMode(!isСheckerMode)} />
               ) : isOneFieldMode ? (
                 <StrAreaEdit
                   handleTxt={handleTxt}
@@ -101,6 +101,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   setItem={setItem}
                   actionFn={savefn}
                   action={action}
+                  setIsCheckerMode={setIsCheckerMode}
                 />
               )}
             </div>

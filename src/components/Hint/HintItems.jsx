@@ -10,7 +10,6 @@ const HintItems = ({ itemsArr }) => {
             className="variants-item"
             onClick={(e) => e.stopPropagation()}>
             <div>{el.ru}</div>
-            {/* <div className="ru">{el.ru}</div> */}
             {el.en && <div className="level activeHint">{el.en}</div>}
           </div>
         ))}

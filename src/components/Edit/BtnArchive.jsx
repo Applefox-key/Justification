@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { BsChatQuote } from "react-icons/bs";
-import { IoArchive } from "react-icons/io5";
 import { LuArchive } from "react-icons/lu";
 
 const BtnArchive = ({ txt, setTxt }) => {
@@ -46,11 +44,11 @@ const BtnArchive = ({ txt, setTxt }) => {
             clear
           </button>
           {items.map((oneF, i) => (
-            <div className="one-item">
+            <div className="one-item" key={i}>
               <button onClick={() => clearItem(i)} className="w-100">
-                x
+                #{i} DELETE
               </button>
-              <button key={i} onClick={() => replaceItems(oneF)}>
+              <button onClick={() => replaceItems(oneF)}>
                 {oneF.R0 && <span>{oneF.R0}</span>}
                 {oneF.R1 && <span>{oneF.R1}</span>}
                 {oneF.R2 && <span>{oneF.R2}</span>}
