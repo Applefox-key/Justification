@@ -1110,6 +1110,8 @@ textarea.form-control::placeholder {
 
     span {
       position: absolute;
+      font-size: 12px;
+      opacity: 0.4;
       // right: 35%;
       font-style: italic;
       width: fit-content;
