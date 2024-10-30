@@ -130,17 +130,19 @@ const StrAreaEdit = ({
           />
         </div>
       </div>
-      <div className="w-100 mt-11">
+      <div className="w-100 mt-11 d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between">
+          <RatingOverlay toJustif={toText} />{" "}
+          <Button className=" m-0" onClick={onOK}>
+            OK
+          </Button>{" "}
+        </div>
         <VoiceOverlay
           edit
           toJustif={(txt) => {
             voiceToEdit(txt, handleTxt, setHandleTxt);
           }}
         />
-        <RatingOverlay toJustif={toText} />{" "}
-        <Button className="w-100 m-0" onClick={onOK}>
-          OK
-        </Button>
       </div>
     </>
   );

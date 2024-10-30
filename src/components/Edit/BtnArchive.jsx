@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LuArchive } from "react-icons/lu";
+import { FaRegSave } from "react-icons/fa";
 
 const BtnArchive = ({ txt, setTxt }) => {
   const [items, setItems] = useState(() => {
@@ -9,7 +9,7 @@ const BtnArchive = ({ txt, setTxt }) => {
   // remember quotes from the text
   const saveItems = () => {
     if (txt && !items.includes(txt)) {
-      setItems([...items, txt]);
+      setItems([txt, ...items]);
     }
   };
   useEffect(() => {
@@ -32,10 +32,11 @@ const BtnArchive = ({ txt, setTxt }) => {
       <div className="fragmBtn">
         <button
           className="square-btn ms-1"
+          // className="btn-back "
           // disabled={!items.length}
           onClick={saveItems}
           title="to and from archive">
-          <LuArchive />
+          <FaRegSave />
         </button>
         <div className="archive-box">
           <button
@@ -45,15 +46,20 @@ const BtnArchive = ({ txt, setTxt }) => {
           </button>
           {items.map((oneF, i) => (
             <div className="one-item" key={i}>
-              <button onClick={() => clearItem(i)} className="w-100">
-                #{i} DELETE
-              </button>
-              <button onClick={() => replaceItems(oneF)}>
+              <div className="d-flex">
+                <button onClick={() => replaceItems(oneF)} className="w-100">
+                  SAVE {items.length - i} . . . LOAD
+                </button>
+                <button onClick={() => clearItem(i)} className="w-25">
+                  DELETE
+                </button>
+              </div>
+              <div className="save-cont" onClick={() => replaceItems(oneF)}>
                 {oneF.R0 && <span>{oneF.R0}</span>}
                 {oneF.R1 && <span>{oneF.R1}</span>}
                 {oneF.R2 && <span>{oneF.R2}</span>}
                 {oneF.R3 && <span>{oneF.R3}</span>}
-              </button>
+              </div>
             </div>
           ))}
         </div>

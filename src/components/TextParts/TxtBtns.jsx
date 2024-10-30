@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { copyToClipboard } from "../../utils/utilStr";
 import { txtTemplatesGet, txtTemplatesSet } from "../../utils/localStorage";
 import FileChooseBtn from "../UI/FileChooseBtn";
+import { usePopup } from "../../hooks/usePopup";
+import Popup from "../UI/Popup";
 
 const TxtBtns = ({ toJustif, edit }) => {
   const [lev, setLev] = useState(null);
-
+  const setPopup = usePopup();
   const [arr, setArr] = useState(txtTemplatesGet());
-  const [showMessage, setShowMessage] = useState(false);
   const defaultState = (val) => {
     txtTemplatesSet(val, setArr);
   };
@@ -22,10 +23,7 @@ const TxtBtns = ({ toJustif, edit }) => {
     } //right mouse button
     if (b === 2) {
       copyToClipboard(el.en);
-      setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 3000);
+      setPopup("copied to the clipboard");
     }
   };
 
@@ -38,13 +36,6 @@ const TxtBtns = ({ toJustif, edit }) => {
         <div className="input-file-text">
           <FileChooseBtn defaultState={defaultState} onlyFirstSheet />
         </div>
-        {/* <button
-          title="save selection as a template"
-          // disabled={!textSelected}
-          onClick={() => addNewElement(lev, setArr, arr)}
-          className="btnToHis  toTempBtn ordinary">
-          <TiArrowLeftThick />
-        </button> */}
         <div
           className={lev === null ? "level active" : "level"}
           onClick={(e) => {
@@ -68,14 +59,6 @@ const TxtBtns = ({ toJustif, edit }) => {
               {el}
             </div>
           ))}{" "}
-        {/* <div
-          className="level"
-          onClick={(e) => {
-            e.stopPropagation();
-            newLev();
-          }}>
-          +
-        </div> */}
       </div>
       <div
         className={
@@ -83,9 +66,7 @@ const TxtBtns = ({ toJustif, edit }) => {
             ? "text-list-body-edit justif-all-btn"
             : "text-list-body justif-all-btn"
         }>
-        <div className={`message ${showMessage ? "visible" : ""}`}>
-          copied to the clipboard
-        </div>
+        <Popup />
         {arr &&
           arr
             .filter((item) => (lev ? item.level === lev : item))

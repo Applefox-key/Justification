@@ -4,10 +4,8 @@ import {
   voiceToEdit,
   editTextActionRef,
   applyAction,
-  addinside,
 } from "../../utils/utilStr";
 import TxtBtns from "../TextParts/TxtBtns";
-import VoiceOverlay from "../Voice/VoiceOverlay";
 import HotBtns from "../Hint/HotBtns";
 import TopBtns from "../Edit/TopBtns";
 import SideBtns from "../Edit/SideBtns";
@@ -17,8 +15,9 @@ import RateBoxes from "../Rate/RateBoxes";
 import BtnArchive from "../Edit/BtnArchive";
 import { baseRespName } from "../../constants/replacements";
 import { FaStar } from "react-icons/fa";
-import { TfiViewGrid } from "react-icons/tfi";
 import VoiceDragable from "../Voice/VoiceDragable";
+import { RiDragMoveFill } from "react-icons/ri";
+import { TbBoxAlignTop } from "react-icons/tb";
 
 const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -137,16 +136,16 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   const refBoxR03 = useRef(null);
   const changeView = () => {
-    const isFlex = refBoxR03.current.classList.length;
+    const isFlex = refBoxR03.current.classList.length - 1;
     if (isFlex) {
-      refBoxR03.current.classList.remove("flex-box");
+      refBoxR03.current.classList.remove("unflex-box");
     } else {
-      refBoxR03.current.classList.add("flex-box");
+      refBoxR03.current.classList.add("unflex-box");
     }
   };
   return (
     <>
-      <div className="d-flex flex-wrap align-items-center">
+      <div className="d-flex flex-wrap align-items-center justify-content-start mb-1">
         <Button
           className={"btnToHis" + (isTemplates ? " isTmp" : "")}
           onClick={(e) => setIsTemplates(!isTemplates)}>
@@ -171,7 +170,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         {isHotBtns && <HotBtns toJustif={pasteToText} />}
       </div>
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
-        <div className="d-flex h-100 justify-content-start">
+        <div className="d-flex h-100 justify-content-start align-items-start">
           <div className="d-flex edit100 h-100">
             {isTemplates && <TxtBtns edit toJustif={pasteToText} />}
             <div className="editParts-wrap">
@@ -200,8 +199,11 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
               </div>
               <div className="edit-parts-menu">
                 <div className="d-flex">
-                  <Button className="btn-back square-btn" onClick={changeView}>
-                    <TfiViewGrid />
+                  <Button
+                    className="btn-back square-btn"
+                    onClick={changeView}
+                    title=" small or big field for the reason">
+                    <TbBoxAlignTop />
                   </Button>
                   <RateBoxes
                     action={action}
@@ -217,7 +219,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                   <button onClick={clear}>clear all parts</button>{" "}
                 </div>
               </div>
-              <div ref={refBoxR03}>
+              <div ref={refBoxR03} className="resp34">
                 <EditField
                   setIsTxt={setIsTxt}
                   isTxt={isTxt && fieldId === "R0"}
@@ -257,13 +259,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         </div>
       </div>
 
-      <div className="d-flex mt-11">
-        <VoiceDragable
-          nameF={fieldId}
-          toJustif={(txt) => {
-            voiceToEdit(txt, item[fieldId], fieldFn.setNewVal, fieldId);
-          }}
-        />{" "}
+      <div className="d-flex mt-11 w-100">
         <Button
           className="edit100 m-0 me-2"
           onClick={() => {
@@ -274,7 +270,16 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         </Button>
         <Button className="edit100 m-0" onClick={onOK}>
           OK
-        </Button>
+        </Button>{" "}
+        <VoiceDragable
+          nameF={fieldId}
+          toJustif={(txt) => {
+            voiceToEdit(txt, item[fieldId], fieldFn.setNewVal, fieldId);
+          }}
+        />{" "}
+        <div className="handle hbottom">
+          <RiDragMoveFill />
+        </div>
       </div>
     </>
   );

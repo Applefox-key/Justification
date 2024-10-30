@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import { replaceEndings } from "../../utils/utilStr";
 import { replacementsEnding } from "../../constants/replacements";
@@ -16,7 +16,7 @@ const EditField = ({
 }) => {
   const ref = useRef(null);
   const refBox = useRef(null);
-
+  const cursorPos = useRef(null);
   const changeClass = (IsToAdd = true) => {
     if (IsToAdd) {
       refBox.current.classList.add("field-box-plus");
@@ -29,10 +29,17 @@ const EditField = ({
   };
   const handleChange = (e) => {
     e.stopPropagation();
-    const repl = replaceEndings(e, replacementsEnding);
-    fieldFn.setNewVal(repl);
+    const { curs, val } = replaceEndings(e, replacementsEnding);
+    cursorPos.current = curs;
+    fieldFn.setNewVal(val);
   };
-
+  useEffect(() => {
+    if (ref.current && cursorPos.current !== null) {
+      ref.current.selectionStart = cursorPos.current;
+      ref.current.selectionEnd = cursorPos.current;
+      ref.current.focus();
+    }
+  }, [fieldVal]);
   return (
     <div className="field-box" ref={refBox}>
       {isTxt ? (

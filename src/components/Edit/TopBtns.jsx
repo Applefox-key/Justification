@@ -13,6 +13,8 @@ import {
 import BtnFragm from "./BtnFragm";
 import { PiSquareHalfDuotone } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import { ImCopy } from "react-icons/im";
+import { FaRegPaste } from "react-icons/fa6";
 
 const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
@@ -41,10 +43,24 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
 
   return (
     <>
-      <Hint />
+      <Hint />{" "}
+      <Button
+        className="btnToHis hintBtn"
+        disabled={!handleTxt}
+        onClick={(e) => copyToClipboard(handleTxt)}>
+        {/* copy */}
+        <ImCopy />
+      </Button>{" "}
+      <Button
+        className="btnToHis hintBtn"
+        onClick={(e) => pasteFromClipboard()}>
+        {/* paste */}
+        <FaRegPaste />
+      </Button>{" "}
       <div className="his-auto">
         <Form.Check
           size="sm"
+          className="autocheckhis"
           checked={autohis}
           type="checkbox"
           id="inputHis"
@@ -66,15 +82,6 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         }}>
         clear
       </Button>
-      <Button
-        className="btnToHis"
-        disabled={!handleTxt}
-        onClick={(e) => copyToClipboard(handleTxt)}>
-        copy
-      </Button>{" "}
-      <Button className="btnToHis" onClick={(e) => pasteFromClipboard()}>
-        paste
-      </Button>{" "}
       <Button
         className="btnToHis"
         onClick={(e) => {

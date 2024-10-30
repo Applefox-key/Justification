@@ -8,8 +8,7 @@ const VoiceBtns = ({ textRef, stopBtn, startBtn, disable }) => {
   const langArr = useMemo(() => ["en", "ru", "pl", "ua"], []);
   const [lang, setLang] = useState("en");
   const btnRef = useRef(null);
-  // const stopBtn = useRef(null);
-  // const startBtn = useRef(null);
+
   const onClick = () => {
     if (stopBtn.current.style.display === "none") {
       startV(textRef, lang || "");
@@ -24,6 +23,7 @@ const VoiceBtns = ({ textRef, stopBtn, startBtn, disable }) => {
 
   useEffect(() => {
     stopBtn.current.style.display = "none";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useOutsideClick(btnRef, () => {

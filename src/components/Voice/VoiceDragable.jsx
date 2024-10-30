@@ -13,12 +13,12 @@ const VoiceDragable = ({ toJustif, nameF }) => {
         VOICE
       </Button>
       {show && (
-        <Draggable defaultPosition={{ x: -100, y: -65 }}>
+        <Draggable defaultPosition={{ x: -750, y: -90 }}>
           {/* -767px, 390p */}
           <div ref={ref} className={"voice-drag"}>
             <div className="voice-drag-box">
-              <div className="handle1 intense">
-                VOICE TO {nameF}{" "}
+              <div className="handle1 ">
+                {nameF}{" "}
                 <button
                   className="btn-back"
                   onClick={(e) => {

@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Draggable from "react-draggable";
 import BtnFontSize from "./BtnFontSize";
-import { BsCardText, BsPatchCheck } from "react-icons/bs";
+import { BsCardText } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
 import { splitString } from "../../utils/utilStr";
 import EditArea from "../EditParts/EditArea";
 import TextChecker from "../UI/TextChecker";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
 import StrAreaEdit from "./StrAreaEdit";
-import { PiCopySimple } from "react-icons/pi";
 import { LiaSquare } from "react-icons/lia";
+import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
+import { TfiViewGrid } from "react-icons/tfi";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
@@ -19,11 +20,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
   const [action, setAction] = useState("@R");
-  const modeText = {
-    checker: "check text mode",
-    oneField: "one-window mode",
-    multiField: "multi-window mode",
-  };
+
   useEffect(() => {
     const itm = splitString(el.en);
     const newVal = localStorage.getItem("lastAction") || "@R";
@@ -33,17 +30,17 @@ const EditBox = ({ el, setEdit, savefn }) => {
   }, []);
 
   return (
-    <div className="module-wrap">
+    <div className="module-wrap-edit">
       <div className="editbox-wrap">
         <Draggable disabled={isFullScreen} handle=".handle">
           <div
-            className="editbox"
+            className="editbox "
             onClick={(e) => e.stopPropagation()}
             id="editbox">
             <div className="handle">
-              <div>
+              <div className="d-flex align-items-center">
                 <button
-                  className="square-btn hotBtnGr "
+                  className="square-btn hotBtnGr rel-left"
                   onClick={() => {
                     const newval =
                       action === "@R" ? "RAB" : action === "RAB" ? "INT" : "@R";
@@ -52,28 +49,26 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   }}>
                   {action}
                 </button>
-                <Button
-                  className="btn-back"
-                  onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
-                  {isOneFieldMode ? <PiCopySimple /> : <LiaSquare />}
-                </Button>
+
                 <BtnFontSize />
               </div>
-              <h5>
-                EDIT COMMENT
-                <span>
-                  {isСheckerMode
-                    ? modeText.checker
-                    : isOneFieldMode
-                    ? modeText.oneField
-                    : modeText.multiField}
-                </span>
-              </h5>
+              <h5>EDIT COMMENT</h5>
               <div>
                 <Button
-                  className="btn-backXl"
+                  className="btn-back"
                   onClick={() => setIsCheckerMode(!isСheckerMode)}>
-                  {isСheckerMode ? <BsCardText /> : <BsPatchCheck />}
+                  {isСheckerMode ? (
+                    <BsCardText />
+                  ) : (
+                    <IoCheckmarkDoneCircleOutline />
+                  )}
+                </Button>{" "}
+                <Button
+                  className="btn-back"
+                  title="window mode: one or several text fields"
+                  onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
+                  {/* {isOneFieldMode ? <BsWindowSplit /> : <LiaSquare />} */}
+                  {isOneFieldMode ? <LiaSquare /> : <TfiViewGrid />}
                 </Button>
                 <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
                 <Button

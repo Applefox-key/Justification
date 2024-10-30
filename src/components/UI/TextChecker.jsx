@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import { highlightedCheckedText } from "../../utils/utilStr";
+import { copyToClipboard, highlightedCheckedText } from "../../utils/utilStr";
 
 const TextChecker = ({ close }) => {
   const [text, setText] = useState("");
@@ -12,9 +12,8 @@ const TextChecker = ({ close }) => {
     const doubleSpacesRegex = / {2,}/g;
     const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
     const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
-
     const foundErrors = [];
-
+    let rextJust = "";
     // Проверка на двойные пробелы
     const doubleSpacesMatches = text.match(doubleSpacesRegex);
     if (doubleSpacesMatches) {
@@ -31,6 +30,8 @@ const TextChecker = ({ close }) => {
       quotesMatches.push(quoteMatch[0]); // Полная строка с кавычками
     }
     if (quotesMatches.length > 0) {
+      rextJust =
+        "In the response the quotation marks should be replaced with «».";
       foundErrors.push({
         type: "quote",
         matches: quotesMatches,
@@ -44,12 +45,21 @@ const TextChecker = ({ close }) => {
       dashesMatches.push(dashMatch[0]); // Полная строка с дефисом
     }
     if (dashesMatches.length > 0) {
+      rextJust =
+        rextJust === ""
+          ? "In the response the hyphen should be replaced with a dash."
+          : "In the response the quotation marks should be replaced with «», and the hyphen should be replaced with a dash.";
       foundErrors.push({
         type: "dash",
         matches: dashesMatches,
       });
     }
     if (foundErrors.length > 0) {
+      foundErrors.unshift({
+        type: "resultTxt",
+        matches: rextJust,
+      });
+
       setErrors(foundErrors);
     } else alert("ошибок нет");
   };
@@ -68,7 +78,7 @@ const TextChecker = ({ close }) => {
         <div className="d-flex w-100 h-100">
           <Form.Control
             as="textarea"
-            className={"fit-height w-100"}
+            className={"fit-height w-100 check-area"}
             rows={1}
             spellCheck
             placeholder="input text for checking..."
@@ -82,23 +92,26 @@ const TextChecker = ({ close }) => {
           />
         </div>
       )}
-
-      {/* <textarea
-        value={text}
-        className={"fit-height w-100"}
-        onChange={(e) => setText(e.target.value)}
-        // rows="10"
-        // cols="50"
-        rows={1}
-        placeholder="Введите текст для проверки..."
-      /> */}
       <br />
+
       {errors.length > 0 ? (
-        <button onClick={() => setErrors([])}>Показать текст</button>
+        <>
+          <span>{errors[0].matches}</span> <br />
+          <button onClick={() => setErrors([])}>Показать текст</button>
+          <button
+            onClick={(e) => {
+              copyToClipboard(errors[0].matches);
+              close();
+            }}>
+            Скопировать вердикт и вернуться к обоснованию
+          </button>
+        </>
       ) : (
-        <button onClick={checkText}>Проверить текст</button>
+        <>
+          <button onClick={checkText}>Проверить текст</button>
+          <button onClick={close}>Вернуться к обоснованию</button>
+        </>
       )}
-      <button onClick={close}>Вернуться к обоснованию</button>
     </div>
   );
 };

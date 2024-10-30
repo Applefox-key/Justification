@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { TbLetterF, TbLetterFSmall } from "react-icons/tb";
 
 const BtnFontSize = () => {
   const [font, setFont] = useState(1.2);
@@ -22,24 +22,23 @@ const BtnFontSize = () => {
         document.documentElement.style.getPropertyValue("--vertical-font"),
         2
       ) || 1.2;
-    console.log(size);
     if (size !== font) setFont(size);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
+      {" "}
       <button
-        // className="square-btn intense"
-        className="btn-back"
-        title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
+        className="btn-back m-0 round-btn"
+        title="Font size -"
         onClick={() => setSize(-0.1)}>
-        <FiMinus />
+        <TbLetterFSmall />
       </button>{" "}
       <button
-        // className="square-btn intense"
-        className="btn-back"
-        title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
+        className="btn-back hotBtnGr round-btn"
+        title="Font size +"
         onClick={() => setSize(0.1)}>
-        <FiPlus />
+        <TbLetterF />
       </button>{" "}
     </>
   );

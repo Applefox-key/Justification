@@ -7,9 +7,11 @@ export const baseRespName = {
 export const replacementsEnding = [
   ["resa", "Response A"],
   ["куыф", "Response A"],
+  ["отв1", "Response A"],
   ["ress", "responses"],
   ["Responsea", "Response A"],
   ["resb", "Response B"],
+  ["отв2", "Response B"],
   ["куыи", "Response B"],
   ["Responseb", "Response B"],
   ["resp", "Response"],
@@ -171,11 +173,18 @@ export const hotReplaceSuggestion = [
     title: "better",
   },
   {
-    oldT: ["intro"],
+    oldT: ["introP"],
     newT: `According to the instructions, the response must contain a friendly intro and outro, they should be added.`,
     caseSensitive: false,
     show: true,
     title: "add intro/outro",
+  },
+  {
+    oldT: ["intro"],
+    newT: `The introduction and conclusion should be rewritten in a friendly tone, avoiding pleasantries.`,
+    caseSensitive: false,
+    show: true,
+    title: "rewrite intro/outro",
   },
 ];
 export const hotReplaceTmp = [
@@ -265,7 +274,7 @@ export const hotreplaceSuggest = [
   {
     oldT: ["you"],
     newT: `The response sounds impolite, it uses the address "ты", in Russian it is better to use "вы".`,
-    caseSensitive: false,
+    caseSensitive: true,
     show: true,
     title: "ты-вы",
   },
@@ -333,6 +342,8 @@ const autoReplaceToModels = [
       "р1",
       "a1",
       "ответ1",
+      "Ответ а",
+      "Ответ a",
       "ответ 1",
       "ответ один",
       "ответа один",
@@ -373,6 +384,8 @@ const autoReplaceToModels = [
       "р2",
       "о2",
       "р2",
+      "Ответ b",
+      "Ответ б",
       "answer 2",
       "answer2",
       "answer B",

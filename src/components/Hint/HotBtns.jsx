@@ -9,17 +9,17 @@ import {
 
 import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
-
-import { applyAction } from "../../utils/utilStr";
+import Popup from "../UI/Popup";
+import { applyAction, copyToClipboard } from "../../utils/utilStr";
 import { mainTmp } from "../../constants/textParts";
 import RateHot from "../Rate/RateHot";
+import { usePopup } from "../../hooks/usePopup";
 
 const HotBtns = ({ toJustif, action = "RAB" }) => {
   const [isOpen, setIsOpen] = useState(null);
-
   const refBox = useRef(null);
   useOutsideClick(refBox, () => setIsOpen(null));
-
+  const setPopup = usePopup();
   const btnsArr = [
     { name: "FORMAT", btns: autoreplaceFormat },
     { name: "TONE", btns: hotReplaceTone },
@@ -27,14 +27,25 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
     { name: "ISSUES", btns: hotReplaceIssues },
     { name: "TEMPLATES", btns: hotReplaceTmp },
   ];
-  const onHandleCLick = (newT, model = "") => {
+  const onHandleCLick = (e, newT, model = "") => {
+    let b = e.button;
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
     const newVal = applyAction(newFr_, action);
-
-    toJustif(newVal);
+    if (b === 0) {
+      //left mouse button
+      toJustif(newVal);
+      return;
+    } //right mouse button
+    if (b === 2) {
+      e.preventDefault();
+      copyToClipboard(newVal);
+      setPopup("copied to the clipboard");
+    }
   };
+
   return (
     <div className="hot " ref={refBox}>
+      <Popup />
       {btnsArr.map((oneBtn, btni) => (
         <OneHotBtn
           key={btni}

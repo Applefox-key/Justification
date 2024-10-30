@@ -488,7 +488,8 @@ export const addinside = (ref, str, setVal = null) => {
 export const replaceEndings = (e, replacements) => {
   const str = e.target.value;
   const cursorPos = e.target.selectionStart;
-
+  let curs = e.target.selectionStart;
+  console.log("было " + curs);
   // Определяем границы текущего слова вокруг курсора
   const beforeCursor = str.slice(0, cursorPos);
   const afterCursor = str.slice(cursorPos);
@@ -501,14 +502,18 @@ export const replaceEndings = (e, replacements) => {
     for (const [oldEnding, newEnding] of replacements) {
       if (word.endsWith(oldEnding)) {
         const newWord = word.slice(0, -oldEnding.length) + newEnding;
-        return (
-          beforeCursor.slice(0, beforeCursor.length - matchBefore[0].length) +
-          newWord +
-          afterCursor.slice(matchAfter[0].length)
-        );
+        curs = curs - oldEnding.length + newWord.length;
+
+        return {
+          curs: curs,
+          val:
+            beforeCursor.slice(0, beforeCursor.length - matchBefore[0].length) +
+            newWord +
+            afterCursor.slice(matchAfter[0].length),
+        };
       }
     }
   }
 
-  return str;
+  return { curs: null, val: str };
 };

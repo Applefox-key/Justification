@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-
-import { SlSizeActual, SlSizeFullscreen } from "react-icons/sl";
+import { MdOpenInFull, MdOutlineCloseFullscreen } from "react-icons/md";
 
 const BoxSizeBtn = ({ id, callback }) => {
   // const [isFull, setIsFull] = useState(false);
@@ -14,6 +13,7 @@ const BoxSizeBtn = ({ id, callback }) => {
       setIsFull(true);
       if (callback) callback(newV);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // document.documentElement.style.getPropertyValue("--edit-width");
   const handleClick = () => {
@@ -58,7 +58,8 @@ const BoxSizeBtn = ({ id, callback }) => {
 
   return (
     <Button className="btn-back" onClick={handleClick}>
-      {isFull ? <SlSizeActual /> : <SlSizeFullscreen />}
+      {/* {isFull ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />} */}
+      {isFull ? <MdOutlineCloseFullscreen /> : <MdOpenInFull />}
     </Button>
   );
 };

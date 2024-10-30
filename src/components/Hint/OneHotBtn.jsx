@@ -17,7 +17,8 @@ const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
               <button
                 className="square-btn hot-sub-btn"
                 title={btn.newT}
-                onClick={() => toJustif(btn.newT)}>
+                onMouseDown={(e) => toJustif(e, btn.newT)}
+                onContextMenu={(e) => toJustif(e, btn.newT)}>
                 {btn.title || btn.oldT[0]}
               </button>
               {btn.newT.includes("BotModel") && (
@@ -25,13 +26,19 @@ const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
                   <button
                     className="square-btn hot-sub-btn"
                     title={btn.newT}
-                    onClick={() => toJustif(btn.newT, "A")}>
+                    onMouseDown={(e) => toJustif(e, btn.newT, "A")}
+                    onContextMenu={(e) => toJustif(e, btn.newT, "A")}
+                    // onClick={(e) => toJustif(e, btn.newT, "A")}
+                  >
                     {"Resp A"}
                   </button>{" "}
                   <button
                     className="square-btn hot-sub-btn"
                     title={btn.newT}
-                    onClick={() => toJustif(btn.newT, "B")}>
+                    onMouseDown={(e) => toJustif(e, btn.newT, "B")}
+                    onContextMenu={(e) => toJustif(e, btn.newT, "B")}
+                    // onClick={(e) => toJustif(e, btn.newT, "B")}
+                  >
                     {"Resp B"}
                   </button>{" "}
                 </div>
