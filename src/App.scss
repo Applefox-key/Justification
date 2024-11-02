@@ -9,7 +9,9 @@
   }
 }
 
-
+.voice-btns-all {
+  display: flex;
+}
 
 .btn,
 button {
@@ -1109,6 +1111,7 @@ textarea.form-control::placeholder {
   font-size: 12px;
   background-color: #257e90;
   position: relative;
+  height: 1.5rem;
 
   button {
     position: absolute;
@@ -2225,19 +2228,55 @@ textarea.form-control::placeholder {
   z-index: 1900;
   width: 90vw;
 
+  width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+  .handle1 {
+    width: 100%;
+    height: 2rem;
+    font-size: 22px;
+    color: white;
+
+    button {
+      right: 0;
+      height: 2rem;
+      border-radius: 20% 16px 0% 50%
+    }
+
+    &::after {
+      left: 10px;
+      content: "VOICE INPUT";
+      position: absolute;
+      font-size: 12px;
+    }
+  }
+
+  border-radius: 15px;
 
 
   .voiceOver {
-    width: 90%;
+    width: 100%;
     border: 5px solid #257e90;
     background-color: var(--main-back);
     z-index: 1900;
-
+    width: 100%;
     margin-top: 0;
     border-radius: 0 0 15px 15px;
 
-    .textarea-box textarea {
-      z-index: 1900;
+    .textarea-box {
+      .voice-btns-all {
+        flex-direction: column-reverse;
+        justify-content: space-between
+      }
+
+      textarea {
+        font-size: 16px;
+        z-index: 1900;
+        height: 150px;
+        max-height: 150px;
+        width: 95%;
+        // width: 250px;
+      }
     }
   }
 }
@@ -2373,7 +2412,7 @@ textarea.form-control::placeholder {
       z-index: 500;
       position: absolute;
       right: 0px;
-      top: -15px;
+      top: 5px;
       display: none;
       align-items: center;
       justify-content: center;
@@ -2460,7 +2499,7 @@ textarea.form-control::placeholder {
         display: flex;
         height: 0;
         scale: 0;
-        transition: all 0.7s ease-in-out;
+        transition: all 0.4s ease-in-out;
       }
 
       .langEltrue {
@@ -2906,5 +2945,22 @@ textarea.form-control::placeholder {
 
   100% {
     opacity: 0;
+  }
+}
+
+.format-btns {
+  position: relative;
+
+  .sub-btns {
+    display: none;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+  }
+
+  &:hover {
+    .sub-btns {
+      display: flex;
+    }
   }
 }

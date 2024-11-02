@@ -16,6 +16,8 @@ export const replacementsEnding = [
   ["Responseb", "Response B"],
   ["resp", "Response"],
   ["iss", "issue"],
+  ["--", "—"],
+  ["кк", "«»"],
 ];
 //hot list
 export const autoreplaceFormat = [
@@ -79,14 +81,14 @@ export const autoreplaceFormat = [
 export const hotReplaceTone = [
   {
     oldT: ["robotic"],
-    newT: `BotModel sounds a bit robotic.`,
+    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
     caseSensitive: false,
     show: true,
     title: "robo",
   },
   {
     oldT: ["you"],
-    newT: `BotModel sounds impolite, it uses the address "ты", in Russian it is better to use "вы".`,
+    newT: `BotModel sounds impolite, it uses the pronoun "ты" when addressing the user, in Russian it is better to use "вы".`,
     caseSensitive: false,
     show: true,
     title: "ты-вы",
@@ -114,10 +116,17 @@ export const hotReplaceTone = [
   },
   {
     oldT: ["formal"],
-    newT: `BotModel is written in a rather formal style, it is needed to add warmth.`,
+    newT: `Bot Model is written in a rather formal style, and  is better  to add warmth. For example, it is uses a phrase like ""`,
     caseSensitive: false,
     show: true,
     title: "formal",
+  },
+  {
+    oldT: ["Exclamation"],
+    newT: `Exclamation marks need to be removed.`,
+    caseSensitive: false,
+    show: true,
+    title: "!",
   },
 ];
 export const hotReplaceIssues = [
@@ -200,14 +209,33 @@ Both`,
   },
   {
     oldT: ["turns"],
-    newT: `Turn1:
+    newT: `Prompt:
+
+    Turn1:
+
     Turn2:
+
     Turn3:
+
     Turn4:
     `,
     caseSensitive: false,
     show: true,
     title: "TURNS",
+  },
+  {
+    oldT: ["turns"],
+    newT: `For comparison @Response 1: ;@Response 2: `,
+    caseSensitive: false,
+    show: true,
+    title: "comparison",
+  },
+  {
+    oldT: ["example"],
+    newT: `For example, `,
+    caseSensitive: false,
+    show: true,
+    title: "example",
   },
 ];
 //autorepl
@@ -255,7 +283,52 @@ export const autoreplaceNum = [
     title: "both->b",
   },
 ];
-
+export const autoreplaceGrammar = [
+  {
+    oldT: ["comma"],
+    newT: `The comma after " " is unnecessary`,
+    caseSensitive: false,
+    show: true,
+    title: "comma",
+  },
+  {
+    oldT: ["matching"],
+    newT: `The BotModel uses incorrect word matching in Russian " " insetead of " "`,
+    caseSensitive: false,
+    show: true,
+    title: "word matching",
+  },
+];
+export const hotReplaceRewiew = [
+  {
+    oldT: ["disagree"],
+    newT: `I disagree with the choice of the best answer.`,
+    caseSensitive: false,
+    show: true,
+    title: "disagree",
+  },
+  {
+    oldT: ["constraints"],
+    newT: `There is an insufficient number of constraints in the prompt`,
+    caseSensitive: false,
+    show: true,
+    title: "constraints",
+  },
+  {
+    oldT: ["constraints"],
+    newT: `The introduction and conclusion have been finalized.`,
+    caseSensitive: false,
+    show: true,
+    title: "redo itro outro",
+  },
+  {
+    oldT: ["formal"],
+    newT: `According to the instructions, phrases with emotional overtones (exclamation marks) such as " " are considered pleasantries.`,
+    caseSensitive: false,
+    show: true,
+    title: "pleasantries",
+  },
+];
 export const hotreplaceSuggest = [
   {
     oldT: ["robotic"],

@@ -43,11 +43,15 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
           }}
           // onChange={handleChange}
         />
-        {!!actionFn && <Button onClick={onOK}>OK</Button>}
-        <Button onClick={() => (textRef.current.value = "")} className="delbtn">
-          <TbHttpDelete />
-        </Button>{" "}
-        <VoiceBtns textRef={textRef} stopBtn={stopBtn} startBtn={startBtn} />
+        <div className="voice-btns-all">
+          {!!actionFn && <Button onClick={onOK}>OK</Button>}
+          <Button
+            onClick={() => (textRef.current.value = "")}
+            className="delbtn">
+            <TbHttpDelete />
+          </Button>{" "}
+          <VoiceBtns textRef={textRef} stopBtn={stopBtn} startBtn={startBtn} />
+        </div>
       </div>
     </div>
   );

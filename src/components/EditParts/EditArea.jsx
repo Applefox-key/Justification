@@ -122,7 +122,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   const onOK = (e) => {
     e.stopPropagation();
-    const val = `R1${item.R1} R2${item.R2} R3${item.R3} R0${item.R0}`;
+    const val = `R1:${item.R1} R2:${item.R2} R3:${item.R3} R0:${item.R0}`;
     clear();
     if (!!actionFn) actionFn(val);
   };
@@ -142,6 +142,14 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     } else {
       refBoxR03.current.classList.add("unflex-box");
     }
+  };
+  const turnsTMP = () => {
+    const userConfirmed = window.confirm(
+      "Do you want to clear text and add a template?"
+    );
+    if (!userConfirmed) return;
+    const txt = `TURN1.\n\nTURN2.\n\nTURN3.\n\nTURN4.`;
+    setItem({ R1: `PROMPT.\n\n${txt}`, R2: txt, R3: txt, R0: "" });
   };
   return (
     <>
@@ -212,6 +220,8 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                   />
                 </div>
                 <div>
+                  {" "}
+                  <button onClick={turnsTMP}>Turns TMPL</button>
                   <button onClick={() => compose(false)}>
                     rate to active text field
                   </button>

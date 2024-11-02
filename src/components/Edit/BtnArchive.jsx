@@ -54,7 +54,7 @@ const BtnArchive = ({ txt, setTxt }) => {
                   DELETE
                 </button>
               </div>
-              <div className="save-cont" onClick={() => replaceItems(oneF)}>
+              <div className="save-cont">
                 {oneF.R0 && <span>{oneF.R0}</span>}
                 {oneF.R1 && <span>{oneF.R1}</span>}
                 {oneF.R2 && <span>{oneF.R2}</span>}

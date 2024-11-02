@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { act, useState } from "react";
 import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../../utils/localStorage";
@@ -15,6 +15,7 @@ import { PiSquareHalfDuotone } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { ImCopy } from "react-icons/im";
 import { FaRegPaste } from "react-icons/fa6";
+import FormatBtn from "./FormatBtn";
 
 const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
@@ -82,41 +83,16 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         }}>
         clear
       </Button>
-      <Button
-        className="btnToHis"
-        onClick={(e) => {
-          // numIsteadLetter(handleTxt, setHandleTxt);
-          const newVal = applyAction(handleTxt, action);
-          setHandleTxt(newVal);
-        }}>
-        FORMAT (F2)
-      </Button>
+      <FormatBtn
+        handleTxt={handleTxt}
+        setHandleTxt={setHandleTxt}
+        action={action}
+      />
       <Button className="btnToHis" onClick={onOK}>
         OK
       </Button>{" "}
       <div className="topsmallbtns-box">
         <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
-        <button
-          className="square-btn intense"
-          title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
-          onClick={respOrder}>
-          <PiSquareHalfDuotone />
-        </button>
-        <button
-          className="square-btn intense"
-          title="INTERACTIONS: remove extra spaces, capitalize all sentences, correct names of INTERACTIONS"
-          onClick={(e) => {
-            const newVal = replaceWordsInteractions(handleTxt);
-            setHandleTxt(newVal);
-          }}>
-          <IoChatbubblesOutline />
-        </button>
-        <button
-          className="square-btn intense"
-          title="@RESPONSES: A B -> 1 2"
-          onClick={() => numIsteadLetter(handleTxt, setHandleTxt)}>
-          @
-        </button>
       </div>
     </>
   );

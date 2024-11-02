@@ -13,7 +13,7 @@ const VoiceDragable = ({ toJustif, nameF }) => {
         VOICE
       </Button>
       {show && (
-        <Draggable defaultPosition={{ x: -750, y: -90 }}>
+        <Draggable handle=".handle1" defaultPosition={{ x: -260, y: -200 }}>
           {/* -767px, 390p */}
           <div ref={ref} className={"voice-drag"}>
             <div className="voice-drag-box">

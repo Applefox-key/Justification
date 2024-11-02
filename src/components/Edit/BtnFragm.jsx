@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { BsChatQuote } from "react-icons/bs";
+import { countQuote } from "../../utils/utilStr";
+import { usePopup } from "../../hooks/usePopup";
+import Popup from "../UI/Popup";
 
 const BtnFragm = ({ handleTxt, setHandleTxt }) => {
   const [fragments, setFragments] = useState([]);
-
+  const setPopup = usePopup();
   // remember quotes from the text
   const extractFragments = () => {
     const matches = handleTxt.match(/["«]([^"»]*)["»]/g);
@@ -19,6 +22,11 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
 
   //back to the text
   const replaceFragments = () => {
+    const countQ = countQuote(handleTxt);
+    if (countQ !== 2 * fragments.length) {
+      setPopup("the number of quotes does not match");
+      return;
+    }
     let index = 0;
     const newString = handleTxt.replace(/["«]([^"]*)["»]/g, () => {
       return `"${fragments[index++] || ""}"`;
@@ -28,12 +36,14 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
 
   return (
     <>
+      <Popup />
       <button
         className="square-btn intense upside-down"
         title="copy fragments in quotation marks"
         onClick={extractFragments}>
         <BsChatQuote />
       </button>
+
       <div className="fragmBtn">
         <button
           className="square-btn intense"

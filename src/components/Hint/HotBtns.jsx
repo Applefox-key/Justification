@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import {
   autoreplaceFormat,
+  autoreplaceGrammar,
   hotReplaceIssues,
+  hotReplaceRewiew,
   hotReplaceSuggestion,
   hotReplaceTmp,
   hotReplaceTone,
@@ -24,8 +26,10 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
     { name: "FORMAT", btns: autoreplaceFormat },
     { name: "TONE", btns: hotReplaceTone },
     { name: "ADVICE", btns: hotReplaceSuggestion },
+    { name: "GRAMMAR", btns: autoreplaceGrammar },
     { name: "ISSUES", btns: hotReplaceIssues },
     { name: "TEMPLATES", btns: hotReplaceTmp },
+    { name: "REVIEW", btns: hotReplaceRewiew },
   ];
   const onHandleCLick = (e, newT, model = "") => {
     let b = e.button;

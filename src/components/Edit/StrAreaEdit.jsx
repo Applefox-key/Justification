@@ -7,6 +7,7 @@ import SideBtns from "./SideBtns";
 import TxtBtns from "../TextParts/TxtBtns";
 import VoiceOverlay from "../Voice/VoiceOverlay";
 import HotBtns from "../Hint/HotBtns";
+import VoiceDragable from "../Voice/VoiceDragable";
 
 const StrAreaEdit = ({
   actionFn,
@@ -131,18 +132,24 @@ const StrAreaEdit = ({
         </div>
       </div>
       <div className="w-100 mt-11 d-flex align-items-center justify-content-between">
-        <div className="d-flex align-items-center justify-content-between">
-          <RatingOverlay toJustif={toText} />{" "}
-          <Button className=" m-0" onClick={onOK}>
-            OK
-          </Button>{" "}
-        </div>
-        <VoiceOverlay
-          edit
+        {/* <div className="d-flex align-items-center justify-content-between"> */}
+        <RatingOverlay toJustif={toText} />{" "}
+        <Button className=" m-0" onClick={onOK}>
+          OK
+        </Button>{" "}
+        {/* </div> */}
+        <VoiceDragable
+          nameF={"editArea"}
           toJustif={(txt) => {
             voiceToEdit(txt, handleTxt, setHandleTxt);
           }}
         />
+        {/* <VoiceOverlay
+          edit
+          toJustif={(txt) => {
+            voiceToEdit(txt, handleTxt, setHandleTxt);
+          }}
+        /> */}
       </div>
     </>
   );

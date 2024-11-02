@@ -517,3 +517,17 @@ export const replaceEndings = (e, replacements) => {
 
   return { curs: null, val: str };
 };
+
+export const countQuote = (str) => {
+  let quoteCount = 0;
+  let pairCount = 0;
+
+  for (let char of str) {
+    if (char === '"') {
+      quoteCount++;
+    }
+  }
+  // pairCount = Math.floor(quoteCount / 2);
+
+  return quoteCount;
+};

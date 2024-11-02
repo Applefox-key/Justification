@@ -6,7 +6,7 @@ import { stopV, startV } from "../../utils/voice";
 
 const VoiceBtns = ({ textRef, stopBtn, startBtn, disable }) => {
   const langArr = useMemo(() => ["en", "ru", "pl", "ua"], []);
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState("ru");
   const btnRef = useRef(null);
 
   const onClick = () => {
