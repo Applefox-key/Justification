@@ -80,11 +80,12 @@ export const readXlsFileOne = (file) => {
           const row = sheetData[i];
           if (row[0] || row[1] || row[2]) {
             const lev = row[2] || null;
-
+            const note = row[3] || null;
             const item = {
               en: row[0] || null,
               ru: row[1] || null,
               level: lev,
+              note: note,
             };
 
             result.push(item);

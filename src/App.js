@@ -4,7 +4,7 @@ import MainPage from "./components/MainPage";
 import { PopupContext } from "./context";
 
 function App() {
-  const [popupSettings, setPopupSettings] = useState("1");
+  const [popupSettings, setPopupSettings] = useState("");
   return (
     <PopupContext.Provider value={{ popupSettings, setPopupSettings }}>
       <div className="App">

@@ -4,8 +4,9 @@ import { txtTemplatesGet, txtTemplatesSet } from "../../utils/localStorage";
 import FileChooseBtn from "../UI/FileChooseBtn";
 import { usePopup } from "../../hooks/usePopup";
 import Popup from "../UI/Popup";
+import TemplateItem from "./TemplateItem";
 
-const TxtBtns = ({ toJustif, edit }) => {
+const TemplatesBox = ({ toJustif, edit }) => {
   const [lev, setLev] = useState(null);
   const setPopup = usePopup();
   const [arr, setArr] = useState(txtTemplatesGet());
@@ -71,18 +72,16 @@ const TxtBtns = ({ toJustif, edit }) => {
           arr
             .filter((item) => (lev ? item.level === lev : item))
             .map((el, i) => (
-              <div
+              <TemplateItem
+                el={el}
                 onContextMenu={handleContextMenu}
                 onMouseDown={(e) => handleClick(e, el)}
                 key={i}
-                className="current-item-txt">
-                <div>{el.en}</div>
-                <div className="ru">{el.ru}</div>{" "}
-              </div>
+              />
             ))}
       </div>
     </div>
   );
 };
 
-export default TxtBtns;
+export default TemplatesBox;

@@ -29,7 +29,7 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
           className="btnToHis intense"
           title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
           onClick={respOrder}>
-          Responce A Responce B{/* <PiSquareHalfDuotone /> */}
+          Response A Response B{/* <PiSquareHalfDuotone /> */}
         </button>
         <button
           className="btnToHis intense"
@@ -44,7 +44,7 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
           className="btnToHis intense"
           title="@RESPONSES: A B -> 1 2"
           onClick={() => numIsteadLetter(handleTxt, setHandleTxt)}>
-          @Responce A @Responce B
+          @Response A @Response B
         </button>
       </div>
     </div>

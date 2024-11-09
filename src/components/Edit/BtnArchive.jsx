@@ -12,6 +12,13 @@ const BtnArchive = ({ txt, setTxt }) => {
       setItems([txt, ...items]);
     }
   };
+  const replacelast = () => {
+    const old = [...items];
+    old[0] = txt;
+    if (txt && !items.includes(txt)) {
+      setItems(old);
+    }
+  };
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
@@ -32,13 +39,16 @@ const BtnArchive = ({ txt, setTxt }) => {
       <div className="fragmBtn">
         <button
           className="square-btn ms-1"
-          // className="btn-back "
-          // disabled={!items.length}
           onClick={saveItems}
           title="to and from archive">
           <FaRegSave />
         </button>
         <div className="archive-box">
+          <button
+            onClick={replacelast}
+            style={{ color: "red", cursor: "pointer" }}>
+            replace last
+          </button>
           <button
             onClick={clearItems}
             style={{ color: "red", cursor: "pointer" }}>

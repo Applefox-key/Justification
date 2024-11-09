@@ -5,19 +5,19 @@ export const baseRespName = {
 };
 
 export const replacementsEnding = [
-  ["resa", "Response A"],
-  ["куыф", "Response A"],
-  ["отв1", "Response A"],
-  ["ress", "responses"],
-  ["Responsea", "Response A"],
-  ["resb", "Response B"],
-  ["отв2", "Response B"],
-  ["куыи", "Response B"],
-  ["Responseb", "Response B"],
-  ["resp", "Response"],
-  ["iss", "issue"],
-  ["--", "—"],
-  ["кк", "«»"],
+  [["resa", "respa", "куыф", "отв1", "респ1"], "Response A"],
+  [["ress"], "responses"],
+  [["bres"], "Both responses"],
+  [["num"], "The response uses a numbered list unnecessarily."],
+  [["куыи", "отв2", "resb", "респ2"], "Response B"],
+  [["resp"], "Response"],
+  [["iss"], "issue"],
+  [["--"], "—"],
+  [["кк", "rr", "qq"], "«»"],
+  [
+    ["refr"],
+    `It is better to rephrase some fragments in the response since it sounds unnatural (" ").`,
+  ],
 ];
 //hot list
 export const autoreplaceFormat = [
@@ -37,7 +37,7 @@ export const autoreplaceFormat = [
   },
   {
     oldT: ["listru"],
-    newT: `The list should be reformatted by the rules of the Russian language, according to which a colon is followed by a lowercase letter, or the name of the list item should end with a dot.`,
+    newT: `The list should be reformatted, to avoid unnecessary punctuation marks.`,
     caseSensitive: false,
     show: true,
     title: "list rules",
@@ -116,7 +116,7 @@ export const hotReplaceTone = [
   },
   {
     oldT: ["formal"],
-    newT: `Bot Model is written in a rather formal style, and  is better  to add warmth. For example, it is uses a phrase like ""`,
+    newT: `Bot Model is written in a rather formal style, and  is better to add warmth. For example, it is uses a phrase like ""`,
     caseSensitive: false,
     show: true,
     title: "formal",
@@ -128,6 +128,20 @@ export const hotReplaceTone = [
     show: true,
     title: "!",
   },
+  {
+    oldT: ["introP"],
+    newT: `According to the instructions, the response must contain a friendly intro and outro, they should be added.`,
+    caseSensitive: false,
+    show: true,
+    title: "add intro/outro",
+  },
+  {
+    oldT: ["intro"],
+    newT: `The introduction and conclusion should be rewritten in a friendly tone, avoiding pleasantries.`,
+    caseSensitive: false,
+    show: true,
+    title: "rewrite intro/outro",
+  },
 ];
 export const hotReplaceIssues = [
   {
@@ -138,6 +152,13 @@ export const hotReplaceIssues = [
     title: "Truthfulness",
   },
   {
+    oldT: ["fact"],
+    newT: `BotModel has issues with Factuality.`,
+    caseSensitive: false,
+    show: true,
+    title: "Factuality",
+  },
+  {
     oldT: ["instr"],
     newT: `BotModel does not follow  the instructions.`,
     caseSensitive: false,
@@ -146,10 +167,70 @@ export const hotReplaceIssues = [
   },
   {
     oldT: ["present"],
-    newT: `BotModel has issues with Presantation.`,
+    newT: `BotModel has issues with Presentation.`,
     caseSensitive: false,
     show: true,
-    title: "Presantation",
+    title: "Presentation",
+  },
+  {
+    oldT: ["fluency"],
+    newT: `BotModel has issues with Language Fluency.`,
+    caseSensitive: false,
+    show: true,
+    title: "Fluency",
+  },
+];
+export const hotReplaceJustif = [
+  {
+    oldT: ["Inaccurate"],
+    newT: `BotModel inaccurately claims that __ when in fact it's _. Correcting this fact inproves the accuracy of the response.`,
+    caseSensitive: false,
+    show: true,
+    title: "Inaccurate",
+  },
+  {
+    oldT: ["fact"],
+    newT: `BotModel has issues with Factuality.`,
+    caseSensitive: false,
+    show: true,
+    title: "Factuality",
+  },
+  {
+    oldT: ["instrF"],
+    newT: `The user asked for _, but BotModel recommended/provided _ . This does not follow the prompt's instructions.`,
+    caseSensitive: false,
+    show: true,
+    title: "Not follow",
+  },
+  {
+    oldT: ["lfluency"],
+    newT: `BotModel includes awkward phrasing like "_" which sounds unnatural. This should be corrected to "_"`,
+    caseSensitive: false,
+    show: true,
+    title: "LFluency",
+  },
+  {
+    oldT: ["cohj"],
+    newT: `BotModel jumps from _ to unrelated topics, making it difficult to follow. Clarifying these transitions would improve coherence.`,
+    caseSensitive: false,
+    show: true,
+    title: "Coherence",
+  },
+  {
+    oldT: ["present"],
+    newT: `BotModel provides a lot of information but lacks structure. Adding
+bullet points or bolding key details would improve readability`,
+    caseSensitive: false,
+    show: true,
+    title: "Presentation",
+  },
+  {
+    oldT: ["tonej"],
+    newT: `BotModel has The tone is too casual/formal for this formal/casual query. Adjusting to a more
+professional/casual tone would make it more appropriate.`,
+    caseSensitive: false,
+    show: true,
+    title: "Tone",
   },
 ];
 export const hotReplaceSuggestion = [
@@ -181,20 +262,6 @@ export const hotReplaceSuggestion = [
     show: true,
     title: "better",
   },
-  {
-    oldT: ["introP"],
-    newT: `According to the instructions, the response must contain a friendly intro and outro, they should be added.`,
-    caseSensitive: false,
-    show: true,
-    title: "add intro/outro",
-  },
-  {
-    oldT: ["intro"],
-    newT: `The introduction and conclusion should be rewritten in a friendly tone, avoiding pleasantries.`,
-    caseSensitive: false,
-    show: true,
-    title: "rewrite intro/outro",
-  },
 ];
 export const hotReplaceTmp = [
   {
@@ -222,6 +289,25 @@ Both`,
     caseSensitive: false,
     show: true,
     title: "TURNS",
+  },
+  {
+    oldT: ["dim"],
+    newT: `BotModel does not follow user's instruction.
+
+   BotModel has issues with language fluency.
+
+   BotModel has issues with coherence.
+
+   BotModel is not accurate.
+
+   BotModel has issues with presentation.
+
+   BotModel has issues with tone.
+
+    `,
+    caseSensitive: false,
+    show: true,
+    title: "DIMENTIONS",
   },
   {
     oldT: ["turns"],
@@ -293,10 +379,38 @@ export const autoreplaceGrammar = [
   },
   {
     oldT: ["matching"],
-    newT: `The BotModel uses incorrect word matching in Russian " " insetead of " "`,
+    newT: `BotModel uses incorrect word matching in Russian " " insetead of " "`,
     caseSensitive: false,
     show: true,
     title: "word matching",
+  },
+  {
+    oldT: ["gramer"],
+    newT: `BotModel contains grammatical errors, for example " " insetead of " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "gram err",
+  },
+  {
+    oldT: ["repet"],
+    newT: `BotModel contains The phrase that is often repeated, for example " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "repetition",
+  },
+  {
+    oldT: ["colo"],
+    newT: `By the rules of the Russian language, after the colon should be a lowercase letter.`,
+    caseSensitive: false,
+    show: true,
+    title: ":A",
+  },
+  {
+    oldT: ["punker"],
+    newT: `BotModel contains punctuation errors, for example .`,
+    caseSensitive: false,
+    show: true,
+    title: "punkt err",
   },
 ];
 export const hotReplaceRewiew = [
@@ -327,6 +441,13 @@ export const hotReplaceRewiew = [
     caseSensitive: false,
     show: true,
     title: "pleasantries",
+  },
+  {
+    oldT: ["bothg"],
+    newT: `Both responses are good enough. According to the instructions, in the first turn, at least one Response must Be really bad, for example in terms of fact or following instructions, but a bad presentation is not enough to consider a Response As bad. Therefore, the task was redone.`,
+    caseSensitive: false,
+    show: true,
+    title: "both good",
   },
 ];
 export const hotreplaceSuggest = [

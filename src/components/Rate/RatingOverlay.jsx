@@ -58,8 +58,8 @@ const RatingOverlay = ({ toJustif, edit = false }) => {
 
   return (
     <>
-      <div ref={ref} className="w100 ">
-        <Button onClick={handleClick} className="w100 mt-1 mb-1 me-0 ms-0">
+      <div ref={ref}>
+        <Button onClick={handleClick} className=" mt-1 mb-1 me-0 ms-0">
           Rating
         </Button>
         <Overlay

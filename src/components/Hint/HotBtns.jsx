@@ -3,6 +3,7 @@ import {
   autoreplaceFormat,
   autoreplaceGrammar,
   hotReplaceIssues,
+  hotReplaceJustif,
   hotReplaceRewiew,
   hotReplaceSuggestion,
   hotReplaceTmp,
@@ -13,7 +14,6 @@ import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
 import Popup from "../UI/Popup";
 import { applyAction, copyToClipboard } from "../../utils/utilStr";
-import { mainTmp } from "../../constants/textParts";
 import RateHot from "../Rate/RateHot";
 import { usePopup } from "../../hooks/usePopup";
 
@@ -29,6 +29,7 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
     { name: "GRAMMAR", btns: autoreplaceGrammar },
     { name: "ISSUES", btns: hotReplaceIssues },
     { name: "TEMPLATES", btns: hotReplaceTmp },
+    { name: "JUSTIFICATION", btns: hotReplaceJustif },
     { name: "REVIEW", btns: hotReplaceRewiew },
   ];
   const onHandleCLick = (e, newT, model = "") => {
@@ -60,13 +61,6 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
         />
       ))}
       <RateHot callback={onHandleCLick} isOpen={isOpen} setIsOpen={setIsOpen} />
-      <button
-        className="square-btn hotBtnGr intense"
-        onClick={() => {
-          toJustif(mainTmp);
-        }}>
-        TMP
-      </button>
     </div>
   );
 };

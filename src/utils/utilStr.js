@@ -489,8 +489,7 @@ export const replaceEndings = (e, replacements) => {
   const str = e.target.value;
   const cursorPos = e.target.selectionStart;
   let curs = e.target.selectionStart;
-  console.log("было " + curs);
-  // Определяем границы текущего слова вокруг курсора
+
   const beforeCursor = str.slice(0, cursorPos);
   const afterCursor = str.slice(cursorPos);
 
@@ -499,10 +498,12 @@ export const replaceEndings = (e, replacements) => {
 
   if (matchBefore && matchAfter) {
     const word = matchBefore[0] + matchAfter[0];
-    for (const [oldEnding, newEnding] of replacements) {
-      if (word.endsWith(oldEnding)) {
-        const newWord = word.slice(0, -oldEnding.length) + newEnding;
-        curs = curs - oldEnding.length + newWord.length;
+    const ll = word.length;
+    if (ll < 2 || ll > 4) return { curs: null, val: str };
+    for (const [oldEndings, newEnding] of replacements) {
+      if (oldEndings.some((ending) => word === ending)) {
+        const newWord = word.slice(0, -ll) + newEnding;
+        curs = curs - ll + newWord.length;
 
         return {
           curs: curs,
@@ -520,14 +521,11 @@ export const replaceEndings = (e, replacements) => {
 
 export const countQuote = (str) => {
   let quoteCount = 0;
-  let pairCount = 0;
 
   for (let char of str) {
     if (char === '"') {
       quoteCount++;
     }
   }
-  // pairCount = Math.floor(quoteCount / 2);
-
   return quoteCount;
 };

@@ -490,9 +490,10 @@ textarea.form-control::placeholder {
 }
 
 .text-list-body-edit {
+
   max-height: 70vh;
   overflow-y: scroll;
-  padding: 5px 20px 35px 20px;
+  padding: 35px 20px 35px 20px;
   height: 100%;
   width: 100%;
   align-items: flex-start;
@@ -502,8 +503,6 @@ textarea.form-control::placeholder {
   border-radius: 0 0 15px 15px;
 
 }
-
-
 
 .current-item {
   @extend .item;
@@ -515,6 +514,7 @@ textarea.form-control::placeholder {
   transition: all 0.4s ease-in-out;
   margin-right: 8px;
   flex-wrap: wrap;
+  padding-top: 2rem;
 
   div {
     text-align: start;
@@ -526,6 +526,8 @@ textarea.form-control::placeholder {
     color: var(--second-color);
     font-style: italic;
   }
+
+
 
   button {
     position: absolute;
@@ -545,7 +547,7 @@ textarea.form-control::placeholder {
   &:hover {
     background-color: white;
     background-color: var(--main-back);
-    transform: scale(1.2);
+    transform: scale(1.1);
 
     button {
       display: block;
@@ -555,6 +557,29 @@ textarea.form-control::placeholder {
 
 .current-item-txt {
   @extend .current-item;
+
+  button {
+    position: absolute;
+    width: 1rem;
+    min-width: 1rem;
+    left: unset;
+    right: 0;
+    height: 1rem;
+    line-height: 0.5;
+    border-radius: 15px;
+  }
+
+  span {
+    position: absolute;
+    border-radius: 50%;
+    max-width: 50%;
+    background-color: #0221a0;
+    color: white;
+    min-width: 1rem;
+    height: 1rem;
+    top: 0;
+    text-align: center;
+  }
 
   .ru {
     display: none;
@@ -2950,6 +2975,7 @@ textarea.form-control::placeholder {
 
 .format-btns {
   position: relative;
+  z-index: 1800;
 
   .sub-btns {
     display: none;

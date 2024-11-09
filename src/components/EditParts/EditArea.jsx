@@ -5,7 +5,7 @@ import {
   editTextActionRef,
   applyAction,
 } from "../../utils/utilStr";
-import TxtBtns from "../TextParts/TxtBtns";
+import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
 import TopBtns from "../Edit/TopBtns";
 import SideBtns from "../Edit/SideBtns";
@@ -111,7 +111,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     const handleTxt =
       !item.R1 && !item.R1 && !item.R1 && !item.R0
         ? ""
-        : `R1:${item.R1} R2:${item.R2}, R3:${item.R3}, R0:${item.R0}`;
+        : `R1:${item.R1}\n R2:${item.R2}\n R3:${item.R3}\n R0:${item.R0}`;
 
     saveToHistory({ en: handleTxt, ru: "" });
   };
@@ -122,7 +122,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   const onOK = (e) => {
     e.stopPropagation();
-    const val = `R1:${item.R1} R2:${item.R2} R3:${item.R3} R0:${item.R0}`;
+    const val = `R1:\n${item.R1}\nR2:\n${item.R2}\nR3:\n${item.R3}\nR0:\n${item.R0}`;
     clear();
     if (!!actionFn) actionFn(val);
   };
@@ -180,7 +180,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="w-100">
         <div className="d-flex h-100 justify-content-start align-items-start">
           <div className="d-flex edit100 h-100">
-            {isTemplates && <TxtBtns edit toJustif={pasteToText} />}
+            {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
             <div className="editParts-wrap">
               <div className="resp12">
                 {["R1", "R2"].map((field, i) => (

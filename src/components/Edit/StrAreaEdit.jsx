@@ -4,8 +4,7 @@ import { voiceToEdit, editTextAction, applyAction } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
-import TxtBtns from "../TextParts/TxtBtns";
-import VoiceOverlay from "../Voice/VoiceOverlay";
+import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
 import VoiceDragable from "../Voice/VoiceDragable";
 
@@ -70,6 +69,7 @@ const StrAreaEdit = ({
           onClick={(e) => setIsTemplates(!isTemplates)}>
           Templates
         </Button>
+
         <Button
           className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")}
           onClick={(e) => setIsHotBtns(!isHotBtns)}>
@@ -97,7 +97,11 @@ const StrAreaEdit = ({
             </div>
           ) : (
             <div className="d-flex w-100 h-100">
-              {isTemplates ? <TxtBtns edit toJustif={pasteToText} /> : <></>}
+              {isTemplates ? (
+                <TemplatesBox edit toJustif={pasteToText} />
+              ) : (
+                <></>
+              )}
               <Form.Control
                 as="textarea"
                 id={"editArea"}
@@ -132,24 +136,16 @@ const StrAreaEdit = ({
         </div>
       </div>
       <div className="w-100 mt-11 d-flex align-items-center justify-content-between">
-        {/* <div className="d-flex align-items-center justify-content-between"> */}
-        <RatingOverlay toJustif={toText} />{" "}
-        <Button className=" m-0" onClick={onOK}>
+        <Button className="w-100 me-1" onClick={onOK}>
           OK
         </Button>{" "}
-        {/* </div> */}
+        <RatingOverlay toJustif={toText} />{" "}
         <VoiceDragable
           nameF={"editArea"}
           toJustif={(txt) => {
             voiceToEdit(txt, handleTxt, setHandleTxt);
           }}
         />
-        {/* <VoiceOverlay
-          edit
-          toJustif={(txt) => {
-            voiceToEdit(txt, handleTxt, setHandleTxt);
-          }}
-        /> */}
       </div>
     </>
   );

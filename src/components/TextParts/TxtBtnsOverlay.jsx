@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
-import TxtBtns from "./TxtBtns";
+import TemplatesBox from "./TemplatesBox";
 
 const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
   const [show, setShow] = useState(false);
@@ -26,7 +26,7 @@ const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
           container={ref}
           containerPadding={20}>
           <Popover id={edit ? "popover-containedR" : "popover-contained"}>
-            <TxtBtns toJustif={toJustif} edit={edit} />
+            <TemplatesBox toJustif={toJustif} edit={edit} />
           </Popover>
         </Overlay>
       </div>
