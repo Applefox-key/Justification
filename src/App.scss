@@ -560,18 +560,28 @@ textarea.form-control::placeholder {
 
   button {
     position: absolute;
+    min-width: 5px;
     width: 1rem;
-    min-width: 1rem;
     left: unset;
     right: 0;
     height: 1rem;
     line-height: 0.5;
     border-radius: 15px;
+    padding: 2px;
+    font-size: 10px;
+  }
+
+  .btnCopyTxt {
+    right: 6rem;
+    width: 65px;
+    min-width: 5px;
+
   }
 
   span {
     position: absolute;
-    border-radius: 50%;
+    border-radius: 30px;
+    padding: 0 4px;
     max-width: 50%;
     background-color: #0221a0;
     color: white;
@@ -734,6 +744,7 @@ textarea.form-control::placeholder {
   width: 40%;
   margin-right: 9px;
   height: var(--edit-AreaMax-height);
+  height: 100%;
 }
 
 .h-fit {

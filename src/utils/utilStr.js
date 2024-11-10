@@ -529,3 +529,8 @@ export const countQuote = (str) => {
   }
   return quoteCount;
 };
+
+export const checkPatternR = (text) => {
+  const pattern = /^R1:.*R2:.*R3:.*R0:.*$/s;
+  return !pattern.test(text);
+};

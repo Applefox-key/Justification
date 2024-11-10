@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import BtnFontSize from "./BtnFontSize";
 import { BsCardText } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
-import { splitString } from "../../utils/utilStr";
+import { checkPatternR, splitString } from "../../utils/utilStr";
 import EditArea from "../EditParts/EditArea";
 import TextChecker from "../UI/TextChecker";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
@@ -15,7 +15,7 @@ import { TfiViewGrid } from "react-icons/tfi";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
-  const [isOneFieldMode, setIsOneFieldMode] = useState(true);
+  const [isOneFieldMode, setIsOneFieldMode] = useState(checkPatternR(el.en));
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));

@@ -42,27 +42,7 @@ export const autoreplaceFormat = [
     show: true,
     title: "list rules",
   },
-  {
-    oldT: ["dash"],
-    newT: `In BotModel the hyphen should be replaced with a dash.`,
-    caseSensitive: false,
-    show: true,
-    title: "—",
-  },
-  {
-    oldT: ["quotes"],
-    newT: `In BotModel the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "« »",
-  },
-  {
-    oldT: ["quotesDash"],
-    newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
-    caseSensitive: false,
-    show: true,
-    title: "« » —",
-  },
+
   {
     oldT: ["bolding"],
     newT: `BotModel could be improved by bolding the main points of the text.`,
@@ -310,6 +290,13 @@ Both`,
     title: "DIMENTIONS",
   },
   {
+    oldT: ["dims"],
+    newT: `IF LF C F P T `,
+    caseSensitive: false,
+    show: true,
+    title: "dim short",
+  },
+  {
     oldT: ["turns"],
     newT: `For comparison @Response 1: ;@Response 2: `,
     caseSensitive: false,
@@ -371,6 +358,27 @@ export const autoreplaceNum = [
 ];
 export const autoreplaceGrammar = [
   {
+    oldT: ["dash"],
+    newT: `In BotModel the hyphen should be replaced with a dash.`,
+    caseSensitive: false,
+    show: true,
+    title: "—",
+  },
+  {
+    oldT: ["quotes"],
+    newT: `In BotModel the quotation marks should be replaced with «».`,
+    caseSensitive: false,
+    show: true,
+    title: "« »",
+  },
+  {
+    oldT: ["quotesDash"],
+    newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
+    caseSensitive: false,
+    show: true,
+    title: "« » —",
+  },
+  {
     oldT: ["comma"],
     newT: `The comma after " " is unnecessary`,
     caseSensitive: false,
@@ -379,14 +387,14 @@ export const autoreplaceGrammar = [
   },
   {
     oldT: ["matching"],
-    newT: `BotModel uses incorrect word matching in Russian " " insetead of " "`,
+    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
     caseSensitive: false,
     show: true,
     title: "word matching",
   },
   {
     oldT: ["gramer"],
-    newT: `BotModel contains grammatical errors, for example " " insetead of " ".`,
+    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
     caseSensitive: false,
     show: true,
     title: "gram err",
@@ -399,11 +407,25 @@ export const autoreplaceGrammar = [
     title: "repetition",
   },
   {
+    oldT: ["another"],
+    newT: `BotModel contains phrases written in another language (not Russian) " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "foreign",
+  },
+  {
     oldT: ["colo"],
     newT: `By the rules of the Russian language, after the colon should be a lowercase letter.`,
     caseSensitive: false,
     show: true,
     title: ":A",
+  },
+  {
+    oldT: ["coloT"],
+    newT: `No colon is needed after the title.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:",
   },
   {
     oldT: ["punker"],

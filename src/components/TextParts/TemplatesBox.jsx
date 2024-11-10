@@ -28,8 +28,9 @@ const TemplatesBox = ({ toJustif, edit }) => {
     }
   };
 
-  const handleContextMenu = (event) => {
+  const handleContextMenu = (event, el) => {
     event.preventDefault(); // Блокировка контекстного меню
+    handleClick(event, el);
   };
   return (
     <div className={"variants-wrap-txt" + (edit ? "-edit" : " h-fit ")}>
@@ -74,7 +75,7 @@ const TemplatesBox = ({ toJustif, edit }) => {
             .map((el, i) => (
               <TemplateItem
                 el={el}
-                onContextMenu={handleContextMenu}
+                onContextMenu={(e) => handleContextMenu(e, el)}
                 onMouseDown={(e) => handleClick(e, el)}
                 key={i}
               />
