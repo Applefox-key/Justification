@@ -407,6 +407,13 @@ export const autoreplaceGrammar = [
     title: "repetition",
   },
   {
+    oldT: ["unnatp"],
+    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+    caseSensitive: false,
+    show: true,
+    title: "unnat.phrase",
+  },
+  {
     oldT: ["another"],
     newT: `BotModel contains phrases written in another language (not Russian) " ".`,
     caseSensitive: false,
@@ -426,6 +433,13 @@ export const autoreplaceGrammar = [
     caseSensitive: false,
     show: true,
     title: "A:",
+  },
+  {
+    oldT: ["coloTL"],
+    newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:123",
   },
   {
     oldT: ["punker"],
