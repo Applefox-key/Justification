@@ -67,6 +67,13 @@ export const hotReplaceTone = [
     title: "robo",
   },
   {
+    oldT: ["preachy"],
+    newT: `BotModel sounds slightly preachy. For example, it is uses a phrase like ""`,
+    caseSensitive: false,
+    show: true,
+    title: "preachy",
+  },
+  {
     oldT: ["you"],
     newT: `BotModel sounds impolite, it uses the pronoun "ты" when addressing the user, in Russian it is better to use "вы".`,
     caseSensitive: false,

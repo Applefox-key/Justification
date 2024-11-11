@@ -489,19 +489,55 @@ textarea.form-control::placeholder {
   margin: 5px;
 }
 
-.text-list-body-edit {
+.txt-box {
+  height: 75%;
 
-  max-height: 70vh;
-  overflow-y: scroll;
-  padding: 35px 20px 35px 20px;
-  height: 100%;
-  width: 100%;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-content: flex-start;
-  background: var(--main-back);
-  border-radius: 0 0 15px 15px;
 
+
+  @media screen and (max-width:900px) {
+
+    height: fit-content;
+  }
+
+  button {
+    font-size: 12px;
+    min-width: 90px;
+    text-transform: uppercase;
+  }
+
+
+
+  .square-btn {
+
+    width: 1.5rem;
+    margin: 1px;
+    margin-bottom: 3px;
+    padding: 0;
+    min-width: unset;
+    height: 1.5rem;
+    text-transform: none;
+    font-size: 17px;
+  }
+
+  .btn-replace {
+    &::before {
+      content: "replace";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      font-size: 5px;
+    }
+
+
+  }
+
+
+
+  .isTxtAct {
+    background-color: red;
+    background: linear-gradient(0deg, red 0%, red 100%);
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
 }
 
 .current-item {
@@ -557,38 +593,60 @@ textarea.form-control::placeholder {
 
 .current-item-txt {
   @extend .current-item;
+  transition-delay: 0.5s;
+
+  justify-content: center;
 
   button {
     position: absolute;
     min-width: 5px;
-    width: 1rem;
-    left: unset;
-    right: 0;
-    height: 1rem;
+    width: 2rem;
+    // left: unset;
+    // right: 0;
+    height: 2rem;
     line-height: 0.5;
-    border-radius: 15px;
+    border-radius: 5px 0 10px 0;
     padding: 2px;
     font-size: 10px;
+    min-width: 5px;
+    left: -5px;
+    font-size: 16px;
+  }
+
+  .isTmp {
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
+      -4px -4px 6px 0 rgba(116, 125, 136, .5),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
   }
 
   .btnCopyTxt {
-    right: 6rem;
-    width: 65px;
-    min-width: 5px;
-
+    border-radius: 5px 0 10px 0;
+    right: -1px;
+    left: unset;
+    // width: 2rem;
+    // height: 2rem;
+    // min-width: 5px;
+    transform: scaleX(-1);
   }
 
   span {
+
     position: absolute;
     border-radius: 30px;
     padding: 0 4px;
     max-width: 50%;
     background-color: #0221a0;
     color: white;
-    min-width: 1rem;
-    height: 1rem;
+    min-width: 2rem;
+    height: 2rem;
     top: 0;
     text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .ru {
@@ -607,21 +665,67 @@ textarea.form-control::placeholder {
 
   }
 
-  &:hover {
+
+
+  // &:hover {
+  //   z-index: 200;
+  //   color: rgb(13, 158, 211);
+  //   color: rgb(13, 158, 211);
+  //   color: orangered;
+  //   background-color: var(--menu);
+
+  //   border-color: var(--main-color);
+  //   height: fit-content;
+  //   font-size: 17px;
+  //   // position: absolute;
+  //   // top: 0;
+
+  //   .ru {
+  //     display: block;
+  //   }
+  // }
+
+}
+
+.text-list-body-edit {
+
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding: 35px 20px 35px 20px;
+  height: 100%;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-content: flex-start;
+  background: var(--main-back);
+  border-radius: 0 0 15px 15px;
+  position: relative;
+
+  .current-item-txt:hover {
     z-index: 200;
     color: rgb(13, 158, 211);
     color: rgb(13, 158, 211);
-    color: orangered;
+    // color: rgb(255, 153, 0);
     background-color: var(--menu);
 
     border-color: var(--main-color);
-
-    .ru {
-      display: block;
-    }
+    // height: fit-content;
+    font-size: 15px;
   }
 
+  &:has(.current-item-txt:hover) .current-item-txt:not(:hover) {
+    filter: blur(10px);
+    transform: scale(0.9);
+  }
+
+  // &:hover.current-item-txt:not(:hover) {
+  //   filter: blur(10px);
+  //   transform: scale(0.9, 0.9);
+  // }
+
 }
+
+
 
 
 .overlayWrap {
@@ -830,6 +934,10 @@ textarea.form-control::placeholder {
 
 .levels-txt-edit {
   width: 100%;
+
+  .level {
+    text-transform: uppercase;
+  }
 }
 
 .bookXlsBtns-wrap {
@@ -1198,56 +1306,56 @@ textarea.form-control::placeholder {
   margin-left: 10px;
 }
 
-.txt-box {
-  height: 75%;
+// .txt-box {
+//   height: 75%;
 
 
 
-  @media screen and (max-width:900px) {
+//   @media screen and (max-width:900px) {
 
-    height: fit-content;
-  }
+//     height: fit-content;
+//   }
 
-  button {
-    font-size: 12px;
-    min-width: 90px;
-    text-transform: uppercase;
-  }
-
-
-
-  .square-btn {
-
-    width: 1.5rem;
-    margin: 1px;
-    margin-bottom: 3px;
-    padding: 0;
-    min-width: unset;
-    height: 1.5rem;
-    text-transform: none;
-    font-size: 17px;
-  }
-
-  .btn-replace {
-    &::before {
-      content: "replace";
-      position: absolute;
-      left: 2px;
-      top: 2px;
-      font-size: 5px;
-    }
-
-
-  }
+//   button {
+//     font-size: 12px;
+//     min-width: 90px;
+//     text-transform: uppercase;
+//   }
 
 
 
-  .isTxtAct {
-    background-color: red;
-    background: linear-gradient(0deg, red 0%, red 100%);
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
-  }
-}
+//   .square-btn {
+
+//     width: 1.5rem;
+//     margin: 1px;
+//     margin-bottom: 3px;
+//     padding: 0;
+//     min-width: unset;
+//     height: 1.5rem;
+//     text-transform: none;
+//     font-size: 17px;
+//   }
+
+//   .btn-replace {
+//     &::before {
+//       content: "replace";
+//       position: absolute;
+//       left: 2px;
+//       top: 2px;
+//       font-size: 5px;
+//     }
+
+
+//   }
+
+
+
+//   .isTxtAct {
+//     background-color: red;
+//     background: linear-gradient(0deg, red 0%, red 100%);
+//     box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+//   }
+// }
 
 .font-size-box {
   max-height: 3rem;
