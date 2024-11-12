@@ -14,6 +14,7 @@ const FileChooseBtn = ({ defaultState, onlyFirstSheet = false }) => {
       inputFileName.current.value = "";
       console.log(JSON.stringify(data, null, 2));
       defaultState(data);
+      setIsopen(false);
     } catch (error) {
       inputFileName.current.value = "";
       return;
@@ -43,6 +44,7 @@ const FileChooseBtn = ({ defaultState, onlyFirstSheet = false }) => {
               );
               if (!userConfirmed) return;
               defaultState(null);
+              setIsopen(false);
             }}>
             <BiReset title="RESET" />
           </button>

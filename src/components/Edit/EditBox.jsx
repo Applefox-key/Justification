@@ -12,6 +12,7 @@ import StrAreaEdit from "./StrAreaEdit";
 import { LiaSquare } from "react-icons/lia";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { TfiViewGrid } from "react-icons/tfi";
+import ThemeBox from "../ImgBack/ThemeBox";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
@@ -49,10 +50,10 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   }}>
                   {action}
                 </button>
-
+                <ThemeBox />
                 <BtnFontSize />
-              </div>
-              <h5>EDIT COMMENT</h5>
+              </div>{" "}
+              <h5>EDIT COMMENT </h5>
               <div>
                 <Button
                   className="btn-back"

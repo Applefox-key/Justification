@@ -13,13 +13,14 @@ const ThemeBox = () => {
   const [curImg, setCurImg] = useState(currentBack());
   const images = Array.from({ length: imgCount }, (_, i) => i);
   const [isCheckedDay, setIsCheckedDay] = useState(true);
+  let theme = getTheme();
   useEffect(() => {
     let theme = getTheme();
     if (theme !== "day") {
       setIsCheckedDay(false);
       changeTheme(false);
     }
-  }, []);
+  }, [theme]);
   const handleChange = (e) => {
     e.stopPropagation();
     changeTheme(!isCheckedDay);

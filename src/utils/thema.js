@@ -15,7 +15,7 @@ const nightTheme = {
   "--main-back": "#1e1e1e",
   "--main-color": "white",
   "--line1": "#37373d",
-  "--line2": "#647395",
+  "--line2": "#414a5f",
   "--item-back": "#152938",
   "--accent": "#060606",
   "--menu": "#111111",

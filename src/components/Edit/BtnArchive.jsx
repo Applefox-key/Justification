@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaRegSave } from "react-icons/fa";
+import { usePopup } from "../../hooks/usePopup";
 
 const BtnArchive = ({ txt, setTxt }) => {
   const [items, setItems] = useState(() => {
@@ -10,6 +11,7 @@ const BtnArchive = ({ txt, setTxt }) => {
   const saveItems = () => {
     if (txt && !items.includes(txt)) {
       setItems([txt, ...items]);
+      setPopup("info has been added to the archive");
     }
   };
   const replacelast = () => {
@@ -34,6 +36,7 @@ const BtnArchive = ({ txt, setTxt }) => {
     const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
   };
+  const setPopup = usePopup();
   return (
     <>
       <div className="fragmBtn">

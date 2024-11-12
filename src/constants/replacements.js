@@ -5,14 +5,21 @@ export const baseRespName = {
 };
 
 export const replacementsEnding = [
-  [["resa", "respa", "куыф", "отв1", "респ1"], "Response A"],
+  [["resa", "res1", "respa", "куыф", "отв1", "респ1"], "Response A"],
   [["ress"], "responses"],
   [["bres"], "Both responses"],
   [["num"], "The response uses a numbered list unnecessarily."],
-  [["куыи", "отв2", "resb", "респ2"], "Response B"],
-  [["resp"], "Response"],
+  [["куыи", "res2", "отв2", "resb", "респ2"], "Response B"],
+  [["tres", "куыз", "отве"], "the response"],
   [["iss"], "issue"],
   [["--"], "—"],
+  [["tns"], `turn1\nturn2\nturn3\nturn4\n`],
+  [["trn"], `turn`],
+  [
+    ["dim", "вшь"],
+    `Instruction Following\nLanguage fluency\nCoherence\nFactuality\nPresentation\nTone\n`,
+  ],
+  [["exa", "прим"], "for example, "],
   [["кк", "rr", "qq"], "«»"],
   [
     ["refr"],
@@ -316,6 +323,13 @@ Both`,
     caseSensitive: false,
     show: true,
     title: "example",
+  },
+  {
+    oldT: ["chat"],
+    newT: `это правда? если нет - то напиши где ошибка, но не предлагай улучшить или дополнить, если факты верны`,
+    caseSensitive: false,
+    show: true,
+    title: "chat",
   },
 ];
 //autorepl

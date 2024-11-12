@@ -7,6 +7,7 @@ import Responses from "./Rate/Responses";
 import FileChooseBtn from "./UI/FileChooseBtn";
 import ContentSide from "./MenuSheets/ContentSide";
 import ThemeBox from "./ImgBack/ThemeBox";
+import Popup from "./UI/Popup";
 
 const MainPage = () => {
   const [justparts, setJustparts] = useState([]);
@@ -42,7 +43,7 @@ const MainPage = () => {
 
   return (
     <div className={"bg-main"} id="mainp">
-      <Responses compliteCrit={compliteCrit} toJustif={toJustif} />{" "}
+      <Responses compliteCrit={compliteCrit} toJustif={toJustif} /> <Popup />
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
         <ThemeBox />{" "}
         <div className="d-flex">

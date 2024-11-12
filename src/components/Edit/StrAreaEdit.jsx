@@ -1,12 +1,18 @@
 import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { voiceToEdit, editTextAction, applyAction } from "../../utils/utilStr";
+import {
+  voiceToEdit,
+  editTextAction,
+  applyAction,
+  replaceEndings,
+} from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
 import VoiceDragable from "../Voice/VoiceDragable";
+import { replacementsEnding } from "../../constants/replacements";
 
 const StrAreaEdit = ({
   actionFn,
@@ -19,10 +25,12 @@ const StrAreaEdit = ({
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
-
+  const cursorPos = useRef(null);
   const handleChange = (e) => {
     e.stopPropagation();
-    setHandleTxt(e.target.value);
+    const { curs, val } = replaceEndings(e, replacementsEnding);
+    cursorPos.current = curs;
+    setHandleTxt(val);
   };
 
   const onOK = (e) => {

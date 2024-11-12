@@ -3,7 +3,6 @@ import { copyToClipboard } from "../../utils/utilStr";
 import { txtTemplatesGet, txtTemplatesSet } from "../../utils/localStorage";
 import FileChooseBtn from "../UI/FileChooseBtn";
 import { usePopup } from "../../hooks/usePopup";
-import Popup from "../UI/Popup";
 import TemplateItem from "./TemplateItem";
 
 const TemplatesBox = ({ toJustif, edit }) => {
@@ -68,7 +67,6 @@ const TemplatesBox = ({ toJustif, edit }) => {
             ? "text-list-body-edit justif-all-btn"
             : "text-list-body justif-all-btn"
         }>
-        <Popup />
         {arr &&
           arr
             .filter((item) => (lev ? item.level === lev : item))

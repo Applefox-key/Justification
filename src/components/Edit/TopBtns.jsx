@@ -1,21 +1,14 @@
-import React, { act, useState } from "react";
+import React, { useState } from "react";
 import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
 import { saveToHistory } from "../../utils/localStorage";
-import {
-  applyAction,
-  copyToClipboard,
-  numIsteadLetter,
-  replaceWords,
-  replaceWordsInteractions,
-} from "../../utils/utilStr";
+import { copyToClipboard } from "../../utils/utilStr";
 
 import BtnFragm from "./BtnFragm";
-import { PiSquareHalfDuotone } from "react-icons/pi";
-import { IoChatbubblesOutline } from "react-icons/io5";
 import { ImCopy } from "react-icons/im";
 import { FaRegPaste } from "react-icons/fa6";
 import FormatBtn from "./FormatBtn";
+import { usePopup } from "../../hooks/usePopup";
 
 const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
@@ -37,11 +30,7 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
     setHandleTxt(newVal);
     console.log("paste from clipboard:", text);
   };
-  const respOrder = (e) => {
-    const newVal = replaceWords(handleTxt);
-    setHandleTxt(newVal);
-  };
-
+  const setPopup = usePopup();
   return (
     <>
       <Hint />{" "}
@@ -70,7 +59,10 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         <Button
           className="btnToHis"
           disabled={!handleTxt}
-          onClick={(e) => saveToHistory({ en: handleTxt, ru: "" })}>
+          onClick={(e) => {
+            saveToHistory({ en: handleTxt, ru: "" });
+            setPopup("info has been added to the history");
+          }}>
           to history{" "}
         </Button>{" "}
       </div>
@@ -79,6 +71,7 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         onClick={() => {
           if (isTxt) setIsTxt(false);
           if (autohis) saveToHistory({ en: handleTxt, ru: "" });
+          setPopup("info has been added to the history");
           setHandleTxt("");
         }}>
         clear

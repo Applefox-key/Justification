@@ -12,7 +12,6 @@ import {
 
 import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
-import Popup from "../UI/Popup";
 import { applyAction, copyToClipboard } from "../../utils/utilStr";
 import RateHot from "../Rate/RateHot";
 import { usePopup } from "../../hooks/usePopup";
@@ -50,7 +49,6 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
 
   return (
     <div className="hot " ref={refBox}>
-      <Popup />
       {btnsArr.map((oneBtn, btni) => (
         <OneHotBtn
           key={btni}

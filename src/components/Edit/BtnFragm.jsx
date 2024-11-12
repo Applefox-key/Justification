@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BsChatQuote } from "react-icons/bs";
 import { countQuote } from "../../utils/utilStr";
 import { usePopup } from "../../hooks/usePopup";
-import Popup from "../UI/Popup";
 
 const BtnFragm = ({ handleTxt, setHandleTxt }) => {
   const [fragments, setFragments] = useState([]);
@@ -36,7 +35,6 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
 
   return (
     <>
-      <Popup />
       <button
         className="square-btn intense upside-down"
         title="copy fragments in quotation marks"

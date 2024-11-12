@@ -18,6 +18,7 @@ import { FaStar } from "react-icons/fa";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { RiDragMoveFill } from "react-icons/ri";
 import { TbBoxAlignTop } from "react-icons/tb";
+import { usePopup } from "../../hooks/usePopup";
 
 const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -107,6 +108,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         cursorPos + textRef.length;
     }
   };
+  const setPopup = usePopup();
   const toHist = () => {
     const handleTxt =
       !item.R1 && !item.R1 && !item.R1 && !item.R0
@@ -114,6 +116,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         : `R1:${item.R1}\n R2:${item.R2}\n R3:${item.R3}\n R0:${item.R0}`;
 
     saveToHistory({ en: handleTxt, ru: "" });
+    setPopup("info has been added to the history");
   };
   const clear = () => {
     toHist();
@@ -135,6 +138,8 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     );
   };
   const refBoxR03 = useRef(null);
+  // const isFlex = refBoxR03.current ? refBoxR03.current.classList.length - 1 : 0;
+
   const changeView = () => {
     const isFlex = refBoxR03.current.classList.length - 1;
     if (isFlex) {
