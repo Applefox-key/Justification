@@ -68,7 +68,11 @@ textarea.form-control {
 }
 
 textarea.form-control::placeholder {
-  color: rgb(196, 192, 192);
+  color: rgb(211, 211, 211);
+  font-style: italic;
+
+  opacity: 0.5;
+  font-size: 22px;
 }
 
 
@@ -197,7 +201,7 @@ textarea.form-control::placeholder {
 
 .up-part {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   max-height: 80vh;
 
   .page-part {
@@ -262,7 +266,7 @@ textarea.form-control::placeholder {
     justify-content: space-between;
 
     button {
-      width: 19%;
+      width: 15%;
       height: -moz-fit-content;
       height: fit-content;
       text-transform: uppercase;
@@ -1096,7 +1100,8 @@ textarea.form-control::placeholder {
   width: 100vw;
 }
 
-.editbox-wrap {
+.editbox-wrap,
+.editbox-wrap-dim {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -1131,7 +1136,7 @@ textarea.form-control::placeholder {
 
   }
 
-  textarea.form-control,
+  // textarea.form-control,
   .setIsTxt,
   .setIsTxt-check {
     // border-color: rgb(230 231 233);
@@ -1164,6 +1169,79 @@ textarea.form-control::placeholder {
     height: 70vh;
     max-height: 100vh;
   }
+}
+
+.editbox-wrap {
+
+  textarea.form-control,
+  .setIsTxt,
+  .setIsTxt-check {
+    // border-color: rgb(230 231 233);
+    // border-color: var(--line2);
+    font-size: 16px;
+    font-size: var(--vertical-font);
+    width: 97%;
+    height: var(--edit-AreaMax-height);
+    max-height: var(--edit-AreaMax-height);
+
+
+
+    background-color: var(--main-back);
+    color: var(--main-color);
+
+    @media screen and (max-width:900px) {
+
+      min-height: 30vh;
+    }
+  }
+}
+
+.editbox-wrap-dim {
+
+  textarea.form-control,
+  .setIsTxt,
+  .setIsTxt-check {
+    // padding-top: 1rem;
+    font-size: 16px;
+    font-size: var(--vertical-font);
+    width: 97%;
+    // height: var(--edit-AreaMax-height);
+    // max-height: var(--edit-AreaMax-height);
+    height: 100px;
+
+
+    background-color: var(--main-back);
+    color: var(--main-color);
+
+
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    margin: 2px 0;
+
+    @media screen and (max-width:900px) {
+
+      min-height: 30vh;
+    }
+  }
+
+  textarea.form-control:not(:focus) {
+    padding-top: 20px;
+    color: #747474;
+  }
+
+
+  textarea.form-control:focus {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+
+  textarea.form-control.active-field:not(:focus) {
+    background-color: var(--main-back);
+    color: var(--main-color);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+
+
+
 }
 
 .editbox,
@@ -1394,6 +1472,17 @@ textarea.form-control::placeholder {
 
 .fit-height {
   height: -webkit-fill-available;
+}
+
+.editareadim {
+  // w-100 d-flex h-80 justify-content-start align-items-start
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;
+
 }
 
 .edit100 {
@@ -2129,6 +2218,7 @@ textarea.form-control::placeholder {
     font-size: 10px;
     margin: 2px;
     padding: 3px;
+    text-transform: uppercase;
   }
 }
 
@@ -2777,6 +2867,11 @@ textarea.form-control::placeholder {
 
   }
 
+  .btn-dim {
+    width: 10rem;
+
+  }
+
   span {
     font-weight: 600;
     font-size: 18px;
@@ -2841,8 +2936,16 @@ textarea.form-control::placeholder {
 }
 
 .active-field {
+
   // border: 5px solid #ff8346;
-  border: 5px solid #257e90;
+  textarea.form-control {
+    // border: 5px solid #257e90;
+    background-color: var(--main-back);
+    color: var(--main-color);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+
+
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
@@ -2895,6 +2998,103 @@ textarea.form-control::placeholder {
 .R2best {
   left: unset;
   right: 64px;
+}
+
+.dimBox {
+  display: flex;
+
+  // .respDim {
+  //   width: 50%;
+
+  //   span {
+  //     position: absolute;
+  //     right: 30px;
+  //     background-color: var(--main-back);
+  //     background-color: #239aff;
+  //     color: white;
+  //     padding: 0 5px;
+  //     border-radius: 5px;
+  //     // color: var(--main-color);
+  //     // color: var(--second-color);
+  //     text-align: left;
+  //     // width: 100%;
+  //     top: 2px;
+  //     font-size: 12px;
+  //   }
+
+  //   .field-box:hover {
+  //     span {
+  //       display: none;
+  //     }
+  //   }
+  // }
+
+  .fieldDim {
+    max-height: 150px;
+    transition: all 0.2s ease-in-out;
+  }
+
+}
+
+
+.respDim,
+.respDim-footer {
+
+  width: 50%;
+
+  span {
+    position: absolute;
+    transition: all 0.2s ease-in-out;
+    background-color: var(--main-back);
+    background-color: #239aff;
+    background-color: var(--line2);
+    padding: 0 5px;
+    border-radius: 5px;
+    // color: var(--main-color);
+    // color: var(--second-color);
+    text-align: left;
+    // width: 100%;
+    top: 2px;
+    font-size: 12px;
+
+
+
+
+  }
+
+  .field-left {
+    left: 23px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .field-right {
+    left: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .active-span {
+    // font-size: 8px;
+    background-color: rgb(37 126 144);
+    color: white;
+    top: -10px;
+    // opacity: 0.5;
+    // writing-mode: vertical-lr;
+    // width: 15px;
+  }
+
+  // .field-box:hover {
+
+  // }
+}
+
+.respDimEv {
+  width: 50px;
+  height: 100%;
+}
+
+.respDim-footer {
+  display: flex;
+  width: 100%;
 }
 
 .fullScreen {
@@ -3008,20 +3208,42 @@ textarea.form-control::placeholder {
   }
 }
 
-
-
+.btnCopyFieldleft,
+.btnCopyFieldright,
+.btnPlusright,
+.btnPlusleft,
 .btnPlus,
 .btnMin {
   display: none;
   position: absolute;
-  top: 3px;
+  top: 2px;
   right: 11px;
   opacity: 0.6;
+  z-index: 20000;
+  background-color: red;
 
   svg {
     stroke: unset;
   }
 
+}
+
+.btnCopyFieldleft {
+  right: 0px;
+  top: 28px;
+}
+
+.btnCopyFieldright {
+  right: 25px;
+  top: 28px;
+}
+
+.btnPlusright {
+  right: 25px;
+}
+
+.btnPlusleft {
+  right: 0px;
 }
 
 
@@ -3030,30 +3252,98 @@ textarea.form-control::placeholder {
 .field-box {
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+
+    textarea.form-control:not(:focus) {
+      opacity: 1;
+    }
+  }
+
+  .rate-vert-wrap {
+    height: 90%;
+    width: 1.5rem;
+    min-width: 1rem;
+    // background-color: red;
+    font-size: 12px;
+    // border: 1px solid rgb(37 126 144);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-radius: 5px;
+    margin: 2px 1px;
+    cursor: pointer;
+
+    .rate-vert-box {
+      opacity: 0.5;
+
+      &:hover {
+        background-color: rgb(49, 159, 181);
+        color: black;
+        opacity: 1;
+        box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .vert-active {
+      background-color: rgb(37 126 144);
+      color: black;
+    }
+  }
 
   &:focus-within {
-    .btnPlus {
+
+    .btnCopyFieldleft,
+    .btnCopyFieldright,
+    .btnPlus,
+    .btnPlusright,
+    .btnPlusleft {
       display: block;
     }
   }
+
 }
 
 .field-box-plus {
   position: absolute;
   z-index: 800;
   top: 50px;
+  top: 0px;
   width: 95%;
   height: 100%;
+  left: 0;
+
+
+  textarea.form-control {
+    border: 1px solid red;
+    font-size: 22px;
+    padding-top: 3rem;
+  }
+
+  .rate-vert-wrap {
+    display: none;
+  }
+
+
+  .btnMin {
+    display: block;
+    top: 82px;
+    background: red;
+    color: white;
+    // display: block;
+    width: 100%;
+    left: -5px;
+    opacity: 1;
+  }
 
   &:hover {
-    .btnMin {
-      display: block;
-      right: unset;
-      left: 0;
-      top: 10px;
-    }
 
-    .btnPlus {
+
+    .btnCopyFieldleft,
+    .btnCopyFieldright,
+    .btnPlus,
+    .btnPlusright,
+    .btnPlusleft {
       display: none;
     }
   }
@@ -3064,7 +3354,7 @@ textarea.form-control::placeholder {
 
 .plusTextArea {
   z-index: 800;
-  width: 94% !important;
+  width: 100% !important;
   height: 75% !important;
   max-height: 100% !important;
   min-height: 75% !important;

@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  replacementsEnding,
-  replacementsGeneral,
-} from "../../constants/replacements";
-import { Button } from "react-bootstrap";
+import { replacementsEnding } from "../../constants/replacements";
 
 const Hint = () => {
   return (

@@ -13,6 +13,7 @@ import { MdOutlineContentPaste } from "react-icons/md";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import VoiceOverlay from "../Voice/VoiceOverlay";
+import EditDimBox from "../Edit/EditDimBox";
 
 const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
@@ -26,6 +27,8 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
         setJustification([{ en: txt }]);
       } else if (edit === "new") {
         setJustification([...justification, { en: txt }]);
+      } else if (edit === "dim") {
+        setJustification([...justification, { en: txt, ru: "DIM" }]);
       } else {
         const newVal = [...justification];
         newVal[edit].en = txt;
@@ -73,7 +76,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
 
   return (
     <>
-      {edit !== null && (
+      {edit !== null && edit !== "dim" && (
         <EditBox
           setEdit={setEdit}
           el={
@@ -86,9 +89,17 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           savefn={refresh}
         />
       )}
+      {(edit === "dim" || justification[edit]?.ru === "DIM") && (
+        <EditDimBox
+          setEdit={setEdit}
+          el={justification[edit]?.en}
+          savefn={refresh}
+        />
+      )}
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
-          <Button onClick={() => setEdit("new")}>add</Button>{" "}
+          <Button onClick={() => setEdit("new")}>add</Button>
+          <Button onClick={() => setEdit("dim")}>dim</Button>
           <TxtBtnsOverlay toJustif={toJustif} />
           <Button onClick={() => setJustification([])} disabled={!allJust}>
             <GrClearOption />
@@ -143,7 +154,6 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           </div>
         </div>
       )}
-
       {edit === null && <VoiceOverlay toJustif={toJustif} />}
     </>
   );

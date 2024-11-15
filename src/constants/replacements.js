@@ -124,7 +124,7 @@ export const hotReplaceTone = [
   },
   {
     oldT: ["introP"],
-    newT: `According to the instructions, the response must contain a friendly intro and outro, they should be added.`,
+    newT: `A friendly intro and outro should be added.`,
     caseSensitive: false,
     show: true,
     title: "add intro/outro",
@@ -188,6 +188,13 @@ export const hotReplaceJustif = [
     caseSensitive: false,
     show: true,
     title: "Factuality",
+  },
+  {
+    oldT: ["factna"],
+    newT: `Since the text is the model's reflections on ethical topics there is no unambiguously factually correct and incorrect information here so the rating is chosen as non applicable.`,
+    caseSensitive: false,
+    show: true,
+    title: "Fact_NA",
   },
   {
     oldT: ["instrF"],
@@ -830,6 +837,11 @@ const autoReplaceWords = [
     oldT: ["согласна"],
     newT: "согласно",
     caseSensitive: false,
+  },
+  {
+    oldT: ["russian"],
+    newT: "Russian",
+    caseSensitive: true,
   },
   {
     oldT: ["спам", "спан"],

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { LuClipboardCopy } from "react-icons/lu";
-import { RxCopy } from "react-icons/rx";
 import { TbMessageLanguage } from "react-icons/tb";
 
 const TemplateItem = ({ el, onContextMenu, onMouseDown }) => {

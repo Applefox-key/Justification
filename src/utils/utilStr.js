@@ -5,6 +5,7 @@ import {
   replacementsResponses,
   replacementsResponsesNum,
 } from "../constants/replacements";
+import { defaultDim } from "../constants/textParts";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
@@ -456,7 +457,14 @@ export const splitString = (input) => {
     return { R1: "", R2: "", R3: input, R0: "" };
   }
 };
-
+export const fromJsonString = (jsonString) => {
+  try {
+    const newObj = JSON.parse(jsonString);
+    return newObj;
+  } catch (error) {
+    return { ...defaultDim };
+  }
+};
 export const applyAction = (newFr_, action = "") => {
   if (!action) return newFr_;
   const newVal =

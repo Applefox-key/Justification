@@ -4,51 +4,31 @@ import Draggable from "react-draggable";
 import BtnFontSize from "./BtnFontSize";
 import { BsCardText } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
-import { checkPatternR, splitString } from "../../utils/utilStr";
-import EditArea from "../EditParts/EditArea";
 import TextChecker from "../UI/TextChecker";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
-import StrAreaEdit from "./StrAreaEdit";
-import { LiaSquare } from "react-icons/lia";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import { TfiViewGrid } from "react-icons/tfi";
 import ThemeBox from "../ImgBack/ThemeBox";
+import { defaultDim } from "../../constants/textParts";
+import EditAreaDim from "../EditParts/EditAreaDim";
+// el, setEdit, savefn
 
-const EditBox = ({ el, setEdit, savefn }) => {
+const EditDimBox = ({ setEdit, savefn, el }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
-  const [isOneFieldMode, setIsOneFieldMode] = useState(checkPatternR(el.en));
   const [isFullScreen, setIsFullScreen] = useState(false);
-  // const [element, setElement] = useState({
-  //   oneArea: el.en,
-  //   multipleFields: splitString(el.en),
-  //   dimFields: fromJsonString(el.ru),
-  // });
-  const [handleTxt, setHandleTxt] = useState(el.en);
-  const [item, setItem] = useState(splitString(el.en));
+  const [item, setItem] = useState(
+    el ? { ...defaultDim, ...JSON.parse(el) } : defaultDim
+  );
   const [action, setAction] = useState("@R");
 
-  // const setHandleTxt__ = (val, field) => {
-  //   setElement({ ...element, [field]: val });
-  // };
-
   useEffect(() => {
-    const itm = splitString(el.en);
-    // const dim = fromJsonString(el.ru);
-    // const elem = {
-    //   oneArea: el.en,
-    //   multipleFields: itm,
-    //   dimFields: fromJsonString(el.ru),
-    // };
-    // setElement(elem);
     const newVal = localStorage.getItem("lastAction") || "@R";
-    setItem(itm);
     if (newVal !== action) setAction(newVal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="module-wrap-edit">
-      <div className="editbox-wrap">
+      <div className="editbox-wrap-dim">
         <Draggable disabled={isFullScreen} handle=".handle">
           <div
             className="editbox "
@@ -69,7 +49,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
                 <ThemeBox />
                 <BtnFontSize />
               </div>{" "}
-              <h5>EDIT COMMENT </h5>
+              <h5>EDIT COMMENT DIMENTIONS</h5>
               <div>
                 <Button
                   className="btn-back"
@@ -80,13 +60,6 @@ const EditBox = ({ el, setEdit, savefn }) => {
                     <IoCheckmarkDoneCircleOutline />
                   )}
                 </Button>{" "}
-                <Button
-                  className="btn-back"
-                  title="window mode: one or several text fields"
-                  onClick={() => setIsOneFieldMode(!isOneFieldMode)}>
-                  {/* {isOneFieldMode ? <BsWindowSplit /> : <LiaSquare />} */}
-                  {isOneFieldMode ? <LiaSquare /> : <TfiViewGrid />}
-                </Button>
                 <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
                 <Button
                   className="btn-backXl"
@@ -100,15 +73,8 @@ const EditBox = ({ el, setEdit, savefn }) => {
             <div className="txt-box ">
               {isСheckerMode ? (
                 <TextChecker close={() => setIsCheckerMode(!isСheckerMode)} />
-              ) : isOneFieldMode ? (
-                <StrAreaEdit
-                  handleTxt={handleTxt}
-                  setHandleTxt={setHandleTxt}
-                  actionFn={savefn}
-                  action={action}
-                />
               ) : (
-                <EditArea
+                <EditAreaDim
                   item={item}
                   setItem={setItem}
                   actionFn={savefn}
@@ -124,4 +90,4 @@ const EditBox = ({ el, setEdit, savefn }) => {
   );
 };
 
-export default EditBox;
+export default EditDimBox;
