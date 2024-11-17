@@ -68,7 +68,8 @@ textarea.form-control {
 }
 
 textarea.form-control::placeholder {
-  color: rgb(211, 211, 211);
+  color: rgb(170, 167, 167);
+  // color: rgb(211, 211, 211);
   font-style: italic;
 
   opacity: 0.5;
@@ -1227,6 +1228,8 @@ textarea.form-control::placeholder {
   textarea.form-control:not(:focus) {
     padding-top: 20px;
     color: #747474;
+    // background-color: var(--line2);
+    background-color: var(--main-back-unfocus);
   }
 
 
@@ -1350,7 +1353,6 @@ textarea.form-control::placeholder {
 
 
 .handle {
-
   background-color: var(--line2);
   width: 100%;
   height: 2rem;
@@ -1482,7 +1484,7 @@ textarea.form-control::placeholder {
   justify-content: flex-start;
   align-items: flex-start;
   overflow-y: auto;
-
+  padding-top: 10px;
 }
 
 .edit100 {
@@ -3208,6 +3210,7 @@ textarea.form-control::placeholder {
   }
 }
 
+.btnCopyField,
 .btnCopyFieldleft,
 .btnCopyFieldright,
 .btnPlusright,
@@ -3217,7 +3220,7 @@ textarea.form-control::placeholder {
   display: none;
   position: absolute;
   top: 2px;
-  right: 11px;
+  right: 13px;
   opacity: 0.6;
   z-index: 20000;
   background-color: red;
@@ -3228,8 +3231,14 @@ textarea.form-control::placeholder {
 
 }
 
+
 .btnCopyFieldleft {
   right: 0px;
+  top: 28px;
+}
+
+.btnCopyField {
+  // right: 20px;
   top: 28px;
 }
 
@@ -3293,6 +3302,7 @@ textarea.form-control::placeholder {
 
   &:focus-within {
 
+    .btnCopyField,
     .btnCopyFieldleft,
     .btnCopyFieldright,
     .btnPlus,
@@ -3317,7 +3327,9 @@ textarea.form-control::placeholder {
   textarea.form-control {
     border: 1px solid red;
     font-size: 22px;
-    padding-top: 3rem;
+    // padding-top: 3rem;
+    position: absolute;
+    top: 30px;
   }
 
   .rate-vert-wrap {
@@ -3333,12 +3345,13 @@ textarea.form-control::placeholder {
     // display: block;
     width: 100%;
     left: -5px;
+    top: 0;
     opacity: 1;
   }
 
   &:hover {
 
-
+    .btnCopyField,
     .btnCopyFieldleft,
     .btnCopyFieldright,
     .btnPlus,

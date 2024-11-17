@@ -117,6 +117,22 @@ export const defaultDim = {
     Rate: 0,
   },
 };
+export const defaultDimN = {
+  Instructions_A: { text: "", eval: 0 },
+  Factuality_A: { text: "", eval: 0 },
+  Coherence_A: { text: "", eval: 0 },
+  Language_A: { text: "", eval: 0 },
+  Presentation_A: { text: "", eval: 0 },
+  Tone_A: { text: "", eval: 0 },
+  Instructions_B: { text: "", eval: 0 },
+  Language_B: { text: "", eval: 0 },
+  Factuality_B: { text: "", eval: 0 },
+  Coherence_B: { text: "", eval: 0 },
+  Presentation_B: { text: "", eval: 0 },
+  Tone_B: { text: "", eval: 0 },
+  Rate: { text: "", eval: 0 },
+  Justif: { text: "", eval: 0 },
+};
 export const defaultDimR = {
   Instructions_A: 0,
   Factuality_A: 0,

@@ -1,6 +1,7 @@
 import { fromLS, toLS } from "./localStorage";
 const dayTheme = {
   "--main-back": "#fdfeff",
+  "--main-back-unfocus": "#eaeaeb",
   "--main-color": "#000000",
   "--line1": "#f6faff",
   "--line2": "#dadada",
@@ -13,6 +14,7 @@ const dayTheme = {
 };
 const nightTheme = {
   "--main-back": "#1e1e1e",
+  "--main-back-unfocus": "#151515",
   "--main-color": "white",
   "--line1": "#37373d",
   "--line2": "#414a5f",

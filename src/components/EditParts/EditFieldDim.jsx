@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import { copyToClipboard, replaceEndings } from "../../utils/utilStr";
 import { replacementsEnding } from "../../constants/replacements";
-import { CiZoomIn } from "react-icons/ci";
 import RateVertical from "./RateVertical";
 import { FaRegCopy } from "react-icons/fa";
 import { GoZoomIn, GoZoomOut } from "react-icons/go";
@@ -14,6 +13,7 @@ const EditFieldDim = ({
   fieldName,
   placeholder,
   fieldVal,
+  estim = null,
   fieldFn,
   isActive,
   classN,
@@ -66,8 +66,8 @@ const EditFieldDim = ({
           )}
           {scale === "left" && (
             <RateVertical
-              valStr={fieldVal}
-              setValStr={(v) => fieldFn.setNewValF(v, fieldName)}
+              val={estim}
+              setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
             />
           )}
           <Form.Control
@@ -86,8 +86,8 @@ const EditFieldDim = ({
           />
           {scale === "right" && (
             <RateVertical
-              valStr={fieldVal}
-              setValStr={(v) => fieldFn.setNewValF(v, fieldName)}
+              val={estim}
+              setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
             />
           )}
           <button

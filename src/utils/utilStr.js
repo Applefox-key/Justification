@@ -97,6 +97,7 @@ export const cleanAndCapitalize = (text) => {
 };
 
 const replaceByArr = (replacementsArr, text) => {
+  if (!text) return "";
   replacementsArr.forEach(({ oldT, newT, caseSensitive }) => {
     oldT.forEach((oldWord) => {
       const flags = caseSensitive ? "g" : "gi";

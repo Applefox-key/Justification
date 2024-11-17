@@ -43,7 +43,13 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       }
       setTextRef(ref);
     },
-
+    setNewEstim: (val, field) => {
+      let newT = "";
+      if (val && !item[field]) newT = val === 5 ? "OK" : "ISSUE";
+      const newEst = { ...item.Evals, [field]: val };
+      setItem({ ...item, Evals: newEst, ...(newT && { [field]: newT }) });
+      console.log(item);
+    },
     setNewVal: (val) => {
       const field = fieldId;
       setItem({ ...item, [field]: val });
@@ -143,7 +149,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
-        className="editareadim glas">
+        className="editareadim">
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
           <div className="editParts-wrap">
@@ -166,6 +172,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                       isTxt={isTxt && fieldId === field}
                       isActive={fieldId === field}
                       fieldVal={item[field]}
+                      estim={item.Evals[field]}
                       fieldFn={fieldFn}
                     />
                     {best.fields.includes(field) && (
@@ -197,6 +204,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                       isTxt={isTxt && fieldId === field}
                       isActive={fieldId === field}
                       fieldVal={item[field]}
+                      estim={item.Evals[field]}
                       fieldFn={fieldFn}
                     />
                     {best.fields.includes(field) && (

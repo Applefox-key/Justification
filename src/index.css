@@ -1,6 +1,7 @@
 /* #063553 */
 :root {
-  --main-back:#fdfeff;;
+  --main-back:#fdfeff;
+  --main-back-unfocus:#eaeaeb;
   --main-color:#000000;
   --line1:#f6faff;
   --line2:#dadada ;

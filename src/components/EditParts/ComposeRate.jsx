@@ -1,11 +1,8 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { FaArrowCircleDown } from "react-icons/fa";
 import { TbCircleLetterAFilled, TbCircleLetterBFilled } from "react-icons/tb";
 
 const ComposeRate = ({ compose, clear, best }) => {
-  console.log(best.num);
-
   return (
     <div className="d-flex align-items-center">
       {(best.num === -1 || best.num === 4) && (
