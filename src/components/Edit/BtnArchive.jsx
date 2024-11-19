@@ -38,7 +38,7 @@ const BtnArchive = ({ txt, setTxt }) => {
     setItems(newItems);
   };
   const setPopup = usePopup();
-  console.log(items[0].Name);
+  console.log(items[0]?.Name);
 
   return (
     <>
