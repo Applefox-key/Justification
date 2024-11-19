@@ -67,13 +67,6 @@ export const autoreplaceFormat = [
 ];
 export const hotReplaceTone = [
   {
-    oldT: ["robotic"],
-    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
-    caseSensitive: false,
-    show: true,
-    title: "robo",
-  },
-  {
     oldT: ["preachy"],
     newT: `BotModel sounds slightly preachy. For example, it is uses a phrase like ""`,
     caseSensitive: false,
@@ -94,26 +87,20 @@ export const hotReplaceTone = [
     show: true,
     title: "imperative!",
   },
-  {
-    oldT: ["pleasantries"],
-    newT: `BotModel contains pleasantries in intro outro.`,
-    caseSensitive: false,
-    show: true,
-    title: "pleasantries",
-  },
-  {
-    oldT: ["unnatural"],
-    newT: `Some phrases in BotModel sound unnatural ("").`,
-    caseSensitive: false,
-    show: true,
-    title: "unnatural",
-  },
+
   {
     oldT: ["formal"],
-    newT: `Bot Model is written in a rather formal style, and  is better to add warmth. For example, it is uses a phrase like ""`,
+    newT: `BotModel is written in a rather formal style, and  is better to add warmth. For example, it is uses a phrase like ""`,
     caseSensitive: false,
     show: true,
     title: "formal",
+  },
+  {
+    oldT: ["pleasantries"],
+    newT: `BotModel contains pleasantries in intro and outro.`,
+    caseSensitive: false,
+    show: true,
+    title: "pleasantries",
   },
   {
     oldT: ["Exclamation"],
@@ -121,6 +108,13 @@ export const hotReplaceTone = [
     caseSensitive: false,
     show: true,
     title: "!",
+  },
+  {
+    oldT: ["introP"],
+    newT: `BotModel lacks a friendly introduction and conclusion, they should be added.`,
+    caseSensitive: false,
+    show: true,
+    title: "add intro/outro",
   },
   {
     oldT: ["introP"],
@@ -386,6 +380,64 @@ export const autoreplaceNum = [
 ];
 export const autoreplaceGrammar = [
   {
+    oldT: ["robotic"],
+    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+    caseSensitive: false,
+    show: true,
+    title: "robo",
+  },
+  {
+    oldT: ["another"],
+    newT: `BotModel contains phrases written in another language (not Russian) " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "foreign",
+  },
+  {
+    oldT: ["repet"],
+    newT: `BotModel contains The phrase that is often repeated, for example " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "repetition",
+  },
+  {
+    oldT: ["unnatural"],
+    newT: `Some phrases in BotModel sound unnatural ("").`,
+    caseSensitive: false,
+    show: true,
+    title: "unnatural",
+  },
+  {
+    oldT: ["unnatp"],
+    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+    caseSensitive: false,
+    show: true,
+    title: "unnat.phrase",
+  },
+
+  {
+    oldT: ["gramer"],
+    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "gram err",
+  },
+  {
+    oldT: ["matching"],
+    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+    caseSensitive: false,
+    show: true,
+    title: "word matching",
+  },
+
+  {
+    oldT: ["punker"],
+    newT: `BotModel contains punctuation errors, for example .`,
+    caseSensitive: false,
+    show: true,
+    title: "punkt err",
+  },
+  {
     oldT: ["dash"],
     newT: `In BotModel the hyphen should be replaced with a dash.`,
     caseSensitive: false,
@@ -413,41 +465,7 @@ export const autoreplaceGrammar = [
     show: true,
     title: "comma",
   },
-  {
-    oldT: ["matching"],
-    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
-    caseSensitive: false,
-    show: true,
-    title: "word matching",
-  },
-  {
-    oldT: ["gramer"],
-    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "gram err",
-  },
-  {
-    oldT: ["repet"],
-    newT: `BotModel contains The phrase that is often repeated, for example " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "repetition",
-  },
-  {
-    oldT: ["unnatp"],
-    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
-    caseSensitive: false,
-    show: true,
-    title: "unnat.phrase",
-  },
-  {
-    oldT: ["another"],
-    newT: `BotModel contains phrases written in another language (not Russian) " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "foreign",
-  },
+
   {
     oldT: ["colo"],
     newT: `By the rules of the Russian language, after the colon should be a lowercase letter.`,
@@ -468,13 +486,6 @@ export const autoreplaceGrammar = [
     caseSensitive: false,
     show: true,
     title: "A:123",
-  },
-  {
-    oldT: ["punker"],
-    newT: `BotModel contains punctuation errors, for example .`,
-    caseSensitive: false,
-    show: true,
-    title: "punkt err",
   },
 ];
 export const hotReplaceRewiew = [

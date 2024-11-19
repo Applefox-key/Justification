@@ -46,7 +46,7 @@ const TopBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         onClick={(e) => pasteFromClipboard()}>
         <FaRegPaste />
       </Button> */}
-      <div className="his-auto">
+      <div className="his-auto ">
         <Form.Check
           size="sm"
           className="autocheckhis"

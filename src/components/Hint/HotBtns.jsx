@@ -24,11 +24,11 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
   const btnsArr = [
     { name: "FORMAT", btns: autoreplaceFormat },
     { name: "TONE", btns: hotReplaceTone },
-    { name: "ADVICE", btns: hotReplaceSuggestion },
     { name: "GRAMMAR", btns: autoreplaceGrammar },
-    { name: "ISSUES", btns: hotReplaceIssues },
-    { name: "TEMPLATES", btns: hotReplaceTmp },
     { name: "JUSTIFICATION", btns: hotReplaceJustif },
+    { name: "ISSUES", btns: hotReplaceIssues },
+    { name: "ADVICE", btns: hotReplaceSuggestion },
+    { name: "TEMPLATES", btns: hotReplaceTmp },
     { name: "REVIEW", btns: hotReplaceRewiew },
   ];
   const onHandleCLick = (e, newT, model = "") => {
