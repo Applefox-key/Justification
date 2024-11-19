@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaRegSave } from "react-icons/fa";
 import { usePopup } from "../../hooks/usePopup";
+import { TfiSave } from "react-icons/tfi";
 
 const BtnArchive = ({ txt, setTxt }) => {
   const [items, setItems] = useState(() => {
@@ -37,14 +38,16 @@ const BtnArchive = ({ txt, setTxt }) => {
     setItems(newItems);
   };
   const setPopup = usePopup();
+  console.log(items[0].Name);
+
   return (
     <>
       <div className="fragmBtn">
         <button
-          className="square-btn ms-1"
+          className=" btnToHis hintBtn ms-1"
           onClick={saveItems}
           title="to and from archive">
-          <FaRegSave />
+          <TfiSave />
         </button>
         <div className="archive-box">
           <button
@@ -68,9 +71,13 @@ const BtnArchive = ({ txt, setTxt }) => {
                 </button>
               </div>
               <div className="save-cont">
+                {oneF.name && <span>{oneF.name}</span>}
+                {oneF.Rate && <span>{oneF.Rate}</span>}
+
+                {/* {oneF.R0 && <span>{oneF.name}</span>}
                 {oneF.R0 && <span>{oneF.R0}</span>}
                 {oneF.R1 && <span>{oneF.R1}</span>}
-                {oneF.R2 && <span>{oneF.R2}</span>}
+                {oneF.R2 && <span>{oneF.R2}</span>} */}
                 {oneF.R3 && <span>{oneF.R3}</span>}
               </div>
             </div>

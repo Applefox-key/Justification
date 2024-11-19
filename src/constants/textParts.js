@@ -101,6 +101,8 @@ export const defaultDim = {
   Tone_B: "",
   Rate: "",
   Justif: "",
+  id: "",
+  name: "",
   Evals: {
     Instructions_A: 0,
     Factuality_A: 0,
@@ -149,6 +151,50 @@ export const defaultDimR = {
   Rate: 0,
   Justif: 0,
 };
+export const arrAB = [
+  {
+    a: "Instructions_A",
+    b: "Instructions_B",
+    name: "Instruction following",
+    short: "IF",
+    better: "is better at following instructions",
+  },
+  {
+    a: "Factuality_A",
+    b: "Factuality_B",
+    name: "Factuality",
+    short: "F",
+    better: "is more accurate",
+  },
+  {
+    a: "Language_A",
+    b: "Language_B",
+    name: "Language fluency",
+    short: "LF",
+    better: "is better in fluency",
+  },
+  {
+    a: "Coherence_A",
+    b: "Coherence_B",
+    name: "Coherence",
+    short: "C",
+    better: "is more coherent",
+  },
+  {
+    a: "Presentation_A",
+    b: "Presentation_B",
+    name: "Presentation",
+    short: "P",
+    better: "has better presentation",
+  },
+  {
+    a: "Tone_A",
+    b: "Tone_B",
+    name: "Tone",
+    short: "T",
+    better: "has a more appropriate tone",
+  },
+];
 // export const defaultDim = {
 //   Instructions_A: "",
 //   Language_A: "",

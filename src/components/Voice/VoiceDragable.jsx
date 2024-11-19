@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import StrAreaVoice from "./StrAreaVoice";
 import Draggable from "react-draggable";
+import { RiDragMoveFill } from "react-icons/ri";
 
 const VoiceDragable = ({ toJustif, nameF }) => {
   const [show, setShow] = useState(false);
@@ -13,11 +14,11 @@ const VoiceDragable = ({ toJustif, nameF }) => {
         VOICE
       </Button>
       {show && (
-        <Draggable handle=".handle1" defaultPosition={{ x: -260, y: -200 }}>
+        <Draggable handle=".handle1" defaultPosition={{ x: -314, y: 54 }}>
           {/* -767px, 390p */}
           <div ref={ref} className={"voice-drag"}>
             <div className="voice-drag-box">
-              <div className="handle1 ">
+              <div className="handle1 handle1After">
                 {nameF}{" "}
                 <button
                   className="btn-back"
@@ -27,6 +28,9 @@ const VoiceDragable = ({ toJustif, nameF }) => {
                   }}>
                   x
                 </button>
+                <div className="handle1 hbottom1">
+                  <RiDragMoveFill />
+                </div>{" "}
               </div>
 
               <StrAreaVoice

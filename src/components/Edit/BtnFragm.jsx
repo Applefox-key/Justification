@@ -36,7 +36,7 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
   return (
     <>
       <button
-        className="square-btn intense upside-down"
+        className="btnToHis hintBtn  upside-down"
         title="copy fragments in quotation marks"
         onClick={extractFragments}>
         <BsChatQuote />
@@ -44,7 +44,7 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
 
       <div className="fragmBtn">
         <button
-          className="square-btn intense"
+          className="square-btn "
           disabled={!fragments.length}
           title="paste fragments in quotation marks"
           onClick={replaceFragments}>
@@ -56,18 +56,6 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
           ))}
         </div>
       </div>
-      {/* <button
-        className="square-btn intense"
-        title="replace dash"
-        onClick={() => replace("-", "—")}>
-        -
-      </button>{" "}
-      <button
-        className="square-btn intense"
-        title="replace quotes"
-        onClick={replaceQuotes}>
-        «»
-      </button> */}
     </>
   );
 };

@@ -14,6 +14,7 @@ const EditFieldDim = ({
   placeholder,
   fieldVal,
   estim = null,
+  small = null,
   fieldFn,
   isActive,
   classN,
@@ -75,7 +76,7 @@ const EditFieldDim = ({
             as="textarea"
             id={fieldName}
             autoFocus={autoFocus}
-            className={"fieldDim " + classN}
+            className={"fieldDim " + (small ? "dimFieldSmall " : "") + classN}
             onFocus={() => fieldFn.onFocus(ref)}
             rows={1}
             spellCheck
@@ -90,21 +91,25 @@ const EditFieldDim = ({
               setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
             />
           )}
-          <button
-            className={"square-btn btnPlus" + scale}
-            onClick={changeClass}>
-            <GoZoomIn />
-          </button>{" "}
-          <button
-            className={"square-btn btnCopyField" + scale}
-            onClick={(e) => copyToClipboard(fieldVal)}>
-            <FaRegCopy />
-          </button>
-          <button className={" btnMin"} onClick={() => changeClass(false)}>
-            {/* <CiZoomOut /> */}
-            <GoZoomOut />
-            EDIT {fieldName} BACK TO DIMENTIONS
-          </button>
+          {!small && (
+            <>
+              <button
+                className={"square-btn btnPlus" + scale}
+                onClick={changeClass}>
+                <GoZoomIn />
+              </button>{" "}
+              <button
+                className={"square-btn btnCopyField" + scale}
+                onClick={(e) => copyToClipboard(fieldVal)}>
+                <FaRegCopy />
+              </button>
+              <button className={" btnMin"} onClick={() => changeClass(false)}>
+                {/* <CiZoomOut /> */}
+                <GoZoomOut />
+                EDIT {fieldName} BACK TO DIMENTIONS
+              </button>
+            </>
+          )}
         </>
       )}
     </div>

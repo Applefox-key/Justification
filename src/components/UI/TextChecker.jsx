@@ -66,6 +66,25 @@ const TextChecker = ({ close }) => {
 
   return (
     <div className="w-100 h-100">
+      {" "}
+      {errors.length > 0 ? (
+        <>
+          <span>{errors[0].matches}</span> <br />
+          <button onClick={() => setErrors([])}>Показать текст</button>
+          <button
+            onClick={(e) => {
+              copyToClipboard(errors[0].matches);
+              close();
+            }}>
+            Скопировать вердикт и вернуться к обоснованию
+          </button>
+        </>
+      ) : (
+        <>
+          <button onClick={checkText}>Проверить текст</button>
+          <button onClick={close}>Вернуться к обоснованию</button>
+        </>
+      )}
       {errors.length > 0 ? (
         <div
           className={"setIsTxt-check"}
@@ -93,25 +112,6 @@ const TextChecker = ({ close }) => {
         </div>
       )}
       <br />
-
-      {errors.length > 0 ? (
-        <>
-          <span>{errors[0].matches}</span> <br />
-          <button onClick={() => setErrors([])}>Показать текст</button>
-          <button
-            onClick={(e) => {
-              copyToClipboard(errors[0].matches);
-              close();
-            }}>
-            Скопировать вердикт и вернуться к обоснованию
-          </button>
-        </>
-      ) : (
-        <>
-          <button onClick={checkText}>Проверить текст</button>
-          <button onClick={close}>Вернуться к обоснованию</button>
-        </>
-      )}
     </div>
   );
 };

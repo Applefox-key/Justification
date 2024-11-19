@@ -9,6 +9,20 @@
   }
 }
 
+#portal-root {
+  position: fixed;
+  /* Чтобы контейнер всегда находился на экране */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  /* Покрывает всю ширину экрана */
+  height: 100vh;
+  /* Покрывает всю высоту экрана */
+  z-index: 9999;
+  /* Максимально высокий z-index */
+  pointer-events: none;
+}
+
 .voice-btns-all {
   display: flex;
 }
@@ -1225,16 +1239,134 @@ textarea.form-control::placeholder {
     }
   }
 
+  .evals-dim {
+    display: flex;
+    // flex-direction: column;
+    margin: 2px;
+    position: relative;
+    opacity: 0.5;
+
+    button {
+      max-width: 100%;
+      min-width: fit-content;
+      margin: 0;
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+    }
+
+    div {
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    span {
+      position: relative;
+      width: 20px;
+      display: inline;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0;
+
+      // &::after {
+      //   content: attr(title);
+      //   position: absolute;
+      //   color: red;
+      //   font-weight: 800;
+      //   font-size: 10px;
+      //   top: -8px;
+      // }
+    }
+
+    .evals-spanl {
+
+      &::after {
+        content: attr(title);
+        position: absolute;
+        color: red;
+        font-weight: 800;
+        font-size: 10px;
+        right: -6px;
+        top: 2px;
+        right: -8px;
+        top: 5px;
+      }
+    }
+
+    .evals-spanr {
+      &::after {
+        content: attr(title);
+        position: absolute;
+        color: red;
+        font-weight: 800;
+        font-size: 10px;
+        left: -7px;
+        top: 5px;
+
+      }
+    }
+
+    .evals-span {
+      font-weight: 700;
+      background-color: transparent;
+
+
+    }
+
+    .evals-span-isempty-true {
+      background-color: transparent;
+      color: transparent;
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    }
+
+    .evals-span-isempty-false {
+      // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      // background-color: transparent;
+    }
+
+    .evals-span-b {
+      background-color: #257e90;
+      color: white;
+
+    }
+
+    .evals-span-1 {
+      background-color: red;
+    }
+
+    .evals-span-2 {
+      background-color: rgba(239, 131, 131, 0.877);
+    }
+
+    .evals-span-3 {
+      background-color: yellow;
+    }
+
+    .evals-span-4 {
+      background-color: lawngreen;
+    }
+
+    .evals-span-5 {
+      background-color: green;
+    }
+  }
+
   textarea.form-control:not(:focus) {
     padding-top: 20px;
     color: #747474;
-    // background-color: var(--line2);
-    background-color: var(--main-back-unfocus);
+    // border: 1px solid #747474;
+    box-shadow: none;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    // background-color: var(--main-back-unfocus);
   }
 
 
   textarea.form-control:focus {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   }
 
   textarea.form-control.active-field:not(:focus) {
@@ -1244,6 +1376,18 @@ textarea.form-control::placeholder {
   }
 
 
+  textarea.form-control.dimFieldSmall {
+    height: 1rem;
+    max-height: 1rem;
+    width: 100%;
+    font-size: 12px;
+    padding: 2px;
+
+    &::placeholder {
+      font-size: 15px;
+    }
+
+  }
 
 }
 
@@ -1387,6 +1531,8 @@ textarea.form-control::placeholder {
   margin-left: 10px;
 }
 
+
+
 // .txt-box {
 //   height: 75%;
 
@@ -1483,8 +1629,8 @@ textarea.form-control::placeholder {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  overflow-y: auto;
-  padding-top: 10px;
+  // overflow-y: auto;
+
 }
 
 .edit100 {
@@ -2141,6 +2287,12 @@ textarea.form-control::placeholder {
   }
 }
 
+button.hintBtn {
+  svg {
+    font-size: 16px;
+  }
+}
+
 .hot {
   display: flex;
   width: 100%;
@@ -2497,16 +2649,17 @@ textarea.form-control::placeholder {
 
 }
 
-
+.voice-drag {
+  pointer-events: auto;
+  z-index: 2000;
+}
 
 .voice-drag-box {
   // display: flex;
   // justify-content: flex-start;
   position: absolute;
   z-index: 1900;
-  width: 90vw;
-
-  width: 300px;
+  width: 330px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
   .handle1 {
@@ -2515,11 +2668,18 @@ textarea.form-control::placeholder {
     font-size: 22px;
     color: white;
 
+
     button {
       right: 0;
       height: 2rem;
       border-radius: 20% 16px 0% 50%
     }
+
+
+  }
+
+  .handle1After {
+
 
     &::after {
       left: 10px;
@@ -2527,6 +2687,23 @@ textarea.form-control::placeholder {
       position: absolute;
       font-size: 12px;
     }
+  }
+
+  .hbottom1 {
+    background-color: #257e90;
+    position: absolute;
+    width: 26px;
+    border-radius: 5px;
+    margin-left: 10px;
+    top: 34px;
+    // background: red;
+    height: 157px;
+    right: 0;
+    border-radius: 0 0 15px 0;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 5px;
+    padding-left: 2px;
   }
 
   border-radius: 15px;
@@ -2538,7 +2715,7 @@ textarea.form-control::placeholder {
     background-color: var(--main-back);
     z-index: 1900;
     width: 100%;
-    margin-top: 0;
+    margin-top: -1px;
     border-radius: 0 0 15px 15px;
 
     .textarea-box {
@@ -2829,6 +3006,7 @@ textarea.form-control::placeholder {
 .editParts-wrap {
   height: 100%;
   width: 100%;
+  position: relative;
 
   .setIsTxt {
     max-height: 180px;
@@ -2845,6 +3023,7 @@ textarea.form-control::placeholder {
   margin-right: 5px;
   margin: 2px 5px;
   align-items: center;
+  // z-index: 2000;
 
   // color: #ff8346;
   .final-rate {
@@ -3004,7 +3183,9 @@ textarea.form-control::placeholder {
 
 .dimBox {
   display: flex;
-
+  height: 67%;
+  overflow-y: auto;
+  padding-top: 10px;
   // .respDim {
   //   width: 50%;
 
@@ -3038,6 +3219,9 @@ textarea.form-control::placeholder {
 
 }
 
+.hdim {
+  height: 87%;
+}
 
 .respDim,
 .respDim-footer {
@@ -3058,11 +3242,31 @@ textarea.form-control::placeholder {
     // width: 100%;
     top: 2px;
     font-size: 12px;
-
-
-
-
   }
+
+  span.evals-span-inline-false,
+  span.evals-span-inline-true {
+    position: relative;
+    left: unset;
+    width: fit-content;
+    height: 2rem;
+    font-size: 14px;
+    border: 1px solid;
+    border-radius: 15px;
+
+    // word-break: break-all;
+    white-space: nowrap;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  span.evals-span-inline-false {
+    background-color: #a6d6ff;
+  }
+
+
 
   .field-left {
     left: 23px;
@@ -3073,6 +3277,8 @@ textarea.form-control::placeholder {
     left: 0;
     transition: all 0.2s ease-in-out;
   }
+
+
 
   .active-span {
     // font-size: 8px;
@@ -3092,11 +3298,54 @@ textarea.form-control::placeholder {
 .respDimEv {
   width: 50px;
   height: 100%;
+
 }
+
+
 
 .respDim-footer {
   display: flex;
   width: 100%;
+  // border: 8px solid #91bec7;
+  border-radius: 8px;
+  // background-color: #91bec7;
+  ;
+
+  button {
+    min-width: fit-content;
+
+  }
+
+  #btn-hide-rate-dim {
+    width: 86%;
+    margin: 0;
+    margin-bottom: 8px;
+    background: #91bec7;
+  }
+
+  .field-box {
+    margin: 0;
+  }
+
+  .btnPlus,
+  .btnCopyField {
+    right: 0;
+  }
+
+  textarea.form-control {
+    height: 150px;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.closeBar {
+  background-color: var(--menu);
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.5;
+  background-color: #257e90;
+  ;
 }
 
 .fullScreen {
@@ -3319,7 +3568,7 @@ textarea.form-control::placeholder {
   z-index: 800;
   top: 50px;
   top: 0px;
-  width: 95%;
+  width: 100%;
   height: 100%;
   left: 0;
 
@@ -3330,6 +3579,9 @@ textarea.form-control::placeholder {
     // padding-top: 3rem;
     position: absolute;
     top: 30px;
+    max-height: 100%;
+    height: 95%;
+    width: 100%;
   }
 
   .rate-vert-wrap {
@@ -3367,10 +3619,10 @@ textarea.form-control::placeholder {
 
 .plusTextArea {
   z-index: 800;
-  width: 100% !important;
-  height: 75% !important;
-  max-height: 100% !important;
-  min-height: 75% !important;
+  // width: 100% !important;
+  // height: 75% !important;
+  // max-height: 100% !important;
+  // min-height: 75% !important;
 
 }
 
@@ -3441,17 +3693,34 @@ textarea.form-control::placeholder {
 .format-btns {
   position: relative;
   z-index: 1800;
+  // transition-delay: 0.1s;
+  z-index: inherit;
 
   .sub-btns {
-    display: none;
+    background-color: var(--menu);
+    top: -50px;
+    opacity: 0;
+    display: flex;
+    height: 0;
     position: absolute;
     right: 0;
     flex-direction: column;
+    transition: all 0.2s ease-in-out;
+    transition-delay: 0.5s;
+    z-index: 1500;
+
+    button {
+      margin: 0;
+    }
   }
 
   &:hover {
     .sub-btns {
-      display: flex;
+      opacity: 1;
+      top: 40px;
+      height: fit-content;
+      // transition: all 0s;
+      // transition-delay: 0s;
     }
   }
 }
