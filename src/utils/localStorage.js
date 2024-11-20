@@ -1,3 +1,4 @@
+import { hotbtnsArrDef } from "../constants/replacements";
 import { textParts } from "../constants/textParts";
 
 export const toLS = (key, value) => {
@@ -58,4 +59,10 @@ export const txtTemplatesSet = (val = null, setArr = null) => {
   }
   toLS("txtTmp", val.items);
   if (setArr !== 0) setArr(val.items);
+};
+
+export const txtHotReplaceGet = () => {
+  let val = fromLS("txtHotRepl");
+  if (val === null) return hotbtnsArrDef;
+  return val;
 };

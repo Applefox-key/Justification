@@ -1,36 +1,27 @@
 import React, { useRef, useState } from "react";
-import {
-  autoreplaceFormat,
-  autoreplaceGrammar,
-  hotReplaceIssues,
-  hotReplaceJustif,
-  hotReplaceRewiew,
-  hotReplaceSuggestion,
-  hotReplaceTmp,
-  hotReplaceTone,
-} from "../../constants/replacements";
-
 import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
 import { applyAction, copyToClipboard } from "../../utils/utilStr";
 import RateHot from "../Rate/RateHot";
 import { usePopup } from "../../hooks/usePopup";
+import { txtHotReplaceGet } from "../../utils/localStorage";
 
 const HotBtns = ({ toJustif, action = "RAB" }) => {
   const [isOpen, setIsOpen] = useState(null);
   const refBox = useRef(null);
   useOutsideClick(refBox, () => setIsOpen(null));
   const setPopup = usePopup();
-  const btnsArr = [
-    { name: "FORMAT", btns: autoreplaceFormat },
-    { name: "TONE", btns: hotReplaceTone },
-    { name: "GRAMMAR", btns: autoreplaceGrammar },
-    { name: "JUSTIFICATION", btns: hotReplaceJustif },
-    { name: "ISSUES", btns: hotReplaceIssues },
-    { name: "ADVICE", btns: hotReplaceSuggestion },
-    { name: "TEMPLATES", btns: hotReplaceTmp },
-    { name: "REVIEW", btns: hotReplaceRewiew },
-  ];
+  const btnsArr = txtHotReplaceGet();
+  //  [
+  //   { name: "FORMAT", btns: autoreplaceFormat },
+  //   { name: "TONE", btns: hotReplaceTone },
+  //   { name: "GRAMMAR", btns: autoreplaceGrammar },
+  //   { name: "JUSTIFICATION", btns: hotReplaceJustif },
+  //   { name: "ISSUES", btns: hotReplaceIssues },
+  //   { name: "ADVICE", btns: hotReplaceSuggestion },
+  //   { name: "TEMPLATES", btns: hotReplaceTmp },
+  //   { name: "REVIEW", btns: hotReplaceRewiew },
+  // ];
   const onHandleCLick = (e, newT, model = "") => {
     let b = e.button;
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;

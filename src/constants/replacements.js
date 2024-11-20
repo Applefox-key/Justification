@@ -950,7 +950,6 @@ export const replacementsResponsesNum = [
     caseSensitive: false,
   },
 ];
-
 export const replacementsPunctuation = [
   {
     oldT: [" запятая"],
@@ -964,4 +963,15 @@ export const replacementsPunctuation = [
     caseSensitive: false,
     show: true,
   },
+];
+
+export const hotbtnsArrDef = [
+  { name: "FORMAT", btns: autoreplaceFormat },
+  { name: "TONE", btns: hotReplaceTone },
+  { name: "GRAMMAR", btns: autoreplaceGrammar },
+  { name: "JUSTIFICATION", btns: hotReplaceJustif },
+  { name: "ISSUES", btns: hotReplaceIssues },
+  { name: "ADVICE", btns: hotReplaceSuggestion },
+  { name: "TEMPLATES", btns: hotReplaceTmp },
+  { name: "REVIEW", btns: hotReplaceRewiew },
 ];

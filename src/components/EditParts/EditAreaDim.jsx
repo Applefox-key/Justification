@@ -16,7 +16,7 @@ import EditDimJustif from "./EditDimJustif";
 
 const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
-  const [best, setBest] = useState({ num: -1, title: "", fields: [] });
+  const [best, setBest] = useState({ num: -1, title: "", fields: [], rec: "" });
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);

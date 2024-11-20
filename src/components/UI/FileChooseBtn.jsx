@@ -28,6 +28,7 @@ const FileChooseBtn = ({ defaultState, onlyFirstSheet = false }) => {
         <div className="templates-menu">
           <button className="input-file" title="Choose file">
             <FiPlus />
+            {/* ADD */}
             <input
               size="sm"
               ref={inputFileName}
@@ -47,6 +48,7 @@ const FileChooseBtn = ({ defaultState, onlyFirstSheet = false }) => {
               setIsopen(false);
             }}>
             <BiReset title="RESET" />
+            {/* RESET */}
           </button>
         </div>
       )}

@@ -2524,10 +2524,11 @@ button.hintBtn {
   .templates-menu {
     position: absolute;
     z-index: 600;
-    background: var(--main-back);
+    // background: var(--main-back);
     width: fit-content;
     padding: 5px;
     border-radius: 5px;
+    left: -20px;
   }
 }
 
@@ -2538,22 +2539,25 @@ button.hintBtn {
 
 .input-file,
 .reset-btn {
-  box-sizing: content-box;
-  position: relative;
-  width: 20px;
-  height: 23px;
-  border: 1px solid black;
-  background: #ff8346;
-  background: #239aff;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  color: var(--main-color);
-  font-weight: 900;
-  margin: 2px;
-  padding: 0;
+  width: 3rem;
+  margin: 0;
+  padding: 1px;
+  // box-sizing: content-box;
+  // position: relative;
+  // width: 20px;
+  // height: 23px;
+  // border: 1px solid black;
+  // background: #ff8346;
+  // background: #239aff;
+  // border-radius: 50%;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // align-content: center;
+  // color: var(--main-color);
+  // font-weight: 900;
+  // margin: 2px;
+  // padding: 0;
   font-size: 17px;
 
   &:hover {
@@ -2564,9 +2568,11 @@ button.hintBtn {
 
   input {
     opacity: 0;
-    width: 20px;
+    width: 3rem;
     height: 20px;
     position: absolute;
+    left: 0px;
+    top: 5px;
   }
 
   .input-file {
@@ -3035,11 +3041,23 @@ button.hintBtn {
   margin: 2px 5px;
   align-items: center;
   // z-index: 2000;
+  padding-top: 10px;
 
   // color: #ff8346;
   .final-rate {
     max-width: max-content;
     flex-wrap: wrap;
+  }
+
+  p {
+    width: 100%;
+    position: absolute;
+    font-size: 10px;
+    top: 0;
+    left: 0;
+    color: #ff8346;
+    font-style: italic;
+    text-align: left;
   }
 
   .header-fin {

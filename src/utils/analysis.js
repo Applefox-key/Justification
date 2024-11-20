@@ -404,3 +404,52 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
   let justT = resArr.join("");
   if (justT && typeof justT === "string") toJustif({ en: justT });
 };
+
+export const recomDim = (evals) => {
+  const criteria = [
+    "Instructions",
+    "Factuality",
+    "Language",
+    "Coherence",
+    "Presentation",
+    "Tone",
+  ];
+
+  let criteriaAdvantageA = 0; // Количество критериев, где A лучше
+  let criteriaAdvantageB = 0; // Количество критериев, где B лучше
+  let significantDifference = 0; // Количество критериев с разницей >= 2
+  let critCriteriaA = 0;
+  let critCriteriaB = 0;
+  criteria.forEach((criterion, i) => {
+    const diff = evals[`${criterion}_A`] - evals[`${criterion}_B`];
+    if (diff > 0) {
+      critCriteriaA = i < 3 ? critCriteriaA + 1 : critCriteriaA;
+      criteriaAdvantageA++;
+    } else if (diff < 0) {
+      critCriteriaB = i < 3 ? critCriteriaB + 1 : critCriteriaB;
+      criteriaAdvantageB++;
+    }
+
+    if (Math.abs(diff) >= 2) {
+      significantDifference++;
+    }
+  });
+  const dif = Math.abs(criteriaAdvantageA - criteriaAdvantageB);
+  const difCrit = Math.abs(critCriteriaA - critCriteriaB);
+  // Если разница минимальна или отсутствует
+  if (
+    dif === 0
+    // ||    Math.abs(criteriaAdvantageA - criteriaAdvantageB) <= 1
+  ) {
+    return `Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
+  }
+  // Определяем победителя
+  const winner = criteriaAdvantageA > criteriaAdvantageB ? "A" : "B";
+
+  if (dif < 3 && difCrit === 1)
+    return `Slightly Better: Response ${winner} outperforms in 1–2 criteria.`;
+  else if (significantDifference <= 4)
+    return `Better: Response ${winner} is stronger in most important criteria.`;
+  else
+    return `Much Better: Response ${winner} significantly outperforms the other.`;
+};
