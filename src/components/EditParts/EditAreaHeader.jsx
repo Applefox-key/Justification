@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import TopBtns from "../Edit/TopBtns";
-import BtnArchive from "../Edit/BtnArchive";
 import HotBtns from "../Hint/HotBtns";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { voiceToEdit } from "../../utils/utilStr";
@@ -25,7 +24,7 @@ const EditAreaHeader = ({ editParam }) => {
   } = editParam;
   return (
     <div className="d-flex flex-wrap align-items-center justify-content-start mb-1 w-100">
-      <div className="d-flex justify-content-between w-100 align-items-center">
+      <div className="d-flex flex-wrap justify-content-between w-100 align-items-center">
         <div className="d-flex  align-items-center">
           <Button
             className={"btnToHis" + (isTemplates ? " isTmp" : "")}
@@ -75,8 +74,6 @@ const EditAreaHeader = ({ editParam }) => {
           </Button>
         </div> */}
       </div>
-
-      {/* <BtnArchive txt={item} setTxt={setItem} /> */}
       {isHotBtns && <HotBtns toJustif={pasteToText} />}
     </div>
   );

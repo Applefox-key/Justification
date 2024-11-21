@@ -420,6 +420,7 @@ export const recomDim = (evals) => {
   let significantDifference = 0; // Количество критериев с разницей >= 2
   let critCriteriaA = 0;
   let critCriteriaB = 0;
+
   criteria.forEach((criterion, i) => {
     const diff = evals[`${criterion}_A`] - evals[`${criterion}_B`];
     if (diff > 0) {
@@ -429,7 +430,6 @@ export const recomDim = (evals) => {
       critCriteriaB = i < 3 ? critCriteriaB + 1 : critCriteriaB;
       criteriaAdvantageB++;
     }
-
     if (Math.abs(diff) >= 2) {
       significantDifference++;
     }
@@ -437,19 +437,101 @@ export const recomDim = (evals) => {
   const dif = Math.abs(criteriaAdvantageA - criteriaAdvantageB);
   const difCrit = Math.abs(critCriteriaA - critCriteriaB);
   // Если разница минимальна или отсутствует
-  if (
-    dif === 0
-    // ||    Math.abs(criteriaAdvantageA - criteriaAdvantageB) <= 1
-  ) {
+  if (dif === 0 && difCrit === 0)
     return `Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
-  }
+
   // Определяем победителя
   const winner = criteriaAdvantageA > criteriaAdvantageB ? "A" : "B";
-
-  if (dif < 3 && difCrit === 1)
+  console.log({ dif, difCrit });
+  if (difCrit === 0 && dif < 3)
     return `Slightly Better: Response ${winner} outperforms in 1–2 criteria.`;
-  else if (significantDifference <= 4)
+  if (dif > 2 && difCrit < 2)
+    return `Better: Response ${winner}  outperforms in more then 2 criteria.`;
+  if (dif > 2 && difCrit > 1 && dif < 6)
     return `Better: Response ${winner} is stronger in most important criteria.`;
   else
     return `Much Better: Response ${winner} significantly outperforms the other.`;
+};
+export const analisDim = (evals) => {
+  try {
+    const criteria = [
+      "Instructions",
+      "Factuality",
+      "Language",
+      "Coherence",
+      "Presentation",
+      "Tone",
+    ];
+    let anRes = {
+      a: {
+        total: 0,
+        criteriaBetter: 0,
+        signCriteriaBetter: 0,
+        crit: {
+          score: 0,
+          critMinor: 0,
+          critMajor: 0,
+          nonCritMinor: 0,
+          nonCritMajor: 0,
+        },
+      },
+      b: {
+        total: 0,
+        criteriaBetter: 0,
+        signCriteriaBetter: 0,
+        crit: {
+          score: 0,
+          critMinor: 0,
+          critMajor: 0,
+          nonCritMinor: 0,
+          nonCritMajor: 0,
+        },
+      },
+    };
+    const scoreMajMin = {
+      1: "Major",
+      2: "Major",
+      3: "Minor",
+      4: "Minor",
+    };
+    criteria.forEach((criterion, i) => {
+      const scoreA = evals[`${criterion}_A`];
+      const scoreB = evals[`${criterion}_B`];
+      const diff = scoreA - scoreB;
+      anRes.a.crit.score = anRes.a.crit.score + scoreA;
+      anRes.b.crit.score = anRes.b.crit.score + scoreB;
+
+      // if (scoreA < 5 && scoreA > 0) {
+      //   let nameField = (i < 3 ? "crit" : "nonCrit") + scoreMajMin[scoreA];
+      //   let vsl = anRes.a.crit[nameField] + 1;
+      //   anRes.a.crit[nameField] = vsl;
+      // }
+      // if (scoreB < 5 && scoreB > 0) {
+      //   let nameField = (i < 3 ? "crit" : "nonCrit") + scoreMajMin[scoreB];
+      //   let vsl = anRes.b.crit[nameField] + 1;
+      //   anRes.b.crit[nameField] = vsl;
+      // }
+      if (diff !== 0) {
+        const winner = diff > 0 ? "a" : "b";
+        anRes[winner].signCriteriaBetter =
+          i < 3
+            ? anRes[winner].signCriteriaBetter + 1
+            : anRes[winner].signCriteriaBetter;
+        anRes[winner].criteriaBetter++;
+      }
+    });
+    // const resA = evaluateHalf({ ...defaultEval, ...anRes.a.crit });
+    // const resB = evaluateHalf({ ...defaultEval, ...anRes.b.crit });
+    // const newVal = { respA: resA, respB: resB };
+    // console.log(newVal);
+
+    // const res = compareResponses(newVal);
+    // console.log(res);
+
+    return `Total scores: \nA ${anRes.a.crit.score} \nB ${anRes.b.crit.score} \nBetter dimentions: \nA ${anRes.a.criteriaBetter}\nB ${anRes.b.criteriaBetter}\nImportant dimentions: \nA ${anRes.a.signCriteriaBetter} \nB ${anRes.b.signCriteriaBetter}`;
+  } catch (error) {
+    console.log(error);
+
+    return "";
+  }
 };

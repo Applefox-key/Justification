@@ -104,10 +104,17 @@ export const hotReplaceTone = [
   },
   {
     oldT: ["Exclamation"],
-    newT: `Exclamation marks need to be removed.`,
+    newT: `BotModel contains unnecessary exclamation marks.`,
     caseSensitive: false,
     show: true,
     title: "!",
+  },
+  {
+    oldT: ["ExclamationRem"],
+    newT: `Exclamation marks need to be removed.`,
+    caseSensitive: false,
+    show: true,
+    title: "x!",
   },
   {
     oldT: ["introP"],

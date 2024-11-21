@@ -14,7 +14,7 @@ const EditDimJustif = ({ editParam }) => {
               <span
                 className={"evals-span-inline-" + (item.Evals[field.a] === 0)}
                 key={i}>
-                {field.short + "—" + item.Evals[field.a]}
+                {field.short + "_" + item.Evals[field.a]}
               </span>
             ))}
           </div>
@@ -26,7 +26,7 @@ const EditDimJustif = ({ editParam }) => {
               <span
                 className={"evals-span-inline-" + (item.Evals[field.b] === 0)}
                 key={i}>
-                {field.short + "—" + item.Evals[field.b]}
+                {field.short + "_" + item.Evals[field.b]}
               </span>
             ))}
           </div>

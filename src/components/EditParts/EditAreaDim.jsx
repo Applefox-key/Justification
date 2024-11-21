@@ -3,16 +3,16 @@ import { editTextActionRef, applyAction } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import SideBtns from "../Edit/SideBtns";
 import { saveToHistory } from "../../utils/localStorage";
-import { FaStar } from "react-icons/fa";
 import { usePopup } from "../../hooks/usePopup";
-import EditFieldDim from "./EditFieldDim";
-import { arrAB, defaultDim } from "../../constants/textParts";
+import { defaultDim } from "../../constants/textParts";
 import EditAreaHeader from "./EditAreaHeader";
-
 import EditAreaMenuBar from "./EditAreaMenuBar";
 import { Button } from "react-bootstrap";
 import { RiDragMoveFill } from "react-icons/ri";
 import EditDimJustif from "./EditDimJustif";
+import EditDimBody from "./EditDimBody";
+import { BiSolidDownArrow } from "react-icons/bi";
+import EditDimBodyAnalitic from "./EditDimBodyAnalitic";
 
 const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -22,6 +22,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [isHotBtns, setIsHotBtns] = useState(false);
   const [textRef, setTextRef] = useState(null);
   const [show, setShow] = useState(false);
+  const [showBody, setShowBody] = useState(false);
   const fieldId = useMemo(() => {
     return textRef && textRef.current && textRef.current.id
       ? textRef.current.id
@@ -149,86 +150,32 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                 best,
                 clear,
               }}
-            />
-
+            />{" "}
+            <button id="show-body-dim" onClick={() => setShowBody(!showBody)}>
+              <BiSolidDownArrow className={showBody ? "" : "upside-down"} />
+            </button>
             <div className={"dimBox" + (!show ? " hdim" : "")}>
-              <div className="respDim">
-                <EditFieldDim
-                  fieldName={"id"}
-                  small
-                  placeholder={"id"}
-                  setIsTxt={setIsTxt}
-                  classN={fieldId === "id" ? "active-field" : ""}
-                  isTxt={isTxt && fieldId === "id"}
-                  isActive={fieldId === "id"}
-                  fieldVal={item.id}
-                  fieldFn={fieldFn}
+              {showBody ? (
+                <EditDimBody
+                  editParam={{
+                    showBody,
+                    setShowBody,
+                    setIsTxt,
+                    best,
+                    item,
+                    fieldFn,
+                    fieldId,
+                    isTxt,
+                  }}
                 />
-                {arrAB.map((field, i) => (
-                  <>
-                    <EditFieldDim
-                      key={i}
-                      fieldName={field.a}
-                      placeholder={field.a}
-                      setIsTxt={setIsTxt}
-                      scale="right"
-                      classN={
-                        (fieldId === field.a
-                          ? "dimFieldS active-field"
-                          : "dimField") +
-                        (best.fields.includes(field.a) ? " best-field" : "")
-                      }
-                      isTxt={isTxt && fieldId === field.a}
-                      isActive={fieldId === field.a}
-                      fieldVal={item[field.a]}
-                      estim={item.Evals[field.a]}
-                      fieldFn={fieldFn}
-                    />
-                    {best.fields.includes(field.a) && (
-                      <FaStar className={field.a + "best star"} />
-                    )}
-                  </>
-                ))}
-              </div>
-
-              <div className="respDim">
-                <EditFieldDim
-                  fieldName={"name"}
-                  small
-                  placeholder={"name"}
-                  setIsTxt={setIsTxt}
-                  classN={fieldId === "name" ? "active-field" : ""}
-                  isTxt={isTxt && fieldId === "name"}
-                  isActive={fieldId === "name"}
-                  fieldVal={item.name}
-                  fieldFn={fieldFn}
+              ) : (
+                <EditDimBodyAnalitic
+                  editParam={{
+                    item,
+                    fieldFn,
+                  }}
                 />
-                {arrAB.map((field, i) => (
-                  <>
-                    <EditFieldDim
-                      scale="left"
-                      key={i}
-                      fieldName={field.b}
-                      placeholder={field.b}
-                      setIsTxt={setIsTxt}
-                      classN={
-                        (fieldId === field.b
-                          ? "dimField active-field"
-                          : "dimField") +
-                        (best.fields.includes(field.b) ? " best-field" : "")
-                      }
-                      isTxt={isTxt && fieldId === field.b}
-                      isActive={fieldId === field.b}
-                      fieldVal={item[field.b]}
-                      estim={item.Evals[field.b]}
-                      fieldFn={fieldFn}
-                    />
-                    {best.fields.includes(field.b) && (
-                      <FaStar className={field.b + "best star"} />
-                    )}
-                  </>
-                ))}
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -3042,6 +3042,7 @@ button.hintBtn {
   align-items: center;
   // z-index: 2000;
   padding-top: 10px;
+  z-index: 6;
 
   // color: #ff8346;
   .final-rate {
@@ -3248,8 +3249,28 @@ button.hintBtn {
 
 }
 
+#show-body-dim {
+  position: absolute;
+  translate: 0 -15px;
+  max-width: 90px;
+  min-width: unset;
+  left: 45.5%;
+  background: #e2e2e2;
+  z-index: 5;
+  /* left: calc((100vw - 100%) / 2); */
+  padding-top: 9px;
+  padding-bottom: 0;
+  width: 53px;
+  left: calc((100% - 70px) / 2);
+  margin: 0;
+
+  svg {
+    transition: all 0.3s ease-in-out;
+  }
+}
+
 .hdim {
-  height: 87%;
+  height: 84%;
 }
 
 .respDim,
@@ -3279,9 +3300,9 @@ button.hintBtn {
     left: unset;
     width: fit-content;
     height: 2rem;
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid;
-    border-radius: 15px;
+    border-radius: 5px;
 
     // word-break: break-all;
     white-space: nowrap;
@@ -3289,10 +3310,14 @@ button.hintBtn {
     display: flex;
     justify-content: center;
     align-items: center;
+
+
+
   }
 
-  span.evals-span-inline-false {
-    background-color: #a6d6ff;
+  span.evals-span-inline-true {
+    background-color: #257e90;
+    color: #e9e8e4;
   }
 
 
@@ -3374,7 +3399,7 @@ button.hintBtn {
   justify-content: space-between;
   opacity: 0.5;
   background-color: #257e90;
-  ;
+  padding: 0 5px;
 }
 
 .fullScreen {
@@ -3535,7 +3560,112 @@ button.hintBtn {
 
 
 
+.rate-hor-wrap {
+  // height: 90%;
+  // width: 1.5rem;
+  // min-width: 1rem;
+  // background-color: red;
+  // display: flex;
+  font-size: 12px;
+  align-items: center;
+  justify-content: flex-end; // border: 1px solid rgb(37 126 144);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-radius: 5px;
+  margin: 2px 1px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 90px;
+  gap: 10px;
+  padding: 5px 5px;
 
+  p {
+    margin: 0;
+    overflow-wrap: break-word;
+    font-weight: 700;
+  }
+
+  .hor-pair-title {
+    // d-flex justify-content-between m-0
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      background-color: rgb(49, 159, 181);
+      width: 30px;
+      margin-top: 5px;
+      border-radius: 5px;
+
+      &:nth-child(2) {
+        // Для второго дочернего элемента
+        background-color: rgb(0, 255, 145); // Устанавливаем другой цвет
+      }
+    }
+  }
+
+  .hor-pair {
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.7;
+
+    div {
+      font-size: inherit;
+      width: 30px;
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      // border-radius: 5px;
+
+
+
+      &:hover {
+        background-color: rgb(49, 159, 181);
+        color: black;
+        opacity: 1;
+        box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+      }
+
+      &:nth-child(2):hover {
+        // Для второго дочернего элемента
+        background-color: rgb(0, 255, 145); // Устанавливаем другой цвет
+      }
+
+    }
+
+    .hor-active {
+      background-color: rgb(37 126 144);
+      color: black;
+      box-shadow: none;
+
+      &:nth-child(2) {
+        // Для второго дочернего элемента
+        background-color: rgb(0, 255, 145); // Устанавливаем другой цвет
+      }
+    }
+  }
+
+  .rate-hor-box {
+    opacity: 0.5;
+    font-size: 12px;
+    width: 30px;
+
+    &:hover {
+      background-color: rgb(49, 159, 181);
+      color: black;
+      opacity: 1;
+      box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+    }
+  }
+
+
+}
+
+.an-res {
+  margin-left: 15px;
+  font-size: 11px;
+  text-align: end;
+  white-space: pre-line;
+  width: fit-content;
+}
+
+// d-flex justify-content-center m-auto mt-4 w-100
 .field-box {
   position: relative;
   width: 100%;
@@ -3548,6 +3678,7 @@ button.hintBtn {
       opacity: 1;
     }
   }
+
 
   .rate-vert-wrap {
     height: 90%;

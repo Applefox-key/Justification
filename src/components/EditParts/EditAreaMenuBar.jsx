@@ -45,7 +45,7 @@ const EditAreaMenuBar = ({ editParam }) => {
     const rateStr = best.title;
     let dimTxtA = "Because ";
     let dimTxtB = "Because ";
-    arrAB.map((elAb, i) => {
+    arrAB.forEach((elAb) => {
       const ea = item.Evals[elAb.a];
       const eb = item.Evals[elAb.b];
       if (ea > eb) dimTxtA += "Response A " + elAb.better + "\n";
