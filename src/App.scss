@@ -3249,6 +3249,79 @@ button.hintBtn {
 
 }
 
+.win {
+  border: 4px solid red;
+}
+
+.an-sum {
+  margin: auto;
+  padding: 0 5px;
+  border-radius: 50%;
+  text-align: center;
+  width: fit-content;
+  font-weight: 700;
+  // border: 2px solid transparent;
+  // border-bottom: none;
+  position: relative;
+}
+
+.bord_rate1 {
+
+
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: forestgreen;
+  }
+
+}
+
+.bord_rate2 {
+  // border-color: rgb(255, 234, 0);
+
+  &::after {
+    position: absolute;
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: forestgreen;
+  }
+}
+
+
+.bord_rate3 {
+  &::after {
+    position: absolute;
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: forestgreen;
+  }
+
+}
+
+.bord_rate4 {
+  &::after {
+    position: absolute;
+    content: "";
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: forestgreen;
+  }
+}
+
+// .bord_rate1 {
+//   border-width: 3px;
+//   border-color: forestgreen;
+// }
+
 #show-body-dim {
   position: absolute;
   translate: 0 -15px;

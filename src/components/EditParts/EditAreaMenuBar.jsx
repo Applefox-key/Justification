@@ -4,7 +4,6 @@ import ComposeRate from "./ComposeRate";
 import { FaCircleArrowUp } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
 import { arrAB } from "../../constants/textParts";
-import { FaRegQuestionCircle } from "react-icons/fa";
 import { recomDim } from "../../utils/analysis";
 
 const EditAreaMenuBar = ({ editParam }) => {
@@ -20,7 +19,7 @@ const EditAreaMenuBar = ({ editParam }) => {
   } = editParam;
   const handleRate = (val) => {
     let v = best.num === val.num ? -1 : val.num;
-    const rec = recomDim(item.Evals);
+    const rec = recomDim(item.Evals).recom;
     setBest(
       v === -1
         ? { num: -1, title: "", fields: [], rec: rec }
@@ -63,10 +62,7 @@ const EditAreaMenuBar = ({ editParam }) => {
       "Rate": `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
     });
   };
-  const helpRecom = () => {
-    const rec = recomDim(item.Evals);
-    setBest({ ...best, rec: rec });
-  };
+
   return (
     <div className="edit-parts-menu">
       <div className="d-flex">
@@ -77,12 +73,6 @@ const EditAreaMenuBar = ({ editParam }) => {
           title=" small or big field for the reason">
           <FaCircleArrowUp />
         </Button>{" "}
-        <Button
-          className="btn-back square-btn "
-          onClick={helpRecom}
-          title="recomendation">
-          <FaRegQuestionCircle />
-        </Button>
         <RateBoxes action={action} choosed={best.num} callback={handleRate} />
         <p>{best.rec}</p>
       </div>

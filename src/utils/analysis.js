@@ -405,55 +405,63 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
   if (justT && typeof justT === "string") toJustif({ en: justT });
 };
 
+// export const recomDim1 = (evals) => {
+//   const criteria = [
+//     "Instructions",
+//     "Factuality",
+//     "Language",
+//     "Coherence",
+//     "Presentation",
+//     "Tone",
+//   ];
+
+//   const rate = {
+//     a: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
+//     b: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
+//   };
+//   let criteriaAdvantageA = 0; // Количество критериев, где A лучше
+//   let criteriaAdvantageB = 0; // Количество критериев, где B лучше
+//   let significantDifference = 0; // Количество критериев с разницей >= 2
+//   let critCriteriaA = 0;
+//   let critCriteriaB = 0;
+
+//   criteria.forEach((criterion, i) => {
+//     const diff = evals[`${criterion}_A`] - evals[`${criterion}_B`];
+//     if (diff > 0) {
+//       critCriteriaA = i < 3 ? critCriteriaA + 1 : critCriteriaA;
+//       criteriaAdvantageA++;
+//     } else if (diff < 0) {
+//       critCriteriaB = i < 3 ? critCriteriaB + 1 : critCriteriaB;
+//       criteriaAdvantageB++;
+//     }
+//     if (Math.abs(diff) >= 2) {
+//       significantDifference++;
+//     }
+//   });
+//   const dif = Math.abs(criteriaAdvantageA - criteriaAdvantageB);
+//   const difCrit = Math.abs(critCriteriaA - critCriteriaB);
+//   // Если разница минимальна или отсутствует
+//   if (dif === 0 && difCrit === 0)
+//     return `Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
+
+//   // Определяем победителя
+//   const winner = criteriaAdvantageA > criteriaAdvantageB ? "A" : "B";
+//   console.log({ dif, difCrit });
+//   if (difCrit === 0 && dif < 3)
+//     return `Slightly Better: Response ${winner} outperforms in 1–2 criteria.`;
+//   if (dif > 2 && difCrit < 2)
+//     return `Better: Response ${winner}  outperforms in more then 2 criteria.`;
+//   if (dif > 2 && difCrit > 1 && dif < 6)
+//     return `Better: Response ${winner} is stronger in most important criteria.`;
+//   else
+//     return `Much Better: Response ${winner} significantly outperforms another response.`;
+// };
 export const recomDim = (evals) => {
-  const criteria = [
-    "Instructions",
-    "Factuality",
-    "Language",
-    "Coherence",
-    "Presentation",
-    "Tone",
-  ];
-
-  let criteriaAdvantageA = 0; // Количество критериев, где A лучше
-  let criteriaAdvantageB = 0; // Количество критериев, где B лучше
-  let significantDifference = 0; // Количество критериев с разницей >= 2
-  let critCriteriaA = 0;
-  let critCriteriaB = 0;
-
-  criteria.forEach((criterion, i) => {
-    const diff = evals[`${criterion}_A`] - evals[`${criterion}_B`];
-    if (diff > 0) {
-      critCriteriaA = i < 3 ? critCriteriaA + 1 : critCriteriaA;
-      criteriaAdvantageA++;
-    } else if (diff < 0) {
-      critCriteriaB = i < 3 ? critCriteriaB + 1 : critCriteriaB;
-      criteriaAdvantageB++;
-    }
-    if (Math.abs(diff) >= 2) {
-      significantDifference++;
-    }
-  });
-  const dif = Math.abs(criteriaAdvantageA - criteriaAdvantageB);
-  const difCrit = Math.abs(critCriteriaA - critCriteriaB);
-  // Если разница минимальна или отсутствует
-  if (dif === 0 && difCrit === 0)
-    return `Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
-
-  // Определяем победителя
-  const winner = criteriaAdvantageA > criteriaAdvantageB ? "A" : "B";
-  console.log({ dif, difCrit });
-  if (difCrit === 0 && dif < 3)
-    return `Slightly Better: Response ${winner} outperforms in 1–2 criteria.`;
-  if (dif > 2 && difCrit < 2)
-    return `Better: Response ${winner}  outperforms in more then 2 criteria.`;
-  if (dif > 2 && difCrit > 1 && dif < 6)
-    return `Better: Response ${winner} is stronger in most important criteria.`;
-  else
-    return `Much Better: Response ${winner} significantly outperforms the other.`;
-};
-export const analisDim = (evals) => {
   try {
+    let ev = { ...evals };
+    delete ev.Rate;
+    if (Object.values(ev).some((value) => value === 0))
+      return { recom: "", detales: "" };
     const criteria = [
       "Instructions",
       "Factuality",
@@ -462,76 +470,120 @@ export const analisDim = (evals) => {
       "Presentation",
       "Tone",
     ];
-    let anRes = {
-      a: {
-        total: 0,
-        criteriaBetter: 0,
-        signCriteriaBetter: 0,
-        crit: {
-          score: 0,
-          critMinor: 0,
-          critMajor: 0,
-          nonCritMinor: 0,
-          nonCritMajor: 0,
-        },
-      },
-      b: {
-        total: 0,
-        criteriaBetter: 0,
-        signCriteriaBetter: 0,
-        crit: {
-          score: 0,
-          critMinor: 0,
-          critMajor: 0,
-          nonCritMinor: 0,
-          nonCritMajor: 0,
-        },
-      },
-    };
-    const scoreMajMin = {
-      1: "Major",
-      2: "Major",
-      3: "Minor",
-      4: "Minor",
+
+    const rate = {
+      A: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
+      B: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
     };
     criteria.forEach((criterion, i) => {
-      const scoreA = evals[`${criterion}_A`];
-      const scoreB = evals[`${criterion}_B`];
-      const diff = scoreA - scoreB;
-      anRes.a.crit.score = anRes.a.crit.score + scoreA;
-      anRes.b.crit.score = anRes.b.crit.score + scoreB;
+      const dif = evals[`${criterion}_A`] - evals[`${criterion}_B`];
+      rate.A[`score${i < 3 ? "Crit" : "NonCrit"}`] += evals[`${criterion}_A`];
+      rate.B[`score${i < 3 ? "Crit" : "NonCrit"}`] += evals[`${criterion}_B`];
 
-      // if (scoreA < 5 && scoreA > 0) {
-      //   let nameField = (i < 3 ? "crit" : "nonCrit") + scoreMajMin[scoreA];
-      //   let vsl = anRes.a.crit[nameField] + 1;
-      //   anRes.a.crit[nameField] = vsl;
-      // }
-      // if (scoreB < 5 && scoreB > 0) {
-      //   let nameField = (i < 3 ? "crit" : "nonCrit") + scoreMajMin[scoreB];
-      //   let vsl = anRes.b.crit[nameField] + 1;
-      //   anRes.b.crit[nameField] = vsl;
-      // }
-      if (diff !== 0) {
-        const winner = diff > 0 ? "a" : "b";
-        anRes[winner].signCriteriaBetter =
-          i < 3
-            ? anRes[winner].signCriteriaBetter + 1
-            : anRes[winner].signCriteriaBetter;
-        anRes[winner].criteriaBetter++;
+      if (dif !== 0) {
+        const win = dif > 0 ? "A" : "B";
+
+        rate[win][i < 3 ? "dimCrit" : "dimNonCrit"] += 1;
       }
     });
-    // const resA = evaluateHalf({ ...defaultEval, ...anRes.a.crit });
-    // const resB = evaluateHalf({ ...defaultEval, ...anRes.b.crit });
-    // const newVal = { respA: resA, respB: resB };
-    // console.log(newVal);
+    rate.A.avScore = ((rate.A.scoreCrit + rate.A.scoreNonCrit) / 6).toFixed(2);
+    rate.B.avScore = ((rate.B.scoreCrit + rate.B.scoreNonCrit) / 6).toFixed(2);
+    rate.winCrit =
+      rate.A.dimCrit === rate.B.dimCrit
+        ? null
+        : rate.A.dimCrit > rate.B.dimCrit
+        ? "A"
+        : "B";
+    rate.winScore =
+      rate.A.avScore === rate.B.avScore
+        ? null
+        : rate.A.avScore > rate.B.avScore
+        ? "A"
+        : "B";
+    rate.winNonCrit =
+      rate.A.dimNonCrit === rate.B.dimNonCrit
+        ? null
+        : rate.A.dimNonCrit > rate.B.dimNonCrit
+        ? "A"
+        : "B";
 
-    // const res = compareResponses(newVal);
-    // console.log(res);
+    rate.difCrit = Math.abs(rate.A.dimCrit - rate.B.dimCrit);
+    rate.difNonCrit = Math.abs(rate.A.dimNonCrit - rate.B.dimNonCrit);
+    console.log(rate);
 
-    return `Total scores: \nA ${anRes.a.crit.score} \nB ${anRes.b.crit.score} \nBetter dimentions: \nA ${anRes.a.criteriaBetter}\nB ${anRes.b.criteriaBetter}\nImportant dimentions: \nA ${anRes.a.signCriteriaBetter} \nB ${anRes.b.signCriteriaBetter}`;
+    let anRecom = "";
+    if (rate.winCrit === null && rate.winNonCrit === null) {
+      if (rate.winScore === null)
+        anRecom = `1 Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
+      else
+        anRecom = `2 Slightly Better: Response ${rate.winScore} has higher average score.`;
+    } else if (rate.difCrit !== 0) {
+      if (rate.difCrit === 1)
+        if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null)
+          if (rate.difCrit + rate.difNonCrit < 3)
+            anRecom = `3 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+          else if (
+            parseFloat(rate[rate.winCrit].avScore) === 5 &&
+            parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
+          )
+            anRecom = `4 Much Better: Response ${rate.winCrit} significantly outperforms the other.`;
+          else
+            anRecom = `5 Better: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+        //winners a and b
+        else {
+          anRecom = `6 Slightly Better: Response ${rate.winCrit} outperforms in 2 important criteria while a response better in 1.`;
+        }
+      else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
+        if (
+          parseFloat(rate[rate.winCrit].avScore) === 5 &&
+          parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
+        )
+          anRecom = `7 Much Better: Response ${rate.winCrit} significantly outperforms the other.`;
+        else
+          anRecom = `8 Better: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+      } //winners a and b
+      //better non crit win 1 crit but lose 2 crit
+      else if (
+        rate.winNonCrit !== null &&
+        rate[rate.winNonCrit]?.dimCrit !== 0
+      ) {
+        anRecom = `9 Slightly Better: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria.`;
+      }
+      //better noncrit only non crit
+      else
+        anRecom = `10 Better: Response ${rate.winCrit}  is stronger in most important criteria.`;
+      ///crit dif is null
+    } else if (rate.difNonCrit < 3)
+      anRecom = `11 Slightly Better: Response ${rate.winNonCrit} outperforms in 1–2 criteria.`;
+    else
+      anRecom = `12 Better: Response ${rate.winNonCrit} outperforms in more than 2 criteria.`;
+
+    const avCritA = (rate.A.scoreCrit / 3).toFixed(2);
+    const avNonCritA = (rate.A.scoreNonCrit / 3).toFixed(2);
+    const avCritB = (rate.B.scoreCrit / 3).toFixed(2);
+    const avNonCritB = (rate.B.scoreNonCrit / 3).toFixed(2);
+
+    const detales = `Total scores: \nA ${
+      rate.A.scoreNonCrit + rate.A.scoreCrit
+    } ( crit: ${rate.A.scoreCrit} other: ${rate.A.scoreNonCrit} )
+  B ${rate.B.scoreNonCrit + rate.B.scoreCrit} ( crit: ${
+      rate.B.scoreCrit
+    } other: ${rate.B.scoreNonCrit} )
+    \nAverage rate:
+   A ${rate.A.avScore} ( crit: ${avCritA} other: ${avNonCritA} )
+   B ${rate.B.avScore} ( crit: ${avCritB} other: ${avNonCritB} )
+   \nBetter dimentions:
+   A ${rate.A.dimNonCrit + rate.A.dimCrit} ( crit: ${rate.A.dimCrit} other: ${
+      rate.A.dimNonCrit
+    } )
+   B ${rate.B.dimNonCrit + rate.B.dimCrit} ( crit: ${rate.B.dimCrit} other: ${
+      rate.B.dimNonCrit
+    } )`;
+
+    return { recom: anRecom, detales: detales };
   } catch (error) {
     console.log(error);
 
-    return "";
+    return { recom: "", detales: "" };
   }
 };

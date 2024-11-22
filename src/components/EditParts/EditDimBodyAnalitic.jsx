@@ -1,21 +1,27 @@
 import React, { useMemo } from "react";
 import { arrAB } from "../../constants/textParts";
-import { analisDim, compareResponses, recomDim } from "../../utils/analysis";
+import { recomDim } from "../../utils/analysis";
 
 const EditDimBodyAnalitic = ({ editParam }) => {
   const { item, fieldFn } = editParam;
-  const analisRes = useMemo(() => analisDim(item.Evals), [item]);
   const analisRecom = useMemo(() => recomDim(item.Evals), [item]);
-  // const analisRes1 = useMemo(
-  //   () => compareResponses({ respA: {}, respB: {} }),
-  //   [item]
-  // );
+  const dif = (field) =>
+    item.Evals[field.a] > item.Evals[field.b]
+      ? "A"
+      : item.Evals[field.a] < item.Evals[field.b]
+      ? "B"
+      : "Same";
+  const difCl = (field) => {
+    const res = Math.abs(item.Evals[field.a] - item.Evals[field.b]);
+    return res === 0 ? "an-sum" : "an-sum bord_rate" + res;
+  };
 
   return (
     <div className="w-100">
       <div className="respDim d-flex justify-content-center m-auto mt-4 w-100">
         {arrAB.map((field, i) => (
           <div className="rate-hor-wrap" key={i}>
+            <div className={difCl(field)}>{dif(field)}</div>
             {[5, 4, 3, 2, 1].map((el) => (
               <>
                 <div className="hor-pair" key={el}>
@@ -47,12 +53,12 @@ const EditDimBodyAnalitic = ({ editParam }) => {
               <div>A</div>
               <div>B</div>
             </div>
-            <p>{field.name}</p>
+            <p>{field.name}</p>{" "}
           </div>
         ))}
-        <div className="rate-hor-wrap an-res">{analisRes}</div>
+        <div className="rate-hor-wrap an-res">{analisRecom.detales}</div>
       </div>{" "}
-      {analisRecom}
+      {analisRecom.recom}
     </div>
   );
 };
