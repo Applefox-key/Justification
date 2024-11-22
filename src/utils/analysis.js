@@ -531,7 +531,7 @@ export const recomDim = (evals) => {
             anRecom = `5 Better: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
         //winners a and b
         else {
-          anRecom = `6 Slightly Better: Response ${rate.winCrit} outperforms in 2 important criteria while a response better in 1.`;
+          anRecom = `6 Slightly Better: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non inportant`;
         }
       else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
         if (
