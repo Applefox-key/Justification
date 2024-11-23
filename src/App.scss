@@ -3260,15 +3260,10 @@ button.hintBtn {
   text-align: center;
   width: fit-content;
   font-weight: 700;
-  // border: 2px solid transparent;
-  // border-bottom: none;
   position: relative;
 }
 
 .bord_rate1 {
-
-
-
   &::after {
     position: absolute;
     content: "";
@@ -3277,8 +3272,8 @@ button.hintBtn {
     border-radius: 50%;
     background-color: forestgreen;
   }
-
 }
+
 
 .bord_rate2 {
   // border-color: rgb(255, 234, 0);
@@ -3317,10 +3312,13 @@ button.hintBtn {
   }
 }
 
-// .bord_rate1 {
-//   border-width: 3px;
-//   border-color: forestgreen;
-// }
+.bord_rateA::after {
+  background-color: #65a4b1;
+}
+
+.bord_rateB::after {
+  background-color: #4bff79;
+}
 
 #show-body-dim {
   position: absolute;
@@ -3328,7 +3326,7 @@ button.hintBtn {
   max-width: 90px;
   min-width: unset;
   left: 45.5%;
-  background: #e2e2e2;
+  background: var(--menu); // #e2e2e2;
   z-index: 5;
   /* left: calc((100vw - 100%) / 2); */
   padding-top: 9px;
@@ -3640,6 +3638,7 @@ button.hintBtn {
   // background-color: red;
   // display: flex;
   font-size: 12px;
+
   align-items: center;
   justify-content: flex-end; // border: 1px solid rgb(37 126 144);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -3650,6 +3649,7 @@ button.hintBtn {
   width: 90px;
   gap: 10px;
   padding: 5px 5px;
+  color: var(--main-color);
 
   p {
     margin: 0;
@@ -3661,6 +3661,7 @@ button.hintBtn {
     // d-flex justify-content-between m-0
     display: flex;
     justify-content: space-between;
+    opacity: 0.5;
 
     div {
       background-color: rgb(49, 159, 181);
@@ -3677,8 +3678,9 @@ button.hintBtn {
 
   .hor-pair {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     opacity: 0.7;
+    align-items: center;
 
     div {
       font-size: inherit;
@@ -3736,6 +3738,7 @@ button.hintBtn {
   text-align: end;
   white-space: pre-line;
   width: fit-content;
+  opacity: 0.5;
 }
 
 // d-flex justify-content-center m-auto mt-4 w-100
