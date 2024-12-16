@@ -118,6 +118,7 @@ export const defaultDim = {
     Tone_B: 0,
     Rate: 0,
   },
+  review: "",
 };
 export const defaultDimN = {
   Instructions_A: { text: "", eval: 0 },

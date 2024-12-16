@@ -70,7 +70,7 @@ const EditDimBox = ({ setEdit, savefn, el }) => {
                 </Button>
               </div>
             </div>
-            <div className="txt-box ">
+            <div className="txt-box pb-5">
               {isСheckerMode ? (
                 <TextChecker close={() => setIsCheckerMode(!isСheckerMode)} />
               ) : (

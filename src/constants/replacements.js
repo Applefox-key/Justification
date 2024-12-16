@@ -387,7 +387,7 @@ export const autoreplaceNum = [
 ];
 export const autoreplaceGrammar = [
   {
-    oldT: ["robotic"],
+    oldT: ["robo"],
     newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
     caseSensitive: false,
     show: true,
@@ -496,6 +496,55 @@ export const autoreplaceGrammar = [
   },
 ];
 export const hotReplaceRewiew = [
+  {
+    oldT: ["lower"],
+    newT: `The score for _ has been reduced, the justification has been supplemented.`,
+    caseSensitive: false,
+    show: true,
+    title: "lower",
+  },
+  {
+    oldT: ["dimi"],
+    newT: `Instruction Following`,
+    caseSensitive: false,
+    show: true,
+    title: "IF",
+  },
+  {
+    oldT: ["dimf"],
+    newT: `Factuality`,
+    caseSensitive: false,
+    show: true,
+    title: "F",
+  },
+  {
+    oldT: ["diml"],
+    newT: `Language fluency`,
+    caseSensitive: false,
+    show: true,
+    title: "LF",
+  },
+  {
+    oldT: ["dimc"],
+    newT: `Coherence`,
+    caseSensitive: false,
+    show: true,
+    title: "C",
+  },
+  {
+    oldT: ["dimp"],
+    newT: `Presentation`,
+    caseSensitive: false,
+    show: true,
+    title: "P",
+  },
+  {
+    oldT: ["dimt"],
+    newT: `Tone`,
+    caseSensitive: false,
+    show: true,
+    title: "T",
+  },
   {
     oldT: ["disagree"],
     newT: `I disagree with the choice of the best answer.`,

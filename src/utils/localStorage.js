@@ -13,6 +13,10 @@ export const saveToHistory = (el) => {
   let val = fromLS("History");
   toLS("History", val === null ? [el] : [...val, el]);
 };
+export const saveArrToHistory = (elArr) => {
+  let val = fromLS("History");
+  toLS("History", val === null ? [...elArr] : [...val, ...elArr]);
+};
 export const getHistory = () => {
   let val = fromLS("History");
   const his = {

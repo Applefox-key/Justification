@@ -477,17 +477,21 @@ export const recomDim = (evals) => {
     };
     criteria.forEach((criterion, i) => {
       const dif = evals[`${criterion}_A`] - evals[`${criterion}_B`];
-      rate.A[`score${i < 3 ? "Crit" : "NonCrit"}`] += evals[`${criterion}_A`];
-      rate.B[`score${i < 3 ? "Crit" : "NonCrit"}`] += evals[`${criterion}_B`];
+      rate.A[`score${i < 2 || i === 3 ? "Crit" : "NonCrit"}`] +=
+        evals[`${criterion}_A`];
+      rate.B[`score${i < 2 || i === 3 ? "Crit" : "NonCrit"}`] +=
+        evals[`${criterion}_B`];
 
       if (dif !== 0) {
         const win = dif > 0 ? "A" : "B";
 
-        rate[win][i < 3 ? "dimCrit" : "dimNonCrit"] += 1;
+        rate[win][i < 2 || i === 3 ? "dimCrit" : "dimNonCrit"] += 1;
       }
     });
     rate.A.avScore = ((rate.A.scoreCrit + rate.A.scoreNonCrit) / 6).toFixed(2);
     rate.B.avScore = ((rate.B.scoreCrit + rate.B.scoreNonCrit) / 6).toFixed(2);
+    rate.A.avScoreCr = (rate.A.scoreCrit / 3).toFixed(2);
+    rate.B.avScoreCr = (rate.B.scoreCrit / 3).toFixed(2);
     rate.winCrit =
       rate.A.dimCrit === rate.B.dimCrit
         ? null
@@ -521,7 +525,10 @@ export const recomDim = (evals) => {
       if (rate.difCrit === 1)
         if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null)
           if (rate.difCrit + rate.difNonCrit < 3)
-            anRecom = `3 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+            if (Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1)
+              anRecom = `3_1 Better: Response ${rate.winCrit} significantly outperforms in 1 important criteria.`;
+            else
+              anRecom = `3 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
           else if (
             parseFloat(rate[rate.winCrit].avScore) === 5 &&
             parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
@@ -533,6 +540,17 @@ export const recomDim = (evals) => {
         else {
           anRecom = `6 Slightly Better: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important`;
         }
+      else if (
+        (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) &&
+        rate.difCrit === 2 &&
+        Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1
+      )
+        anRecom = `3_0 Better: Response ${rate.winCrit} significantly outperforms in 2 important criteria.`;
+      else if (
+        rate.difCrit + rate.difNonCrit <= 2 &&
+        Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) < 1
+      )
+        anRecom = `3_2 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
       else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
         if (
           parseFloat(rate[rate.winCrit].avScore) === 5 &&
@@ -562,7 +580,6 @@ export const recomDim = (evals) => {
     const avNonCritA = (rate.A.scoreNonCrit / 3).toFixed(2);
     const avCritB = (rate.B.scoreCrit / 3).toFixed(2);
     const avNonCritB = (rate.B.scoreNonCrit / 3).toFixed(2);
-
     const detales = `Total scores: \nA ${
       rate.A.scoreNonCrit + rate.A.scoreCrit
     } ( crit: ${rate.A.scoreCrit} other: ${rate.A.scoreNonCrit} )

@@ -129,7 +129,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     clear();
     if (!!actionFn) actionFn(val);
   };
-  const handleRate = (val) => {
+  const handleRate = (e, val) => {
     let v = best.num === val.num ? -1 : val.num;
     setBest(
       v === -1

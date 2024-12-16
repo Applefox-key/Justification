@@ -11,7 +11,7 @@ const RateHot = ({ callback, setIsOpen, isOpen }) => {
         EVAL
       </button>
       {isOpen === "EVAL" && (
-        <RateBoxes callback={(val) => callback(val.title)} />
+        <RateBoxes callback={(e, val) => callback(e, val.title)} />
       )}
     </div>
   );

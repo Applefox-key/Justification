@@ -9,7 +9,9 @@ const DownloadHisBtn = ({ list, setCurrBtn }) => {
       window.alert("there is nothing for loading");
       return;
     }
-    const content = list.map((el) => el.en).join("\n\n");
+    const content = list
+      .map((el) => (el.ru === "DIM" ? "DIM-" : "") + el.en)
+      .join("\n\n");
 
     const data = new Blob([content], { type: "text/plain" });
     if (textFile !== null) {
@@ -30,6 +32,7 @@ const DownloadHisBtn = ({ list, setCurrBtn }) => {
           🡇 Download
         </a>
       )}
+
       <Button
         className="sheetsXls-item z0"
         size="lg"

@@ -4,7 +4,7 @@ import Justification from "./Comment/Justification";
 import FilesList from "./MenuSheets/FilesList";
 import { firstBack, getHistory } from "../utils/localStorage";
 import Responses from "./Rate/Responses";
-import FileChooseBtn from "./UI/FileChooseBtn";
+import FileChooseMenu from "./UI/FileChooseMenu";
 import ContentSide from "./MenuSheets/ContentSide";
 import ThemeBox from "./ImgBack/ThemeBox";
 import Popup from "./UI/Popup";
@@ -53,7 +53,7 @@ const MainPage = () => {
             currBtn={currBtn}
             setCurrBtn={setCurrBtn}
           />
-          <FileChooseBtn defaultState={defaultState} />
+          <FileChooseMenu defaultState={defaultState} />
         </div>
       </div>
       <div className="page-body">

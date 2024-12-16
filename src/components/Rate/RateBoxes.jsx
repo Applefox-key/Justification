@@ -22,7 +22,7 @@ const RateBoxes = ({ callback, choosed = -1, action = "RAB" }) => {
         {labelsFullVerdict.map((el, i) => (
           <div
             key={i}
-            onClick={() => callback({ title: rateStr(i), num: i })}
+            onClick={(e) => callback(e, { title: rateStr(i), num: i })}
             title={labelsFullVerdictEdit[i]}
             className={`rate rates${i + 1} ${i === choosed ? clN : ""}`}>
             {el[0]}

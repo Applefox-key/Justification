@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import ComposeRate from "./ComposeRate";
-import { FaCircleArrowUp } from "react-icons/fa6";
+import { FaCircleArrowDown } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
 import { arrAB } from "../../constants/textParts";
 import { recomDim } from "../../utils/analysis";
+import { BiSolidRightArrow } from "react-icons/bi";
 
 const EditAreaMenuBar = ({ editParam }) => {
   const {
@@ -12,12 +13,15 @@ const EditAreaMenuBar = ({ editParam }) => {
     setIsCheckerMode,
     item,
     action,
+    fieldId,
     setBest,
     setItem,
     best,
     clear,
+    show,
+    setShow,
   } = editParam;
-  const handleRate = (val) => {
+  const handleRate = (e, val) => {
     let v = best.num === val.num ? -1 : val.num;
     const rec = recomDim(item.Evals).recom;
     setBest(
@@ -40,10 +44,11 @@ const EditAreaMenuBar = ({ editParam }) => {
 
     setItem({ ...item, Justif: newArr.join(`\n`) });
   };
-  const composeRate = () => {
+  const composeRate = (r3targ = true) => {
     const rateStr = best.title;
-    let dimTxtA = "Because ";
-    let dimTxtB = "Because ";
+
+    let dimTxtA = "because ";
+    let dimTxtB = "because ";
     arrAB.forEach((elAb) => {
       const ea = item.Evals[elAb.a];
       const eb = item.Evals[elAb.b];
@@ -57,26 +62,42 @@ const EditAreaMenuBar = ({ editParam }) => {
         : best.num < 4
         ? dimTxtA
         : dimTxtB;
-    setItem({
-      ...item,
-      "Rate": `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
-    });
+    if (r3targ)
+      setItem({
+        ...item,
+        "Rate": `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
+      });
+    else
+      setItem({
+        ...item,
+        [fieldId]: `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
+      });
   };
 
   return (
     <div className="edit-parts-menu">
+      <span className="rec">Recommendation: {best.rec}</span>
       <div className="d-flex">
-        {" "}
         <Button
-          className="btn-back square-btn "
+          className="btn-back square-btn"
           onClick={composeRate}
           title=" small or big field for the reason">
-          <FaCircleArrowUp />
-        </Button>{" "}
+          <FaCircleArrowDown />
+        </Button>
         <RateBoxes action={action} choosed={best.num} callback={handleRate} />
-        <p>{best.rec}</p>
       </div>
       <div className="d-flex align-items-center">
+        {" "}
+        {/* <button id="btn-hide-rate-dim" onClick={() => setShow(!show)}>
+          Justification
+          <BiSolidRightArrow className={show ? "arr-up" : ""} />
+        </button> */}
+        {/* <div className="btn-hide-wrap"> */}
+        {/* </div> */}
+        <button onClick={() => composeRate(false)}>
+          rate to {fieldId ? fieldId : "active text field"}
+        </button>
+        <button onClick={(e) => clear(e, true)}> clear justif</button>{" "}
         <button onClick={clear}>clear all parts</button>{" "}
         <Button
           className=" m-0 me-2"
@@ -86,7 +107,17 @@ const EditAreaMenuBar = ({ editParam }) => {
           }}>
           Check text
         </Button>{" "}
-        <ComposeRate compose={compose} clear={clear} best={best} />{" "}
+        <button id="btn-hide-rate-dim" onClick={() => setShow(!show)}>
+          Justification
+          <BiSolidRightArrow className={show ? "arr-down" : ""} />
+        </button>
+        {/* <ComposeRate
+          compose={compose}
+          clear={clear}
+          best={best}
+          show={show}
+          setShow={setShow}
+        /> */}
       </div>
     </div>
   );

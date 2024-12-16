@@ -1,10 +1,11 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+
 import { TbCircleLetterAFilled, TbCircleLetterBFilled } from "react-icons/tb";
 
-const ComposeRate = ({ compose, clear, best }) => {
+const ComposeRate = ({ compose, clear, best, show, setShow }) => {
   return (
-    <div className="d-flex align-items-center">
+    <div className="composeRate">
       {(best.num === -1 || best.num === 4) && (
         <>
           <Button
@@ -13,7 +14,7 @@ const ComposeRate = ({ compose, clear, best }) => {
             title=" small or big field for the reason">
             <TbCircleLetterAFilled />
           </Button>
-          JUSTIFICATION
+          {/* JUSTIFICATION */}
           <Button
             className="btn-back square-btn"
             onClick={() => compose(2)}
@@ -26,16 +27,16 @@ const ComposeRate = ({ compose, clear, best }) => {
         <Button
           className="btn-back square-btn  btn-dim"
           onClick={() => compose(1)}
-          title=" small or big field for the reason">
-          JUSTIFICATION <TbCircleLetterAFilled />
+          title=" justification for Response A">
+          <TbCircleLetterAFilled />
         </Button>
       )}
       {best.num > 4 && (
         <Button
           className="btn-back square-btn  btn-dim"
           onClick={() => compose(2)}
-          title=" small or big field for the reason">
-          JUSTIFICATION <TbCircleLetterBFilled />
+          title=" justification for Response B">
+          <TbCircleLetterBFilled />
         </Button>
       )}
     </div>

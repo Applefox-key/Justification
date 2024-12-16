@@ -5,7 +5,7 @@ import {
   replacementsResponses,
   replacementsResponsesNum,
 } from "../constants/replacements";
-import { defaultDim } from "../constants/textParts";
+import { arrAB, defaultDim } from "../constants/textParts";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
@@ -542,4 +542,9 @@ export const countQuote = (str) => {
 export const checkPatternR = (text) => {
   const pattern = /^R1:.*R2:.*R3:.*R0:.*$/s;
   return !pattern.test(text);
+};
+
+export const getNameByAorB = (value) => {
+  const item = arrAB.find((obj) => obj.a === value || obj.b === value);
+  return item ? item.name : ""; // Возвращает поле name или null, если не найдено
 };

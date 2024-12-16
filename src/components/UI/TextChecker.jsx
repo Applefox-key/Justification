@@ -66,7 +66,6 @@ const TextChecker = ({ close }) => {
 
   return (
     <div className="w-100 h-100">
-      {" "}
       {errors.length > 0 ? (
         <>
           <span>{errors[0].matches}</span> <br />
@@ -78,6 +77,7 @@ const TextChecker = ({ close }) => {
             }}>
             Скопировать вердикт и вернуться к обоснованию
           </button>
+          <button onClick={close}>Вернуться к обоснованию</button>
         </>
       ) : (
         <>

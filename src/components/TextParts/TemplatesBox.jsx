@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { copyToClipboard } from "../../utils/utilStr";
 import { txtTemplatesGet, txtTemplatesSet } from "../../utils/localStorage";
-import FileChooseBtn from "../UI/FileChooseBtn";
+import FileChooseMenu from "../UI/FileChooseMenu";
 import { usePopup } from "../../hooks/usePopup";
 import TemplateItem from "./TemplateItem";
 
@@ -35,7 +35,7 @@ const TemplatesBox = ({ toJustif, edit }) => {
     <div className={"variants-wrap-txt" + (edit ? "-edit" : " h-fit ")}>
       <div className={"levels-txt" + (edit ? "-edit" : "") + " "}>
         <div className="input-file-text">
-          <FileChooseBtn defaultState={defaultState} onlyFirstSheet />
+          <FileChooseMenu defaultState={defaultState} onlyFirstSheet />
         </div>
         <div
           className={lev === null ? "level active" : "level"}

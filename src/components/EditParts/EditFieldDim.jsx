@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import { copyToClipboard, replaceEndings } from "../../utils/utilStr";
 import { replacementsEnding } from "../../constants/replacements";
-import RateVertical from "./RateVertical";
+import RateDimScale from "./RateDimScale";
 import { FaRegCopy } from "react-icons/fa";
 import { GoZoomIn, GoZoomOut } from "react-icons/go";
+import { AiOutlineClear } from "react-icons/ai";
+import { PiCopyleftDuotone } from "react-icons/pi";
 
 const EditFieldDim = ({
   autoFocus,
@@ -19,6 +21,7 @@ const EditFieldDim = ({
   isActive,
   classN,
   scale = null,
+  show = true,
 }) => {
   const ref = useRef(null);
   const refBox = useRef(null);
@@ -48,7 +51,9 @@ const EditFieldDim = ({
     }
   }, [fieldVal]);
   return (
-    <div className="field-box" ref={refBox}>
+    <div
+      className={"field-box" + (!show ? " field-close-" + scale || "" : "")}
+      ref={refBox}>
       {isTxt ? (
         <div
           className={"setIsTxt"}
@@ -59,50 +64,75 @@ const EditFieldDim = ({
         </div>
       ) : (
         <>
-          {fieldVal && (
+          {fieldVal && show && (
             <span
               className={"field-" + scale + (isActive ? " active-span" : "")}>
               {fieldName}
             </span>
           )}
           {scale === "left" && (
-            <RateVertical
+            <RateDimScale
+              horiz={!show}
               val={estim}
               setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
             />
           )}
-          <Form.Control
-            ref={ref}
-            as="textarea"
-            id={fieldName}
-            autoFocus={autoFocus}
-            className={"fieldDim " + (small ? "dimFieldSmall " : "") + classN}
-            onFocus={() => fieldFn.onFocus(ref)}
-            rows={1}
-            spellCheck
-            placeholder={placeholder}
-            value={fieldVal}
-            onKeyDown={fieldFn.onKeyDown}
-            onChange={handleChange}
-          />
+          {show ? (
+            <Form.Control
+              ref={ref}
+              as={small ? "input" : "textarea"}
+              id={fieldName}
+              autoFocus={autoFocus}
+              className={"fieldDim " + (small ? "dimFieldSmall " : "") + classN}
+              onFocus={() => fieldFn.onFocus(ref)}
+              rows={1}
+              spellCheck
+              placeholder={placeholder}
+              value={fieldVal}
+              onKeyDown={fieldFn.onKeyDown}
+              onChange={handleChange}
+            />
+          ) : (
+            <div className="field-val-close"> {fieldVal}</div>
+          )}
           {scale === "right" && (
-            <RateVertical
+            <RateDimScale
+              horiz={!show}
               val={estim}
               setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
             />
           )}
           {!small && (
             <>
-              <button
-                className={"square-btn btnPlus" + scale}
-                onClick={changeClass}>
-                <GoZoomIn />
-              </button>{" "}
-              <button
-                className={"square-btn btnCopyField" + scale}
-                onClick={(e) => copyToClipboard(fieldVal)}>
-                <FaRegCopy />
-              </button>
+              <div className={"textarea-btns-" + scale}>
+                <button
+                  // className={"square-btn btnPlus" + scale}
+                  className={"square-btn"}
+                  onClick={changeClass}>
+                  <GoZoomIn />
+                </button>{" "}
+                <button
+                  // className={"square-btn btnCopyField" + scale}
+                  className={"square-btn"}
+                  onClick={(e) => copyToClipboard(fieldVal)}>
+                  <FaRegCopy />
+                </button>
+                <button
+                  // className={"square-btn btnCopyField" + scale}
+                  className={"square-btn"}
+                  onClick={(e) => fieldFn.setNewVal("")}>
+                  <AiOutlineClear />
+                </button>{" "}
+                <button
+                  title="translate prompt for gpt"
+                  // className={"square-btn btnCopyField" + scale}
+                  className={"square-btn"}
+                  onClick={(e) =>
+                    copyToClipboard("translate to english: " + fieldVal)
+                  }>
+                  <PiCopyleftDuotone />
+                </button>
+              </div>{" "}
               <button className={" btnMin"} onClick={() => changeClass(false)}>
                 {/* <CiZoomOut /> */}
                 <GoZoomOut />
