@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   editTextActionRef,
   applyAction,
@@ -11,13 +11,12 @@ import { usePopup } from "../../hooks/usePopup";
 import { defaultDim } from "../../constants/textParts";
 import EditAreaHeader from "./EditAreaHeader";
 import EditAreaMenuBar from "./EditAreaMenuBar";
-import { Button } from "react-bootstrap";
 import { RiDragMoveFill } from "react-icons/ri";
 import EditDimJustif from "./EditDimJustif";
 import EditDimBody from "./EditDimBody";
 import { BiSolidRightArrow } from "react-icons/bi";
-import EditDimBodyAnalitic from "./EditDimBodyAnalitic";
 import EditAreaTask from "./EditAreaTask";
+import { recomDim } from "../../utils/analysis";
 
 const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -34,6 +33,10 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       ? textRef.current.id
       : "R3";
   }, [textRef]);
+  // useEffect(() => {
+  //   const rec = recomDim(item.Evals);
+  //   setBest({ ...best, rec: rec });
+  // }, [item]);
 
   const fieldFn = {
     onFocus: (ref) => {
@@ -63,7 +66,9 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       // if (val && !item[field]) newT = val === 5 ? "OK" : fieldName + " issues:";
       const newEst = { ...item.Evals, [field]: val };
       setItem({ ...item, Evals: newEst, ...{ [field]: newT } });
-      console.log(item);
+      const rec = recomDim(newEst);
+
+      if (rec.recom !== rec) setBest({ ...best, rec: rec.recom });
     },
     setNewVal: (val) => {
       const field = fieldId;

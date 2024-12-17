@@ -99,50 +99,30 @@ const BtnArchive = ({ txt, setTxt }) => {
           <TfiSave />
         </button>
         <div className="archive-box">
-          <button
-            onClick={replacelast}
-            style={{ color: "red", cursor: "pointer" }}>
-            replace last
-          </button>{" "}
+          <button onClick={replacelast}>replace last</button>{" "}
           <div className="archive-last" title="last 4 saves (turns)s">
-            <button
-              onClick={save4Items}
-              style={{ color: "red", cursor: "pointer" }}>
-              +4 turns
-            </button>{" "}
-            <button
-              onClick={getElementsByNamePattern}
-              style={{ color: "red", cursor: "pointer" }}>
-              get all taks review
+            <button onClick={save4Items}>+4 turns</button>{" "}
+            <button onClick={getElementsByNamePattern}>
+              get all turns review
             </button>
           </div>
-          <button
-            onClick={clearItems}
-            style={{ color: "red", cursor: "pointer" }}>
-            clear
-          </button>
+          <button onClick={clearItems}>clear</button>
           {items.map((oneF, i) => (
             <div className="one-item" key={i}>
-              <div className="d-flex justify-content-between">
+              {/* <div className="d-flex justify-content-between"> */}
+              <div className="d-flex">
                 <button onClick={() => replaceItems(oneF)} className="loadbtn ">
                   LOAD
-                </button>
-                <div className="d-flex">
-                  {oneF.name ? oneF.name : "save" + (items.length - i)}
-                </div>
-              </div>
-              <div className="save-cont">
-                {/* <div className="d-flex">
-                    <button onClick={() => replaceItems(oneF)} className="w-50">
-                      LOAD
-                    </button>
-                    <button onClick={() => clearItem(i)} className="w-50">
-                      DELETE
-                    </button>
-                  </div> */}
+                </button>{" "}
                 <button onClick={() => clearItem(i)} className="delbtn ">
                   DELETE
                 </button>
+              </div>
+              <div className="title">
+                {oneF.name ? oneF.name : "save" + (items.length - i)}
+              </div>
+              {/* </div> */}
+              <div className="save-cont">
                 {oneF.name && <span className="spanName">{oneF.name}</span>}
                 {oneF.Rate && <span>{oneF.Rate}</span>}
                 {/* {oneF.R0 && <span>{oneF.name}</span>}

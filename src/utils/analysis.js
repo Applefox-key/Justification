@@ -518,63 +518,63 @@ export const recomDim = (evals) => {
     let anRecom = "";
     if (rate.winCrit === null && rate.winNonCrit === null) {
       if (rate.winScore === null)
-        anRecom = `1 Equally Good: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
+        anRecom = `1 EQUALLY GOOD/BAD: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
       else
-        anRecom = `2 Slightly Better: Response ${rate.winScore} has higher average score.`;
+        anRecom = `2 SLIGHTLY BETTER: Response ${rate.winScore} has higher average score.`;
     } else if (rate.difCrit !== 0) {
       if (rate.difCrit === 1)
         if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null)
           if (rate.difCrit + rate.difNonCrit < 3)
             if (Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1)
-              anRecom = `3_1 Better: Response ${rate.winCrit} significantly outperforms in 1 important criteria.`;
+              anRecom = `3_1 BETTER: Response ${rate.winCrit} significantly outperforms in 1 important criteria.`;
             else
-              anRecom = `3 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+              anRecom = `3 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
           else if (
             parseFloat(rate[rate.winCrit].avScore) === 5 &&
             parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
           )
-            anRecom = `4 Much Better: Response ${rate.winCrit} significantly outperforms the other.`;
+            anRecom = `4 MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other.`;
           else
-            anRecom = `5 Better: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+            anRecom = `5 BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
         //winners a and b
         else {
-          anRecom = `6 Slightly Better: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important`;
+          anRecom = `6 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important`;
         }
       else if (
         (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) &&
         rate.difCrit === 2 &&
         Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1
       )
-        anRecom = `3_0 Better: Response ${rate.winCrit} significantly outperforms in 2 important criteria.`;
+        anRecom = `3_0 BETTER: Response ${rate.winCrit} significantly outperforms in 2 important criteria.`;
       else if (
         rate.difCrit + rate.difNonCrit <= 2 &&
         Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) < 1
       )
-        anRecom = `3_2 Slightly Better: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+        anRecom = `3_2 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
       else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
         if (
           parseFloat(rate[rate.winCrit].avScore) === 5 &&
           parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
         )
-          anRecom = `7 Much Better: Response ${rate.winCrit} significantly outperforms the other.`;
+          anRecom = `7 MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other.`;
         else
-          anRecom = `8 Better: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+          anRecom = `8 BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
       } //winners a and b
       //better non crit win 1 crit but lose 2 crit
       else if (
         rate.winNonCrit !== null &&
         rate[rate.winNonCrit]?.dimCrit !== 0
       ) {
-        anRecom = `9 Slightly Better: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria.`;
+        anRecom = `9 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria.`;
       }
       //better noncrit only non crit
       else
-        anRecom = `10 Better: Response ${rate.winCrit}  is stronger in most important criteria.`;
+        anRecom = `10 BETTER: Response ${rate.winCrit}  is stronger in most important criteria.`;
       ///crit dif is null
     } else if (rate.difNonCrit < 3)
-      anRecom = `11 Slightly Better: Response ${rate.winNonCrit} outperforms in 1–2 criteria.`;
+      anRecom = `11 SLIGHTLY BETTER: Response ${rate.winNonCrit} outperforms in 1–2 criteria.`;
     else
-      anRecom = `12 Better: Response ${rate.winNonCrit} outperforms in more than 2 criteria.`;
+      anRecom = `12 BETTER: Response ${rate.winNonCrit} outperforms in more than 2 criteria.`;
 
     const avCritA = (rate.A.scoreCrit / 3).toFixed(2);
     const avNonCritA = (rate.A.scoreNonCrit / 3).toFixed(2);

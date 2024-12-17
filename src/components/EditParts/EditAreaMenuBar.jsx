@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
-import ComposeRate from "./ComposeRate";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
 import { arrAB } from "../../constants/textParts";
@@ -21,9 +20,10 @@ const EditAreaMenuBar = ({ editParam }) => {
     show,
     setShow,
   } = editParam;
+
   const handleRate = (e, val) => {
     let v = best.num === val.num ? -1 : val.num;
-    const rec = recomDim(item.Evals).recom;
+    const rec = best.rec === "" ? recomDim(item.Evals).recom : best.rec;
     setBest(
       v === -1
         ? { num: -1, title: "", fields: [], rec: rec }
