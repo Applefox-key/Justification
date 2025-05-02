@@ -636,7 +636,7 @@ export const summariseRub = (item, i = null, ovr = false) => {
         const txt_n = window.location.hostname === "localhost" ? "#" : ".";
         result["score" + ind].just +=
           (isAdd === "start"
-            ? `Crit# ${numR + 1} (${
+            ? `Crit${txt_n} ${numR + 1} (${
                 item["score" + ind] === 1 ? "minor" : "major"
               } issue): `
             : "") + jtxt;

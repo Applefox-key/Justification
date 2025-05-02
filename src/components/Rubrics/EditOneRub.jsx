@@ -110,7 +110,12 @@ const EditOneRub = ({ editParam }) => {
         break;
     }
   };
-
+  const handleContextMenu = (e) => {
+    e.preventDefault(); // Блокировка контекстного меню
+    if (e.button === 2) {
+      btnsRubOnClick(e, "copy");
+    }
+  };
   return (
     <>
       <div className={!!show ? "wrap-rub one-rub" : "wrap-rub one-rub-close"}>
@@ -245,6 +250,7 @@ const EditOneRub = ({ editParam }) => {
             <div
               className="rub-text-closed"
               onClick={changeShowDiv}
+              onContextMenu={(e) => handleContextMenu(e)}
               onDoubleClick={(e) => btnsRubOnClick(e, "copy")}>
               {rubricName()}{" "}
             </div>
