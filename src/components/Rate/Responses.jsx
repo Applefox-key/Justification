@@ -73,12 +73,10 @@ const Responses = ({ compliteCrit, toJustif }) => {
   const evalOne = (field) => {
     const res = evaluate(field, [...respEval]);
     setOverallRate({ ...overallRate, [field]: res });
-    console.log(res);
   };
   const compareResp = () => {
     const res = compareResponses(overallRate);
     setVerdict(res);
-    console.log(res);
   };
 
   const evalAndCompare = () => {
@@ -87,8 +85,6 @@ const Responses = ({ compliteCrit, toJustif }) => {
 
     setOverallRate(resEv);
     setVerdict(resFin);
-    console.log(resEv);
-    console.log(resFin);
   };
 
   return (

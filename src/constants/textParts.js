@@ -86,6 +86,103 @@ export const mainTmp = `@Response is slightly much better than @Response /@Respo
 @Response 2
 Both`;
 
+export const defaultDimSets = {
+  set1: [
+    {
+      a: "Instructions_A",
+      b: "Instructions_B",
+      name: "Instruction following",
+      short: "IF",
+      better: "is better at following instructions",
+    },
+    {
+      a: "Factuality_A",
+      b: "Factuality_B",
+      name: "Factuality",
+      short: "F",
+      better: "is more accurate",
+    },
+    {
+      a: "Language_A",
+      b: "Language_B",
+      name: "Language fluency",
+      short: "LF",
+      better: "is better in fluency",
+    },
+    {
+      a: "Coherence_A",
+      b: "Coherence_B",
+      name: "Coherence",
+      short: "C",
+      better: "is more coherent",
+    },
+    {
+      a: "Presentation_A",
+      b: "Presentation_B",
+      name: "Presentation",
+      short: "P",
+      better: "has better presentation",
+    },
+    {
+      a: "Tone_A",
+      b: "Tone_B",
+      name: "Tone",
+      short: "T",
+      better: "has a more appropriate tone",
+    },
+  ],
+  set2: [
+    {
+      a: "Localization_A",
+      b: "Localization_B",
+      name: "Localization fluency",
+      short: "LC",
+      better: "is better in localization",
+    },
+    {
+      a: "Instructions_A",
+      b: "Instructions_B",
+      name: "Instruction following",
+      short: "IF",
+      better: "is better at following instructions",
+    },
+    {
+      a: "Truthfulness_A",
+      b: "Truthfulness_B",
+      name: "Truthfulness",
+      short: "TR",
+      better: "is more accurate",
+    },
+
+    {
+      a: "Length_A",
+      b: "Length_B",
+      name: "Response Length",
+      short: "RL",
+      better: `is more dainty/short/long/ has a long pleasantries that shift focus away from the answer`,
+    },
+    {
+      a: "Harmless_A",
+      b: "Harmless_B",
+      name: "Harmless",
+      short: "H",
+      better: "has no safety issue",
+    },
+    {
+      a: "Tone_A",
+      b: "Tone_B",
+      name: "Structure, Writing Style & Tone",
+      short: "WS",
+      better: `More organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting.`,
+    },
+  ],
+};
+export const defaultDimTempl = {
+  Rate: "",
+  Justif: "",
+  id: "",
+  name: "",
+};
 export const defaultDim = {
   Instructions_A: "",
   Factuality_A: "",
@@ -120,38 +217,96 @@ export const defaultDim = {
   },
   review: "",
 };
-export const defaultDimN = {
-  Instructions_A: { text: "", eval: 0 },
-  Factuality_A: { text: "", eval: 0 },
-  Coherence_A: { text: "", eval: 0 },
-  Language_A: { text: "", eval: 0 },
-  Presentation_A: { text: "", eval: 0 },
-  Tone_A: { text: "", eval: 0 },
-  Instructions_B: { text: "", eval: 0 },
-  Language_B: { text: "", eval: 0 },
-  Factuality_B: { text: "", eval: 0 },
-  Coherence_B: { text: "", eval: 0 },
-  Presentation_B: { text: "", eval: 0 },
-  Tone_B: { text: "", eval: 0 },
-  Rate: { text: "", eval: 0 },
-  Justif: { text: "", eval: 0 },
+export const defaultDmg = {
+  Instructions_A: "",
+  Factuality_A: "",
+  Coherence_A: "",
+  Language_A: "",
+  Presentation_A: "",
+  Tone_A: "",
+  Instructions_B: "",
+  Language_B: "",
+  Factuality_B: "",
+  Coherence_B: "",
+  Presentation_B: "",
+  Tone_B: "",
+  Rate: "",
+  Justif: "",
+  id: "",
+  name: "",
+  Evals: {
+    Instructions_A: 0,
+    Factuality_A: 0,
+    Coherence_A: 0,
+    Language_A: 0,
+    Presentation_A: 0,
+    Tone_A: 0,
+    Instructions_B: 0,
+    Language_B: 0,
+    Factuality_B: 0,
+    Coherence_B: 0,
+    Presentation_B: 0,
+    Tone_B: 0,
+    Rate: 0,
+  },
+  review: "",
 };
-export const defaultDimR = {
-  Instructions_A: 0,
-  Factuality_A: 0,
-  Coherence_A: 0,
-  Language_A: 0,
-  Presentation_A: 0,
-  Tone_A: 0,
-  Instructions_B: 0,
-  Language_B: 0,
-  Factuality_B: 0,
-  Coherence_B: 0,
-  Presentation_B: 0,
-  Tone_B: 0,
-  Rate: 0,
-  Justif: 0,
+export const defaultRubricator = {
+  rubric: "",
+  example: "",
+  exExample: false,
+  score1: -1,
+  score2: -1,
+  score3: -1,
+  score4: -1,
+  error1: "",
+  error2: "",
+  error3: "",
+  error4: "",
 };
+export const defaultRubJust = {
+  taskId: "",
+  rubricator: [],
+  links: [],
+  prompt: "",
+  eval1: "",
+  eval2: "",
+  eval3: "",
+  eval4: "",
+  stat1: "",
+  stat2: "",
+  stat3: "",
+  stat4: "",
+  justif1: "",
+  justif2: "",
+  justif3: "",
+  justif4: "",
+  link1: "",
+  link2: "",
+  link3: "",
+  link4: "",
+  overall1: "",
+  overall2: "",
+  overall3: "",
+  overall4: "",
+  justifSBS: "",
+};
+
+//   Instructions_A: 0,
+//   Factuality_A: 0,
+//   Coherence_A: 0,
+//   Language_A: 0,
+//   Presentation_A: 0,
+//   Tone_A: 0,
+//   Instructions_B: 0,
+//   Language_B: 0,
+//   Factuality_B: 0,
+//   Coherence_B: 0,
+//   Presentation_B: 0,
+//   Tone_B: 0,
+//   Rate: 0,
+//   Justif: 0,
+// };
 export const arrAB = [
   {
     a: "Instructions_A",
@@ -196,49 +351,25 @@ export const arrAB = [
     better: "has a more appropriate tone",
   },
 ];
-// export const defaultDim = {
-//   Instructions_A: "",
-//   Language_A: "",
-//   Factuality_A: "",
-//   Coherence_A: "",
-//   Presentation_A: "",
-//   Tone_A: "",
-//   Instructions_B: "",
-//   Language_B: "",
-//   Factuality_B: "",
-//   Coherence_B: "",
-//   Presentation_B: "",
-//   Tone_B: "",
-//   Rate: "",
-//   Justif: "",
-//   rates: {
-//     Instructions_A: 0,
-//     Language_A: 0,
-//     Factuality_A: 0,
-//     Coherence_A: 0,
-//     Presentation_A: 0,
-//     Tone_A: 0,
-//     Instructions_B: 0,
-//     Language_B: 0,
-//     Factuality_B: 0,
-//     Coherence_B: 0,
-//     Presentation_B: 0,
-//     Tone_B: "",
-//   },
-// };
-export const arrA = [
-  "Instructions_A",
-  "Factuality_A",
-  "Language_A",
-  "Coherence_A",
-  "Presentation_A",
-  "Tone_A",
-];
-export const arrB = [
-  "Instructions_B",
-  "Factuality_B",
-  "Language_B",
-  "Coherence_B",
-  "Presentation_B",
-  "Tone_B",
-];
+
+export const constructDefItem = (sn) => {
+  const setName = sn ? sn : "set2";
+  const defAB = defaultDimSets[setName].reduce((acc, { a, b }) => {
+    acc[a] = "";
+    acc[b] = "";
+    return acc;
+  }, {});
+  const defABE = defaultDimSets[setName].reduce((acc, { a, b }) => {
+    acc[a] = 0;
+    acc[b] = 0;
+    return acc;
+  }, {});
+
+  return { ...defaultDimTempl, ...defAB, Evals: { ...defABE }, setName: sn };
+};
+
+export const getNewOrParseDmg = (el = null) => {
+  const setN = (el ? el.setName : "") || "set1";
+  const defEl = constructDefItem(setN);
+  return el ? { ...defEl, ...JSON.parse(el) } : defEl;
+};

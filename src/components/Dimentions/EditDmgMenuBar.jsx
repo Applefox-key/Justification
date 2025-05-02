@@ -2,11 +2,11 @@ import React, { useCallback } from "react";
 import { Button } from "react-bootstrap";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
-import { arrAB } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/textParts";
 import { recomDim } from "../../utils/analysis";
 import { BiSolidRightArrow } from "react-icons/bi";
 
-const EditAreaMenuBar = ({ editParam }) => {
+const EditDmgMenuBar = ({ editParam }) => {
   const {
     toHist,
     setIsCheckerMode,
@@ -36,20 +36,20 @@ const EditAreaMenuBar = ({ editParam }) => {
     if (i > 3) result.push("R2");
     return result;
   }, []);
-  const compose = (r) => {
-    const arf = r === 1 ? "a" : "b";
-    const newArr = arrAB
-      .filter((it) => item[it[arf]] && item[it[arf]] !== "OK")
-      .map((el) => item[el[arf]]);
+  // const compose = (r) => {
+  //   const arf = r === 1 ? "a" : "b";
+  //   const newArr = defaultDimSets[editParam.item.setName]
+  //     .filter((it) => item[it[arf]] && item[it[arf]] !== "OK")
+  //     .map((el) => item[el[arf]]);
 
-    setItem({ ...item, Justif: newArr.join(`\n`) });
-  };
+  //   setItem({ ...item, Justif: newArr.join(`\n`) });
+  // };
   const composeRate = (r3targ = true) => {
     const rateStr = best.title;
 
     let dimTxtA = "because ";
     let dimTxtB = "because ";
-    arrAB.forEach((elAb) => {
+    defaultDimSets[editParam.item.setName].forEach((elAb) => {
       const ea = item.Evals[elAb.a];
       const eb = item.Evals[elAb.b];
       if (ea > eb) dimTxtA += "Response A " + elAb.better + "\n";
@@ -123,4 +123,4 @@ const EditAreaMenuBar = ({ editParam }) => {
   );
 };
 
-export default EditAreaMenuBar;
+export default EditDmgMenuBar;

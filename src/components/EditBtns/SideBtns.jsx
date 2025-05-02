@@ -11,6 +11,8 @@ import {
   RxLetterCaseUppercase,
 } from "react-icons/rx";
 
+import { GrBlockQuote } from "react-icons/gr";
+
 const SideBtns = ({ statesVal, textSelected, fieldId }) => {
   const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
   const capsSwitch = (action, isIgnore = false) => {
@@ -69,6 +71,20 @@ const SideBtns = ({ statesVal, textSelected, fieldId }) => {
             {`""`}
           </button>
           <button
+            title="add quotation to every line for selection"
+            onClick={() => capsSwitch("quotationL", true)}
+            // disabled={!textSelected}
+            className="square-btn ordinary">
+            {`""L`}
+          </button>{" "}
+          <button
+            title="add quotation to every line for selection"
+            onClick={() => capsSwitch("quotationLI", true)}
+            // disabled={!textSelected}
+            className="square-btn ordinary">
+            {`""LI`}
+          </button>{" "}
+          <button
             title="add staples for selection"
             onClick={() => capsSwitch("staples", true)}
             // disabled={!textSelected}
@@ -102,7 +118,14 @@ const SideBtns = ({ statesVal, textSelected, fieldId }) => {
             disabled={!textSelected}
             className="square-btn ordinary">
             <RxLetterCaseUppercase />
-          </button>{" "}
+          </button>
+          <button
+            title="to “” for selection"
+            onClick={() => capsSwitch("quotation3", true)}
+            disabled={!textSelected}
+            className="square-btn ordinary">
+            <GrBlockQuote />
+          </button>
           <button
             title="delete selection"
             className="square-btn ordinary"

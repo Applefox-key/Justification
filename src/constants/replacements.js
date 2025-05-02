@@ -1,17 +1,40 @@
+import {
+  replaceNum,
+  replaceNum2,
+  replaceWords,
+  replaceWordsInteractions,
+} from "../utils/utilStr";
+
 export const baseRespName = {
-  "INT": { R1: "Interaction 1", R2: "Interaction 1" },
-  "@R": { R1: "@Response 1", R2: "@Response 1" },
-  "RAB": { R1: "Response A", R2: "Response B" },
+  "INT": {
+    R1: "Interaction 1",
+    R2: "Interaction 1",
+    fn: replaceWordsInteractions,
+  },
+  "@R": { R1: "@Response 1", R2: "@Response 1", fn: replaceNum },
+  "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
+  "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
 };
 
 export const replacementsEnding = [
   [["resa", "res1", "respa", "куыф", "отв1", "респ1"], "Response A"],
-  [["ress"], "responses"],
+  [["ress", "рсаа"], "responses"],
+  [["rr", "ресс"], "response"],
   [["bres"], "Both responses"],
-  [["num"], "The response uses a numbered list unnecessarily."],
+  [["ilf"], "The response has a problem with language fluency"],
+  [["ipu"], "The response has a problem with punctuation"],
+  [["lf"], "language fluency"],
+  [["ozw"], "Otherwise,"],
+  [
+    ["o5", "о5", "h5", "щ5"],
+    "Otherwise, BotModel is fully consistent with the user's prompt. There are no issues.",
+  ],
+  [["numl"], "The response uses a numbered list unnecessarily."],
   [["куыи", "res2", "отв2", "resb", "респ2"], "Response B"],
-  [["tres", "куыз", "отве"], "the response"],
-  [["iss"], "issue"],
+  [["tres", "куыз", "отвв"], "the response"],
+  [["isss"], "issue"],
+  [["mji", "ьош"], "major issue"],
+  [["mni", "ьnш"], "major issue"],
   [["--"], "—"],
   [["tns"], `turn1\nturn2\nturn3\nturn4\n`],
   [["trn"], `turn`],
@@ -19,8 +42,8 @@ export const replacementsEnding = [
     ["dim", "вшь"],
     `Instruction Following\nLanguage fluency\nCoherence\nFactuality\nPresentation\nTone\n`,
   ],
-  [["exa", "прим"], "for example, "],
-  [["кк", "rr", "qq"], "«»"],
+  [["exx", "прр"], "for example, "],
+  [["кк", "йй", "qq"], "«»"],
   [
     ["refr"],
     `It is better to rephrase some fragments in the response since it sounds unnatural (" ").`,
@@ -483,6 +506,152 @@ export const autoreplaceGrammar = [
   {
     oldT: ["coloT"],
     newT: `No colon is needed after the title.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:",
+  },
+  {
+    oldT: ["coloTL"],
+    newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:123",
+  },
+];
+export const autoreplaceRub = [
+  {
+    oldT: ["robo"],
+    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+    caseSensitive: false,
+    show: true,
+    title: "robo",
+  },
+  {
+    oldT: ["eval5"],
+    newT: `BotModel is fully consistent with the user's prompt. There are no issues.`,
+    caseSensitive: false,
+    show: true,
+    title: "5",
+  },
+  {
+    oldT: ["lfi"],
+    newT: `BotModel has some language fluency issues.`,
+    caseSensitive: false,
+    show: true,
+    title: "LFi",
+  },
+  {
+    oldT: ["another"],
+    newT: `BotModel contains phrases written in another language (not Russian): " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "foreign",
+  },
+
+  {
+    oldT: ["unnatural"],
+    newT: `Some phrases in BotModel sound unnatural: ""().`,
+    caseSensitive: false,
+    show: true,
+    title: "unnat",
+  },
+  {
+    oldT: ["unnatp"],
+    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+    caseSensitive: false,
+    show: true,
+    title: "unnat-1",
+  },
+
+  {
+    oldT: ["gramer"],
+    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "gram err",
+  },
+  {
+    oldT: ["matching"],
+    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+    caseSensitive: false,
+    show: true,
+    title: "word matching",
+  },
+
+  {
+    oldT: ["punker"],
+    newT: `BotModel contains punctuation errors, for example .`,
+    caseSensitive: false,
+    show: true,
+    title: "punkt err",
+  },
+  {
+    oldT: ["orter"],
+    newT: `BotModel contains orthography errors, for example .`,
+    caseSensitive: false,
+    show: true,
+    title: "ort err",
+  },
+  {
+    oldT: ["punort"],
+    newT: `BotModel contains punctuation and orthography errors.`,
+    caseSensitive: false,
+    show: true,
+    title: "PO",
+  },
+  {
+    oldT: ["orter"],
+    newT: `BotModel contains orthography errors, for example .`,
+    caseSensitive: false,
+    show: true,
+    title: "ort err",
+  },
+  {
+    oldT: ["dash"],
+    newT: `BotModel uses a hyphen instead of a dash.`,
+    caseSensitive: false,
+    show: true,
+    title: "—",
+  },
+  {
+    oldT: ["quotes"],
+    newT: `BotModel uses quotation marks "" instead of «».`,
+    caseSensitive: false,
+    show: true,
+    title: "« »",
+  },
+  {
+    oldT: ["quotes2"],
+    newT: `BotModel uses quotation marks "" instead of «» and '' instead of "".`,
+    caseSensitive: false,
+    show: true,
+    title: `«»""`,
+  },
+  {
+    oldT: ["quotesDash"],
+    newT: `In BotModel the quotation marks "" instead of «», and the hyphen instead of a dash`,
+    caseSensitive: false,
+    show: true,
+    title: "« » —",
+  },
+  {
+    oldT: ["comma"],
+    newT: `The comma after " " is unnecessary`,
+    caseSensitive: false,
+    show: true,
+    title: "comma",
+  },
+
+  {
+    oldT: ["colo"],
+    newT: `BotModel uses uppercase after the colon (“…”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
+    caseSensitive: false,
+    show: true,
+    title: ":A",
+  },
+  {
+    oldT: ["coloT"],
+    newT: `BotModel uses colon after the titles. No colon is needed after the title by the rules of the Russian language.`,
     caseSensitive: false,
     show: true,
     title: "A:",
@@ -1006,6 +1175,27 @@ export const replacementsResponsesNum = [
     caseSensitive: false,
   },
 ];
+export const replacementsResponsesNum2 = [
+  { oldT: ["BotModela"], newT: "Response 1", caseSensitive: false },
+  { oldT: ["BotModelb"], newT: "Response 2", caseSensitive: false },
+  { oldT: ["BotModels"], newT: "Responses", caseSensitive: false },
+  { oldT: ["BotModel"], newT: "The response", caseSensitive: false },
+  {
+    oldT: ["the answer", "Botmodel"],
+    newT: "the response",
+    caseSensitive: false,
+  },
+  {
+    oldT: ["answers"],
+    newT: "responses",
+    caseSensitive: true,
+  },
+  {
+    oldT: ["Answers"],
+    newT: "Responses",
+    caseSensitive: true,
+  },
+];
 export const replacementsPunctuation = [
   {
     oldT: [" запятая"],
@@ -1014,8 +1204,26 @@ export const replacementsPunctuation = [
     show: true,
   },
   {
+    oldT: [" к1", " k1"],
+    newT: `"`,
+    caseSensitive: false,
+    show: true,
+  },
+  {
+    oldT: [" к2", " k2"],
+    newT: `"`,
+    caseSensitive: false,
+    show: true,
+  },
+  {
     oldT: [" точка"],
     newT: `.`,
+    caseSensitive: false,
+    show: true,
+  },
+  {
+    oldT: [" кавычка"],
+    newT: `"`,
     caseSensitive: false,
     show: true,
   },
@@ -1030,4 +1238,5 @@ export const hotbtnsArrDef = [
   { name: "ADVICE", btns: hotReplaceSuggestion },
   { name: "TEMPLATES", btns: hotReplaceTmp },
   { name: "REVIEW", btns: hotReplaceRewiew },
+  { name: "RUBRICS", btns: autoreplaceRub },
 ];

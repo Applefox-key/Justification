@@ -271,6 +271,8 @@ textarea.form-control::placeholder {
 
 }
 
+
+
 .just-menu {
 
   .btnsJust {
@@ -544,6 +546,7 @@ textarea.form-control::placeholder {
   margin: 5px;
 }
 
+.txt-box-rub,
 .txt-box {
   height: 75%;
 
@@ -561,9 +564,504 @@ textarea.form-control::placeholder {
     text-transform: uppercase;
   }
 
+  .unsetW {
+    position: relative;
+    top: 4px;
+  }
+
   .wrap-cp {
     position: relative;
     width: 0px;
+
+
+
+  }
+
+  .respRub {
+    max-width: 100%;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .rub-prompt {
+    // background: rgb(100, 181, 248);
+    background: #a7cbd3;
+    // color: white;
+    font-size: var(--vertical-font);
+
+
+
+    &::placeholder {
+
+      color: white;
+    }
+  }
+
+  .height-ta {
+    height: 150px;
+  }
+
+  .rubh {
+
+    border-left-style: dotted;
+    // border-bottom-style: solid;
+    // overflow-y: scroll;
+    max-height: 70vh;
+    max-height: 100%;
+    // padding-top: 20px;
+
+    .textarea-btns-null {
+      position: absolute;
+      left: -13px;
+      width: fit-content;
+    }
+
+    .hideBox {
+      display: none;
+    }
+  }
+
+
+  .rubsumh {
+    height: 10%;
+  }
+
+  .rubsumhfalse {
+    height: 75%;
+    height: -webkit-fill-available;
+
+  }
+
+  .rubsumhtrue {
+
+    height: 50%;
+  }
+
+  .wrap-rub {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: start;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+
+    .field-box {
+      justify-content: flex-start;
+      min-height: 45px;
+    }
+
+    textarea {
+      // width: 275px;
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--main-back);
+      color: var(--main-color);
+    }
+
+    .rub-open {
+      display: flex;
+
+      span {
+        position: absolute;
+        left: 52%;
+        top: -1px;
+        font-size: 9px;
+      }
+
+      textarea {
+        border-radius: 0;
+
+
+      }
+
+
+    }
+
+
+    .textarea.form-control {
+      max-height: fit-content;
+      // height: 3rem;
+    }
+
+    .rub-score-box-small {
+      background: var(--menu);
+
+
+      width: 100%;
+      // text-align: end;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      button {
+        font-size: 9px;
+      }
+
+      .hot .hot-menu {
+        flex-direction: column;
+        align-content: flex-end;
+        align-items: flex-end;
+      }
+
+      .rubName {
+        position: absolute;
+        left: 70px;
+        font-weight: 700;
+        cursor: copy;
+        // top: 35px;
+      }
+
+
+    }
+
+    .greyTop {
+      color: white;
+      background-color: rgb(37, 126, 144);
+
+      button svg {
+        color: white;
+      }
+    }
+
+    .rub-color-box {
+      width: max-content;
+      animation: pulse 2s ease-in-out 3s 2;
+
+      &::after {
+        content: "";
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.6s ease, visibility 0s 0.6s;
+        position: absolute;
+        top: -18px;
+        // bottom: -10px;
+        right: 0;
+        color: #6c757d;
+        z-index: 10;
+        background-color: var(--menu);
+        background: white;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      }
+
+      &:hover::after {
+
+        content: attr(datarub);
+        visibility: visible;
+
+        opacity: 1;
+        transition: opacity 0.6s ease;
+
+      }
+    }
+
+    .rubBtn {
+      width: 25px;
+      min-width: unset;
+      font-size: 9px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 3px;
+      color: var(--second-color);
+
+      &:hover {
+        border: 2px solid;
+      }
+
+      span {
+        position: absolute;
+        left: 0;
+      }
+
+      svg {
+        font-size: 15px;
+      }
+    }
+
+
+
+
+    // }
+
+    .rub-resp-box {
+      display: flex;
+      // width: 50%;
+
+      button {
+
+        min-width: unset;
+      }
+
+      .rub-score-box {
+        position: relative;
+        width: 25%;
+      }
+
+      .rub2 {
+        width: 50%;
+      }
+
+
+      .rubBtnScore {
+        // width: 100%;
+        color: black;
+        width: fit-content;
+        min-width: unset;
+        position: absolute;
+        z-index: 5;
+        top: -8px;
+        left: -6px;
+        height: 11px;
+        line-height: 1;
+        font-size: 9px;
+
+      }
+
+
+
+      .hideBtn {
+        opacity: 0;
+      }
+
+
+      .field-box {
+        height: fit-content;
+
+        textarea.form-control {
+          // font-size: 12px;
+          font-size: var(--vertical-font);
+          border-width: 2px;
+          min-height: 4rem;
+          height: 100%;
+          flex: 1;
+          resize: none;
+          overflow: auto;
+
+          &:focus {
+            resize: vertical;
+          }
+
+        }
+      }
+
+
+    }
+
+    .rubB-1 {
+
+      background: linear-gradient(0deg, var(--menu) 0%, var(--menu) 100%);
+      background: linear-gradient(0deg, var(--line2) 0%, var(--line2) 100%);
+      color: black;
+      color: var(--main-color);
+
+      &::placeholder {
+        color: darkgreen;
+      }
+    }
+
+    .rubB0 {
+      background: linear-gradient(0deg, rgb(107 255 107) 0%, rgb(107 255 107) 100%);
+      background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62 141 62) 100%);
+      background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+      color: black;
+
+      &::placeholder {
+        color: darkgreen;
+      }
+    }
+
+
+    .rubB1 {
+      background: linear-gradient(0deg, yellow 0%, yellow 100%);
+      color: black;
+    }
+
+    .rubBtxt1 {
+      border: 1px solid yellow;
+
+    }
+
+    .rubBtxt2 {
+      border: 1px solid red;
+
+    }
+
+    .rubB2 {
+      background: linear-gradient(0deg, red 0%, red 100%);
+      color: black;
+    }
+
+    .nojust {
+
+      border-top: 3px solid orange;
+      border-bottom: 3px solid orange;
+    }
+  }
+
+  .sumTitle {
+
+    min-height: 38px;
+  }
+
+  .sumBtn {
+    position: absolute;
+    left: 0;
+  }
+
+  .check-b {
+    position: absolute;
+    top: -3px;
+
+    .form-check {
+      margin-top: 0;
+      margin-bottom: 0;
+      min-height: unset;
+      height: 20px;
+      text-align: left;
+
+    }
+
+    label {
+      font-size: 10px;
+    }
+  }
+
+
+
+  .rub-taskid {
+    font-size: 12px;
+    height: 100%;
+    width: 200px;
+    // margin-left: 10px;
+  }
+
+  .rub-sum-box {
+    width: 25%;
+    height: 100%;
+    position: relative;
+
+    .refBtn {
+      font-size: 16px;
+      // position: relative;
+      // left: 42px;
+      // top: -13px;
+      min-width: unset;
+      width: -webkit-fill-available;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0;
+
+    }
+
+
+
+    .textarea-btns-null {
+      position: absolute;
+      right: 10px;
+      opacity: 0.4;
+    }
+
+    .rub-span {
+      font-size: 9px;
+      position: absolute;
+      top: -16px;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 66%;
+
+      justify-content: flex-start;
+      background: var(--menu);
+      top: -39px;
+      background: transparent;
+      left: -7px;
+
+      .rub-eval {
+        // background-color: #6bff6b;
+        // background-color: #64b5f8;
+        background: #29c029;
+        border: 1px solid #800600;
+        border-radius: 50%;
+        color: black;
+        width: 20px;
+        // position: relative;
+        // left: -5px;
+        // top: -5px;
+        font-size: 12px;
+        font-weight: 700;
+        display: inline-block;
+
+        span {
+          display: none;
+          position: absolute;
+          width: 140px;
+          z-index: 6;
+        }
+
+        &:hover {
+          span {
+            display: block;
+
+          }
+        }
+      }
+
+      .rub-stat {
+        background-color: #6bff6b;
+        background-color: #64b5f8;
+        background: #a7cbd3;
+        color: black;
+        border-radius: 10px;
+        padding: 0 5px;
+        // position: relative;
+        // top: -5px;
+        font-size: 9px;
+        // left: -120px;
+      }
+    }
+
+    .rub-spanShow {
+      background-color: transparent;
+      top: -16px;
+      top: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .field-box {
+      height: 80%;
+    }
+
+    textarea.form-control {
+      height: 100%;
+      max-height: 100%;
+      width: 100%;
+      background-color: var(--main-back);
+      color: var(--main-color);
+      font-size: var(--vertical-font);
+      background: aliceblue;
+    }
+
+    .rublink.form-control {
+      height: 50px;
+      font-size: var(--vertical-font);
+    }
+
+    .rublink.form-control.plusTextArea {
+      height: 100%;
+
+    }
+
+
+
+
+  }
+
+  .rub2 {
+    width: 50%;
   }
 
   .dim-cp {
@@ -584,6 +1082,104 @@ textarea.form-control::placeholder {
 
     // justify-content: center;
 
+  }
+
+  .one-rub {
+    display: flex;
+    text-align: start;
+    position: relative;
+    align-items: flex-start;
+    font-size: 12px;
+    padding-bottom: 3px;
+    border: 5px solid transparent;
+    padding-bottom: 3px;
+    border-bottom: 2px dotted;
+    margin-bottom: 5px;
+    background: var(--menu);
+
+    &:hover {
+      // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+      // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      border: 5px solid #257e90;
+    }
+  }
+
+  .field-rub-close {
+    display: flex;
+    width: 100%;
+    // background: var(--main-back-unfocus);
+    margin-bottom: 2px;
+    font-size: 12px;
+    flex-direction: row-reverse;
+  }
+
+  .field-rub-open {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+
+  }
+
+  .active-rub-edit {
+    border: 15px solid #257e90;
+    border-top: 5px;
+    position: fixed;
+    top: 136px;
+    width: 97%;
+    left: 6px;
+    background: #257e90;
+    background: var(--menu);
+    ;
+    height: -webkit-fill-available;
+    max-height: 70%;
+    z-index: 10;
+    border-radius: 15px;
+
+    .rub-resp-box {
+      max-height: 100%;
+      height: 100%;
+      margin-top: 5px;
+
+      .field-box {
+        background: var(--menu);
+        max-height: 100%;
+        height: 100%;
+
+        textarea.form-control {
+          max-height: 100%;
+          height: 100%;
+
+        }
+
+      }
+    }
+
+    .rub-dsb {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+
+  .one-rub-close {
+    display: flex;
+    font-size: 12px;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+    &:hover {
+      background: var(--menu);
+      color: var(--main-color);
+      z-index: 5;
+      // transform: translateY(-5px);
+      // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    }
+  }
+
+  .rub-text-closed {
+    width: 80%;
+    font-size: var(--vertical-font);
   }
 
   .one-dim-close {
@@ -1204,7 +1800,8 @@ textarea.form-control::placeholder {
 }
 
 .editbox-wrap,
-.editbox-wrap-dim {
+.editbox-wrap-dim,
+.editbox-wrap-rub {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -1411,10 +2008,7 @@ textarea.form-control::placeholder {
       // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     }
 
-    .evals-span-isempty-false {
-      // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-      // background-color: transparent;
-    }
+
 
     .evals-span-b {
       background-color: #257e90;
@@ -1519,7 +2113,9 @@ textarea.form-control::placeholder {
 
 }
 
+.txt-box-rub,
 .editbox,
+.rubbox,
 .txt-box {
   width: var(--edit-width);
   max-height: var(--edit-max-height);
@@ -1552,13 +2148,21 @@ textarea.form-control::placeholder {
 
 }
 
-.editbox {
+.txt-box-rub {
+  width: 100%;
+  max-height: 100%;
+  height: 100%;
+}
+
+.editbox,
+.rubbox {
   align-items: flex-start;
   padding: 0;
   // padding: 0 var(--edit-AreaMax-padding);
   max-height: var(--edit-max-height);
   height: fit-content;
-  position: var(--box-position);
+  // position: var(--box-position);
+  position: absolute;
   top: var(--box-position-points);
   left: var(--box-position-points);
   right: var(--box-position-points);
@@ -1566,6 +2170,12 @@ textarea.form-control::placeholder {
   max-width: 97vw;
   border: 1px solid var(--line2);
   max-height: fit-content;
+}
+
+.rubbox {
+  max-height: 93vh;
+  height: var(--edit-max-height);
+  width: 90vw;
 }
 
 .btn-back,
@@ -1666,7 +2276,22 @@ textarea.form-control::placeholder {
   right: 0;
   padding: 0;
   padding-left: 10px;
-  width: 39px;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  background-color: transparent;
+
+  button,
+  .svgB {
+    max-width: 2rem;
+    width: 2rem;
+    height: 2rem;
+    min-width: unset;
+    background-color: var(--line2);
+    margin: 2px;
+  }
+
+
 }
 
 
@@ -1735,6 +2360,7 @@ textarea.form-control::placeholder {
 .btnToHis {
   height: fit-content;
   margin-bottom: 3px;
+  cursor: pointer;
 
   &:disabled {
     color: var(--color-accent);
@@ -1767,6 +2393,19 @@ textarea.form-control::placeholder {
   justify-content: flex-start;
   align-items: flex-start;
   // overflow-y: auto;
+  height: 95%;
+}
+
+.editarearub {
+  // w-100 d-flex h-80 justify-content-start align-items-start
+  width: 100%;
+  max-height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // overflow-y: auto;
+  height: 86%;
+  height: 95%;
 
 }
 
@@ -2173,12 +2812,12 @@ textarea.form-control::placeholder {
 
 .rates4,
 .rates6 {
-  font-size: 12px;
+  font-size: 9px;
 }
 
 .rates3,
 .rates7 {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .rates2,
@@ -2254,6 +2893,11 @@ textarea.form-control::placeholder {
 
 .highlight-black {
   color: rgb(0, 0, 0);
+  font-weight: 700;
+}
+
+.highlight-dash {
+  color: #198754;
   font-weight: 700;
 }
 
@@ -2524,7 +3168,7 @@ button.hintBtn {
 .message {
   position: absolute;
   top: 30px;
-  right: -10px;
+  right: 60px;
   transform: translate(-50%, -50%);
   padding: 10px;
   background-color: black;
@@ -2797,8 +3441,8 @@ button.hintBtn {
     padding-bottom: 5px;
     font-size: 20px;
     line-height: 0.2;
-    position: absolute;
-    right: 0;
+    // position: absolute;
+    // right: 0;
   }
 
 }
@@ -2814,6 +3458,7 @@ button.hintBtn {
   position: absolute;
   z-index: 1900;
   width: 330px;
+  // width: 430px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
   .handle1 {
@@ -2833,7 +3478,9 @@ button.hintBtn {
   }
 
   .handle1After {
-
+    color: #9fff48;
+    font-weight: 700;
+    text-transform: uppercase;
 
     &::after {
       left: 10px;
@@ -2852,6 +3499,7 @@ button.hintBtn {
     top: 34px;
     // background: red;
     height: 157px;
+    height: 147px;
     right: 0;
     border-radius: 0 0 15px 0;
     display: flex;
@@ -2874,14 +3522,16 @@ button.hintBtn {
 
     .textarea-box {
       .voice-btns-all {
-        flex-direction: column-reverse;
-        justify-content: space-between
+        // flex-direction: column-reverse;
+        flex-direction: column;
+        // justify-content: space-between
       }
 
       textarea {
         font-size: 16px;
         z-index: 1900;
         height: 150px;
+        height: 120px;
         max-height: 150px;
         width: 95%;
         // width: 250px;
@@ -3012,6 +3662,7 @@ button.hintBtn {
 .voice-mainBox {
   position: relative;
   width: 4rem;
+  height: 40px;
 
   .voice-wrap {
     position: absolute;
@@ -3173,6 +3824,14 @@ button.hintBtn {
   .setIsTxt {
     max-height: 180px;
   }
+
+  .textarea-btns-null {
+    position: absolute;
+    right: 20px;
+    opacity: 0.4;
+    // top
+  }
+
 }
 
 .edit-parts-menu {
@@ -3460,6 +4119,32 @@ button.hintBtn {
     transition: all 0.2s ease-in-out;
   }
 
+  .rub-link-edit {
+    position: absolute;
+    left: 215px;
+    z-index: 15;
+    background: #0221a0;
+    color: white;
+    border: 3px solid #a7cbd3;
+    border-radius: 15px;
+    padding: 3px;
+    text-align: end;
+
+    p {
+      max-width: 235px;
+      text-transform: uppercase;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+.fieldRub {
+  max-height: 150px;
+  transition: all 0.2s ease-in-out;
+
 }
 
 .win {
@@ -3554,7 +4239,7 @@ button.hintBtn {
   padding-top: 9px;
   padding-bottom: 0;
   width: 53px;
-
+  line-height: 1;
   margin: 0;
 
   svg {
@@ -3582,6 +4267,46 @@ button.hintBtn {
   background-color: var(--menu);
   position: relative;
   text-align: center;
+
+  svg {
+    transition: all 0.2s ease-in-out;
+  }
+
+}
+
+.rub-title {
+  text-align: end;
+  font-weight: 800;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  min-height: 30px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    transform: translateY(-1px);
+
+  }
+}
+
+
+.rub-bode-menu {
+  // position: absolute;
+  // left: 0;
+  // top: 0;
+  display: flex;
+  align-content: center;
+  align-items: center;
+
+  .rubBtn {
+    height: 22px;
+    line-height: 1;
+    width: 2rem;
+    min-width: 2rem;
+    margin: 0 5px;
+  }
 }
 
 #show-body-dim {
@@ -3593,6 +4318,7 @@ button.hintBtn {
   // left: calc((100% - 70px) / 2);
   height: 90%;
   padding: 0;
+  line-height: 0;
   left: unset;
   right: 0;
   max-width: unset;
@@ -4429,6 +5155,58 @@ button.hintBtn {
   }
 }
 
+.field-rub-plus {
+  position: fixed;
+  z-index: 800;
+  top: 50px;
+  top: 27px;
+  width: 100%;
+  height: 90% !important;
+  left: 0;
+  top: 100px;
+  width: 97%;
+
+  textarea.form-control {
+    border: 1px solid red;
+    font-size: var(--vertical-font);
+    // padding-top: 3rem;
+    position: absolute;
+    top: 30px;
+    max-height: 100% !important;
+    height: 95% !important;
+    width: 100%;
+  }
+
+  .rate-vert-wrap {
+    display: none;
+  }
+
+
+  .btnMin {
+    display: block;
+    top: 82px;
+    background: black;
+    color: white;
+    // display: block;
+    width: 100%;
+    left: -5px;
+    top: 0;
+    opacity: 1;
+  }
+
+  &:hover {
+
+    .btnCopyField,
+    .btnCopyFieldleft,
+    .btnCopyFieldright,
+    .btnPlus,
+    .btnPlusright,
+    .btnPlusleft {
+      display: none;
+    }
+  }
+}
+
 .field-close-,
 .field-close-left,
 .field-close-right {
@@ -4501,6 +5279,101 @@ button.hintBtn {
   }
 }
 
+.l-btn {
+  position: absolute;
+  left: 0;
+}
+
+.resp-links-wrap {
+  // position: absolute;
+  width: 300px;
+  height: 93%;
+  background-color: #0221a0;
+  color: white;
+  overflow: auto;
+  border-radius: 10px;
+  position: sticky;
+  top: 0;
+  background-color: #239aff;
+  color: #ffffff;
+
+  button {
+    margin: 1px;
+    width: 22px;
+    min-width: unset;
+    height: 20px;
+    font-size: 10px;
+
+    padding: 1 svg {
+      font-size: 10px;
+    }
+
+
+  }
+
+  .btnL {
+    cursor: copy;
+    transition: all .2s ease-in-out;
+    padding: 2px;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #2196f3;
+
+    }
+  }
+
+  .rub-link-edit {
+
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    background: white;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    z-index: 1000;
+
+
+
+
+  }
+
+
+  .rub-one-link {
+    // style={{ display: "flex", alignItems: "center", gap: "8px" }}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    transition: all .2s ease-in-out;
+
+    input {
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 7px;
+      height: 15px;
+      margin: 1px;
+    }
+
+    &:hover {
+      background-color: #2196f3;
+      cursor: pointer;
+    }
+  }
+
+  .rub-one-name {
+    display: flex;
+    width: 80%;
+    align-items: center;
+    width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
 
 .toast {
 
@@ -4528,7 +5401,57 @@ button.hintBtn {
   }
 }
 
+.setlist-btns {
+  display: flex;
+  position: relative;
+  z-index: 1800;
+  z-index: inherit;
 
+
+  span {
+    font-weight: 700;
+    border: 1px solid;
+    padding: 2px;
+    border-radius: 15px;
+  }
+
+  .sub-sets {
+    background-color: var(--menu);
+    opacity: 0;
+    display: flex;
+    font-size: 9px;
+    position: absolute;
+    top: 31px;
+    left: 0px;
+    width: fit-content;
+    max-width: 80vw;
+    display: flex;
+
+    // flex-direction: column;
+    transition: all 0.2s ease-in;
+    transition-delay: 0.5s;
+    z-index: 1500;
+    // top: -50px;
+    visibility: hidden;
+
+    button {
+      margin-right: 5px;
+      max-width: max-content;
+      font-size: 8px;
+    }
+  }
+
+  &:hover {
+    .sub-sets {
+      opacity: 1;
+      // top: 40px;
+      height: fit-content;
+      visibility: visible;
+      // transition: all 0s;
+      // transition-delay: 0s;
+    }
+  }
+}
 
 .format-btns {
   position: relative;
@@ -4547,11 +5470,12 @@ button.hintBtn {
     transition: all 0.2s ease-in;
     transition-delay: 0.5s;
     z-index: 1500;
-    // top: -50px;
     visibility: hidden;
 
     button {
-      margin: 0;
+      margin: 2px;
+      width: auto;
+      border: 3px solid;
     }
   }
 
@@ -4574,4 +5498,96 @@ button.hintBtn {
 .backBl {
   background: #257e90;
   color: white;
+}
+
+.h-90 {
+  height: 90%;
+
+}
+
+.h-88 {
+  height: 88%;
+  padding-top: 0;
+
+}
+
+.auto-over {
+  overflow: auto;
+}
+
+.maxh-50 {
+  max-height: 45%;
+  height: fit-content;
+  overflow: auto;
+}
+
+.maxh-90 {
+  max-height: 90%;
+  height: fit-content;
+  overflow: auto;
+  position: relative;
+}
+
+.h-0 {
+  height: 7%;
+  overflow: visible;
+}
+
+.num {
+  width: 20px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 50%;
+  height: 20px;
+  text-align: center;
+  background-color: var(--menu);
+  color: var(--main-color);
+}
+
+#justifSBS {
+  background-color: #a7cbd3;
+  color: white;
+  height: 4rem;
+  width: 100%;
+
+  &::placeholder {
+    color: white;
+  }
+}
+
+.box-hov {
+  transition: all 0.2s ease-in-out;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+  cursor: pointer;
+  color: black;
+
+  &:hover {
+    transform: translateY(1px);
+    width: 94%;
+    // background-color: var(--line2);
+
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+.fieldid-t {
+  position: absolute;
+  top: -30px;
+  left: 146px;
+  color: deeppink;
+}
+
+.relp {
+  position: relative;
+}
+
+.fixed-title {
+  position: fixed;
+}
+
+.sumcolor {
+  background: linear-gradient(0deg, #a7cbd3 0%, var(--line2) 100%);
+
 }

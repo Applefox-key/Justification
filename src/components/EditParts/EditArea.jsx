@@ -7,16 +7,15 @@ import {
 } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
-import TopBtns from "../Edit/TopBtns";
-import SideBtns from "../Edit/SideBtns";
+import TopBtns from "../EditBtns/TopBtns";
+import SideBtns from "../EditBtns/SideBtns";
 import EditField from "./EditField";
 import { saveToHistory } from "../../utils/localStorage";
 import RateBoxes from "../Rate/RateBoxes";
-import BtnArchive from "../Edit/BtnArchive";
+import BtnArchive from "../EditBtns/BtnArchive";
 import { baseRespName } from "../../constants/replacements";
 import { FaStar } from "react-icons/fa";
 import VoiceDragable from "../Voice/VoiceDragable";
-import { RiDragMoveFill } from "react-icons/ri";
 import { TbBoxAlignTop } from "react-icons/tb";
 import { usePopup } from "../../hooks/usePopup";
 
@@ -178,6 +177,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
             setIsTxt,
           }}
           onOK={onOK}
+          type=""
         />
         <BtnArchive txt={item} setTxt={setItem} />
         {isHotBtns && <HotBtns toJustif={pasteToText} />}
@@ -292,9 +292,6 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
             voiceToEdit(txt, item[fieldId], fieldFn.setNewVal, fieldId);
           }}
         />{" "}
-        <div className="handle hbottom">
-          <RiDragMoveFill />
-        </div>
       </div>
     </>
   );

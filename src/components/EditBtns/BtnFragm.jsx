@@ -32,7 +32,20 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
     });
     setHandleTxt(newString);
   };
+  const replaceFragmentsD = () => {
+    const countQ = countQuote(handleTxt);
+    if (countQ !== 2 * fragments.length) {
+      setPopup("the number of quotes does not match");
+      return;
+    }
 
+    let index = 0;
+    const newString = handleTxt.replace(/["«]([^"»]*)["»]/g, (match, expr) => {
+      return `"${fragments[index++].trim() || ""}" (${expr})`;
+    });
+
+    setHandleTxt(newString);
+  };
   return (
     <>
       <button
@@ -54,6 +67,26 @@ const BtnFragm = ({ handleTxt, setHandleTxt }) => {
           {fragments.map((oneF, i) => (
             <span>{oneF}</span>
           ))}
+        </div>
+      </div>
+
+      <div className="fragmBtn">
+        <button
+          className="square-btn "
+          disabled={!fragments.length}
+          title="paste fragments in quotation marks"
+          onClick={replaceFragmentsD}>
+          <BsChatQuote />
+        </button>
+        <div className="fragments-box">
+          {fragments.map(
+            (oneF, i) =>
+              oneF && (
+                <span>
+                  {oneF}({oneF})
+                </span>
+              )
+          )}
         </div>
       </div>
     </>

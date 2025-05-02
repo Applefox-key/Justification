@@ -12,6 +12,7 @@ const ContentSide = ({ currentBtn, toJustif, setCurrBtn, curSection }) => {
     curSection && curSection.hint
       ? curSection.hint.filter((item) => !!item.ru)
       : [];
+
   return (
     <div className="wrap-side">
       {!!curSection && !!curSection.levels && !!curSection.levels.length && (
@@ -53,9 +54,11 @@ const ContentSide = ({ currentBtn, toJustif, setCurrBtn, curSection }) => {
           {lev !== "hint" ? (
             <ContentSideItems
               itemsArr={
-                lev === null
-                  ? curSection.items
-                  : curSection.items.filter((el) => el.level === lev)
+                curSection
+                  ? lev === null
+                    ? curSection.items
+                    : curSection.items.filter((el) => el.level === lev)
+                  : []
               }
               toJustif={toJustif}
               setCurrBtn={setCurrBtn}

@@ -83,11 +83,12 @@ const BtnArchive = ({ txt, setTxt }) => {
     setItems([]);
   };
   const clearItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+    if (window.confirm("Delete save?")) {
+      const newItems = items.filter((_, i) => i !== index);
+      setItems(newItems);
+    }
   };
   const setPopup = usePopup();
-  console.log(items[0]?.Name);
 
   return (
     <>
@@ -121,7 +122,6 @@ const BtnArchive = ({ txt, setTxt }) => {
               <div className="title">
                 {oneF.name ? oneF.name : "save" + (items.length - i)}
               </div>
-              {/* </div> */}
               <div className="save-cont">
                 {oneF.name && <span className="spanName">{oneF.name}</span>}
                 {oneF.Rate && <span>{oneF.Rate}</span>}

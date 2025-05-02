@@ -1,29 +1,32 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   editTextActionRef,
   applyAction,
   getNameByAorB,
 } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
-import SideBtns from "../Edit/SideBtns";
+import SideBtns from "../EditBtns/SideBtns";
 import { saveToHistory } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
-import { defaultDim } from "../../constants/textParts";
-import EditAreaHeader from "./EditAreaHeader";
-import EditAreaMenuBar from "./EditAreaMenuBar";
-import { RiDragMoveFill } from "react-icons/ri";
-import EditDimJustif from "./EditDimJustif";
-import EditDimBody from "./EditDimBody";
+import { getNewOrParseDmg } from "../../constants/textParts";
+
 import { BiSolidRightArrow } from "react-icons/bi";
-import EditAreaTask from "./EditAreaTask";
+
 import { recomDim } from "../../utils/analysis";
 
-const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
+import EditDmgHeader from "./EditDmgHeader";
+import EditDmgBody from "./EditDmgBody";
+import EditDmgJustif from "./EditDmgJustif";
+import EditDmgMenuBar from "./EditDmgMenuBar";
+import EditDmgTask from "./EditDmgTask";
+
+const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
   const [best, setBest] = useState({ num: -1, title: "", fields: [], rec: "" });
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
+  const [isSetBtn, setIsSetBtn] = useState(false);
   const [textRef, setTextRef] = useState(null);
   const [show, setShow] = useState(false);
   const [showReview, setShowReview] = useState(false);
@@ -33,10 +36,6 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       ? textRef.current.id
       : "R3";
   }, [textRef]);
-  // useEffect(() => {
-  //   const rec = recomDim(item.Evals);
-  //   setBest({ ...best, rec: rec });
-  // }, [item]);
 
   const fieldFn = {
     onFocus: (ref) => {
@@ -49,7 +48,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     },
     setNewEstim: (val, field) => {
       let newT = item[field] || "";
-      let fieldName = getNameByAorB(field);
+      let fieldName = getNameByAorB(field, item.setName);
       newT = newT
         .replace(fieldName + " issues:", "")
         .replace(/^OK/, "")
@@ -113,20 +112,20 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   const clear = (e = null, notAllFields = false) => {
     toHist();
+    const defaultDmg = getNewOrParseDmg();
     const newV = notAllFields
       ? {
-          ...defaultDim,
+          ...defaultDmg,
           ...(item.id && { id: item.id }),
           ...(item.name && { name: item.name }),
         }
-      : defaultDim;
+      : defaultDmg;
     setItem(newV);
     setBest({ num: -1, title: "", fields: [] });
   };
   const onOK = (e) => {
     e.stopPropagation();
     const val = JSON.stringify(item);
-
     clear();
     if (!!actionFn) actionFn(val);
   };
@@ -138,12 +137,14 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   return (
     <>
-      <EditAreaHeader
+      <EditDmgHeader
         editParam={{
           isTemplates,
           setIsTemplates,
           isHotBtns,
           setIsHotBtns,
+          isSetBtn,
+          setIsSetBtn,
           action,
           item,
           fieldFn,
@@ -154,10 +155,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
           setItem,
           pasteToText,
         }}
-      />{" "}
-      <div className="handle hbottom-dim">
-        <RiDragMoveFill />
-      </div>
+      />
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
@@ -165,7 +163,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
           <div className="editParts-wrap">
-            <EditAreaTask
+            <EditDmgTask
               editParam={{
                 showReview,
                 setShowReview,
@@ -177,7 +175,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                 isTxt,
               }}
             />
-            <EditAreaMenuBar
+            <EditDmgMenuBar
               editParam={{
                 show,
                 setShow,
@@ -193,7 +191,7 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                 clear,
               }}
             />{" "}
-            <EditDimJustif
+            <EditDmgJustif
               editParam={{
                 show,
                 setShow,
@@ -207,18 +205,13 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
               }}
             />
             <div className="body-dim-line">
-              {/* Dimentions scores */}
               <button id="show-body-dim" onClick={() => setShowBody(!showBody)}>
                 Dimentions scores{" "}
                 <BiSolidRightArrow className={showBody ? "arr-down " : ""} />
               </button>
             </div>
-            {/* <button id="show-body-dim" onClick={() => setShowBody(!showBody)}>
-              <BiSolidRightArrow className={showBody ? "arr-down " : ""} />
-            </button> */}
             <div className={dimHeight()}>
-              {/* {showBody ? ( */}
-              <EditDimBody
+              <EditDmgBody
                 editParam={{
                   showBody,
                   setShowBody,
@@ -230,14 +223,6 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                   isTxt,
                 }}
               />
-              {/* ) : (
-                <EditDimBodyAnalitic
-                  editParam={{
-                    item,
-                    fieldFn,
-                  }}
-                />
-              )} */}
             </div>
           </div>
         </div>
@@ -252,16 +237,8 @@ const EditAreaDim = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
           textSelected={textSelected}
         />
       </div>
-      {/* <div className="d-flex mt-11 w-100">
-        <Button className="edit100 m-0" onClick={onOK}>
-          OK
-        </Button>{" "}
-        <div className="handle hbottom">
-          <RiDragMoveFill />
-        </div>
-      </div> */}
     </>
   );
 };
 
-export default EditAreaDim;
+export default EditAreaDmg;

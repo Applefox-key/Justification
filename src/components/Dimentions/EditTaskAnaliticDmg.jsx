@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { arrAB } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/textParts";
 import { recomDim } from "../../utils/analysis";
-import RateDimScale from "./RateDimScale";
+import RateDmgScale from "../EditParts/RateDimScale";
 
-const EditTaskAnalitic = ({ editParam }) => {
+const EditTaskAnaliticDmg = ({ editParam }) => {
   const { item, fieldFn } = editParam;
   const analisRecom = useMemo(() => recomDim(item.Evals), [item]);
   const dif = (field) => {
@@ -27,17 +27,17 @@ const EditTaskAnalitic = ({ editParam }) => {
   return (
     <div className="fs-8 ms-4">
       <div className="respDim d-flex justify-content-center m-auto w-100">
-        {arrAB.map((field, i) => (
+        {defaultDimSets[editParam.item.setName].map((field, i) => (
           <div className="rate-hor-wrap task-rate-width" key={i}>
             <span>{field.short}</span>
             <div className={difCl(field)}>{dif(field)}</div>
             <div className="field-box justify-content-center">
-              <RateDimScale
+              <RateDmgScale
                 setVal={(v) => fieldFn.setNewEstim(v, field.a)}
                 val={item.Evals[field.a]}
                 cl="rateA rateTask"
               />{" "}
-              <RateDimScale
+              <RateDmgScale
                 setVal={(v) => fieldFn.setNewEstim(v, field.b)}
                 val={item.Evals[field.b]}
                 cl="rateA rateTask"
@@ -55,4 +55,4 @@ const EditTaskAnalitic = ({ editParam }) => {
   );
 };
 
-export default EditTaskAnalitic;
+export default EditTaskAnaliticDmg;

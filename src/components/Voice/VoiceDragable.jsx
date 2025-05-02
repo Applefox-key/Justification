@@ -19,7 +19,7 @@ const VoiceDragable = ({ toJustif, nameF }) => {
           <div ref={ref} className={"voice-drag"}>
             <div className="voice-drag-box">
               <div className="handle1 handle1After">
-                {nameF}{" "}
+                {nameF}
                 <button
                   className="btn-back"
                   onClick={(e) => {

@@ -66,7 +66,7 @@ const MainPage = () => {
           />
         )}
         <div className="up-part">
-          <div className="page-part">
+          <div className={currBtn ? "page-part w-50" : "page-part"}>
             <Justification
               justification={justification}
               setJustification={setJustification}

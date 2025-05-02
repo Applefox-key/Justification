@@ -39,6 +39,15 @@ export const labelsFullVerdictEdit = [
   "@Response 2 is better than @Response 1.",
   "@Response 2 is much better than @Response 1.",
 ];
+export const labelsFullVerdictRub = [
+  "Response 1 is much better than Response 2.",
+  "Response 1 is better than Response 2.",
+  "Response 1 is slightly better than Response 2.",
+  "Response 1 and Response 2 are about the same quality.",
+  "Response 2 is slightly better than Response 1.",
+  "Response 2 is better than Response 1.",
+  "Response 2 is much better than Response 1.",
+];
 export const labelsVerdictEdit = [
   "@Response 1 is much better than @Response 2.",
   "@Response 1 is better than @Response 2.",
@@ -330,7 +339,6 @@ export const compareResponses = (evaluation) => {
 
   let result = analysisOverall(respA, respB);
   if (result !== null) return result;
-  console.log(result);
 
   result = analysisCriter(respA, respB);
 
@@ -345,7 +353,6 @@ export const compareResponses = (evaluation) => {
 };
 
 export const createJustifSheema = (respEval, verdict, toJustif) => {
-  console.log(respEval);
   //both[no min maj] a b
   const levParts = [
     " no issues with ",
@@ -400,7 +407,7 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
 
   let part = verdict.result;
   if (part) resArr.push(part + ".");
-  console.log(resArr);
+
   let justT = resArr.join("");
   if (justT && typeof justT === "string") toJustif({ en: justT });
 };
@@ -513,7 +520,6 @@ export const recomDim = (evals) => {
 
     rate.difCrit = Math.abs(rate.A.dimCrit - rate.B.dimCrit);
     rate.difNonCrit = Math.abs(rate.A.dimNonCrit - rate.B.dimNonCrit);
-    console.log(rate);
 
     let anRecom = "";
     if (rate.winCrit === null && rate.winNonCrit === null) {
@@ -599,8 +605,165 @@ export const recomDim = (evals) => {
 
     return { recom: anRecom, detales: detales };
   } catch (error) {
-    console.log(error);
-
     return { recom: "", detales: "" };
   }
+};
+
+//rubrics
+export const summariseRub = (item, i = null, ovr = false) => {
+  const countRub = item.rubricator.length;
+  const isAdd = "start";
+  const result = {
+    score1: { mn: 0, mj: 0, just: "", ovr: "" },
+    score2: { mn: 0, mj: 0, just: "", ovr: "" },
+    score3: { mn: 0, mj: 0, just: "", ovr: "" },
+    score4: { mn: 0, mj: 0, just: "", ovr: "" },
+  };
+
+  const oneSummary = (ind) => {
+    item.rubricator.forEach((item, numR) => {
+      if (item["score" + ind] !== 0) {
+        let j = item["error" + ind].trim();
+        if (!j.endsWith(".")) j += ".";
+        const jtxt = j.charAt(0).toUpperCase() + j.slice(1) + "\n\n";
+        if (ovr) {
+          result["score" + ind].ovr += jtxt;
+          return;
+        }
+
+        if (item["score" + ind] === 1) result["score" + ind].mn++;
+        else result["score" + ind].mj++;
+        const txt_n = window.location.hostname === "localhost" ? "#" : ".";
+        result["score" + ind].just +=
+          (isAdd === "start"
+            ? `Crit# ${numR + 1} (${
+                item["score" + ind] === 1 ? "minor" : "major"
+              } issue): `
+            : "") + jtxt;
+      }
+    });
+    if (ovr) {
+      newV["overall" + ind] = result["score" + ind].ovr;
+      return newV;
+    }
+    const mnp = Math.round((100 * result["score" + ind].mn) / countRub);
+    const mjp = Math.round((100 * result["score" + ind].mj) / countRub);
+    let est = 5;
+    if (mnp > 74 || mjp > 50) est = 1;
+    else if (mnp > 49 || mjp > 24) est = 2;
+    else if (mnp > 24 || mjp > 0) est = 3;
+    else if (mnp > 0) est = 4;
+
+    newV["eval" + ind] = est;
+    newV["stat" + ind] =
+      "MINOR- " + (mnp ? mnp : 0) + "% MAJOR- " + (mjp ? mjp : 0) + "%";
+    newV["justif" + ind] = result["score" + ind].just;
+  };
+  const newV = { ...item };
+  if (i !== null && i < 5) oneSummary(i);
+  else if (i === null)
+    [1, 2, 3, 4].forEach((ind) => {
+      oneSummary(ind);
+    });
+
+  return newV;
+};
+export const summariseRub1 = (item, i = null) => {
+  const countRub = item.rubricator.length;
+  const isAdd = "start";
+  const result = {
+    score1: { mn: 0, mj: 0, just: "" },
+    score2: { mn: 0, mj: 0, just: "" },
+    score3: { mn: 0, mj: 0, just: "" },
+    score4: { mn: 0, mj: 0, just: "" },
+  };
+  item.rubricator.forEach((item, numR) => {
+    [1, 2, 3, 4].forEach((ind) => {
+      if (item["score" + ind] === 1) {
+        result["score" + ind].mn++;
+        let j = item["error" + ind];
+        result["score" + ind].just +=
+          (isAdd === "start" ? ` Crit# ${numR + 1} (minor issue): ` : "") +
+          j.charAt(0).toUpperCase() +
+          j.slice(1).trimEnd() +
+          // (isAdd === "end" ? ` (a minor issue in crit# ${numR + 1})` : "") +
+          ". " +
+          "\n";
+      }
+      if (item["score" + ind] === 2) {
+        result["score" + ind].mj++;
+        let j = item["error" + ind];
+
+        result["score" + ind].just +=
+          (isAdd === "start" ? ` Crit# ${numR + 1} (major issue): ` : "") +
+          j.charAt(0).toUpperCase() +
+          j.slice(1).trimEnd() +
+          // (isAdd === "end" ? ` (a major issue in crit# ${numR + 1})` : "") +
+          ". " +
+          "\n";
+      }
+    });
+  });
+  const newV = { ...item };
+  [1, 2, 3, 4].forEach((ind) => {
+    const mnp = Math.round((100 * result["score" + ind].mn) / countRub);
+    const mjp = Math.round((100 * result["score" + ind].mj) / countRub);
+    let est = 5;
+    // =ЕСЛИ(ИЛИ(S27>74,U27>50),1,ЕСЛИ(ИЛИ(S27>49,U27>24),2,ЕСЛИ(ИЛИ(S27>24,U27>0),3,ЕСЛИ(S27>0,4,5))))
+    if (mnp > 74 || mjp > 50) est = 1;
+    else if (mnp > 49 || mjp > 24) est = 2;
+    else if (mnp > 24 || mjp > 0) est = 3;
+    else if (mnp > 0) est = 4;
+
+    newV["eval" + ind] = est;
+    newV["stat" + ind] =
+      "MINOR- " + (mnp ? mnp : 0) + "% MAJOR- " + (mjp ? mjp : 0) + "%";
+    newV["justif" + ind] = result["score" + ind].just;
+  });
+
+  // if (dub) {
+  //   newV.justif1 = newV.justif1
+  //     ? newV.justif1 + "\n" + newV.justif1
+  //     : "No issue.";
+  //   newV.justif2 = newV.justif2
+  //     ? newV.justif2 + "\n" + newV.justif2
+  //     : "No issue.";
+  //   newV.justif3 = newV.justif3
+  //     ? newV.justif3 + "\n" + newV.justif3
+  //     : "No issue.";
+  //   newV.justif4 = newV.justif4
+  //     ? newV.justif4 + "\n" + newV.justif4
+  //     : "No issue.";
+  // }
+  return newV;
+};
+export const getRubricName = (criteria, getTxt = false) => {
+  let name =
+    criteria.rubric.charAt(0).toUpperCase() +
+    criteria.rubric.slice(1).trimEnd();
+
+  if (!name.endsWith(".") && !criteria.exExample) name += ".";
+  if (!name.endsWith(",") && criteria.exExample) name += ",";
+  let exa = "";
+  if (criteria.example)
+    exa = criteria.exExample
+      ? " а именно: " + criteria.example.trimEnd()
+      : " Например: " + criteria.example.trimEnd();
+  else return getTxt ? name : <b>{name}</b>;
+  if (exa && !exa.endsWith(".")) exa += ".";
+
+  return getTxt ? (
+    name + exa
+  ) : (
+    <>
+      <b>{name}</b>
+      <i>{exa}</i>
+    </>
+  );
+};
+
+export const detectHeightRub = (isShown, isShowBoth, isMax = false) => {
+  if (!isShown) return " h-0";
+  if (isShowBoth) return isMax ? " maxh-50" : " h-50";
+  else return isMax ? "maxh-90" : "h-88 auto-over";
 };

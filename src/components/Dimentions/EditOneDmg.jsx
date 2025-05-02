@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import EditFieldDim from "./EditFieldDim";
+import EditFieldDmg from "./EditFieldDmg";
 
-const EditOneDim = ({ editParam }) => {
+const EditOneDmg = ({ editParam }) => {
   const { field, setIsTxt, fieldId, isTxt, item, fieldFn, showBody } =
     editParam;
   const [show, setShow] = useState(false);
@@ -12,8 +12,6 @@ const EditOneDim = ({ editParam }) => {
     "dimField " +
     (!show ? "right-closed" : fieldId === field.b ? "active-field" : "");
   const classBtn = (field) => {
-    console.log(field.a);
-    console.log(field.b);
     const a = item.Evals[field.a];
     const b = item.Evals[field.b];
     return !show && ((a >= 1 && a <= 4) || (b >= 1 && b <= 4))
@@ -28,7 +26,7 @@ const EditOneDim = ({ editParam }) => {
   return (
     <>
       <div className={show ? "one-dim" : "one-dim-close"}>
-        <EditFieldDim
+        <EditFieldDmg
           // key={i}
           show={show}
           fieldName={field.a}
@@ -48,7 +46,7 @@ const EditOneDim = ({ editParam }) => {
             {field.short}
           </button>
         </div>
-        <EditFieldDim
+        <EditFieldDmg
           scale="left"
           show={show} // key={i}
           fieldName={field.b}
@@ -66,4 +64,4 @@ const EditOneDim = ({ editParam }) => {
   );
 };
 
-export default EditOneDim;
+export default EditOneDmg;

@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import { copyToClipboard, replaceEndings } from "../../utils/utilStr";
 import { replacementsEnding } from "../../constants/replacements";
-import RateDimScale from "./RateDimScale";
+
 import { FaRegCopy } from "react-icons/fa";
 import { GoZoomIn, GoZoomOut } from "react-icons/go";
 import { AiOutlineClear } from "react-icons/ai";
 import { PiCopyleftDuotone } from "react-icons/pi";
+import RateDmgScale from "./RateDmgScale";
 
-const EditFieldDim = ({
+const EditFieldDmg = ({
   autoFocus,
   isTxt,
   setIsTxt,
@@ -38,7 +39,6 @@ const EditFieldDim = ({
   };
   const handleChange = (e) => {
     e.stopPropagation();
-
     const { curs, val } = replaceEndings(e, replacementsEnding);
     cursorPos.current = curs;
     fieldFn.setNewVal(val);
@@ -71,7 +71,7 @@ const EditFieldDim = ({
             </span>
           )}
           {scale === "left" && (
-            <RateDimScale
+            <RateDmgScale
               horiz={!show}
               val={estim}
               setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
@@ -96,7 +96,7 @@ const EditFieldDim = ({
             <div className="field-val-close"> {fieldVal}</div>
           )}
           {scale === "right" && (
-            <RateDimScale
+            <RateDmgScale
               horiz={!show}
               val={estim}
               setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
@@ -105,27 +105,21 @@ const EditFieldDim = ({
           {!small && (
             <>
               <div className={"textarea-btns-" + scale}>
-                <button
-                  // className={"square-btn btnPlus" + scale}
-                  className={"square-btn"}
-                  onClick={changeClass}>
+                <button className={"square-btn"} onClick={changeClass}>
                   <GoZoomIn />
                 </button>{" "}
                 <button
-                  // className={"square-btn btnCopyField" + scale}
                   className={"square-btn"}
                   onClick={(e) => copyToClipboard(fieldVal)}>
                   <FaRegCopy />
                 </button>
                 <button
-                  // className={"square-btn btnCopyField" + scale}
                   className={"square-btn"}
                   onClick={(e) => fieldFn.setNewVal("")}>
                   <AiOutlineClear />
                 </button>{" "}
                 <button
                   title="translate prompt for gpt"
-                  // className={"square-btn btnCopyField" + scale}
                   className={"square-btn"}
                   onClick={(e) =>
                     copyToClipboard("translate to english: " + fieldVal)
@@ -134,7 +128,6 @@ const EditFieldDim = ({
                 </button>
               </div>{" "}
               <button className={" btnMin"} onClick={() => changeClass(false)}>
-                {/* <CiZoomOut /> */}
                 <GoZoomOut />
                 EDIT {fieldName} BACK TO DIMENTIONS
               </button>
@@ -146,4 +139,4 @@ const EditFieldDim = ({
   );
 };
 
-export default EditFieldDim;
+export default EditFieldDmg;

@@ -1,10 +1,10 @@
 import React from "react";
-import EditFieldDim from "./EditFieldDim";
-import { arrAB } from "../../constants/textParts";
-import { BiSolidRightArrow } from "react-icons/bi";
-import ComposeRate from "./ComposeRate";
+import { defaultDimSets } from "../../constants/textParts";
 
-const EditDimJustif = ({ editParam }) => {
+import EditFieldDmg from "./EditFieldDmg";
+import ComposeRate from "../EditParts/ComposeRate";
+
+const EditDmgJustif = ({ editParam }) => {
   const {
     setIsTxt,
     best,
@@ -18,10 +18,9 @@ const EditDimJustif = ({ editParam }) => {
   } = editParam;
   const compose = (r) => {
     const arf = r === 1 ? "a" : "b";
-    const newArr = arrAB
+    const newArr = defaultDimSets[editParam.item.setName]
       .filter((it) => item[it[arf]] && item[it[arf]] !== "OK")
       .map((el) => item[el[arf]]);
-
     setItem({ ...item, Justif: newArr.join(`\n`) });
   };
   const getClassName = (field, resp = "a") => {
@@ -47,10 +46,9 @@ const EditDimJustif = ({ editParam }) => {
   };
   return (
     <div className={"respDim-footer " + (!show ? " closeBar" : "")}>
-      {" "}
       <>
         {show && (
-          <EditFieldDim
+          <EditFieldDmg
             scale=""
             key={"Rate"}
             fieldName={"Rate"}
@@ -70,7 +68,7 @@ const EditDimJustif = ({ editParam }) => {
           {show && (
             <div className="evals-dim">
               <div>
-                {arrAB.map((field, i) => (
+                {defaultDimSets[editParam.item.setName].map((field, i) => (
                   <span
                     title={
                       item.Evals[field.a] > item.Evals[field.b]
@@ -84,14 +82,14 @@ const EditDimJustif = ({ editParam }) => {
                 ))}
               </div>
               <div>
-                {arrAB.map((field, i) => (
+                {defaultDimSets[editParam.item.setName].map((field, i) => (
                   <span className="evals-span" key={i}>
                     {field.name[0]}
                   </span>
                 ))}
               </div>
               <div>
-                {arrAB.map((field, i) => (
+                {defaultDimSets[editParam.item.setName].map((field, i) => (
                   <span
                     title={
                       item.Evals[field.b] > item.Evals[field.a]
@@ -117,7 +115,7 @@ const EditDimJustif = ({ editParam }) => {
         </div>
 
         {show && (
-          <EditFieldDim
+          <EditFieldDmg
             scale=""
             key={"Justif"}
             fieldName={"Justif"}
@@ -138,4 +136,4 @@ const EditDimJustif = ({ editParam }) => {
   );
 };
 
-export default EditDimJustif;
+export default EditDmgJustif;

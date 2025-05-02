@@ -11,9 +11,17 @@ const TextChecker = ({ close }) => {
     if (!text) return;
     const doubleSpacesRegex = / {2,}/g;
     const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
-    const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
+    // const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
+    // const dashesRegex = /(\S.*?)\s+[-–]\s+(.*?\S)/g;
+    const dashesRegex = /(\S+)\s+[-–]\s+(\S+)/g;
     const foundErrors = [];
     let rextJust = "";
+    const cleanedText = text.replace(/[.,!?;:"()«»—]/g, ""); // Убираем знаки препинания, кроме дефисов
+
+    const wordCount = cleanedText
+      .split(/\s+/) // Разделяем по пробелам
+      .filter((word) => word.length > 0).length; // Убираем пустые строки
+
     // Проверка на двойные пробелы
     const doubleSpacesMatches = text.match(doubleSpacesRegex);
     if (doubleSpacesMatches) {
@@ -54,25 +62,34 @@ const TextChecker = ({ close }) => {
         matches: dashesMatches,
       });
     }
+
     if (foundErrors.length > 0) {
       foundErrors.unshift({
         type: "resultTxt",
-        matches: rextJust,
+        matches: rextJust ? rextJust : "",
       });
+    }
+    foundErrors.unshift({
+      type: "info",
+      matches: "word count: " + wordCount,
+    });
+    setErrors(foundErrors);
+    console.log(foundErrors.length < 1);
 
-      setErrors(foundErrors);
-    } else alert("ошибок нет");
+    if (foundErrors.length < 2) {
+      alert("ошибок нет");
+    }
   };
 
   return (
     <div className="w-100 h-100">
-      {errors.length > 0 ? (
+      {errors.length > 1 ? (
         <>
-          <span>{errors[0].matches}</span> <br />
+          <span>{errors[1].matches}</span> <br />
           <button onClick={() => setErrors([])}>Показать текст</button>
           <button
             onClick={(e) => {
-              copyToClipboard(errors[0].matches);
+              copyToClipboard(errors[1].matches);
               close();
             }}>
             Скопировать вердикт и вернуться к обоснованию
@@ -85,7 +102,7 @@ const TextChecker = ({ close }) => {
           <button onClick={close}>Вернуться к обоснованию</button>
         </>
       )}
-      {errors.length > 0 ? (
+      {errors.length > 1 ? (
         <div
           className={"setIsTxt-check"}
           onMouseDown={(e) => {
@@ -111,6 +128,7 @@ const TextChecker = ({ close }) => {
           />
         </div>
       )}
+      {errors.length > 0 && <span>{errors[0].matches}</span>} <br />
       <br />
     </div>
   );

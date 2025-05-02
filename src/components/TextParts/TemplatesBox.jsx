@@ -12,7 +12,6 @@ const TemplatesBox = ({ toJustif, edit }) => {
   const defaultState = (val) => {
     txtTemplatesSet(val, setArr);
   };
-  console.log(arr);
 
   const handleClick = (e, el) => {
     let b = e.button;

@@ -1,12 +1,16 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { replaceWords } from "../../utils/utilStr";
 import { TbHttpDelete } from "react-icons/tb";
 import VoiceBtns from "./VoiceBtns";
 import { stopV } from "../../utils/voice";
+import {
+  MdOutlineRadioButtonChecked,
+  MdOutlineRadioButtonUnchecked,
+} from "react-icons/md";
 
 const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
-  // const [handleTxt, setHandleTxt] = useState(str);
+  const [isRepl, setIsRepl] = useState(true);
   const textRef = useRef();
   // const handleChange = (e) => {
   //   e.stopPropagation();
@@ -20,7 +24,7 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
       stopBtn.current.style.display = "none";
     }
     let txt = textRef.current.value;
-    txt = replaceWords(txt);
+    if (isRepl) txt = replaceWords(txt);
     const val = { en: txt };
     if (!!actionFn) actionFn(val);
     textRef.current.value = "";
@@ -29,6 +33,14 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
   const startBtn = useRef(null);
   return (
     <div className={type}>
+      <div onClick={() => setIsRepl(!isRepl)} className="box-hov">
+        {isRepl ? (
+          <MdOutlineRadioButtonChecked />
+        ) : (
+          <MdOutlineRadioButtonUnchecked />
+        )}{" "}
+        format text when pasting
+      </div>
       <div className="textarea-box">
         <Form.Control
           as="textarea"
@@ -44,13 +56,18 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
           // onChange={handleChange}
         />
         <div className="voice-btns-all">
-          {!!actionFn && <Button onClick={onOK}>OK</Button>}
+          {" "}
+          <VoiceBtns
+            textRef={textRef}
+            stopBtn={stopBtn}
+            startBtn={startBtn}
+          />{" "}
           <Button
             onClick={() => (textRef.current.value = "")}
             className="delbtn">
             <TbHttpDelete />
           </Button>{" "}
-          <VoiceBtns textRef={textRef} stopBtn={stopBtn} startBtn={startBtn} />
+          {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "}
         </div>
       </div>
     </div>

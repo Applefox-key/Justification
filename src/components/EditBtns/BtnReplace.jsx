@@ -1,24 +1,23 @@
 import React from "react";
 
-import { replaceText } from "../../utils/utilStr";
+import {
+  replaceQuotes,
+  replaceQuotes3,
+  replaceText,
+} from "../../utils/utilStr";
+import { GrBlockQuote } from "react-icons/gr";
 
 const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
   const replace = (oldV, newV) => {
     const newVal = replaceText(fieldid, handleTxt, oldV, newV);
     setHandleTxt(newVal);
   };
-  const replaceQuotes = () => {
-    let isOpening = true;
-
-    const newVal = handleTxt.replace(/"/g, () => {
-      if (isOpening) {
-        isOpening = false;
-        return "«";
-      } else {
-        isOpening = true;
-        return "»";
-      }
-    });
+  const replaceQ = () => {
+    const newVal = replaceQuotes(handleTxt);
+    setHandleTxt(newVal);
+  };
+  const replaceQQ = () => {
+    const newVal = replaceQuotes3(handleTxt);
     setHandleTxt(newVal);
   };
   return (
@@ -34,8 +33,15 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
         className="square-btn intense btn-replace"
         title="replace quotes"
         disabled={!handleTxt}
-        onClick={replaceQuotes}>
+        onClick={replaceQ}>
         «»
+      </button>{" "}
+      <button
+        className="square-btn intense btn-replace"
+        title="replace quotes"
+        disabled={!handleTxt}
+        onClick={replaceQQ}>
+        <GrBlockQuote />
       </button>
     </>
   );

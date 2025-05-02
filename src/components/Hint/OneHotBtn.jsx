@@ -1,12 +1,16 @@
 import React from "react";
 
 const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
+  const onHandleCLick = (e) => {
+    e.stopPropagation();
+    setIsOpen(isOpen === oneBtn.name ? null : oneBtn.name);
+  };
   return (
     <div className="hot-menu">
       <button
         className="square-btn hotBtnGr intense"
         key={oneBtn.name}
-        onClick={() => setIsOpen(isOpen === oneBtn.name ? null : oneBtn.name)}>
+        onClick={onHandleCLick}>
         {oneBtn.name}
       </button>
 

@@ -1,11 +1,13 @@
 import {
+  baseRespName,
   replacementsGeneral,
   replacementsInteractions,
   replacementsPunctuation,
   replacementsResponses,
   replacementsResponsesNum,
+  replacementsResponsesNum2,
 } from "../constants/replacements";
-import { arrAB, defaultDim } from "../constants/textParts";
+import { defaultDim, defaultDimSets } from "../constants/textParts";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
@@ -34,7 +36,6 @@ export async function copyFromTextarea() {
   textarea.select();
   try {
     document.execCommand("copy");
-    console.log("Текст успешно скопирован в буфер обмена");
   } catch (err) {
     console.error("Не удалось скопировать текст: ", err);
   }
@@ -43,17 +44,17 @@ export async function copyFromTextarea() {
 export const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    console.log("Copied to clipboard:", text);
   } catch (err) {
     console.error("Failed to copy text: ", err);
   }
 };
+
 const sentencesCaps = (text) => {
   // Splitting the text into sentences
   let sentences = text.split(/([.!?]\s*)/);
   // We go through each sentence and make the first letter capital
   for (let i = 0; i < sentences.length; i++) {
-    if (sentences[i].length > 0) {
+    if (sentences[i].length > 1) {
       sentences[i] =
         sentences[i].charAt(0).toUpperCase() + sentences[i].slice(1);
     }
@@ -61,7 +62,24 @@ const sentencesCaps = (text) => {
   // Putting the sentences back into the text
   return sentences.join("");
 };
+export const replaceQuotes3 = (txt) => {
+  let isOpening = true;
+  let newVal = txt.replace(/"/g, () => {
+    if (isOpening) {
+      isOpening = false;
+      return "“";
+    } else {
+      isOpening = true;
+      return "”";
+    }
+  });
 
+  newVal = newVal.replace(/“\s+/g, "“");
+  newVal = newVal.replace(/“\s+/g, "”");
+  newVal = newVal.replace(/«/g, "“");
+  newVal = newVal.replace(/»/g, "”");
+  return newVal;
+};
 export const cleanAndCapitalize = (text) => {
   // text = text.replace(/\s+/g, " ").trim();
   text = text.trim();
@@ -70,13 +88,20 @@ export const cleanAndCapitalize = (text) => {
   text = text.replace(/\s\./g, ".");
   text = text.replace(/\s:/g, ":");
   text = text.replace(/\s,/g, ",");
+  text = text.replace(/\(\s+/g, "(");
+  text = text.replace(/\s+\)/g, ")");
   //  links
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-  let parts = text.split(/(\n+|https?:\/\/[^\s]+)/g);
+  let parts = text.split(/(\n+|https?:\/\/[^\s]+|[“”"«»][^“”"«»]*?[“”"«»])/g);
+
   // capitalise all exept links
-  parts = parts.map((part, index) => {
-    if (urlRegex.test(part) || part.startsWith("\n")) {
+  parts = parts.map((part) => {
+    if (
+      urlRegex.test(part) ||
+      part.startsWith("\n") ||
+      /^[“”"«»].*[“”"«»]$/.test(part)
+    ) {
       // a link or new line
       return part;
     } else {
@@ -130,6 +155,11 @@ export const replaceNum = (text, setText) => {
   text = replacegen(text);
 
   return replaceByArr(replacementsResponsesNum, text);
+};
+export const replaceNum2 = (text, setText) => {
+  text = replacegen(text);
+
+  return replaceByArr(replacementsResponsesNum2, text);
 };
 export const numIsteadLetter = (text, setText) => {
   text = replacegen(text);
@@ -222,7 +252,8 @@ export const highlightedText = (text, compliteCrit = []) => {
 };
 export const highlightedCheckedText = (text, compliteCrit = []) => {
   const regQ = [`"`];
-  const regD = [`-`, `–`];
+  const regD = [` - `, ` – `];
+
   const regS = [`  `];
 
   const regexPattern = new RegExp(
@@ -256,6 +287,16 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
     else if (regS.includes(part.toLowerCase()))
       return (
         <span className="highlight-yellow" key={index}>
+          {part}
+        </span>
+      );
+    else if (
+      part.toLowerCase().includes(`-`) ||
+      part.toLowerCase().includes(`–`) ||
+      part.toLowerCase().includes(`—`)
+    )
+      return (
+        <span className="highlight-dash" key={index}>
           {part}
         </span>
       );
@@ -317,6 +358,25 @@ export const voiceToEdit = (
     textarea.setSelectionRange(start, start + newVal.length);
   }, 0);
 };
+
+const quoteEachLine = (input) => {
+  return input
+    .split("\n") // Разбиваем на строки
+    .map((line) => `"${line}"`) // Оборачиваем каждую строку в кавычки
+    .join("\n"); // Собираем обратно в строку
+};
+const quoteEachLineI = (input) => {
+  const lines = input.split("\n").filter(Boolean); // убираем пустые строки
+  const result = [];
+
+  for (let i = 0; i < lines.length; i += 2) {
+    const first = lines[i]?.trim() || "";
+    const second = lines[i + 1]?.trim() || "";
+    result.push(`"${first}" instead of it is better to use "${second}";`);
+  }
+
+  return result.join("\n");
+};
 export const editTextAction = (
   fieldId,
   text,
@@ -340,7 +400,8 @@ export const editTextAction = (
     if (textarea !== null) textarea.setSelectionRange(start, start);
     return;
   }
-  const selectedText = text.slice(start, end);
+  const textF = text ? text : textarea.value;
+  const selectedText = textF.slice(start, end);
 
   let resultText = "";
 
@@ -356,9 +417,12 @@ export const editTextAction = (
     resultText = `"${selectedText}" instead of "${selectedText}"`;
   else if (action === "quotation") resultText = `"${selectedText}"`;
   else if (action === "quotation2") resultText = `«${selectedText}»`;
+  else if (action === "quotationL") resultText = quoteEachLine(selectedText);
+  else if (action === "quotationLI") resultText = quoteEachLineI(selectedText);
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
-  const newText = text.slice(0, start) + " " + resultText + text.slice(end);
+  else if (action === "quotation3") resultText = replaceQuotes3(selectedText);
+  const newText = textF.slice(0, start) + " " + resultText + textF.slice(end);
 
   setText(newText);
   if (textarea !== null)
@@ -468,12 +532,12 @@ export const fromJsonString = (jsonString) => {
 };
 export const applyAction = (newFr_, action = "") => {
   if (!action) return newFr_;
-  const newVal =
-    action === "@R"
-      ? replaceNum(newFr_)
-      : action === "RAB"
-      ? replaceWords(newFr_)
-      : replaceWordsInteractions(newFr_);
+  const newVal = baseRespName[action].fn(newFr_);
+  // action === "@R"
+  //   ? replaceNum(newFr_)
+  //   : action === "RAB"
+  //   ? replaceWords(newFr_)
+  //   : replaceWordsInteractions(newFr_);
   return newVal;
 };
 
@@ -544,7 +608,34 @@ export const checkPatternR = (text) => {
   return !pattern.test(text);
 };
 
-export const getNameByAorB = (value) => {
-  const item = arrAB.find((obj) => obj.a === value || obj.b === value);
+export const getNameByAorB = (value, set) => {
+  const item = defaultDimSets[set].find(
+    (obj) => obj.a === value || obj.b === value
+  );
   return item ? item.name : ""; // Возвращает поле name или null, если не найдено
+};
+
+export const replaceQuotes = (txt) => {
+  let isOpening = true;
+  let newVal = txt.replace(/"/g, () => {
+    if (isOpening) {
+      isOpening = false;
+      return "«";
+    } else {
+      isOpening = true;
+      return "»";
+    }
+  });
+  newVal = newVal.replace(/“/g, "«");
+  newVal = newVal.replace(/”/g, "»");
+  return newVal;
+};
+
+export const toOrder = (fieldid, val, type = "") => {
+  let txt = cleanAndCapitalize(val);
+  txt = replaceText(fieldid, txt, "-", "—");
+  if (type === "") txt = replaceQuotes3(txt);
+  if (type === "«»") txt = replaceQuotes(txt);
+  txt = txt.replace("russian", "Russian");
+  return txt;
 };

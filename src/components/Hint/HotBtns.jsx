@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
 import { applyAction, copyToClipboard } from "../../utils/utilStr";
@@ -6,12 +6,15 @@ import RateHot from "../Rate/RateHot";
 import { usePopup } from "../../hooks/usePopup";
 import { txtHotReplaceGet } from "../../utils/localStorage";
 
-const HotBtns = ({ toJustif, action = "RAB" }) => {
+const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
   const [isOpen, setIsOpen] = useState(null);
   const refBox = useRef(null);
   useOutsideClick(refBox, () => setIsOpen(null));
   const setPopup = usePopup();
-  const btnsArr = txtHotReplaceGet();
+  const btnsArr = useMemo(
+    () => (btnsArrD === null ? txtHotReplaceGet() : btnsArrD),
+    [btnsArrD]
+  );
   //  [
   //   { name: "FORMAT", btns: autoreplaceFormat },
   //   { name: "TONE", btns: hotReplaceTone },
@@ -23,6 +26,7 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
   //   { name: "REVIEW", btns: hotReplaceRewiew },
   // ];
   const onHandleCLick = (e, newT, model = "") => {
+    e.stopPropagation();
     let b = e.button;
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
     const newVal = applyAction(newFr_, action);
@@ -49,7 +53,13 @@ const HotBtns = ({ toJustif, action = "RAB" }) => {
           setIsOpen={setIsOpen}
         />
       ))}
-      <RateHot callback={onHandleCLick} isOpen={isOpen} setIsOpen={setIsOpen} />
+      {!btnsArrD && (
+        <RateHot
+          callback={onHandleCLick}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+      )}
     </div>
   );
 };

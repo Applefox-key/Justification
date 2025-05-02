@@ -1,4 +1,4 @@
-import { hotbtnsArrDef } from "../constants/replacements";
+import { baseRespName, hotbtnsArrDef } from "../constants/replacements";
 import { textParts } from "../constants/textParts";
 
 export const toLS = (key, value) => {
@@ -11,7 +11,12 @@ export const fromLS = (key) => {
 
 export const saveToHistory = (el) => {
   let val = fromLS("History");
-  toLS("History", val === null ? [el] : [...val, el]);
+  if (val === null) toLS("History", [el]);
+  else {
+    val.unshift(el);
+    toLS("History", val);
+  }
+  // toLS("History", val === null ? [el] : [...val, el]);
 };
 export const saveArrToHistory = (elArr) => {
   let val = fromLS("History");
@@ -43,7 +48,6 @@ export const firstBack = () => {
   if (img_ === undefined || img_ === null) return;
   const imgF = require(`../img/img${img_}.jpg`);
   document.documentElement.style.setProperty("--img-back", `url(${imgF})`);
-  console.log(document.documentElement.style.getPropertyValue("--img-back"));
 };
 export const currentBack = () => {
   const storedI = JSON.parse(localStorage.getItem("backgr"));
@@ -69,4 +73,13 @@ export const txtHotReplaceGet = () => {
   let val = fromLS("txtHotRepl");
   if (val === null) return hotbtnsArrDef;
   return val;
+};
+
+export const setRespNames = (action, setAction) => {
+  const keys = Object.keys(baseRespName);
+  const currentIndex = keys.indexOf(action);
+  const nextIndex = (currentIndex + 1) % keys.length;
+  const newV = Object.keys(baseRespName)[nextIndex];
+  localStorage.setItem("lastAction", newV);
+  setAction(newV);
 };

@@ -1,10 +1,9 @@
 import React from "react";
-import EditFieldDim from "./EditFieldDim";
+import EditFieldDmg from "./EditFieldDmg";
 import { BiSolidRightArrow } from "react-icons/bi";
-import EditDimBodyAnalitic from "./EditDimBodyAnalitic";
-import EditTaskAnalitic from "./EditTaskAnalitic";
+import EditTaskAnaliticDmg from "./EditTaskAnaliticDmg";
 
-const EditAreaTask = ({ editParam }) => {
+const EditDmgTask = ({ editParam }) => {
   const {
     setIsTxt,
     best,
@@ -22,7 +21,7 @@ const EditAreaTask = ({ editParam }) => {
       }>
       <>
         <div className="field-boxes">
-          <EditFieldDim
+          <EditFieldDmg
             fieldName={"id"}
             small
             placeholder={"id"}
@@ -33,14 +32,13 @@ const EditAreaTask = ({ editParam }) => {
             fieldVal={item.id}
             fieldFn={fieldFn}
           />
-          {/* <div className="ps-2 pe-2">TASK</div> */}
           <button
             id="show-body-dim-task"
             onClick={() => setShowReview(!showReview)}>
             TASK REVIEW
             <BiSolidRightArrow className={showReview ? "arr-down" : ""} />
           </button>
-          <EditFieldDim
+          <EditFieldDmg
             fieldName={"name"}
             small
             placeholder={"name"}
@@ -51,23 +49,17 @@ const EditAreaTask = ({ editParam }) => {
             fieldVal={item.name}
             fieldFn={fieldFn}
           />{" "}
-          {/* <button
-            id="show-body-dim-task"
-            onClick={() => setShowReview(!showReview)}>
-            TASK REVIEW
-            <BiSolidRightArrow className={showReview ? "arr-down" : ""} />
-          </button> */}
         </div>
         <div className="task-rev-body">
           {showReview && (
             <>
-              <EditTaskAnalitic
+              <EditTaskAnaliticDmg
                 editParam={{
                   item,
                   fieldFn,
                 }}
               />
-              <EditFieldDim
+              <EditFieldDmg
                 scale=""
                 key={"review"}
                 fieldName={"review"}
@@ -92,4 +84,4 @@ const EditAreaTask = ({ editParam }) => {
   );
 };
 
-export default EditAreaTask;
+export default EditDmgTask;

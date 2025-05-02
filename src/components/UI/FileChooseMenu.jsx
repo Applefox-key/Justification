@@ -11,7 +11,7 @@ const FileChooseMenu = ({ defaultState, onlyFirstSheet = false }) => {
       const data = onlyFirstSheet
         ? await readXlsFileOne(file)
         : await readXlsFile(file);
-      console.log(JSON.stringify(data, null, 2));
+
       defaultState(data);
       setIsopen(false);
     } catch (error) {

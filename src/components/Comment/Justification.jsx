@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import EditBox from "../Edit/EditBox";
+import EditBox from "../EditBtns/EditBox";
 import { Button } from "react-bootstrap";
 import JustifBody from "./JustifBody";
 import {
@@ -13,7 +13,8 @@ import { MdOutlineContentPaste } from "react-icons/md";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import VoiceOverlay from "../Voice/VoiceOverlay";
-import EditDimBox from "../Edit/EditDimBox";
+import RubBox from "../Rubrics/RubBox";
+import EditDmgBox from "../Dimentions/EditDmgBox";
 
 const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
@@ -27,8 +28,10 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
         setJustification([{ en: txt }]);
       } else if (edit === "new") {
         setJustification([...justification, { en: txt }]);
-      } else if (edit === "dim") {
-        setJustification([...justification, { en: txt, ru: "DIM" }]);
+      } else if (edit === "dim" || edit === "dmg") {
+        setJustification([...justification, { en: txt, ru: "DMG" }]);
+      } else if (edit === "rub") {
+        setJustification([...justification, { en: txt, ru: "RUB" }]);
       } else {
         const newVal = [...justification];
         newVal[edit].en = txt;
@@ -76,7 +79,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
 
   return (
     <>
-      {edit !== null && edit !== "dim" && (
+      {edit !== null && edit !== "dim" && edit !== "rub" && edit !== "dmg" && (
         <EditBox
           setEdit={setEdit}
           el={
@@ -89,17 +92,30 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           savefn={refresh}
         />
       )}
-      {(edit === "dim" || justification[edit]?.ru === "DIM") && (
-        <EditDimBox
+      {(edit === "dim" ||
+        justification[edit]?.ru === "DIM" ||
+        edit === "dmg" ||
+        justification[edit]?.ru === "DMG") && (
+        <EditDmgBox
           setEdit={setEdit}
           el={justification[edit]?.en}
           savefn={refresh}
         />
       )}
+
+      {(edit === "rub" || justification[edit]?.ru === "RUB") && (
+        <RubBox
+          setEdit={setEdit}
+          el={justification[edit]?.en}
+          savefn={refresh}
+        />
+      )}
+
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
           <Button onClick={() => setEdit("new")}>add</Button>
-          <Button onClick={() => setEdit("dim")}>dim</Button>
+          <Button onClick={() => setEdit("dmg")}>dmg</Button>
+          <Button onClick={() => setEdit("rub")}>Rub</Button>
           <TxtBtnsOverlay toJustif={toJustif} />
           <Button onClick={() => setJustification([])} disabled={!allJust}>
             <GrClearOption />

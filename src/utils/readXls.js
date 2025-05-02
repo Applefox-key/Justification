@@ -1,4 +1,6 @@
-const { read, utils } = require("xlsx");
+import { getRubricName } from "./analysis";
+
+const { read, utils, writeFile } = require("xlsx");
 
 export const readXlsFile = (file) => {
   return new Promise((resolve, reject) => {
@@ -99,4 +101,69 @@ export const readXlsFileOne = (file) => {
     reader.onerror = (error) => reject(error);
     reader.readAsArrayBuffer(file);
   });
+};
+export const rubEx = (item) => {
+  const sheetData = [
+    ["Промпт", item.prompt],
+    [
+      "Rubricator",
+      "1",
+      "2",
+      "3",
+      "4",
+      "error1",
+      "error2",
+      "error3",
+      "error4",
+      "",
+      "Rubric",
+      "example",
+      "exExample",
+    ],
+    ...item.rubricator.map((item) => [
+      getRubricName(item),
+      item.score1,
+      item.score2,
+      item.score3,
+      item.score4,
+      item.error1,
+      item.error2,
+      item.error3,
+      item.error4,
+      "",
+      item.rubric,
+      item.example,
+      item.exExample,
+    ]),
+
+    ["", "", "", "", "", item.stat1, item.stat2, item.stat3, item.stat4],
+    ["", "", "", "", "", item.eval1, item.eval2, item.eval3, item.eval4],
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      item.justif1,
+      item.justif2,
+      item.justif3,
+      item.justif4,
+    ],
+    // [("", "Eval1", "justif1")],
+    // ["1", item.eval1, item.justif1],
+    // ["2", item.eval2, item.justif2],
+    // ["3", item.eval3, item.justif3],
+    // ["4", item.eval4, item.justif4],
+  ];
+
+  // Создание листа и книги Excel
+  const worksheet = utils.aoa_to_sheet(sheetData);
+  const workbook = utils.book_new();
+  utils.book_append_sheet(workbook, worksheet, "Rubric Data");
+
+  // Сохранение файла
+  writeFile(
+    workbook,
+    "RubricData+" + (item.taskId ? item.taskId : "") + ".xlsx"
+  );
 };

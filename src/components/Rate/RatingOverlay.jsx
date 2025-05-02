@@ -40,7 +40,6 @@ const RatingOverlay = ({ toJustif, edit = false }) => {
     const res = evaluateHalf(overallRate[field]);
     const newVal = { ...overallRate, [field]: res };
     setOverallRate(newVal);
-    console.log(res);
   };
   const compareResp = () => {
     const res = compareResponses(overallRate);

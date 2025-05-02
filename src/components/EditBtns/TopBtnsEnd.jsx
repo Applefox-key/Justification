@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import Hint from "../Hint/Hint";
-import { Button, Form } from "react-bootstrap";
-import { saveToHistory } from "../../utils/localStorage";
+import React from "react";
+
+import { Button } from "react-bootstrap";
+
 import { copyToClipboard } from "../../utils/utilStr";
 
 import BtnFragm from "./BtnFragm";
 import { ImCopy } from "react-icons/im";
 import { FaRegPaste } from "react-icons/fa6";
-import FormatBtn from "./FormatBtn";
-import { usePopup } from "../../hooks/usePopup";
+
 import BtnArchive from "./BtnArchive";
+import RubArchive from "../Rubrics/RubArchive";
+import { defaultRubJust } from "../../constants/textParts";
 
 const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
-  const { handleTxt, setHandleTxt, item, setItem } = statesVal;
+  const { handleTxt, setHandleTxt, item, setItem, type } = statesVal;
 
   const pasteFromClipboard = async () => {
     let start = 0;
@@ -28,12 +29,10 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
     }
 
     setHandleTxt(newVal);
-    console.log("paste from clipboard:", text);
   };
-  const setPopup = usePopup();
+
   return (
     <div className="d-flex  align-items-center">
-      {" "}
       <div className="topsmallbtns-box">
         <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
       </div>{" "}
@@ -41,16 +40,25 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         className="btnToHis hintBtn"
         disabled={!handleTxt}
         onClick={(e) => copyToClipboard(handleTxt)}>
-        {/* copy */}
         <ImCopy />
       </Button>{" "}
       <Button
         className="btnToHis hintBtn"
         onClick={(e) => pasteFromClipboard()}>
-        {/* paste */}
         <FaRegPaste />
       </Button>{" "}
-      <BtnArchive txt={item} setTxt={setItem} />
+      {type === "RUB" ? (
+        <RubArchive
+          txt={item}
+          setTxt={(val) => {
+            console.log({ ...defaultRubJust, val });
+
+            setItem({ ...defaultRubJust, ...val });
+          }}
+        />
+      ) : (
+        <BtnArchive txt={item} setTxt={setItem} type={type} />
+      )}
       <Button className="btnToHis" onClick={onOK}>
         OK
       </Button>

@@ -13,33 +13,21 @@ import { LiaSquare } from "react-icons/lia";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { TfiViewGrid } from "react-icons/tfi";
 import ThemeBox from "../ImgBack/ThemeBox";
+import { RiDragMoveFill } from "react-icons/ri";
+import { setRespNames } from "../../utils/localStorage";
 
 const EditBox = ({ el, setEdit, savefn }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
   const [isOneFieldMode, setIsOneFieldMode] = useState(checkPatternR(el.en));
   const [isFullScreen, setIsFullScreen] = useState(false);
-  // const [element, setElement] = useState({
-  //   oneArea: el.en,
-  //   multipleFields: splitString(el.en),
-  //   dimFields: fromJsonString(el.ru),
-  // });
+
   const [handleTxt, setHandleTxt] = useState(el.en);
   const [item, setItem] = useState(splitString(el.en));
   const [action, setAction] = useState("@R");
 
-  // const setHandleTxt__ = (val, field) => {
-  //   setElement({ ...element, [field]: val });
-  // };
-
   useEffect(() => {
     const itm = splitString(el.en);
-    // const dim = fromJsonString(el.ru);
-    // const elem = {
-    //   oneArea: el.en,
-    //   multipleFields: itm,
-    //   dimFields: fromJsonString(el.ru),
-    // };
-    // setElement(elem);
+
     const newVal = localStorage.getItem("lastAction") || "@R";
     setItem(itm);
     if (newVal !== action) setAction(newVal);
@@ -58,12 +46,7 @@ const EditBox = ({ el, setEdit, savefn }) => {
               <div className="d-flex align-items-center">
                 <button
                   className="square-btn hotBtnGr rel-left"
-                  onClick={() => {
-                    const newval =
-                      action === "@R" ? "RAB" : action === "RAB" ? "INT" : "@R";
-                    localStorage.setItem("lastAction", newval);
-                    setAction(newval);
-                  }}>
+                  onClick={() => setRespNames(action, setAction)}>
                   {action}
                 </button>
                 <ThemeBox />
@@ -87,7 +70,11 @@ const EditBox = ({ el, setEdit, savefn }) => {
                   {/* {isOneFieldMode ? <BsWindowSplit /> : <LiaSquare />} */}
                   {isOneFieldMode ? <LiaSquare /> : <TfiViewGrid />}
                 </Button>
-                <BoxSizeBtn id="editbox" callback={setIsFullScreen} />
+                <BoxSizeBtn
+                  id="editbox"
+                  callback={setIsFullScreen}
+                  isFullScreen={isFullScreen}
+                />
                 <Button
                   className="btn-backXl"
                   onClick={() => {
@@ -98,6 +85,9 @@ const EditBox = ({ el, setEdit, savefn }) => {
               </div>
             </div>
             <div className="txt-box ">
+              <div className="handle hbottom-dim">
+                <RiDragMoveFill />
+              </div>
               {isСheckerMode ? (
                 <TextChecker close={() => setIsCheckerMode(!isСheckerMode)} />
               ) : isOneFieldMode ? (
