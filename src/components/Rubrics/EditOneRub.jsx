@@ -77,7 +77,6 @@ const EditOneRub = ({ editParam }) => {
         fieldFn.move(index, "down");
         break;
       case "copy":
-        debugger;
         copyToClipboard(rubricName(true), popup);
         break;
       case "del":

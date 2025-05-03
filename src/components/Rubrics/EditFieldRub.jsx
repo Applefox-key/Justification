@@ -25,7 +25,7 @@ const EditFieldRub = ({
   const changeClass = () => {
     const curV = isScale;
     setIsScale(!curV);
-    // debugger;
+
     if (!curV) ref.current.focus();
   };
   const handleChange = (e) => {

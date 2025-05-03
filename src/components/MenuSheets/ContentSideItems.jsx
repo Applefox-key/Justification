@@ -4,9 +4,6 @@ import { delFromHistory, getHistory } from "../../utils/localStorage";
 
 const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   const elP = (el) => {
-    // debugger;
-    console.log(el);
-
     if (el.ru === "") return el.en;
     const obj = JSON.parse(el.en);
     let nm = (obj.name ?? "") + (obj.taskId ?? "") + (obj.id ?? "");

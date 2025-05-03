@@ -30,7 +30,7 @@ const Rubricator = ({ editParam }) => {
         //   setShowRubricator((prev) => !prev);
         // });
         setShowRubricator(!showRubricator);
-        // debugger;
+
         break;
       case "showHideBody":
         setShowBody(!showBody);

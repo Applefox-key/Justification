@@ -6,6 +6,8 @@ import { detectHeightRub, labelsFullVerdictRub } from "../../utils/analysis";
 import { SlRefresh } from "react-icons/sl";
 import RubLinks from "./RubLinks";
 
+import InfoRubBtn from "./InfoRubBtn";
+
 const SummaryRub = ({ editParam }) => {
   const fieldFn = editParam.fieldFn;
   const [isLinks, setisLinks] = useState(false);
@@ -107,6 +109,9 @@ const SummaryRub = ({ editParam }) => {
                 editParam.countR === 2 ? "rub-sum-box rub2" : "rub-sum-box"
               }
               key={el}>
+              {!editParam.showRubricator && editParam.showSummary && (
+                <InfoRubBtn editParam={editParam} fieldFn={fieldFn} el={el} />
+              )}
               <div
                 className={
                   editParam.showSummary ? "rub-span rub-spanShow" : "rub-span"
@@ -180,7 +185,7 @@ const SummaryRub = ({ editParam }) => {
               )}
             </div>
           ))}
-        </div>{" "}
+        </div>
         {editParam.showSummary && (
           <EditFieldRub
             // show={show}

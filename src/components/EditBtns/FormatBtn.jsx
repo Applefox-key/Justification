@@ -23,7 +23,6 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
             className="btnToHis intense"
             title={`${key} transformation`}
             onClick={() => {
-              debugger;
               const newVal = config.fn(handleTxt);
               setHandleTxt(newVal);
             }}>

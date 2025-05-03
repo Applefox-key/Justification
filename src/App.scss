@@ -727,6 +727,11 @@ textarea.form-control::placeholder {
       width: max-content;
       animation: pulse 2s ease-in-out 3s 2;
 
+      .rubBtn {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
       &::after {
         content: "";
         visibility: hidden;
@@ -749,7 +754,7 @@ textarea.form-control::placeholder {
         visibility: visible;
 
         opacity: 1;
-        transition: opacity 0.6s ease;
+        // transition: opacity 0.6s ease;
 
       }
     }
@@ -1167,15 +1172,29 @@ textarea.form-control::placeholder {
 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 
+    &:nth-child(odd) {
+      // background: #f9f9f9; // светлый фон
+    }
+
+    &:nth-child(even) {
+      background: #eaeaeaa8; // чуть темнее
+    }
+
     &:hover {
+
       background: var(--menu);
       color: var(--main-color);
+      color: #257e90;
       z-index: 5;
       // transform: translateY(-5px);
       // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
       // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     }
+
+
   }
+
+
 
   .rub-text-closed {
     width: 80%;
@@ -2175,7 +2194,8 @@ textarea.form-control::placeholder {
 .rubbox {
   max-height: 93vh;
   height: var(--edit-max-height);
-  width: 90vw;
+  width: 100vw;
+  max-width: var(--edit-width);
 }
 
 .btn-back,
@@ -5529,7 +5549,7 @@ button.hintBtn {
 }
 
 .h-0 {
-  height: 7%;
+  height: 2%;
   overflow: visible;
 }
 
@@ -5611,4 +5631,105 @@ button.hintBtn {
 .login-box {
   width: 250px;
 
+}
+
+.info-rub-box {
+
+  // width: 300px;
+  // height: 93%;
+  // background-color: #0221a0;
+  // color: white;
+  overflow: auto;
+  border-radius: 10px;
+  // position: sticky;
+  top: 0;
+  // background-color: #239aff;
+  // color: #ffffff;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+
+  .rub-color-box {
+    position: relative;
+
+
+    &::after {
+      content: "";
+      border-radius: 10px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.6s ease, visibility 0s 0.6s;
+      position: absolute;
+      top: 43px;
+      max-width: 280px;
+      width: max-content;
+      right: 0;
+      color: #6c757d;
+      z-index: 10;
+      background-color: var(--menu);
+      background: white;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+
+    &:hover::after {
+
+      content: attr(datarub);
+      visibility: visible;
+
+      opacity: 1;
+      transition: opacity 0.6s ease;
+
+    }
+  }
+
+  button {
+    max-width: 2rem;
+    width: 2rem;
+    min-width: unset;
+
+  }
+
+  .numi {
+    padding: 1px;
+    position: absolute;
+    z-index: 5;
+    font-weight: 800;
+    bottom: 1px;
+    right: 2px;
+    font-size: 10px;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .rubB0 {
+    background: linear-gradient(0deg, rgb(107 255 107) 0%, rgb(107 255 107) 100%);
+    background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62 141 62) 100%);
+    background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+    color: black;
+
+    &::placeholder {
+      color: darkgreen;
+    }
+  }
+
+
+  .rubB1 {
+    background: linear-gradient(0deg, yellow 0%, yellow 100%);
+    color: black;
+  }
+
+  .rubBtxt1 {
+    border: 1px solid yellow;
+
+  }
+
+  .rubBtxt2 {
+    border: 1px solid red;
+
+  }
+
+  .rubB2 {
+    background: linear-gradient(0deg, red 0%, red 100%);
+    color: black;
+  }
 }

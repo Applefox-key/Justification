@@ -5,7 +5,7 @@ const RubRespBtn = ({
   setValue,
   field,
   small,
-  hide,
+  disable,
   valueEr,
   switchSize,
 }) => {
@@ -20,6 +20,7 @@ const RubRespBtn = ({
     <>
       {small ? (
         <button
+          disable={disable}
           className={
             "rubBtn rubB" + value + (value > 0 && !valueEr ? " nojust" : "")
           }
@@ -32,6 +33,7 @@ const RubRespBtn = ({
         </button>
       ) : (
         <button
+          disable
           className={"rubBtnScore rubB" + value + (value < 1 ? " hideBtn" : "")}
           onClick={onClick}>
           {scaleSm[value]}

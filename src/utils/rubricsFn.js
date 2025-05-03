@@ -22,6 +22,7 @@ export const createFieldFn = (
         };
       });
     },
+
     move: (ind, dir) => {
       setItem((prev) => {
         const rubricator = [...prev.rubricator];
@@ -155,6 +156,15 @@ export const createFieldFn = (
           return {
             ...prev,
             rubricator: [],
+          };
+        });
+    },
+    updateRub: (nv) => {
+      if (window.confirm("update rubrics?"))
+        setItem((prev) => {
+          return {
+            ...prev,
+            rubricator: nv,
           };
         });
     },
