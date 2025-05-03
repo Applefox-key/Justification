@@ -12,6 +12,7 @@ import { AiOutlineClear } from "react-icons/ai";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { getRubricName } from "../../utils/analysis";
 import FlowerBtn from "../EditBtns/FlowerBtn";
+import { usePopup } from "../../hooks/usePopup";
 
 const EditOneRub = ({ editParam }) => {
   const { fieldId, fieldFn, showBody, criteria, index, countR } = editParam;
@@ -37,6 +38,7 @@ const EditOneRub = ({ editParam }) => {
     setShow(stateShow ? 0 : 1);
     if (criteria.new) fieldFn.notNew(index);
   };
+  const popup = usePopup();
   const changeShowDiv = (e) => {
     e.stopPropagation();
     const stateShow = show;
@@ -75,7 +77,8 @@ const EditOneRub = ({ editParam }) => {
         fieldFn.move(index, "down");
         break;
       case "copy":
-        copyToClipboard(rubricName(true));
+        debugger;
+        copyToClipboard(rubricName(true), popup);
         break;
       case "del":
         fieldFn.delRub(index);

@@ -41,11 +41,13 @@ export async function copyFromTextarea() {
   }
 }
 
-export const copyToClipboard = async (text) => {
+export const copyToClipboard = async (text, popup = null) => {
   try {
     await navigator.clipboard.writeText(text);
+    if (popup !== null) popup("copied to the clipboard");
   } catch (err) {
     console.error("Failed to copy text: ", err);
+    if (popup !== null) popup("Failed to copy to the clipboard");
   }
 };
 

@@ -5591,3 +5591,24 @@ button.hintBtn {
   background: linear-gradient(0deg, #a7cbd3 0%, var(--line2) 100%);
 
 }
+
+.login-wrap {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 100vh;
+  flex-direction: column;
+
+  button {
+    width: 100%;
+    height: 2rem;
+  }
+}
+
+
+.login-box {
+  width: 250px;
+
+}
