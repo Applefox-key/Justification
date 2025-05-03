@@ -3,7 +3,8 @@ import React from "react";
 const InfoRubBtn = ({ editParam, fieldFn, el }) => {
   const scaleSm = { "-1": "NA", 0: "No", 1: "Mn", 2: "Mj" };
   const fixRub = () => {
-    const regex = /Crit# (\d+) \([^)]+\):\s*([\s\S]*?)(?=Crit# \d+ \(|$)/g;
+    const regex =
+      /Crit[#.] (\d+) \([^)]+\):\s*([\s\S]*?)(?=Crit[#.] \d+ \(|$)/g;
     const text = editParam.item["justif" + el];
     const result = [];
     let match;
