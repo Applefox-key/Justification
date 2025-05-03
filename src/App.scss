@@ -5648,6 +5648,8 @@ button.hintBtn {
   display: flex;
   justify-content: center;
   overflow: visible;
+  flex-wrap: wrap;
+  padding: 0 5px;
 
   .rub-color-box {
     position: relative;

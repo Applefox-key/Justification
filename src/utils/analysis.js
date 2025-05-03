@@ -634,6 +634,8 @@ export const summariseRub = (item, i = null, ovr = false) => {
         if (item["score" + ind] === 1) result["score" + ind].mn++;
         else result["score" + ind].mj++;
         const txt_n = window.location.hostname === "localhost" ? "#" : ".";
+        console.log(window.location.hostname);
+
         result["score" + ind].just +=
           (isAdd === "start"
             ? `Crit${txt_n} ${numR + 1} (${

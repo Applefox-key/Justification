@@ -22,7 +22,11 @@ const InfoRubBtn = ({ editParam, fieldFn, el }) => {
   return (
     <div className="info-rub-box">
       {" "}
-      <button onClick={fixRub}>fix</button>
+      <button
+        title="add all changes from the justification with crit to the "
+        onClick={fixRub}>
+        fix
+      </button>
       {editParam.item.rubricator.map((criteria, index) => (
         <>
           <div
