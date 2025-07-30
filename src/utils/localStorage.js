@@ -1,5 +1,6 @@
-import { baseRespName, hotbtnsArrDef } from "../constants/replacements";
+import { hotbtnsArrDef } from "../constants/replacements";
 import { textParts } from "../constants/textParts";
+import { baseRespName } from "./utilStr";
 
 export const toLS = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));

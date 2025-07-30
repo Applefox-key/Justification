@@ -13,20 +13,43 @@ import Rubricator from "./Rubricator";
 import { createFieldFn } from "../../utils/rubricsFn";
 
 const EditAreaRub = ({ actionFn, item, setItem, action }) => {
+  const [textRef, setTextRef] = useState(null);
   const [textSelected, setTextSelected] = useState("");
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
-  const [textRef, setTextRef] = useState(null);
+
   // eslint-disable-next-line no-unused-vars
   const [show, setShow] = useState(false);
   const [countR, setCountR] = useState(4);
-
+  // const [fieldId, setFieldId] = useState(() => textRef.current?.id || "prompt");
   // const [showBody, setShowBody] = useState(false);
   const fieldId = useMemo(() => {
     return textRef && textRef.current && textRef.current.id
       ? textRef.current.id
       : "prompt";
   }, [textRef]);
+  // useEffect(() => {
+  //   if (!textRef.current) return;
+
+  //   // Начальное значение
+  //   setFieldId(textRef.current.id || "prompt");
+
+  //   const observer = new MutationObserver((mutations) => {
+  //     for (let m of mutations) {
+  //       if (m.type === "attributes" && m.attributeName === "id") {
+  //         setFieldId(textRef.current?.id || "prompt");
+  //       }
+  //     }
+  //   });
+
+  //   observer.observe(textRef.current, {
+  //     attributes: true,
+  //     attributeFilter: ["id"],
+  //   });
+
+  //   return () => observer.disconnect();
+  // }, [textRef]);
+
   const setPopup = usePopup();
 
   const fieldFn = useMemo(
@@ -120,7 +143,21 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
 
     fieldFn.createRubPrompt(selectedText, notAutoText);
   };
+  const splitLineData = async () => {
+    const textarea = document.getElementById(fieldId);
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
 
+    let textF = "";
+    if (start === end || textarea === null) {
+      textF = await navigator.clipboard.readText();
+      if (!textF) return;
+      // return; // No text selected
+    } else textF = textarea.value.slice(start, end);
+
+    const input = textF;
+    fieldFn.createRubPromptScores(input);
+  };
   return (
     <>
       <EditRubHeader
@@ -156,6 +193,11 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
               </button>{" "}
               <button onClick={() => rubPr(1)} className="unsetW square-btn">
                 R
+              </button>{" "}
+              <button
+                onClick={() => splitLineData()}
+                className="unsetW square-btn">
+                RR
               </button>
               <EditFieldRub
                 // showArrow

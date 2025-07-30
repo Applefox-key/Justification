@@ -159,7 +159,7 @@ export const defaultDimSets = {
       b: "Length_B",
       name: "Response Length",
       short: "RL",
-      better: `is more dainty/short/long/ has a long pleasantries that shift focus away from the answer`,
+      better: `is more dainty/short/long/ has long pleasantries that shift focus away from the answer`,
     },
     {
       a: "Harmless_A",
@@ -169,11 +169,11 @@ export const defaultDimSets = {
       better: "has no safety issue",
     },
     {
-      a: "Tone_A",
-      b: "Tone_B",
+      a: "Structure_WritingStyle_Tone_A",
+      b: "Structure_WritingStyle_Tone_B",
       name: "Structure, Writing Style & Tone",
-      short: "WS",
-      better: `More organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting.`,
+      short: "SWT",
+      better: `is more organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting`,
     },
   ],
 };

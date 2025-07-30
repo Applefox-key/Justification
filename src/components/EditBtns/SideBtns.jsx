@@ -75,14 +75,21 @@ const SideBtns = ({ statesVal, textSelected, fieldId }) => {
             onClick={() => capsSwitch("quotationL", true)}
             // disabled={!textSelected}
             className="square-btn ordinary">
-            {`""L`}
+            {`"L`}
           </button>{" "}
           <button
             title="add quotation to every line for selection"
             onClick={() => capsSwitch("quotationLI", true)}
             // disabled={!textSelected}
             className="square-btn ordinary">
-            {`""LI`}
+            {`"LI`}
+          </button>{" "}
+          <button
+            title="add quotation to every line for selection"
+            onClick={() => capsSwitch("quotationLB", true)}
+            // disabled={!textSelected}
+            className="square-btn ordinary">
+            {`"LB`}
           </button>{" "}
           <button
             title="add staples for selection"

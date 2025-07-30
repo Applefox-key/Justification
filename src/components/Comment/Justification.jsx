@@ -74,7 +74,7 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
     ]);
   };
 
-  const allJust = concatenateEnFields(justification);
+  const allJust = concatenateEnFields ? concatenateEnFields(justification) : "";
   const toggleShowB = () => setShowB(!showB);
 
   return (

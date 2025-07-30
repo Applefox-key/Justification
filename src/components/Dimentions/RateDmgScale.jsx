@@ -10,7 +10,10 @@ const RateDmgScale = ({ setVal, val, cl, horiz }) => {
     <div className={"rate-vert-wrap" + (horiz ? " horiz-score" : "")}>
       {[5, 4, 3, 2, 1].map((el) => (
         <div
-          onClick={(e) => onHandleCLick(el)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onHandleCLick(el);
+          }}
           className={
             (val === el ? "rate-vert-box vert-active" : "rate-vert-box") +
             (!cl ? "" : " " + cl)

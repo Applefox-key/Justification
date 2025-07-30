@@ -1,25 +1,26 @@
-import {
-  replaceNum,
-  replaceNum2,
-  replaceWords,
-  replaceWordsInteractions,
-} from "../utils/utilStr";
+// import {
+//   replaceNum,
+//   replaceNum2,
+//   replaceWords,
+//   replaceWordsInteractions,
+// } from "../utils/utilStr";
 
-export const baseRespName = {
-  "INT": {
-    R1: "Interaction 1",
-    R2: "Interaction 1",
-    fn: replaceWordsInteractions,
-  },
-  "@R": { R1: "@Response 1", R2: "@Response 1", fn: replaceNum },
-  "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
-  "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
-};
+// export const baseRespName = {
+//   "INT": {
+//     R1: "Interaction 1",
+//     R2: "Interaction 1",
+//     fn: replaceWordsInteractions,
+//   },
+//   "@R": { R1: "@Response 1", R2: "@Response 1", fn: replaceNum },
+//   "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
+//   "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
+// };
 
 export const replacementsEnding = [
   [["resa", "res1", "respa", "куыф", "отв1", "респ1"], "Response A"],
   [["ress", "рсаа"], "responses"],
-  [["rr", "ресс"], "response"],
+  [["rr", "рр"], "response"],
+  [["екуы", "tres"], "the response"],
   [["bres"], "Both responses"],
   [["ilf"], "The response has a problem with language fluency"],
   [["ipu"], "The response has a problem with punctuation"],
@@ -209,6 +210,66 @@ export const hotReplaceJustif = [
   {
     oldT: ["fact"],
     newT: `BotModel has issues with Factuality.`,
+    caseSensitive: false,
+    show: true,
+    title: "Factuality",
+  },
+  {
+    oldT: ["factna"],
+    newT: `Since the text is the model's reflections on ethical topics there is no unambiguously factually correct and incorrect information here so the rating is chosen as non applicable.`,
+    caseSensitive: false,
+    show: true,
+    title: "Fact_NA",
+  },
+  {
+    oldT: ["instrF"],
+    newT: `The user asked for _, but BotModel recommended/provided _ . This does not follow the prompt's instructions.`,
+    caseSensitive: false,
+    show: true,
+    title: "Not follow",
+  },
+  {
+    oldT: ["lfluency"],
+    newT: `BotModel includes awkward phrasing like "_" which sounds unnatural. This should be corrected to "_"`,
+    caseSensitive: false,
+    show: true,
+    title: "LFluency",
+  },
+  {
+    oldT: ["cohj"],
+    newT: `BotModel jumps from _ to unrelated topics, making it difficult to follow. Clarifying these transitions would improve coherence.`,
+    caseSensitive: false,
+    show: true,
+    title: "Coherence",
+  },
+  {
+    oldT: ["present"],
+    newT: `BotModel provides a lot of information but lacks structure. Adding
+bullet points or bolding key details would improve readability`,
+    caseSensitive: false,
+    show: true,
+    title: "Presentation",
+  },
+  {
+    oldT: ["tonej"],
+    newT: `BotModel has The tone is too casual/formal for this formal/casual query. Adjusting to a more
+professional/casual tone would make it more appropriate.`,
+    caseSensitive: false,
+    show: true,
+    title: "Tone",
+  },
+];
+export const hotReplaceJustifSBS = [
+  {
+    oldT: ["Inaccurate"],
+    newT: `Sinse BotModel is more accurate.`,
+    caseSensitive: false,
+    show: true,
+    title: "Inaccurate",
+  },
+  {
+    oldT: ["fact"],
+    newT: `Since BotModel has issues with Factuality.`,
     caseSensitive: false,
     show: true,
     title: "Factuality",
@@ -550,7 +611,7 @@ export const autoreplaceRub = [
 
   {
     oldT: ["unnatural"],
-    newT: `Some phrases in BotModel sound unnatural: ""().`,
+    newT: `Some phrases in BotModel sound unnatural:`,
     caseSensitive: false,
     show: true,
     title: "unnat",
@@ -599,12 +660,256 @@ export const autoreplaceRub = [
     show: true,
     title: "PO",
   },
+  // {
+  //   oldT: ["orter"],
+  //   newT: `BotModel contains orthography errors, for example .`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "ort err",
+  // },
   {
-    oldT: ["orter"],
-    newT: `BotModel contains orthography errors, for example .`,
+    oldT: ["dash"],
+    newT: `BotModel uses a hyphen instead of a dash.`,
     caseSensitive: false,
     show: true,
-    title: "ort err",
+    title: "—",
+  },
+  {
+    oldT: ["quotes"],
+    newT: `BotModel uses quotation marks "" instead of «».`,
+    caseSensitive: false,
+    show: true,
+    title: "« »",
+  },
+  {
+    oldT: ["quotes2"],
+    newT: `BotModel uses quotation marks "" instead of «» and '' instead of "".`,
+    caseSensitive: false,
+    show: true,
+    title: `«»""`,
+  },
+  {
+    oldT: ["quotesDash"],
+    newT: `In BotModel the quotation marks "" instead of «», and the hyphen instead of a dash`,
+    caseSensitive: false,
+    show: true,
+    title: "« » —",
+  },
+  {
+    oldT: ["comma"],
+    newT: `The comma after " " is unnecessary`,
+    caseSensitive: false,
+    show: true,
+    title: "comma",
+  },
+
+  {
+    oldT: ["colo"],
+    newT: `BotModel uses uppercase after the colon (for example, “ …”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
+    caseSensitive: false,
+    show: true,
+    title: ":A",
+  },
+  {
+    oldT: ["coloT"],
+    newT: `BotModel uses colon after the titles. No colon is needed after the title by the rules of the Russian language.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:",
+  },
+  {
+    oldT: ["coloTL"],
+    newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+    caseSensitive: false,
+    show: true,
+    title: "A:123",
+  },
+  {
+    oldT: ["coml"],
+    newT: `The lists are formatted incorrectly in the response. According to the rules of the Russian language, a comma, a semicolon, or a period is placed after the elements of the list.`,
+    caseSensitive: false,
+    show: true,
+    title: "-.;,",
+  },
+  {
+    oldT: ["comlr"],
+    newT: `In this case, since the list items do not represent a sentence, it is better to write them with a small letter and use a comma for all but the last item — use a period for it.`,
+    caseSensitive: false,
+    show: true,
+    title: `-a,-b.`,
+  },
+  {
+    oldT: ["qp"],
+    newT: `The period at the end of sentences should be placed outside the closing bracket according to the rules of the Russian language.`,
+    caseSensitive: false,
+    show: true,
+    title: `).`,
+  },
+  {
+    oldT: ["qp"],
+    newT: `The period at the end of sentences should be placed outside the closing quotation mark according to the rules of the Russian language.`,
+    caseSensitive: false,
+    show: true,
+    title: `».`,
+  },
+];
+export const autoreplaceLoc = [
+  {
+    oldT: ["loc"],
+    newT: `BotModel has some localization issues.`,
+    caseSensitive: false,
+    show: true,
+    title: "LC|",
+  },
+  {
+    oldT: ["robo"],
+    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_robo",
+  },
+  {
+    oldT: ["mach"],
+    newT: `BotModel sounds like machine translation. For example, it is uses a phrase like ""`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_mach",
+  },
+  {
+    oldT: ["nos"],
+    newT: `A lot of sentences don't make sense in BotModel. For example: `,
+    caseSensitive: false,
+    show: true,
+    title: "LC_sence",
+  },
+  {
+    oldT: ["another"],
+    newT: `BotModel contains phrases written in another language (not Russian): " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_foreign",
+  },
+
+  {
+    oldT: ["unnatural"],
+    newT: `Some phrases in BotModel sound unnatural:`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_un",
+  },
+  {
+    oldT: ["unnatp"],
+    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_un-1",
+  },
+
+  {
+    oldT: ["pron"],
+    newT: `BotModel sounds impolite, it uses the pronoun "ты" when addressing the user, in Russian it is better to use "вы". For example: `,
+    caseSensitive: false,
+    show: true,
+    title: "LC_ТЫ",
+  },
+  {
+    oldT: ["gramer"],
+    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_gram err",
+  },
+  {
+    oldT: ["matching"],
+    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+    caseSensitive: false,
+    show: true,
+    title: "LC_w-match",
+  },
+
+  {
+    oldT: ["IFI"],
+    newT: `BotModel has instruction following issues.`,
+    caseSensitive: false,
+    show: true,
+    title: "IF",
+  },
+  {
+    oldT: ["if1"],
+    newT: `Since BotModel consists of meaningless phrases, the instruction is not executed. For example: `,
+    caseSensitive: false,
+    show: true,
+    title: "IF_sence",
+  },
+  {
+    oldT: ["if2"],
+    newT: `The tone of BotModel does not match the request - the instructions are violated: .`,
+    caseSensitive: false,
+    show: true,
+    title: "IF_tone",
+  },
+  {
+    oldT: ["tr1"],
+    newT: `Since BotModel consists of meaningless phrases, it does not contain the exact information that the user needs.`,
+    caseSensitive: false,
+    show: true,
+    title: "TR_sence",
+  },
+  {
+    oldT: ["lg1"],
+    newT: `BotModel is too long because it contains unnecessary information that the user did not request`,
+    caseSensitive: false,
+    show: true,
+    title: "Lg_long",
+  },
+  {
+    oldT: ["lg1"],
+    newT: `BotModel is too long because it contains unnecessary pleasantries, for example: `,
+    caseSensitive: false,
+    show: true,
+    title: "Lg_long_pl",
+  },
+  {
+    oldT: ["lg2"],
+    newT: `Since there is no truthful information in BotModel, it is rated as too short.`,
+    caseSensitive: false,
+    show: true,
+    title: "Lg_short_Tr",
+  },
+  {
+    oldT: ["st1"],
+    newT: `BotModel is poorly designed.`,
+    caseSensitive: false,
+    show: true,
+    title: "st_poor",
+  },
+  {
+    oldT: ["st2"],
+    newT: `There is no division into paragraphs in BotModel.`,
+    caseSensitive: false,
+    show: true,
+    title: "st_nodiv",
+  },
+  {
+    oldT: ["st3"],
+    newT: `BotModel does not use lists, although they would significantly improve the perception of information. `,
+    caseSensitive: false,
+    show: true,
+    title: "st_nolist",
+  },
+  {
+    oldT: ["st4"],
+    newT: `BotModel is written in a tone that does not suit the task: it is too formal/caual/unnatural.`,
+    caseSensitive: false,
+    show: true,
+    title: "st_tone",
+  },
+  {
+    oldT: ["punker"],
+    newT: `BotModel contains punctuation errors, for example: `,
+    caseSensitive: false,
+    show: true,
+    title: "punkt err",
   },
   {
     oldT: ["dash"],
@@ -644,7 +949,7 @@ export const autoreplaceRub = [
 
   {
     oldT: ["colo"],
-    newT: `BotModel uses uppercase after the colon (“…”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
+    newT: `BotModel uses uppercase after the colon (for example, “ …”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
     caseSensitive: false,
     show: true,
     title: ":A",
@@ -662,6 +967,34 @@ export const autoreplaceRub = [
     caseSensitive: false,
     show: true,
     title: "A:123",
+  },
+  {
+    oldT: ["coml"],
+    newT: `The lists are formatted incorrectly in the response. According to the rules of the Russian language, a comma, a semicolon, or a period is placed after the elements of the list.`,
+    caseSensitive: false,
+    show: true,
+    title: "-.;,",
+  },
+  {
+    oldT: ["comlr"],
+    newT: `In this case, since the list items do not represent a sentence, it is better to write them with a small letter and use a comma for all but the last item — use a period for it.`,
+    caseSensitive: false,
+    show: true,
+    title: `-a,-b.`,
+  },
+  {
+    oldT: ["qp"],
+    newT: `The period at the end of sentences should be placed outside the closing bracket according to the rules of the Russian language.`,
+    caseSensitive: false,
+    show: true,
+    title: `).`,
+  },
+  {
+    oldT: ["qp"],
+    newT: `The period at the end of sentences should be placed outside the closing quotation mark according to the rules of the Russian language.`,
+    caseSensitive: false,
+    show: true,
+    title: `».`,
   },
 ];
 export const hotReplaceRewiew = [
@@ -1239,4 +1572,5 @@ export const hotbtnsArrDef = [
   { name: "TEMPLATES", btns: hotReplaceTmp },
   { name: "REVIEW", btns: hotReplaceRewiew },
   { name: "RUBRICS", btns: autoreplaceRub },
+  { name: "LOCAL", btns: autoreplaceLoc },
 ];

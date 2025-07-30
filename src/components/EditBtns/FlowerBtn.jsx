@@ -10,8 +10,15 @@ const FlowerBtn = ({ fieldId, fieldFn, className, type = "" }) => {
     fieldFn.setNewValRub(val);
   };
   return (
-    <button className={className} onClick={toOrd}>
-      {type === "" ? <LuFlower /> : <PiFlowerTulipBold />}
+    <button className={"flowBtn " + className} onClick={toOrd}>
+      {type === "" ? (
+        <LuFlower />
+      ) : (
+        <>
+          <PiFlowerTulipBold />
+          <span>{type}</span>
+        </>
+      )}
     </button>
   );
 };

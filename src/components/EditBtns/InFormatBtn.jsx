@@ -1,31 +1,31 @@
 import { Button } from "react-bootstrap";
 import React from "react";
-import { applyAction, baseRespName } from "../../utils/utilStr";
+import { applyAction, baseFormatChanges } from "../../utils/utilStr";
 import { HiRefresh } from "react-icons/hi";
 
-const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
+const InFormatBtn = ({ handleTxt, action, setHandleTxt, fieldid }) => {
   return (
     <div className="format-btns">
       <Button
         className="btnToHis"
-        onClick={(e) => {
-          const newVal = applyAction(handleTxt, action);
-          setHandleTxt(newVal);
-        }}>
-        {/* FORMAT (F2) */}
-        <HiRefresh /> {action} (F2)
+        // onClick={(e) => {
+        //   const newVal = applyAction(handleTxt, action);
+        //   setHandleTxt(newVal);
+        // }}
+      >
+        Format
       </Button>
       <div className="sub-btns">
-        {Object.entries(baseRespName).map(([key, config]) => (
+        {Object.entries(baseFormatChanges).map(([key, config]) => (
           <button
             key={key}
             className="btnToHis intense"
             title={`${key} transformation`}
             onClick={() => {
-              const newVal = config.fn(handleTxt);
+              const newVal = config.fn(fieldid);
               setHandleTxt(newVal);
             }}>
-            {config.R1} {config.R2}
+            {config.name}
           </button>
         ))}
       </div>
@@ -33,4 +33,4 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
   );
 };
 
-export default FormatBtn;
+export default InFormatBtn;

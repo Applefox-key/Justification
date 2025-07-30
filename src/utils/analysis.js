@@ -747,11 +747,14 @@ export const getRubricName = (criteria, getTxt = false) => {
   if (!name.endsWith(".") && !criteria.exExample) name += ".";
   if (!name.endsWith(",") && criteria.exExample) name += ",";
   let exa = "";
-  if (criteria.example)
+  if (criteria.example) {
+    const example = criteria.example.trimEnd();
+    const exampleLower = example.charAt(0).toLowerCase() + example.slice(1);
+
     exa = criteria.exExample
-      ? " а именно: " + criteria.example.trimEnd()
-      : " Например: " + criteria.example.trimEnd();
-  else return getTxt ? name : <b>{name}</b>;
+      ? " а именно: " + exampleLower
+      : " Например: " + exampleLower;
+  } else return getTxt ? name : <b>{name}</b>;
   if (exa && !exa.endsWith(".")) exa += ".";
 
   return getTxt ? (

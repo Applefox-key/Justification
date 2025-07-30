@@ -25,7 +25,11 @@ const EditOneDmg = ({ editParam }) => {
   }, [showBody]);
   return (
     <>
-      <div className={show ? "one-dim" : "one-dim-close"}>
+      <div
+        className={show ? "one-dim" : "one-dim-close"}
+        onClick={() => {
+          if (!show) setShow(!show);
+        }}>
         <EditFieldDmg
           // key={i}
           show={show}

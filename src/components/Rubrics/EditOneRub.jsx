@@ -17,7 +17,7 @@ import { usePopup } from "../../hooks/usePopup";
 const EditOneRub = ({ editParam }) => {
   const { fieldId, fieldFn, showBody, criteria, index, countR } = editParam;
   const [show, setShow] = useState(criteria.new ? 1 : 0);
-  // const [showBig, setShowBig] = useState(0); //
+
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -96,7 +96,7 @@ const EditOneRub = ({ editParam }) => {
 
     switch (stateShow) {
       case 0:
-        setShow(1);
+        setShow(2);
         break;
       case 1:
         setShow(2);
@@ -118,6 +118,13 @@ const EditOneRub = ({ editParam }) => {
       btnsRubOnClick(e, "copy");
     }
   };
+  const btnCrit = (e, type) => {
+    e.stopPropagation();
+    fieldFn.setNewValRub(
+      "Ответ " + type + " " + criteria.rubric,
+      "crit" + index
+    );
+  };
   return (
     <>
       <div className={!!show ? "wrap-rub one-rub" : "wrap-rub one-rub-close"}>
@@ -125,7 +132,16 @@ const EditOneRub = ({ editParam }) => {
           <BiSolidRightArrow className={show ? "arr-down " : ""} />
           <span>{index + 1}</span>
         </button>
-
+        <button
+          className={"rubBtn rub-dsb"}
+          onClick={(e) => btnsRubOnClick(e, "moveup")}>
+          <FaArrowUp />
+        </button>
+        <button
+          className={"rubBtn rub-dsb"}
+          onClick={(e) => btnsRubOnClick(e, "movedown")}>
+          <FaArrowDown />
+        </button>{" "}
         <div
           id={"rubr" + index}
           className={
@@ -164,6 +180,18 @@ const EditOneRub = ({ editParam }) => {
                   className="rubName"
                   onClick={(e) => btnsRubOnClick(e, "copy")}>
                   CRITERIA {index + 1}
+                  {["использует", "предлагает", "содержит"].map((el, i) => (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        fieldFn.setNewValRub(
+                          "Ответ " + el + " " + criteria.rubric,
+                          "rubric-" + index
+                        );
+                      }}>
+                      {el}
+                    </button>
+                  ))}
                 </span>
                 <button
                   className={""}
@@ -216,7 +244,7 @@ const EditOneRub = ({ editParam }) => {
               onClick={(e) => btnsRubOnClick(e, "del")}>
               <AiOutlineClear />
             </button>
-            <button
+            {/* <button
               className={"rubBtn rub-dsb"}
               onClick={(e) => btnsRubOnClick(e, "moveup")}>
               <FaArrowUp />
@@ -225,7 +253,7 @@ const EditOneRub = ({ editParam }) => {
               className={"rubBtn rub-dsb"}
               onClick={(e) => btnsRubOnClick(e, "movedown")}>
               <FaArrowDown />
-            </button>
+            </button> */}
           </div>
           {show ? (
             <div className="rub-open">
@@ -254,6 +282,10 @@ const EditOneRub = ({ editParam }) => {
               onClick={changeShowDiv}
               onContextMenu={(e) => handleContextMenu(e)}
               onDoubleClick={(e) => btnsRubOnClick(e, "copy")}>
+              {" "}
+              <span onClick={(e) => btnsRubOnClick(e, "copy")} className="num">
+                {index + 1}
+              </span>
               {rubricName()}{" "}
             </div>
           )}

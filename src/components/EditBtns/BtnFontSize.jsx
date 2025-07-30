@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { TbLetterF, TbLetterFSmall } from "react-icons/tb";
 
-const BtnFontSize = () => {
-  const [font, setFont] = useState(1.2);
+const BtnFontSize = ({ nameV = "--vertical-font" }) => {
+  const [font, setFont] = useState(0.7);
   const setVerticalCardFonrSize = (prop = "") => {
     if (prop) {
-      document.documentElement.style.setProperty(
-        "--vertical-font",
-        prop + "rem"
-      );
+      document.documentElement.style.setProperty(nameV, prop + "rem");
     }
   };
   const setSize = (val) => {
@@ -18,10 +15,8 @@ const BtnFontSize = () => {
   };
   useEffect(() => {
     const size =
-      parseFloat(
-        document.documentElement.style.getPropertyValue("--vertical-font"),
-        2
-      ) || 1.2;
+      parseFloat(document.documentElement.style.getPropertyValue(nameV), 2) ||
+      1.2;
     if (size !== font) setFont(size);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -34,7 +34,7 @@ const EditFieldRub = ({
     const { curs, val } = replaceEndings(e, replacementsEnding);
     cursorPos.current = curs;
 
-    fieldFn.setNewValRub(val);
+    fieldFn.setNewValRub(val, fieldName);
   };
   useEffect(() => {
     if (ref.current && cursorPos.current !== null) {
@@ -64,7 +64,9 @@ const EditFieldRub = ({
             classN +
             (isScale ? " plusTextArea" : "")
           }
-          onFocus={() => fieldFn.onFocus(ref)}
+          onFocus={() => {
+            fieldFn.onFocus(ref);
+          }}
           rows={1}
           spellCheck
           placeholder={placeholder}
@@ -72,11 +74,6 @@ const EditFieldRub = ({
           onKeyDown={fieldFn.onKeyDown}
           onChange={handleChange}
         />{" "}
-        {/* {showArrow && !isActive && (
-          <button className="rubBtn square-btn" onClick={changeClass}>
-            <GoZoomIn />
-          </button>
-        )} */}
         {((!small && show && isActive) || showArrow) && (
           <>
             <div className={"textarea-btns-" + scale}>

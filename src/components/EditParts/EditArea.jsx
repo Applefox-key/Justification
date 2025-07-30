@@ -13,7 +13,7 @@ import EditField from "./EditField";
 import { saveToHistory } from "../../utils/localStorage";
 import RateBoxes from "../Rate/RateBoxes";
 import BtnArchive from "../EditBtns/BtnArchive";
-import { baseRespName } from "../../constants/replacements";
+import { baseRespName } from "../../utils/utilStr";
 import { FaStar } from "react-icons/fa";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { TbBoxAlignTop } from "react-icons/tb";

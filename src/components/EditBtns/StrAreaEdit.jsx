@@ -13,6 +13,8 @@ import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { replacementsEnding } from "../../constants/replacements";
+import InFormatBtn from "./InFormatBtn";
+import ReplaceBtn from "./ReplaceBtn";
 
 const StrAreaEdit = ({
   actionFn,
@@ -90,6 +92,8 @@ const StrAreaEdit = ({
           onOK={onOK}
           action={action}
         />
+        <InFormatBtn {...{ handleTxt, setHandleTxt, fieldid: "editArea" }} />
+        <ReplaceBtn {...{ handleTxt, setHandleTxt, fieldid: "editArea" }} />
         {isHotBtns && <HotBtns toJustif={pasteToText} action={action} />}
       </div>
 
@@ -113,7 +117,7 @@ const StrAreaEdit = ({
               <Form.Control
                 as="textarea"
                 id={"editArea"}
-                className={"fit-height w-100"}
+                className={"w-100 h-100"}
                 rows={1}
                 spellCheck
                 placeholder={placeholder}

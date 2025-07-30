@@ -586,6 +586,7 @@ textarea.form-control::placeholder {
   .rub-prompt {
     // background: rgb(100, 181, 248);
     background: #a7cbd3;
+    background: var(--rub-back);
     // color: white;
     font-size: var(--vertical-font);
 
@@ -609,6 +610,7 @@ textarea.form-control::placeholder {
     max-height: 70vh;
     max-height: 100%;
     // padding-top: 20px;
+    border-bottom: 3px dotted;
 
     .textarea-btns-null {
       position: absolute;
@@ -670,7 +672,7 @@ textarea.form-control::placeholder {
 
       textarea {
         border-radius: 0;
-
+        font-size: var(--vertical-font);
 
       }
 
@@ -705,7 +707,7 @@ textarea.form-control::placeholder {
 
       .rubName {
         position: absolute;
-        left: 70px;
+        left: 90px;
         font-weight: 700;
         cursor: copy;
         // top: 35px;
@@ -844,6 +846,8 @@ textarea.form-control::placeholder {
 
           &:focus {
             resize: vertical;
+            background-color: var(--rub-back-focus);
+            // color: black;
           }
 
         }
@@ -1015,9 +1019,10 @@ textarea.form-control::placeholder {
       }
 
       .rub-stat {
-        background-color: #6bff6b;
-        background-color: #64b5f8;
-        background: #a7cbd3;
+        // background-color: #6bff6b;
+        // background-color: #64b5f8;
+        // background: #a7cbd3;
+        background: var(--rub-back);
         color: black;
         border-radius: 10px;
         padding: 0 5px;
@@ -1047,7 +1052,7 @@ textarea.form-control::placeholder {
       background-color: var(--main-back);
       color: var(--main-color);
       font-size: var(--vertical-font);
-      background: aliceblue;
+      background: var(--rub-back-sum);
     }
 
     .rublink.form-control {
@@ -1078,6 +1083,12 @@ textarea.form-control::placeholder {
     z-index: 9;
     height: 20px;
     line-height: 1;
+    background: #a7cbd3;
+  }
+
+  .backBl {
+    background: #257e90;
+    color: white;
   }
 
   .one-dim {
@@ -1116,6 +1127,7 @@ textarea.form-control::placeholder {
     margin-bottom: 2px;
     font-size: 12px;
     flex-direction: row-reverse;
+    justify-content: space-between;
   }
 
   .field-rub-open {
@@ -1131,7 +1143,7 @@ textarea.form-control::placeholder {
     border-top: 5px;
     position: fixed;
     top: 136px;
-    width: 97%;
+    width: 95%;
     left: 6px;
     background: #257e90;
     background: var(--menu);
@@ -1199,6 +1211,13 @@ textarea.form-control::placeholder {
   .rub-text-closed {
     width: 80%;
     font-size: var(--vertical-font);
+
+    span {
+      width: 20px;
+      display: inline-block;
+      margin-right: 7px;
+      font-size: 12px;
+    }
   }
 
   .one-dim-close {
@@ -1913,7 +1932,25 @@ textarea.form-control::placeholder {
       min-height: 30vh;
     }
   }
+
+  textarea.form-control.tmp-add-text {
+    width: 100%;
+    height: 40%;
+  }
+
+  textarea.form-control.tmp-add-text0 {
+    width: 100%;
+    height: 2rem;
+  }
+
+  .tmp-add-btn {
+    position: absolute;
+    top: -3px;
+    width: 80%;
+  }
 }
+
+
 
 .editbox-wrap-dim {
 
@@ -2195,6 +2232,7 @@ textarea.form-control::placeholder {
   max-height: 93vh;
   height: var(--edit-max-height);
   width: 100vw;
+  padding-right: 25px;
   max-width: var(--edit-width);
 }
 
@@ -2252,6 +2290,30 @@ textarea.form-control::placeholder {
   }
 }
 
+.handleR {
+  width: 90%;
+  border-radius: 15px 15px 0 0;
+  font-size: 12px;
+  background-color: #257e90;
+  position: relative;
+  height: 1.5rem;
+  width: 100%;
+  height: 2rem;
+  font-size: 22px;
+  color: white;
+
+  cursor: move;
+
+  .buttonX {
+    position: absolute;
+    right: 10px;
+    font-weight: 900;
+    color: white;
+    width: 1rem;
+    min-width: 2rem !important;
+    border-radius: 50%;
+  }
+}
 
 
 .handle {
@@ -2403,6 +2465,11 @@ textarea.form-control::placeholder {
 
 .fit-height {
   height: -webkit-fill-available;
+
+}
+
+#editArea {
+  max-height: 100%;
 }
 
 .editareadim {
@@ -2947,6 +3014,11 @@ textarea.form-control::placeholder {
   font-weight: 700;
 }
 
+.highlight-purple {
+  background-color: rgb(223, 44, 193);
+  font-weight: 700;
+}
+
 .highlight-ex {
   color: #d82c2c;
   font-weight: 700;
@@ -2972,7 +3044,7 @@ textarea.form-control::placeholder {
 
 .intense {
   background-color: #239aff;
-  background: linear-gradient(0deg, #239aff 0%, #239aff 100%);
+  background: linear-gradient(0deg, var(--hot-color) 0%, var(--hot-color) 100%);
   color: white;
 }
 
@@ -2995,7 +3067,7 @@ textarea.form-control::placeholder {
 
 .rate-num-ch {
   svg {
-    background-color: #239aff;
+    background-color: var(--hot-color);
   }
 }
 
@@ -3142,7 +3214,7 @@ button.hintBtn {
     // position: absolute;
     display: flex;
 
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     background-color: var(--accent);
     top: -1px;
     left: 27px;
@@ -3163,6 +3235,9 @@ button.hintBtn {
       &:hover {
         div {
           display: block;
+          z-index: 300;
+          background: #bcc5e8;
+          border: 1px solid #6e6969;
         }
       }
     }
@@ -3467,12 +3542,15 @@ button.hintBtn {
 
 }
 
-.voice-drag {
+.voice-drag,
+.rub-drag {
   pointer-events: auto;
   z-index: 2000;
 }
 
-.voice-drag-box {
+.voice-repl-box,
+.voice-drag-box,
+.rub-drag-box {
   // display: flex;
   // justify-content: flex-start;
   position: absolute;
@@ -3487,6 +3565,11 @@ button.hintBtn {
     font-size: 22px;
     color: white;
 
+    cursor: move;
+
+    .round-btn {
+      position: relative;
+    }
 
     button {
       right: 0;
@@ -3507,6 +3590,31 @@ button.hintBtn {
       content: "VOICE INPUT";
       position: absolute;
       font-size: 12px;
+    }
+  }
+
+  .commonDr {
+    z-index: 5000;
+
+    &::after {
+      content: attr(data-title);
+    }
+  }
+
+  .handleBottom {
+    position: relative;
+    background-color: #257e90;
+    border-radius: 0 0 15px 15px;
+    height: fit-content;
+    width: 100%;
+
+    svg {
+      position: absolute;
+      right: 10px;
+      color: white;
+      top: 7px;
+      font-size: 25px;
+
     }
   }
 
@@ -3556,6 +3664,53 @@ button.hintBtn {
         width: 95%;
         // width: 250px;
       }
+    }
+  }
+}
+
+
+
+.rub-drag {
+  position: absolute;
+}
+
+.rub-drag-box {
+  width: 500px;
+
+  .hbottom1 {
+    // position: relative;
+    height: 374px;
+    height: 91%;
+    display: flex;
+    align-content: space-around;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+
+    .form-btn {
+      height: fit-content;
+
+
+      // background-color: red;
+
+      .rubBtn {
+        color: #000;
+        border-radius: 10px;
+        position: relative;
+      }
+    }
+  }
+
+
+
+  .handle1After {
+
+
+    &::after {
+      left: 10px;
+      content: "EDIT";
+      position: absolute;
+      font-size: 12px;
     }
   }
 }
@@ -3847,7 +4002,7 @@ button.hintBtn {
 
   .textarea-btns-null {
     position: absolute;
-    right: 20px;
+    right: 45px;
     opacity: 0.4;
     // top
   }
@@ -4146,6 +4301,8 @@ button.hintBtn {
     background: #0221a0;
     color: white;
     border: 3px solid #a7cbd3;
+    border: 3px solid var(--rub-back);
+
     border-radius: 15px;
     padding: 3px;
     text-align: end;
@@ -4303,6 +4460,7 @@ button.hintBtn {
   display: flex;
   justify-content: space-between;
   min-height: 30px;
+  background: var(--rub-back);
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -4374,8 +4532,6 @@ button.hintBtn {
   span {
     position: absolute;
     transition: all 0.2s ease-in-out;
-    background-color: var(--main-back);
-    background-color: #239aff;
     background-color: var(--line2);
     padding: 0 5px;
     border-radius: 5px;
@@ -5515,10 +5671,7 @@ button.hintBtn {
   max-width: 160px;
 }
 
-.backBl {
-  background: #257e90;
-  color: white;
-}
+
 
 .h-90 {
   height: 90%;
@@ -5565,13 +5718,15 @@ button.hintBtn {
 }
 
 #justifSBS {
-  background-color: #a7cbd3;
-  color: white;
+  // background-color: #a7cbd3;
+  background: var(--rub-back);
+  // color: white;
   height: 4rem;
   width: 100%;
+  font-weight: 600;
 
   &::placeholder {
-    color: white;
+    color: rgb(127, 127, 127);
   }
 }
 
@@ -5609,6 +5764,7 @@ button.hintBtn {
 
 .sumcolor {
   background: linear-gradient(0deg, #a7cbd3 0%, var(--line2) 100%);
+  background: linear-gradient(0deg, var(--rub-back) 0%, var(--line2) 100%);
 
 }
 
@@ -5671,17 +5827,30 @@ button.hintBtn {
       background-color: var(--menu);
       background: white;
       box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+      padding: 10px 5px;
+      font-size: 12px;
     }
 
     &:hover::after {
 
-      content: attr(datarub);
+      content: attr(datarub)"—————————————————————————-" attr(datacont);
       visibility: visible;
-
+      // white-space: pre;
       opacity: 1;
       transition: opacity 0.6s ease;
 
     }
+
+    // &:hover::before {
+
+    //   content: attr(datacont);
+    //   visibility: visible;
+    //   top: unset;
+    //   opacity: 1;
+    //   transition: opacity 0.6s ease;
+    //   right: unset;
+    // }
   }
 
   button {
@@ -5701,6 +5870,7 @@ button.hintBtn {
     font-size: 10px;
     max-width: 100%;
     flex-wrap: wrap;
+    color: black;
   }
 
   .rubB0 {
@@ -5734,4 +5904,61 @@ button.hintBtn {
     background: linear-gradient(0deg, red 0%, red 100%);
     color: black;
   }
+
+  .nojust {
+
+    box-sizing: border-box;
+    outline: 3px solid orange;
+  }
+
+  .isAc {
+    text-decoration: overline;
+  }
+}
+
+.modal-rub {
+  // position: absolute;
+
+  height: 150px;
+  background: #257e90;
+  top: 0;
+  height: 100%;
+
+
+
+  // width: 500px;
+  span {
+    font-size: 12px;
+    width: 89%;
+    display: block;
+    color: #9fff48;
+  }
+
+  .field-box {
+    height: 100%;
+    width: 93%;
+
+    textarea.form-control {
+      max-height: unset;
+      min-height: unset;
+      height: 305px;
+      width: 464px;
+      font-size: var(--font-size-edit);
+    }
+  }
+}
+
+.flowBtn {
+  position: relative;
+
+  span {
+    position: absolute;
+    color: #257e90;
+    top: -2px;
+
+  }
+}
+
+.repl-z {
+  z-index: 1909;
 }

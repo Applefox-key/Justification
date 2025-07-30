@@ -24,6 +24,7 @@ const RubRespBtn = ({
             "rubBtn rubB" + value + (value > 0 && !valueEr ? " nojust" : "")
           }
           onClick={onClick}
+          id={"btn" + field}
           onContextMenu={(e) => {
             e.preventDefault();
             switchSize(e);

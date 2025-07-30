@@ -10,10 +10,11 @@ const TextChecker = ({ close }) => {
   const checkText = () => {
     if (!text) return;
     const doubleSpacesRegex = / {2,}/g;
-    const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
+    // const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
     // const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
     // const dashesRegex = /(\S.*?)\s+[-–]\s+(.*?\S)/g;
     const dashesRegex = /(\S+)\s+[-–]\s+(\S+)/g;
+    const quotesRegex = /"([\s\S]*?)"/g;
     const foundErrors = [];
     let rextJust = "";
     const cleanedText = text.replace(/[.,!?;:"()«»—]/g, ""); // Убираем знаки препинания, кроме дефисов
@@ -62,7 +63,17 @@ const TextChecker = ({ close }) => {
         matches: dashesMatches,
       });
     }
-
+    const nonCyrillicRegex = /[^а-яё0-9\s.,!?;:"()«»=—\-]/gi;
+    // const nonCyrillicRegex =
+    //   /(?<![а-яёА-ЯЁ])[^\s.,!?;:"()«»—–0-9\-+=/*@#$%^&()[\]{}<>\\|~`']/gi;
+    const nonCyrillicMatches = text.match(nonCyrillicRegex);
+    if (nonCyrillicMatches) {
+      rextJust += "The response contains phrases written in another language.";
+      foundErrors.push({
+        type: "non-cyrillic",
+        matches: [...new Set(nonCyrillicMatches)],
+      });
+    }
     if (foundErrors.length > 0) {
       foundErrors.unshift({
         type: "resultTxt",

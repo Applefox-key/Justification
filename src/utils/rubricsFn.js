@@ -3,6 +3,30 @@ import { summariseRub } from "./analysis";
 import { saveToHistory } from "./localStorage";
 import { applyAction } from "./utilStr";
 
+export const defaultRubrics = {
+  "createRubP": {
+    rubric: "Ответ использует правильную пунктуацию",
+    example: `использует кавычки вида «» вместо "".`,
+  },
+  "createRubU": {
+    rubric: "Ответ оформлен без орфографических ошибок",
+    example: `использует строчную букву вместо заглавной после двоеточия согласно правилам русского языка`,
+  },
+  "createRubN": {
+    rubric: "Ответ использует фразы естественно звучащие в русском языке",
+    example: `«» вместо «».`,
+  },
+  "createRubF": {
+    rubric:
+      "Ответ написан на русском языке, не используя иностранные слова без необходимости",
+    example: `«» вместо «».`,
+  },
+  "createRubG": {
+    rubric: "Ответ в использует гендерно-нейтральные формулировки.",
+    example: `«(а)» вместо «».`,
+  },
+};
+
 export const createFieldFn = (
   item,
   setItem,
@@ -22,7 +46,7 @@ export const createFieldFn = (
         };
       });
     },
-
+    setDefRef: () => setTextRef(null),
     move: (ind, dir) => {
       setItem((prev) => {
         const rubricator = [...prev.rubricator];
@@ -98,35 +122,8 @@ export const createFieldFn = (
       else setItem({ ...item, [field]: val });
     },
     createRub: (type = "") => {
-      if (type) {
-        let nr;
-        if (type === "punct")
-          nr = {
-            rubric: "Ответ использует правильную пунктуацию",
-            example: `использует кавычки вида «» вместо "".`,
-          };
-        if (type === "upperCA")
-          nr = {
-            rubric: "Ответ оформлен без орфографических ошибок",
-            example: `использует строчную букву вместо заглавной после двоеточия согласно правилам русского языка`,
-          };
-        if (type === "fluency")
-          nr = {
-            rubric:
-              "Ответ использует фразы естественно звучащие в русском языке",
-            example: `«» вместо «».`,
-          };
-        if (type === "foreign")
-          nr = {
-            rubric:
-              "Ответ написан на русском языке, не используя иностранные слова без необходимости",
-            example: `«» вместо «».`,
-          };
-        if (type === "gender")
-          nr = {
-            rubric: "Ответ в использует гендерно-нейтральные формулировки.",
-            example: `«(а)» вместо «».`,
-          };
+      if (type && type !== "createRub") {
+        let nr = defaultRubrics[type];
         setItem((prev) => {
           return {
             ...prev,
@@ -159,6 +156,37 @@ export const createFieldFn = (
           };
         });
     },
+    clearJ: () => {
+      if (window.confirm("Clear justifications and scores?"))
+        setItem((prev) => {
+          return {
+            ...defaultRubJust,
+            prompt: prev.prompt,
+            taskId: prev.taskId,
+            links: prev.links,
+            rubricator: prev.rubricator.map((item) => ({
+              ...defaultRubricator,
+              rubric: item.rubric || "",
+              example: item.example || "",
+              exExample: !!item.exExample,
+            })),
+          };
+        });
+    },
+    clearS: () => {
+      if (window.confirm("Clear scores?"))
+        setItem((prev) => {
+          return {
+            ...prev,
+            rubricator: prev.rubricator.map((item) => ({
+              ...defaultRubricator,
+              rubric: item.rubric || "",
+              example: item.example || "",
+              exExample: !!item.exExample,
+            })),
+          };
+        });
+    },
     updateRub: (nv) => {
       if (window.confirm("update rubrics?"))
         setItem((prev) => {
@@ -188,12 +216,112 @@ export const createFieldFn = (
         };
       });
     },
+    createRubPromptScores: (selectedText) => {
+      const scores = {
+        "major_issues": 2,
+        "minor_issues": 1,
+        "N/A": -1,
+        "no_issues": 0,
+      };
+      const getparts = (input) => {
+        const parts = input.split("\t");
+
+        if (parts.length < 5) {
+          throw new Error("Недостаточно данных для разделения");
+        }
+
+        const len = parts.length;
+
+        const mainText = parts.slice(0, len - 4).join("\t"); // всё до последних 4 полей
+        const [rubric, example] = mainText.split(
+          /например|Например|Например,|например,|Например:|например:/
+        );
+        // const [rubric, example] = mainText.split("Например");
+        const score1 = scores[parts[len - 4].trim()];
+        const score2 = scores[parts[len - 3].trim()];
+        const score3 = scores[parts[len - 2].trim()];
+        const score4 = scores[parts[len - 1].trim()];
+        return { rubric, example, score1, score2, score3, score4 };
+      };
+
+      const rubrArr = selectedText
+        .split("\n")
+        .filter(Boolean)
+        .map((el) => {
+          const fr = getparts(el);
+          return {
+            ...defaultRubricator,
+            ...fr,
+          };
+        });
+
+      setItem((prev) => {
+        return {
+          ...prev,
+          rubricator: [...prev.rubricator, ...rubrArr],
+        };
+      });
+    },
+    createRubPromptScoresTask: (rawText) => {
+      const scores = {
+        "major_issues": 2,
+        "minor_issues": 1,
+        "N/A": -1,
+        "no_issues": 0,
+      };
+
+      const lines = rawText
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line !== "");
+
+      // Пропускаем первые 5 строк: "Criteria", "Response 1", ..., "Response 4"
+      const dataLines = lines.slice(5);
+
+      const rubrArr = [];
+      for (let i = 0; i < dataLines.length; i += 5) {
+        const block = dataLines.slice(i, i + 5);
+        if (block.length < 5) continue;
+
+        const [criterionRaw, s1Raw, s2Raw, s3Raw, s4Raw] = block;
+
+        const [rubricRaw, exampleRaw] = criterionRaw.split(
+          /например:|например,|например|Например:|Например,|Например/i
+        );
+
+        const rubric = rubricRaw?.trim() || "";
+        const example = exampleRaw?.trim() || "";
+
+        const [score1, score2, score3, score4] = [
+          s1Raw,
+          s2Raw,
+          s3Raw,
+          s4Raw,
+        ].map((val) => scores[val.trim()] ?? -1);
+
+        rubrArr.push({
+          ...defaultRubricator,
+          rubric,
+          example,
+          score1,
+          score2,
+          score3,
+          score4,
+        });
+      }
+
+      setItem((prev) => ({
+        ...prev,
+        rubricator: [...prev.rubricator, ...rubrArr],
+      }));
+    },
     onFocus: (ref) => {
       if (textRef && textRef.current) {
         const field = fieldId;
         const val = textRef.current.value || "";
         fieldFn.setNewValRub(val, field);
       }
+
       setTextRef(ref);
     },
     onKeyDown: (e) => {
@@ -436,4 +564,18 @@ export const createFieldFn = (
 //     setPopup("info has been added to the history");
 //     setItem(defaultRubJust);
 //   },
+// };
+
+// export const waitForElementAndFocus = (id, maxTries = 10, interval = 100) => {
+//   let tries = 0;
+//   const check = () => {
+//     const el = document.getElementById(id);
+//     if (el) {
+//       el.focus();
+//     } else if (tries < maxTries) {
+//       tries++;
+//       setTimeout(check, interval);
+//     }
+//   };
+//   check();
 // };

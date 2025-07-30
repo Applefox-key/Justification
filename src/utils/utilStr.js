@@ -1,5 +1,4 @@
 import {
-  baseRespName,
   replacementsGeneral,
   replacementsInteractions,
   replacementsPunctuation,
@@ -11,24 +10,24 @@ import { defaultDim, defaultDimSets } from "../constants/textParts";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
-export const concatenateEnFields = (justification) => {
-  if (!justification.length) return "";
-  return justification
-    .map((obj) => obj.en)
-    .reduce((acc, val) => {
-      if (val === "." || val === ",") {
-        return acc + val;
-      }
-      let formatVal = acc.endsWith(".")
-        ? val.charAt(0).toUpperCase() + val.slice(1)
-        : val;
-      formatVal = formatVal.replace("respond ", "Respond ");
-      if (!acc)
-        formatVal = formatVal.charAt(0).toUpperCase() + formatVal.slice(1);
-      return acc + " " + formatVal;
-    }, "")
-    .trim();
-};
+// export const concatenateEnFields = (justification) => {
+//   if (!justification.length) return "";
+//   return justification
+//     .map((obj) => obj.en)
+//     .reduce((acc, val) => {
+//       if (val === "." || val === ",") {
+//         return acc + val;
+//       }
+//       let formatVal = acc.endsWith(".")
+//         ? val.charAt(0).toUpperCase() + val.slice(1)
+//         : val;
+//       formatVal = formatVal.replace("respond ", "Respond ");
+//       if (!acc)
+//         formatVal = formatVal.charAt(0).toUpperCase() + formatVal.slice(1);
+//       return acc + " " + formatVal;
+//     }, "")
+//     .trim();
+// };
 
 export async function copyFromTextarea() {
   const textarea = document.getElementById("edit");
@@ -51,17 +50,27 @@ export const copyToClipboard = async (text, popup = null) => {
   }
 };
 
-const sentencesCaps = (text) => {
-  // Splitting the text into sentences
+const sentencesCaps = (text, exceptions = new Set()) => {
+  // // Putting the sentences back into the text
+  // return sentences.join("");
   let sentences = text.split(/([.!?]\s*)/);
-  // We go through each sentence and make the first letter capital
+
   for (let i = 0; i < sentences.length; i++) {
-    if (sentences[i].length > 1) {
-      sentences[i] =
-        sentences[i].charAt(0).toUpperCase() + sentences[i].slice(1);
+    let words = sentences[i].split(/\b/); // разбиваем по словам
+    for (let j = 0; j < words.length; j++) {
+      const wordLower = words[j].toLowerCase();
+      if (exceptions.has(wordLower)) {
+        words[j] = wordLower.charAt(0).toUpperCase() + wordLower.slice(1);
+      }
     }
+
+    if (words[0] && /[a-zа-яё]/i.test(words[0].charAt(0))) {
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    }
+
+    sentences[i] = words.join("");
   }
-  // Putting the sentences back into the text
+
   return sentences.join("");
 };
 export const replaceQuotes3 = (txt) => {
@@ -84,14 +93,19 @@ export const replaceQuotes3 = (txt) => {
 };
 export const cleanAndCapitalize = (text) => {
   // text = text.replace(/\s+/g, " ").trim();
+  const alwaysCapitalize = new Set(["i", "english", "russian"]);
   text = text.trim();
   text = text.replace(/ +/g, " ").replace(/ ?\n ?/g, "\n");
-  text = text.replace(/\.\./g, ".");
+  // text = text.replace(/\.\./g, ".");
+  text = text.replace(/(?<!\.)\.{2}(?!\.)/g, "."); // only 2 periods
+  text = text.replace(/(?<!\.)\.{4,}(?!\.)/g, "..."); //only 4+ periods
   text = text.replace(/\s\./g, ".");
   text = text.replace(/\s:/g, ":");
   text = text.replace(/\s,/g, ",");
   text = text.replace(/\(\s+/g, "(");
   text = text.replace(/\s+\)/g, ")");
+  text = text.replace(/([«“])\s+/g, "$1");
+  text = text.replace(/\s+([»”])/g, "$1");
   //  links
   const urlRegex = /(https?:\/\/[^\s]+)/g;
 
@@ -109,7 +123,7 @@ export const cleanAndCapitalize = (text) => {
     } else {
       // not a link
       part = part.toLowerCase();
-      part = sentencesCaps(part);
+      part = sentencesCaps(part, alwaysCapitalize);
       return part;
     }
   });
@@ -255,11 +269,20 @@ export const highlightedText = (text, compliteCrit = []) => {
 export const highlightedCheckedText = (text, compliteCrit = []) => {
   const regQ = [`"`];
   const regD = [` - `, ` – `];
-
   const regS = [`  `];
+  // eslint-disable-next-line no-useless-escape
+  const nonCyrillicRegex = /[^а-яё0-9\s.,!?;:"()«»=—\-]/gi;
+  // const nonCyrillicRegex =
+  //   /(?<![а-яёА-ЯЁ])[^\s.,!?;:"()«»—–0-9\-+=/*@#$%^&()[\]{}<>\\|~`']/gi;
+  const nonCyrillicMatches = text.match(nonCyrillicRegex);
+  const uniqueNonCyrillic = nonCyrillicMatches
+    ? [...new Set(nonCyrillicMatches)]
+    : [];
 
   const regexPattern = new RegExp(
-    `(${[...compliteCrit, ...regQ, ...regD, ...regS].join("|")})`,
+    `(${[...compliteCrit, ...regQ, ...regD, ...regS, ...uniqueNonCyrillic].join(
+      "|"
+    )})`,
     "gi"
   );
   // Split the text by "example", keeping the word itself
@@ -289,6 +312,12 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
     else if (regS.includes(part.toLowerCase()))
       return (
         <span className="highlight-yellow" key={index}>
+          {part}
+        </span>
+      );
+    else if (uniqueNonCyrillic.includes(part))
+      return (
+        <span className="highlight-purple" key={index}>
           {part}
         </span>
       );
@@ -367,14 +396,14 @@ const quoteEachLine = (input) => {
     .map((line) => `"${line}"`) // Оборачиваем каждую строку в кавычки
     .join("\n"); // Собираем обратно в строку
 };
-const quoteEachLineI = (input) => {
+const quoteEachLineI = (input, txt = " instead of ") => {
   const lines = input.split("\n").filter(Boolean); // убираем пустые строки
   const result = [];
 
   for (let i = 0; i < lines.length; i += 2) {
     const first = lines[i]?.trim() || "";
     const second = lines[i + 1]?.trim() || "";
-    result.push(`"${first}" instead of it is better to use "${second}";`);
+    result.push(`"${first}"${txt}"${second}";`);
   }
 
   return result.join("\n");
@@ -421,6 +450,8 @@ export const editTextAction = (
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "quotationL") resultText = quoteEachLine(selectedText);
   else if (action === "quotationLI") resultText = quoteEachLineI(selectedText);
+  else if (action === "quotationLB")
+    resultText = quoteEachLineI(selectedText, ": it is better to use ");
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
   else if (action === "quotation3") resultText = replaceQuotes3(selectedText);
@@ -532,14 +563,39 @@ export const fromJsonString = (jsonString) => {
     return { ...defaultDim };
   }
 };
+export const baseRespName = {
+  "INT": {
+    R1: "Interaction 1",
+    R2: "Interaction 1",
+    fn: replaceWordsInteractions,
+  },
+  "@R": { R1: "@Response 1", R2: "@Response 1", fn: replaceNum },
+  "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
+  "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
+};
+
+export const concatenateEnFields = (justification) => {
+  if (!justification.length) return "";
+  return justification
+    .map((obj) => obj.en)
+    .reduce((acc, val) => {
+      if (val === "." || val === ",") {
+        return acc + val;
+      }
+      let formatVal = acc.endsWith(".")
+        ? val.charAt(0).toUpperCase() + val.slice(1)
+        : val;
+      formatVal = formatVal.replace("respond ", "Respond ");
+      if (!acc)
+        formatVal = formatVal.charAt(0).toUpperCase() + formatVal.slice(1);
+      return acc + " " + formatVal;
+    }, "")
+    .trim();
+};
+
 export const applyAction = (newFr_, action = "") => {
   if (!action) return newFr_;
   const newVal = baseRespName[action].fn(newFr_);
-  // action === "@R"
-  //   ? replaceNum(newFr_)
-  //   : action === "RAB"
-  //   ? replaceWords(newFr_)
-  //   : replaceWordsInteractions(newFr_);
   return newVal;
 };
 
@@ -632,12 +688,144 @@ export const replaceQuotes = (txt) => {
   newVal = newVal.replace(/”/g, "»");
   return newVal;
 };
+export const replaceQuotes4 = (txt) => {
+  const newVal = txt.replace(/[“«”»]/g, `"`);
 
+  return newVal;
+};
 export const toOrder = (fieldid, val, type = "") => {
   let txt = cleanAndCapitalize(val);
   txt = replaceText(fieldid, txt, "-", "—");
   if (type === "") txt = replaceQuotes3(txt);
   if (type === "«»") txt = replaceQuotes(txt);
+  if (type === `""`) txt = replaceQuotes4(txt);
   txt = txt.replace("russian", "Russian");
   return txt;
+};
+export const actionWithSelection = (fieldid, callback) => {
+  const textarea = document.getElementById(fieldid);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  const text = textarea.value;
+  const selectedText = start === end ? text : text.slice(start, end); // No text selected — all text
+  let resultText = callback(selectedText);
+  return start === end
+    ? resultText
+    : text.slice(0, start) + " " + resultText + text.slice(end);
+};
+
+export const processStars = (fieldid) => {
+  const callback = (text) => {
+    // 1. Заменяем все *** на * **
+    let updated = text.replace(/\*\*\*/g, "* **");
+    // 2. Ищем все фрагменты между **...**, учитывая, что они могут появиться после шага 1
+    updated = updated.replace(/\*\*(.*?)\*\*/g, (_, inner) => {
+      const trimmed = inner.trim(); // убираем пробелы в начале и конце
+      return `**${trimmed}**`;
+    });
+    return updated;
+  };
+  return actionWithSelection(fieldid, callback);
+};
+export const cleanDotSpacesInBracketsOld = (text) => {
+  return text
+    .replace(/\\\s+\[/g, "\\[") // заменяем \ [ на \[
+    .replace(/\\\[(.*?)\\\]/gs, (match, inner) => {
+      // const cleaned = inner.replace(/\\\ +/g, "\\"); // убираем пробелы после \.
+
+      const cleaned = inner
+        .replace(/(\\) +/g, "$1") // убираем пробелы после \.
+        .replace(/\\Times/g, "\\times") // заменяем \Times на \times
+        .replace(/\\раз/g, "\\times") // заменяем \раз на \times
+        .replace(/(?<=\d) (?=\d)/g, ""); // удаляем пробелы между цифрами
+      return `\\[${cleaned}\\]`;
+    });
+};
+const latexRepl = (txt) => {
+  const txtN = txt
+    .replace(/(\\) +/g, "$1") // убираем пробелы после \.
+    .replace(/\\Times/g, "\\times") // заменяем \Times на \times
+    .replace(/\\Text/g, "\\text") // заменяем \Times на \times
+    .replace(/\\End/g, "\\end") // заменяем \Times на \times
+    .replace(/\\Quad/g, "\\quad") // заменяем \Times на \times
+    .replace(/\\fracc/g, "\\frac") // заменяем \Times на \times
+    .replace(/\\absx/g, "\\approx") // заменяем \Times на \times
+    .replace(/\\раз/g, "\\times") // заменяем \раз на \times
+    .replace(/(?<=\d) (?=\d)/g, ""); // удаляем пробелы между цифрами
+  return txtN;
+};
+export const cleanDotSpacesInBrackets = (fieldid) => {
+  const formating = (txt) =>
+    txt
+      .replace(/\\\s+\[/g, "\\[") // заменяем \ [ на \[s
+      .replace(/\\\[(.*?)\\\]/gs, (match, inner) => {
+        const cleaned = latexRepl(inner);
+        return `\\[${cleaned}\\]`;
+      });
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+export const cleanDotSpacesInDol = (fieldid) => {
+  const formating = (txt) =>
+    txt.replace(/\$\$(.*?)\$\$/gs, (match, inner) => {
+      const trimmed = inner.trim(); // удаляем пробелы по краям содержимого
+      const cleaned = latexRepl(trimmed);
+      return `$$${cleaned}$$`;
+    });
+
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+export const cleanSpacesInNumbers = (fieldid) => {
+  const formating = (txt) => txt.replace(/(?<=\d) (?=\d)/g, ""); // удаляем пробелы между цифрами
+
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+export const replaceDotsInNumbers = (fieldid) => {
+  const formating = (txt) => txt.replace(/(?<=\d)\.(?=\d)/g, ","); // заменяем точки между цифрами на запятые
+
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+export const changeUsd = (fieldid) => {
+  const formating = (txt) =>
+    txt.replace(/долл\./g, "долларов").replace(/USD/g, "долларов США"); // заменяем \Times на \times
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+
+export const findAndReplace = (fieldid, find, repl) => {
+  const formating = (txt) => txt.replaceAll(find, repl);
+
+  const nv = actionWithSelection(fieldid, formating);
+  return nv;
+};
+
+export const baseFormatChanges = {
+  "Markdown": {
+    fn: processStars,
+    name: "markdowns",
+  },
+  "LatexF": {
+    fn: cleanDotSpacesInBrackets,
+    name: "latex function",
+  },
+  "LatexА2": {
+    fn: cleanDotSpacesInDol,
+    name: "latex function $$",
+  },
+  "SpacesNum": {
+    fn: cleanSpacesInNumbers,
+    name: "Numbers: delete spaces",
+  },
+  "DotsNum": {
+    fn: replaceDotsInNumbers,
+    name: "Numbers: dots to commas",
+  },
+  "DelUSD": {
+    fn: changeUsd,
+    name: "delete USD",
+  },
 };

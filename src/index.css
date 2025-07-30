@@ -3,6 +3,11 @@
   --main-back:#fdfeff;
   --main-back-unfocus:#eaeaeb;
   --main-color:#000000;
+  /* --rub-back:#a7cbd3; */
+  /* --rub-back:#a49f9f; */
+  --rub-back:#a49f9f;
+  --rub-back-focus: beige;  
+  --rub-back-sum: aliceblue;
   --line1:#f6faff;
   --line2:#dadada ;
   --item-back:#e5e9ea;
@@ -10,7 +15,10 @@
   --menu:#e2e2e2;
   --sec-back:#c7cacf91;
   --sec-menu:#86898e91;
+  --hot-color:#6e6969;
+  /*--hot-color: 239aff; */
   --vertical-font: 0.7rem;
+  --font-size-edit: 0.7rem;
   --second-color: #868686;
   --edit-width: 72vw;
   --edit-max-height:550px;

@@ -4,7 +4,18 @@ import { BiSolidRightArrow } from "react-icons/bi";
 import SummaryRub from "./SummaryRub";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { detectHeightRub } from "../../utils/analysis";
-import { replaceQuotes } from "../../utils/utilStr";
+import { copyToClipboard, replaceQuotes } from "../../utils/utilStr";
+import { TiPlusOutline } from "react-icons/ti";
+
+import { MdBorderClear, MdVoiceOverOff } from "react-icons/md";
+import {
+  TbChairDirector,
+  TbClipboardCopy,
+  TbDeviceTabletX,
+} from "react-icons/tb";
+import { BsGenderAmbiguous } from "react-icons/bs";
+import { VscClearAll } from "react-icons/vsc";
+import { defaultRubrics } from "../../utils/rubricsFn";
 
 const Rubricator = ({ editParam }) => {
   const [showRubricator, setShowRubricator] = useState(false);
@@ -24,11 +35,9 @@ const Rubricator = ({ editParam }) => {
   }, [showRubricator]);
   const clickBtns = (e, type) => {
     e.stopPropagation();
-    switch (type) {
+    const type1 = type.includes("createRub") ? "createRub" : type;
+    switch (type1) {
       case "hide":
-        // requestAnimationFrame(() => {
-        //   setShowRubricator((prev) => !prev);
-        // });
         setShowRubricator(!showRubricator);
 
         break;
@@ -38,23 +47,20 @@ const Rubricator = ({ editParam }) => {
       case "delRubr":
         fieldFn.deleteRub();
         break;
+      case "copyRubr":
+        const rubr = editParam.item.rubricator
+          .map((el, i) => el.rubric + "==" + el.example)
+          .join("\n");
+        copyToClipboard(rubr);
+        break;
+      case "clearJust":
+        fieldFn.clearJ();
+        break;
+      case "clearScore":
+        fieldFn.clearS();
+        break;
       case "createRub":
-        fieldFn.createRub();
-        break;
-      case "createRubP":
-        fieldFn.createRub("punct");
-        break;
-      case "createRubU":
-        fieldFn.createRub("upperCA");
-        break;
-      case "createRubN":
-        fieldFn.createRub("fluency");
-        break;
-      case "createRubF":
-        fieldFn.createRub("foreign");
-        break;
-      case "createRubG":
-        fieldFn.createRub("gender");
+        fieldFn.createRub(type);
         break;
       case "examplesQ":
         let rb = editParam.item.rubricator.map((el) => {
@@ -83,10 +89,34 @@ const Rubricator = ({ editParam }) => {
       fieldFn.createRub();
     } else clickBtns(e, "hide");
   };
+  const handleContextMenu = (e, val) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    if (e.button === 2 && val) {
+      const rb = defaultRubrics[val];
+
+      copyToClipboard(rb.rubric + ". Например: " + rb.example);
+    }
+  };
+  const splitLineData = async (e) => {
+    e.stopPropagation();
+    const input = await navigator.clipboard.readText();
+    fieldFn.createRubPromptScores(input);
+  };
+  const splitLineDataT = async (e) => {
+    e.stopPropagation();
+    const input = await navigator.clipboard.readText();
+    console.log(input);
+
+    fieldFn.createRubPromptScoresTask(input);
+  };
   return (
     <div className="h-90">
-      <div className="body-dim-line rub-title" onClick={titleClick}>
+      <div
+        className="body-dim-line rub-title"
+        onClick={titleClick}
+        id="RubricaT">
         <div className="rub-bode-menu">
           {showRubricator && (
             <>
@@ -99,50 +129,88 @@ const Rubricator = ({ editParam }) => {
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRub")}
+                onContextMenu={(e) => handleContextMenu(e, "createRub")}
                 title="add new criteria">
-                +
+                <TiPlusOutline />
               </button>
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRubP")}
+                onContextMenu={(e) => handleContextMenu(e, "createRubP")}
                 title="add new criteria punctuation err">
-                + «»
+                <TiPlusOutline /> «»
               </button>{" "}
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRubU")}
+                onContextMenu={(e) => handleContextMenu(e, "createRubU")}
                 title="add new criteria punctuation err">
-                + :A
+                <TiPlusOutline /> :A
               </button>
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRubN")}
+                onContextMenu={(e) => handleContextMenu(e, "createRubN")}
                 title="add new criteria fluency err">
-                + LF
+                <TiPlusOutline /> <MdVoiceOverOff />
               </button>
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRubF")}
+                onContextMenu={(e) => handleContextMenu(e, "createRubF")}
                 title="add new criteria foreign language">
-                +FR
+                <TiPlusOutline />
+                <TbChairDirector />
               </button>{" "}
               <button
                 className="rubBtn"
                 onClick={(e) => clickBtns(e, "createRubG")}
+                onContextMenu={(e) => handleContextMenu(e, "createRubG")}
                 title="add new criteria gender">
-                +GN
+                <TiPlusOutline />
+                <BsGenderAmbiguous />
               </button>
               <button
-                className="rubBtn"
+                title="add rubrics with scores from task xlss"
+                className="rubBtn sumcolor"
+                onClick={(e) => splitLineData(e)}>
+                RR
+              </button>{" "}
+              <button
+                title="add rubrics with scores from task"
+                className="rubBtn sumcolor"
+                onClick={(e) => splitLineDataT(e)}>
+                RT
+              </button>
+              <button
+                className="rubBtn sumcolor"
                 onClick={(e) => clickBtns(e, "examplesQ")}
                 title="change quotation mark in examples">
                 «»
               </button>{" "}
               <button
-                className="rubBtn"
+                className="rubBtn sumcolor"
+                onClick={(e) => clickBtns(e, "copyRubr")}
+                title="copy Rubric to the clipboard">
+                <TbClipboardCopy />
+              </button>
+              <button
+                className="rubBtn sumcolor"
+                onClick={(e) => clickBtns(e, "clearScore")}
+                title="clear all scores">
+                <MdBorderClear />
+              </button>
+              <button
+                className="rubBtn sumcolor"
+                onClick={(e) => clickBtns(e, "clearJust")}
+                title="clear all scores and justifications">
+                <TbDeviceTabletX />
+              </button>
+              <button
+                className="rubBtn sumcolor"
                 onClick={(e) => clickBtns(e, "delRubr")}
                 title="delete all rubrics">
-                x
+                <VscClearAll />
               </button>
             </>
           )}

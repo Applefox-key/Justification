@@ -73,7 +73,35 @@ const EditDmgMenuBar = ({ editParam }) => {
         [fieldId]: `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
       });
   };
+  const composeRateBoth = (r3targ = true) => {
+    const rateStr = best.title + "\n";
 
+    let dimTxtA = "";
+    let dimTxtB = "";
+    let dimTxtSame = "Responses are the same at ";
+    defaultDimSets[editParam.item.setName].forEach((elAb) => {
+      const ea = item.Evals[elAb.a];
+      const eb = item.Evals[elAb.b];
+      if (ea > eb) dimTxtA += "Response A " + elAb.better + ".\n";
+      if (eb > ea) dimTxtB += "Response B " + elAb.better + ".\n";
+      if (eb === ea)
+        dimTxtSame +=
+          (dimTxtSame !== "Responses are the same at " ? ", " : "") + elAb.name;
+    });
+    dimTxtSame =
+      dimTxtSame !== "Responses are the same at " ? dimTxtSame + "." : "";
+    const rateStrDim = dimTxtA + "\n" + dimTxtB + "\n" + dimTxtSame;
+    if (r3targ)
+      setItem({
+        ...item,
+        "Rate": `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
+      });
+    else
+      setItem({
+        ...item,
+        [fieldId]: `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
+      });
+  };
   return (
     <div className="edit-parts-menu">
       <span className="rec">Recommendation: {best.rec}</span>
@@ -94,6 +122,7 @@ const EditDmgMenuBar = ({ editParam }) => {
         </button> */}
         {/* <div className="btn-hide-wrap"> */}
         {/* </div> */}
+        <button onClick={() => composeRateBoth(false)}>rate 2</button>
         <button onClick={() => composeRate(false)}>
           rate to {fieldId ? fieldId : "active text field"}
         </button>

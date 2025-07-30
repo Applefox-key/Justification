@@ -122,7 +122,7 @@ const EditFieldDmg = ({
                   title="translate prompt for gpt"
                   className={"square-btn"}
                   onClick={(e) =>
-                    copyToClipboard("translate to english: " + fieldVal)
+                    copyToClipboard("translate to English: " + fieldVal)
                   }>
                   <PiCopyleftDuotone />
                 </button>
