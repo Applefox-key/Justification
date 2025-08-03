@@ -221,6 +221,8 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                   fieldFn,
                   fieldId,
                   isTxt,
+                  pasteToText,
+                  action,
                 }}
               />
             </div>

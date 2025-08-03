@@ -1,8 +1,13 @@
 import React from "react";
 import { defaultDimSets } from "../../constants/textParts";
 import { Button } from "react-bootstrap";
+import { setSet } from "../../utils/localStorage";
 
 const DimSetsList = ({ curSet, setCurSet }) => {
+  const saveNewSet = (key) => {
+    if (curSet !== key) setSet(key);
+    setCurSet(key);
+  };
   return (
     <div className="setlist-btns">
       <Button className="btnToHis">{curSet}</Button>
@@ -12,7 +17,7 @@ const DimSetsList = ({ curSet, setCurSet }) => {
           <button
             className="btnToHis intense"
             title="RESPONSES: remove extra spaces, capitalize all sentences, correct names of responses"
-            onClick={() => setCurSet(key)}>
+            onClick={() => saveNewSet(key)}>
             <span>{key}</span>
             {el.map((it, i) => (
               <div>{it.name}</div>

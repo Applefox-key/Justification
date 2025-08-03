@@ -1,3 +1,5 @@
+import { fromLS, getSet } from "../utils/localStorage";
+
 export const textParts = [
   { en: "Responses are about the same.", ru: "", level: "AB", note: "" },
   { en: "Response A is slightly better.", ru: "", level: "A", note: "" },
@@ -138,6 +140,59 @@ export const defaultDimSets = {
       name: "Localization fluency",
       short: "LC",
       better: "is better in localization",
+      justif: [
+        {
+          title: "Unlocalized",
+          newT: "The response provides information related to another locale",
+        },
+        {
+          title: "Non-local Perspective",
+          newT: "The response over-explains details that a local can easily understand",
+        },
+        {
+          title: "Local norms",
+          newT: "The response should use details that a local would understand easily and are a local norm",
+        },
+        {
+          title: "Local Locations",
+          newT: "The response provides information related to another locale",
+        },
+        {
+          title: "Local Events",
+          newT: "The response includes unrelevant generic festivals, holidays, or seasonal events",
+        },
+        {
+          newT: `BotModel contains phrases written in another language (not Russian) " ".`,
+
+          title: "foreign",
+        },
+        {
+          newT: `BotModel contains The phrase that is often repeated, for example " ".`,
+
+          title: "repetition",
+        },
+        {
+          newT: `Some phrases in BotModel sound unnatural ("").`,
+
+          title: "unnatural",
+        },
+        {
+          newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+
+          title: "unnat.phrase",
+        },
+
+        {
+          newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+
+          title: "gram err",
+        },
+        {
+          newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+
+          title: "word matching",
+        },
+      ],
     },
     {
       a: "Instructions_A",
@@ -145,6 +200,24 @@ export const defaultDimSets = {
       name: "Instruction following",
       short: "IF",
       better: "is better at following instructions",
+      justif: [
+        {
+          title: "not follow",
+          newT: "The response does not follow the format, length, tone, exclusions, or other constraints explicitly mentioned in the prompt.",
+        },
+        {
+          title: "extra facts",
+          newT: "The extra facts the model added are unhelpful.",
+        },
+        {
+          title: "constraints ignore",
+          newT: "The response ignores or violates key constraints in the prompt, making it unhelpful to the user.",
+        },
+        {
+          title: "user asked",
+          newT: " The user asked for _, but the response recommended/provided _. This does not follow the prompt's instructions.",
+        },
+      ],
     },
     {
       a: "Truthfulness_A",
@@ -152,6 +225,12 @@ export const defaultDimSets = {
       name: "Truthfulness",
       short: "TR",
       better: "is more accurate",
+      justif: [
+        {
+          title: "inaccurately claims",
+          newT: "The response inaccurately claims that __ when in fact it's _.",
+        },
+      ],
     },
 
     {
@@ -160,6 +239,28 @@ export const defaultDimSets = {
       name: "Response Length",
       short: "RL",
       better: `is more dainty/short/long/ has long pleasantries that shift focus away from the answer`,
+      justif: [
+        {
+          title: "too detailed",
+          newT: "The response is either overly detailed",
+        },
+        {
+          title: "unrelated details",
+          newT: "A response that includes unrelated details, such as _",
+        },
+        {
+          title: "pleasantries",
+          newT: "A response contains long pleasantries that lead to lack of focus on the answer.",
+        },
+        {
+          title: "rephrases",
+          newT: "The response rephrases the same ideas.",
+        },
+        {
+          title: "unrelated opinions",
+          newT: " Adding suggestions, opinions, or unrelated information",
+        },
+      ],
     },
     {
       a: "Harmless_A",
@@ -167,6 +268,7 @@ export const defaultDimSets = {
       name: "Harmless",
       short: "H",
       better: "has no safety issue",
+      justif: [],
     },
     {
       a: "Structure_WritingStyle_Tone_A",
@@ -174,9 +276,92 @@ export const defaultDimSets = {
       name: "Structure, Writing Style & Tone",
       short: "SWT",
       better: `is more organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting`,
+      justif: [],
     },
   ],
 };
+// export const defaultDimSetsJustif = {
+//   set1: [
+//     {
+//       a: "Instructions_A",
+//       b: "Instructions_B",
+//       name: "Instruction following",
+//       short: "IF",
+//       better: "is better at following instructions",
+//     },
+//     {
+//       a: "Factuality_A",
+//       b: "Factuality_B",
+//       name: "Factuality",
+//       short: "F",
+//       better: "is more accurate",
+//     },
+//     {
+//       a: "Language_A",
+//       b: "Language_B",
+//       name: "Language fluency",
+//       short: "LF",
+//       better: "is better in fluency",
+//     },
+//     {
+//       a: "Coherence_A",
+//       b: "Coherence_B",
+//       name: "Coherence",
+//       short: "C",
+//       better: "is more coherent",
+//     },
+//     {
+//       a: "Presentation_A",
+//       b: "Presentation_B",
+//       name: "Presentation",
+//       short: "P",
+//       better: "has better presentation",
+//     },
+//     {
+//       a: "Tone_A",
+//       b: "Tone_B",
+//       name: "Tone",
+//       short: "T",
+//       better: "has a more appropriate tone",
+//     },
+//   ],
+//   set2: [
+//     { short: "LC", btns: [{ title: "", newT: "" }] },
+//     {
+//       short: "IF",
+//       better: "is better at following instructions",
+//     },
+//     {
+//       a: "Truthfulness_A",
+//       b: "Truthfulness_B",
+//       name: "Truthfulness",
+//       short: "TR",
+//       better: "is more accurate",
+//     },
+
+//     {
+//       a: "Length_A",
+//       b: "Length_B",
+//       name: "Response Length",
+//       short: "RL",
+//       better: `is more dainty/short/long/ has long pleasantries that shift focus away from the answer`,
+//     },
+//     {
+//       a: "Harmless_A",
+//       b: "Harmless_B",
+//       name: "Harmless",
+//       short: "H",
+//       better: "has no safety issue",
+//     },
+//     {
+//       a: "Structure_WritingStyle_Tone_A",
+//       b: "Structure_WritingStyle_Tone_B",
+//       name: "Structure, Writing Style & Tone",
+//       short: "SWT",
+//       better: `is more organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting`,
+//     },
+//   ],
+// };
 export const defaultDimTempl = {
   Rate: "",
   Justif: "",
@@ -369,7 +554,9 @@ export const constructDefItem = (sn) => {
 };
 
 export const getNewOrParseDmg = (el = null) => {
-  const setN = (el ? el.setName : "") || "set1";
+  let setN = (el ? el.setName : "") || getSet();
+  // if ((setN = "")) setN = getSet();
+
   const defEl = constructDefItem(setN);
   return el ? { ...defEl, ...JSON.parse(el) } : defEl;
 };

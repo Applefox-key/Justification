@@ -753,6 +753,14 @@ export const autoreplaceRub = [
     title: `».`,
   },
 ];
+// export const evals_c = [
+//   {
+//     newT: `BotModel has some localization issues.`,
+//     title: "LC|",
+//     newT: `BotModel has some localization issues.`,
+//     title: "LC|",
+//   },
+// ];
 export const autoreplaceLoc = [
   {
     oldT: ["loc"],

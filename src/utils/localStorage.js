@@ -9,7 +9,14 @@ export const fromLS = (key) => {
   const value = localStorage.getItem(key);
   return value ? JSON.parse(value) : null;
 };
-
+export const getSet = () => {
+  const setN = fromLS("justset");
+  if (!setN) toLS("justset", "set1");
+  return setN || "set1";
+};
+export const setSet = (val) => {
+  if (val) toLS("justset", val);
+};
 export const saveToHistory = (el) => {
   let val = fromLS("History");
   if (val === null) toLS("History", [el]);

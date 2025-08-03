@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import EditFieldDmg from "./EditFieldDmg";
+import { applyAction, copyToClipboard } from "../../utils/utilStr";
+import DimBtnsHot from "./DimBtnsHot";
 
 const EditOneDmg = ({ editParam }) => {
-  const { field, setIsTxt, fieldId, isTxt, item, fieldFn, showBody } =
-    editParam;
+  const {
+    field,
+    setIsTxt,
+    fieldId,
+    isTxt,
+    item,
+    fieldFn,
+    showBody,
+    pasteToText,
+    action,
+  } = editParam;
   const [show, setShow] = useState(false);
   const classA = () =>
     "dimField " +
@@ -23,6 +34,8 @@ const EditOneDmg = ({ editParam }) => {
       setShow(showBody);
     }
   }, [showBody]);
+  console.log(item);
+
   return (
     <>
       <div
@@ -64,6 +77,14 @@ const EditOneDmg = ({ editParam }) => {
           fieldFn={fieldFn}
         />
       </div>
+      {show && (
+        <DimBtnsHot
+          field={field}
+          pasteToText={pasteToText}
+          action={action}
+          set={item.setName}
+        />
+      )}{" "}
     </>
   );
 };
