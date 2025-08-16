@@ -66,6 +66,10 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
       newVal
     );
   };
+  const handleCountChange = () => {
+    const v = countR === 4 ? 2 : 4;
+    setCountR(v);
+  };
 
   const toHist = () => {
     const handleTxt = JSON.stringify(item);
@@ -124,6 +128,9 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
           }}
         />
         <div className="taskidBox">
+          <button onClick={handleCountChange} className="unsetW ">
+            Resp. num 2/4: {countR}
+          </button>{" "}
           <DmgPageTask
             editParam={{
               item,

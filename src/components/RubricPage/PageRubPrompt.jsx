@@ -5,10 +5,10 @@ import RubricatorShort from "./RubricatorShort";
 
 const PageRubPrompt = ({ editParam }) => {
   const { fieldId, countR, setCountR, fieldFn, item, setItem } = editParam;
-  const handleCountChange = () => {
-    const v = countR === 4 ? 2 : 4;
-    setCountR(v);
-  };
+  // const handleCountChange = () => {
+  //   const v = countR === 4 ? 2 : 4;
+  //   setCountR(v);
+  // };
 
   const rubPr = (notAutoText = false) => {
     const textarea = document.getElementById(fieldId);
@@ -42,9 +42,9 @@ const PageRubPrompt = ({ editParam }) => {
   return (
     <div className="h-90">
       <div className="d-flex hot-sum">
-        <button onClick={handleCountChange} className="unsetW ">
+        {/* <button onClick={handleCountChange} className="unsetW ">
           Responses number 2/4: {countR}
-        </button>{" "}
+        </button>{" "} */}
         <button onClick={() => rubPr()} className="unsetW ">
           CREATE AUTO RUBRICATOR
         </button>{" "}

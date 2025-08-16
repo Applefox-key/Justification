@@ -28,6 +28,11 @@ const Sheets = ({ currentBtn, curSection, setCurrBtn, setCurSection }) => {
             ru: "DIM",
             en: el.trim(),
           }
+        : el.includes("rubricator")
+        ? {
+            ru: "RUB",
+            en: el.trim(),
+          }
         : { en: el.trim() }
     );
     setCurrBtn({

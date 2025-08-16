@@ -14,6 +14,7 @@ const DownloadHisBtn = ({ list, setCurrBtn }) => {
       .join("\n\n");
 
     const data = new Blob([content], { type: "text/plain" });
+
     if (textFile !== null) {
       window.URL.revokeObjectURL(textFile);
     }

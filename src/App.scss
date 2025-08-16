@@ -2273,6 +2273,7 @@ textarea.form-control::placeholder {
   width: 100%;
   max-height: 100%;
   height: 100%;
+  padding-top: 0;
 }
 
 .editWin,
@@ -4588,15 +4589,17 @@ button.hintBtn {
     // border: 1px solid var(--second-color);
     // border-bottom: 1px solid var(--second-color);
     // padding: 5px 15px;
-    border-radius: 5px;
+    // border-radius: 5px;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    // box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     // padding-bottom: 1.5rem;
     min-width: 160px;
     width: fit-content;
+    font-size: 14px;
+    font-weight: 700;
     justify-content: flex-end;
-    background-color: var(--main-back);
-    padding: 0 5px;
+    // background-color: var(--main-back);
+    // padding: 0 5px;
     // span {
     //  
     // }
@@ -6499,6 +6502,11 @@ button.hintBtn {
     border: 2px solid #6e6969;
     border-radius: 5px;
     padding-left: 5px;
+
+    button {
+      max-height: 28px;
+      margin: 0px;
+    }
 
     input {
       color: white;

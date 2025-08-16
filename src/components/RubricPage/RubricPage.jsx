@@ -27,29 +27,29 @@ const RubricPage = ({ setEdit, savefn, el }) => {
   return (
     <div className={"bg-main rubpage"} id="mainp">
       <div className="editWin" onClick={(e) => e.stopPropagation()}>
-        <div className="bigmenu">
-          <MyPortal containerId="navidPortal">
-            <div className="small-menu-nav">
-              <button
-                className="btn-back m-0 round-btn"
-                onClick={() => setRespNames(action, setAction)}>
-                {action}
-              </button>
+        {/* <div className="bigmenu">
+        
+        </div> */}
+        <MyPortal containerId="navidPortal">
+          <div className="small-menu-nav">
+            <button
+              className="btn-back m-0 round-btn"
+              onClick={() => setRespNames(action, setAction)}>
+              {action}
+            </button>
 
-              <BtnFontSize />
-              <Button
-                className="btn-back"
-                onClick={() => setIsCheckerMode(!isСheckerMode)}>
-                {isСheckerMode ? (
-                  <BsCardText />
-                ) : (
-                  <IoCheckmarkDoneCircleOutline />
-                )}
-              </Button>
-            </div>
-          </MyPortal>
-        </div>
-
+            <BtnFontSize />
+            <Button
+              className="btn-back"
+              onClick={() => setIsCheckerMode(!isСheckerMode)}>
+              {isСheckerMode ? (
+                <BsCardText />
+              ) : (
+                <IoCheckmarkDoneCircleOutline />
+              )}
+            </Button>
+          </div>
+        </MyPortal>
         {isСheckerMode ? (
           <TextChecker close={() => setIsCheckerMode(!isСheckerMode)} />
         ) : (
