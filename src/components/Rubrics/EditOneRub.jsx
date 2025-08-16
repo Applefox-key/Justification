@@ -15,7 +15,8 @@ import FlowerBtn from "../EditBtns/FlowerBtn";
 import { usePopup } from "../../hooks/usePopup";
 
 const EditOneRub = ({ editParam }) => {
-  const { fieldId, fieldFn, showBody, criteria, index, countR } = editParam;
+  const { fieldId, fieldFn, showBody, criteria, index, countR, noScores } =
+    editParam;
   const [show, setShow] = useState(criteria.new ? 1 : 0);
 
   const isFirstRender = useRef(true);
@@ -120,10 +121,7 @@ const EditOneRub = ({ editParam }) => {
   };
   const btnCrit = (e, type) => {
     e.stopPropagation();
-    fieldFn.setNewValRub(
-      "Ответ " + type + " " + criteria.rubric,
-      "crit" + index
-    );
+    fieldFn.setNewVal("Ответ " + type + " " + criteria.rubric, "crit" + index);
   };
   return (
     <>
@@ -156,12 +154,6 @@ const EditOneRub = ({ editParam }) => {
             }>
             {!!show && (
               <>
-                {/* <div>
-                  <HotBtns
-                    btnsArrD={[{ name: "RUBRICS", btns: autoreplaceRub }]}
-                    toJustif={() => ""}
-                  />
-                </div>{" "} */}
                 <FlowerBtn
                   className="rubBtn"
                   fieldId={fieldId}
@@ -184,7 +176,7 @@ const EditOneRub = ({ editParam }) => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        fieldFn.setNewValRub(
+                        fieldFn.setNewVal(
                           "Ответ " + el + " " + criteria.rubric,
                           "rubric-" + index
                         );
@@ -197,7 +189,7 @@ const EditOneRub = ({ editParam }) => {
                   className={""}
                   onClick={(e) => {
                     e.stopPropagation();
-                    fieldFn.setNewValRub(
+                    fieldFn.setNewVal(
                       !criteria.exExample,
                       "exExample-" + index
                     );
@@ -219,22 +211,24 @@ const EditOneRub = ({ editParam }) => {
               onClick={(e) => btnsRubOnClick(e, "copy")}>
               <FaRegCopy />
             </button>
-            <div
-              className="rub-color-box"
-              onClick={(e) => e.stopPropagation()}
-              datarub={index + 1 + ") " + criteria.rubric}>
-              {(countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
-                <RubRespBtn
-                  key={el}
-                  small
-                  value={criteria["score" + el]}
-                  setValue={fieldFn.setNewValRub}
-                  field={"score" + el + "-" + index}
-                  valueEr={criteria["error" + el]}
-                  switchSize={switchSize}
-                />
-              ))}
-            </div>
+            {!noScores && (
+              <div
+                className="rub-color-box"
+                onClick={(e) => e.stopPropagation()}
+                datarub={index + 1 + ") " + criteria.rubric}>
+                {(countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
+                  <RubRespBtn
+                    key={el}
+                    small
+                    value={criteria["score" + el]}
+                    setValue={fieldFn.setNewVal}
+                    field={"score" + el + "-" + index}
+                    valueEr={criteria["error" + el]}
+                    switchSize={switchSize}
+                  />
+                ))}
+              </div>
+            )}
             <span onClick={(e) => btnsRubOnClick(e, "copy")} className="num">
               {index + 1}
             </span>
@@ -289,16 +283,7 @@ const EditOneRub = ({ editParam }) => {
               {rubricName()}{" "}
             </div>
           )}
-          {/* {[1, 2, 3, 4].map((el, i) => (
-            <RubRespBtn
-              key={el}
-              small
-              value={criteria["score" + el]}
-              setValue={fieldFn.setNewValRub}
-              field={"score" + el + "-" + index}
-              valueEr={criteria["error" + el]}
-            />
-          ))} */}
+
           {!!show && (
             <div className="rub-resp-box">
               {(countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
@@ -310,7 +295,7 @@ const EditOneRub = ({ editParam }) => {
                   <RubRespBtn
                     hide
                     value={criteria["score" + el]}
-                    setValue={fieldFn.setNewValRub}
+                    setValue={fieldFn.setNewVal}
                     field={"score" + el + "-" + index}
                   />
 

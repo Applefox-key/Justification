@@ -79,7 +79,7 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
     editTextActionRef(
       textRef,
       fieldFn.getFieldValue(),
-      fieldFn.setNewValRub,
+      fieldFn.setNewVal,
       "add",
       true,
       newVal
@@ -242,7 +242,7 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
           handleTxt1={gv()}
           statesVal={{
             handleTxt: fieldFn.getFieldValue(),
-            setHandleTxt: fieldFn.setNewValRub,
+            setHandleTxt: fieldFn.setNewVal,
           }}
           textSelected={textSelected}
         />

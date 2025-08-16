@@ -507,7 +507,7 @@ export const autoreplaceGrammar = [
   },
 
   {
-    oldT: ["gramer"],
+    oldT: ["gramar"],
     newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
     caseSensitive: false,
     show: true,

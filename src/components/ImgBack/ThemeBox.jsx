@@ -35,7 +35,7 @@ const ThemeBox = () => {
       </div>
       {isOpen && (
         <div className="module-wrap">
-          <div className="editbox-wrap">
+          <div className="editbox-wrap z900">
             <Draggable handle=".handle">
               <div className="editbox" onClick={(e) => e.stopPropagation()}>
                 <div className="handle">

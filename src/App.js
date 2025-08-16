@@ -5,6 +5,8 @@ import { PopupContext } from "./context";
 import BaseAPI from "./components/API/BaseAPI";
 import Login from "./components/Login/Login";
 import md5 from "blueimp-md5";
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./AppRouter";
 
 function App() {
   const [popupSettings, setPopupSettings] = useState("");
@@ -59,7 +61,13 @@ function App() {
   return (
     <PopupContext.Provider value={{ popupSettings, setPopupSettings }}>
       <div className="App">
-        {isAuth ? <MainPage /> : <Login login={login} />}
+        {isAuth ? (
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        ) : (
+          <Login login={login} />
+        )}
       </div>
     </PopupContext.Provider>
   );

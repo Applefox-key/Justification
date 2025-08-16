@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 
 const InfoRubBtn = ({ editParam, fieldFn, el, edit, editEl }) => {
   const scaleSm = { "-1": "NA", 0: "No", 1: "Mn", 2: "Mj" };
+
   const fixRub = () => {
     // const regex =
     // /Crit[#.] (\d+) \([^)]+\):\s*([\s\S]*?)(?=Crit[#.] \d+ \(|$)/g;
@@ -62,7 +63,7 @@ const InfoRubBtn = ({ editParam, fieldFn, el, edit, editEl }) => {
 
     if (e.button === 2) return;
     const newV = value + 1 > 2 ? -1 : value + 1;
-    fieldFn.setNewValRub(newV, "score" + el + "-" + index);
+    fieldFn.setNewVal(newV, "score" + el + "-" + index);
   };
   const handleContextMenu = (e, i, val) => {
     e.preventDefault();
@@ -84,7 +85,6 @@ const InfoRubBtn = ({ editParam, fieldFn, el, edit, editEl }) => {
 
   return (
     <div className="info-rub-box">
-      {" "}
       <button
         title="add all changes from the justification with crit to the "
         onClick={fixRub}>
@@ -93,7 +93,7 @@ const InfoRubBtn = ({ editParam, fieldFn, el, edit, editEl }) => {
       {editParam.item.rubricator.map((criteria, index) => (
         <Fragment key={index}>
           <div
-            className="rub-color-box"
+            className={el === 1 ? "rub-color-box right-after" : "rub-color-box"}
             onClick={(e) => e.stopPropagation()}
             datacont={criteria["error" + el]}
             datarub={index + 1 + ") " + criteria.rubric}>

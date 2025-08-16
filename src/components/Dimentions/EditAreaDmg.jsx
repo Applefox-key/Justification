@@ -155,13 +155,14 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
           setItem,
           pasteToText,
         }}
-      />
+      />{" "}
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
         className="editareadim">
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
+
           <div className="editParts-wrap">
             <EditDmgTask
               editParam={{
@@ -191,6 +192,7 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                 clear,
               }}
             />{" "}
+            {show && <div className="rec">Recommendation: {best.rec}</div>}
             <EditDmgJustif
               editParam={{
                 show,
@@ -206,7 +208,7 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
             />
             <div className="body-dim-line">
               <button id="show-body-dim" onClick={() => setShowBody(!showBody)}>
-                Dimentions scores{" "}
+                Dimentions scores
                 <BiSolidRightArrow className={showBody ? "arr-down " : ""} />
               </button>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const RateDmgScale = ({ setVal, val, cl, horiz }) => {
+const RateDmgScale = ({ setVal, val, cl, horiz, addElem }) => {
   const onHandleCLick = (nv) => {
     const newVal = nv === val ? 0 : nv;
     setVal(newVal);
@@ -8,6 +8,7 @@ const RateDmgScale = ({ setVal, val, cl, horiz }) => {
 
   return (
     <div className={"rate-vert-wrap" + (horiz ? " horiz-score" : "")}>
+      {addElem || <></>}
       {[5, 4, 3, 2, 1].map((el) => (
         <div
           onClick={(e) => {

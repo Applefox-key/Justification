@@ -5,6 +5,7 @@ import RateBoxes from "../Rate/RateBoxes";
 import { defaultDimSets } from "../../constants/textParts";
 import { recomDim } from "../../utils/analysis";
 import { BiSolidRightArrow } from "react-icons/bi";
+import { useRateLikert } from "../../hooks/useRateLikert";
 
 const EditDmgMenuBar = ({ editParam }) => {
   const {
@@ -102,9 +103,14 @@ const EditDmgMenuBar = ({ editParam }) => {
         [fieldId]: `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
       });
   };
+
+  const likert = useRateLikert({
+    action,
+    item,
+    setItem,
+  });
   return (
     <div className="edit-parts-menu">
-      <span className="rec">Recommendation: {best.rec}</span>
       <div className="d-flex">
         <Button
           className="btn-back square-btn"
@@ -112,16 +118,9 @@ const EditDmgMenuBar = ({ editParam }) => {
           title=" small or big field for the reason">
           <FaCircleArrowDown />
         </Button>
-        <RateBoxes action={action} choosed={best.num} callback={handleRate} />
+        <RateBoxes likert={likert} choosed={item.likert} />
       </div>
       <div className="d-flex align-items-center">
-        {" "}
-        {/* <button id="btn-hide-rate-dim" onClick={() => setShow(!show)}>
-          Justification
-          <BiSolidRightArrow className={show ? "arr-up" : ""} />
-        </button> */}
-        {/* <div className="btn-hide-wrap"> */}
-        {/* </div> */}
         <button onClick={() => composeRateBoth(false)}>rate 2</button>
         <button onClick={() => composeRate(false)}>
           rate to {fieldId ? fieldId : "active text field"}
@@ -140,13 +139,6 @@ const EditDmgMenuBar = ({ editParam }) => {
           Justification
           <BiSolidRightArrow className={show ? "arr-down" : ""} />
         </button>
-        {/* <ComposeRate
-          compose={compose}
-          clear={clear}
-          best={best}
-          show={show}
-          setShow={setShow}
-        /> */}
       </div>
     </div>
   );

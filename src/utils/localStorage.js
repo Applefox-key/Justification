@@ -91,3 +91,57 @@ export const setRespNames = (action, setAction) => {
   localStorage.setItem("lastAction", newV);
   setAction(newV);
 };
+
+export const saveToArchItems = (
+  txtRef,
+  archiveLS,
+  setArchiveLS,
+  setPopup,
+  isAutoSave = false
+) => {
+  if (!txtRef.current) return;
+
+  const txtToSave = { ...txtRef.current };
+
+  if (isAutoSave && !txtToSave.id && !txtToSave.name) {
+    txtToSave.id = "autosave";
+    txtToSave.name = "last task";
+  }
+
+  if (!isAutoSave && !txtToSave.name) {
+    txtToSave.name = "save" + archiveLS.length;
+  }
+
+  const existingIndex = archiveLS.findIndex((item) => {
+    if (txtToSave.id && txtToSave.name) {
+      return item.id === txtToSave.id && item.name === txtToSave.name;
+    } else if (txtToSave.id) {
+      return item.id === txtToSave.id && (!item.name || item.name === "");
+    } else if (txtToSave.name) {
+      return item.name === txtToSave.name && (!item.id || item.id === "");
+    }
+    return false;
+  });
+
+  if (existingIndex !== -1) {
+    const updatedItems = [...archiveLS];
+    updatedItems[existingIndex] = txtToSave;
+    localStorage.setItem("items", JSON.stringify(updatedItems));
+    if (!isAutoSave) setArchiveLS(updatedItems);
+    setPopup(
+      txtToSave.name +
+        "| has been updated in the archive " +
+        (isAutoSave ? " (AUTOSAVE)" : "")
+    );
+    return;
+  }
+
+  localStorage.setItem("items", JSON.stringify([txtToSave, ...archiveLS]));
+  if (!isAutoSave) setArchiveLS([txtToSave, ...archiveLS]);
+
+  setPopup(
+    txtToSave.name +
+      "| has been added to the archive " +
+      (isAutoSave ? " (AUTOSAVE)" : "")
+  );
+};

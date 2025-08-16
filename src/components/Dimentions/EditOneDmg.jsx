@@ -15,6 +15,7 @@ const EditOneDmg = ({ editParam }) => {
     pasteToText,
     action,
   } = editParam;
+
   const [show, setShow] = useState(false);
   const classA = () =>
     "dimField " +

@@ -27,6 +27,7 @@ const EditFieldDmg = ({
   const ref = useRef(null);
   const refBox = useRef(null);
   const cursorPos = useRef(null);
+  // const { isFocused, handleFocus, handleBlur } = useShowOnFocus();
   const changeClass = (IsToAdd = true) => {
     if (IsToAdd) {
       refBox.current.classList.add("field-box-plus");

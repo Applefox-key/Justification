@@ -106,7 +106,7 @@ export const createFieldFn = (
       //     : item.rubricator[index][field]
       //   : item[field];
     },
-    setNewValRub: (val, fieldName = "") => {
+    setNewVal: (val, fieldName = "") => {
       const [field, index] = fieldName
         ? fieldName.split("-")
         : fieldId.split("-");
@@ -319,7 +319,7 @@ export const createFieldFn = (
       if (textRef && textRef.current) {
         const field = fieldId;
         const val = textRef.current.value || "";
-        fieldFn.setNewValRub(val, field);
+        fieldFn.setNewVal(val, field);
       }
 
       setTextRef(ref);
@@ -328,7 +328,7 @@ export const createFieldFn = (
       if (e.key === "F2") {
         const val = fieldFn.getFieldValue(fieldId);
         const newVal = applyAction(val, action);
-        fieldFn.setNewValRub(newVal);
+        fieldFn.setNewVal(newVal);
       }
     },
     notNew: (index) => {
@@ -463,7 +463,7 @@ export const createFieldFn = (
 //     //     : item.rubricator[index][field]
 //     //   : item[field];
 //   },
-//   setNewValRub: (val, fieldName = "") => {
+//   setNewVal: (val, fieldName = "") => {
 //     const [field, index] = fieldName
 //       ? fieldName.split("-")
 //       : fieldId.split("-");
@@ -524,7 +524,7 @@ export const createFieldFn = (
 //     if (textRef && textRef.current) {
 //       const field = fieldId;
 //       const val = textRef.current.value || "";
-//       fieldFn.setNewValRub(val, field);
+//       fieldFn.setNewVal(val, field);
 //     }
 //     setTextRef(ref);
 //   },
@@ -532,7 +532,7 @@ export const createFieldFn = (
 //     if (e.key === "F2") {
 //       const val = item[fieldId];
 //       const newVal = applyAction(val, action);
-//       fieldFn.setNewValRub(newVal);
+//       fieldFn.setNewVal(newVal);
 //     }
 //   },
 //   notNew: (index) => {

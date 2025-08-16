@@ -19,7 +19,6 @@ const VoiceDragable = ({ toJustif, nameF }) => {
           <div ref={ref} className={"voice-drag"}>
             <div className="voice-drag-box">
               <div className="handle1 handle1After">
-                {nameF}
                 <button
                   className="btn-back"
                   onClick={(e) => {
@@ -28,11 +27,11 @@ const VoiceDragable = ({ toJustif, nameF }) => {
                   }}>
                   x
                 </button>
+                <div className="field-name-voice "> {nameF}</div>
                 <div className="handle1 hbottom1">
                   <RiDragMoveFill />
                 </div>{" "}
               </div>
-
               <StrAreaVoice
                 placeholder="...your notes"
                 type="voiceOver"

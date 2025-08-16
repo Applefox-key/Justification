@@ -74,6 +74,7 @@ const sentencesCaps = (text, exceptions = new Set()) => {
   return sentences.join("");
 };
 export const replaceQuotes3 = (txt) => {
+  if (!txt) return "";
   let isOpening = true;
   let newVal = txt.replace(/"/g, () => {
     if (isOpening) {
@@ -418,6 +419,7 @@ export const editTextAction = (
   finalFn = null
 ) => {
   const textarea = document.getElementById(fieldId);
+  if (!textarea && !text) return "";
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
 
@@ -431,6 +433,7 @@ export const editTextAction = (
     if (textarea !== null) textarea.setSelectionRange(start, start);
     return;
   }
+
   const textF = text ? text : textarea.value;
   const selectedText = textF.slice(start, end);
 
@@ -515,9 +518,14 @@ export const editTextActionRef = (
 };
 export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
   const textarea = document.getElementById(fieldId);
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const isSelected = start !== end;
+  let start = 0;
+  let end = 0;
+  let isSelected = false;
+  if (textarea) {
+    start = textarea.selectionStart;
+    end = textarea.selectionEnd;
+    isSelected = start !== end;
+  }
 
   if (isSelected) {
     // only selection
@@ -533,6 +541,7 @@ export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
 
     // return str.replace(selectedText, newText);
   } else {
+    if (!handleTxt) return "";
     // all
     return handleTxt.replace(new RegExp(oldText, "g"), newVal);
   }
@@ -674,6 +683,7 @@ export const getNameByAorB = (value, set) => {
 };
 
 export const replaceQuotes = (txt) => {
+  if (!txt) return "";
   let isOpening = true;
   let newVal = txt.replace(/"/g, () => {
     if (isOpening) {
@@ -689,11 +699,13 @@ export const replaceQuotes = (txt) => {
   return newVal;
 };
 export const replaceQuotes4 = (txt) => {
+  if (!txt) return "";
   const newVal = txt.replace(/[“«”»]/g, `"`);
 
   return newVal;
 };
 export const toOrder = (fieldid, val, type = "") => {
+  if (!val) return "";
   let txt = cleanAndCapitalize(val);
   txt = replaceText(fieldid, txt, "-", "—");
   if (type === "") txt = replaceQuotes3(txt);
@@ -828,4 +840,15 @@ export const baseFormatChanges = {
     fn: changeUsd,
     name: "delete USD",
   },
+};
+
+export const getRefSelection = (textRef) => {
+  const textarea = textRef.current;
+  if (!textarea) return "";
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  if (start === end) return ""; //
+  return textarea.value.slice(start, end).trim();
 };

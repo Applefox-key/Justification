@@ -15,16 +15,7 @@ const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
     () => (btnsArrD === null ? txtHotReplaceGet() : btnsArrD),
     [btnsArrD]
   );
-  //  [
-  //   { name: "FORMAT", btns: autoreplaceFormat },
-  //   { name: "TONE", btns: hotReplaceTone },
-  //   { name: "GRAMMAR", btns: autoreplaceGrammar },
-  //   { name: "JUSTIFICATION", btns: hotReplaceJustif },
-  //   { name: "ISSUES", btns: hotReplaceIssues },
-  //   { name: "ADVICE", btns: hotReplaceSuggestion },
-  //   { name: "TEMPLATES", btns: hotReplaceTmp },
-  //   { name: "REVIEW", btns: hotReplaceRewiew },
-  // ];
+
   const onHandleCLick = (e, newT, model = "") => {
     e.stopPropagation();
     let b = e.button;

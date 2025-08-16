@@ -7,7 +7,7 @@ const FlowerBtn = ({ fieldId, fieldFn, className, type = "" }) => {
   const toOrd = (e) => {
     e.stopPropagation();
     let val = toOrder(fieldId, fieldFn.getFieldValue(), type);
-    fieldFn.setNewValRub(val);
+    fieldFn.setNewVal(val);
   };
   return (
     <button className={"flowBtn " + className} onClick={toOrd}>

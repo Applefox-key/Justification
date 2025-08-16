@@ -63,7 +63,7 @@ const SummaryRub = ({ editParam }) => {
   const handleClickSBS = (e, i) => {
     e.stopPropagation();
     const vl = labelsFullVerdictRub[i - 1] + " " + editParam.item["justifSBS"];
-    editParam.fieldFn.setNewValRub(vl, "justifSBS");
+    editParam.fieldFn.setNewVal(vl, "justifSBS");
   };
   const handleContextMenu = (e, i) => {
     e.preventDefault();

@@ -1,44 +1,97 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePopup } from "../../hooks/usePopup";
 import { TfiSave } from "react-icons/tfi";
 import { copyToClipboard } from "../../utils/utilStr";
 import { saveArrToHistory } from "../../utils/localStorage";
+import useSaveShortcut from "../../hooks/useSaveShortcut";
 
 const BtnArchive = ({ txt, setTxt }) => {
-  const [items, setItems] = useState(() => {
-    const storedItems = localStorage.getItem("items");
-    return storedItems ? JSON.parse(storedItems) : [];
+  const txtRef = useRef(txt);
+  const setPopup = usePopup();
+
+  // Состояние архива
+  const [archiveLS, setArchiveLS] = useState(() => {
+    const stored = localStorage.getItem("items");
+    return stored ? JSON.parse(stored) : [];
   });
-  // remember quotes from the text
-  const saveItems = () => {
-    if (!txt) return;
-    if (txt.id && txt.name) {
-      const existingIndex = items.findIndex(
-        (item) => item.id === txt.id && item.name === txt.name
-      );
-      if (existingIndex !== -1) {
-        const updatedItems = [...items];
-        updatedItems[existingIndex] = txt;
-        setItems(updatedItems);
-        setPopup("info has been updated in the archive");
-        return;
-      }
+
+  // Обновляем ref при изменении txt
+  useEffect(() => {
+    txtRef.current = txt;
+  }, [txt]);
+
+  // Основная функция сохранения
+  const saveItems = (isAutoSave = false) => {
+    const currentTxt = txtRef.current || txt;
+    if (!currentTxt) return;
+
+    const txtToSave = { ...currentTxt };
+
+    // Присвоение дефолтных значений
+    if (!txtToSave.id && !txtToSave.name) {
+      txtToSave.id = "autosave";
+      txtToSave.name = "last task";
+    } else {
+      if (!txtToSave.id) txtToSave.id = "no-id";
+      if (!txtToSave.name) txtToSave.name = "save-" + archiveLS.length;
     }
 
-    if (txt && !items.includes(txt)) {
-      setItems([txt, ...items]);
-      setPopup("info has been added to the archive");
+    // Проверка существования объекта по id+name
+    const existingIndex = archiveLS.findIndex(
+      (item) => item.id === txtToSave.id && item.name === txtToSave.name
+    );
+
+    let updatedItems;
+    if (existingIndex !== -1) {
+      // Обновляем существующий
+      updatedItems = [...archiveLS];
+      updatedItems[existingIndex] = txtToSave;
+      setPopup(
+        `${txtToSave.name} | has been updated in the archive${
+          isAutoSave ? " (AUTOSAVE)" : ""
+        }`
+      );
+    } else {
+      // Добавляем новый в начало
+      updatedItems = [txtToSave, ...archiveLS];
+      setPopup(
+        `${txtToSave.name} | has been added to the archive${
+          isAutoSave ? " (AUTOSAVE)" : ""
+        }`
+      );
     }
+
+    setArchiveLS(updatedItems);
+    console.log(1);
+    //  debugger;
+    localStorage.setItem("items", JSON.stringify(updatedItems));
   };
+
+  const handleSave = () => saveItems();
+
+  // Горячие клавиши сохранения
+  useSaveShortcut(handleSave);
+
+  // Автосейв при размонтировании
+  // useEffect(() => {
+  //   return () => saveItems(true);
+  // }, []);
+  useEffect(() => {
+    console.log("Mounted");
+    return () => {
+      saveItems(true);
+      console.log("Unmounted");
+    };
+  }, []);
   const getElementsByNamePattern = () => {
     const baseName = txt.name;
     if (!baseName) return; // no name - return
     const regex = new RegExp(`^${baseName.replace(/\d+$/, "")}\\d*$`); //find names without suffix
     // find elements with name
-    const matchedElements = items.filter(
+    const matchedElements = archiveLS.filter(
       (item) => regex.test(item.name) && item.id === txt.id
     );
-    // Формирование текста результата
+
     const result = matchedElements
       .map(
         (item) =>
@@ -48,54 +101,55 @@ const BtnArchive = ({ txt, setTxt }) => {
     copyToClipboard(result || "No matching elements found");
   };
   const save4Items = () => {
-    if (txt && !items.includes(txt)) {
+    if (txt && !archiveLS.includes(txt)) {
       const txtArr = [1, 2, 3, 4].map((el) => {
         return { ...txt, name: txt.name + el };
       });
-
-      setItems([...txtArr, ...items]);
+      console.log(2);
+      localStorage.setItem("items", JSON.stringify([...txtArr, ...archiveLS]));
+      setArchiveLS([...txtArr, ...archiveLS]);
       setTxt({ ...txt, name: txt.name + "1" });
       setPopup("info has been added to the archive");
     }
   };
   const replacelast = () => {
-    const old = [...items];
+    const old = [...archiveLS];
     old[0] = txt;
-    if (txt && !items.includes(txt)) {
-      setItems(old);
+    if (txt && !archiveLS.includes(txt)) {
+      console.log(3);
+      localStorage.setItem("items", JSON.stringify(old));
+      setArchiveLS(old);
     }
   };
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-  }, [items]);
-  //back to the text
   const replaceItems = (item) => {
     setTxt(item);
-    // setHandleTxt(newString);
   };
   const clearItems = () => {
     saveArrToHistory(
-      items.map((el) => {
+      archiveLS.map((el) => {
         const handleTxt = JSON.stringify(el);
         return { en: handleTxt, ru: "DIM" };
       })
     );
-    setItems([]);
+    setArchiveLS([]);
+    console.log(4);
+    localStorage.setItem("items", JSON.stringify([]));
   };
   const clearItem = (index) => {
     if (window.confirm("Delete save?")) {
-      const newItems = items.filter((_, i) => i !== index);
-      setItems(newItems);
+      const newItems = archiveLS.filter((_, i) => i !== index);
+      console.log(5);
+      localStorage.setItem("items", JSON.stringify(newItems));
+      setArchiveLS(newItems);
     }
   };
-  const setPopup = usePopup();
 
   return (
     <>
       <div className="fragmBtn">
         <button
           className=" btnToHis hintBtn ms-1"
-          onClick={saveItems}
+          onClick={handleSave}
           title="to and from archive">
           <TfiSave />
         </button>
@@ -108,9 +162,8 @@ const BtnArchive = ({ txt, setTxt }) => {
             </button>
           </div>
           <button onClick={clearItems}>clear</button>
-          {items.map((oneF, i) => (
+          {archiveLS.map((oneF, i) => (
             <div className="one-item" key={i}>
-              {/* <div className="d-flex justify-content-between"> */}
               <div className="d-flex">
                 <button onClick={() => replaceItems(oneF)} className="loadbtn ">
                   LOAD
@@ -120,33 +173,17 @@ const BtnArchive = ({ txt, setTxt }) => {
                 </button>
               </div>
               <div className="title">
-                {oneF.name ? oneF.name : "save" + (items.length - i)}
+                {oneF.name ? oneF.name : "save" + (archiveLS.length - i)}
               </div>
               <div className="save-cont">
                 {oneF.name && <span className="spanName">{oneF.name}</span>}
                 {oneF.Rate && <span>{oneF.Rate}</span>}
-                {/* {oneF.R0 && <span>{oneF.name}</span>}
-                  {oneF.R0 && <span>{oneF.R0}</span>}
-                  {oneF.R1 && <span>{oneF.R1}</span>}
-                  {oneF.R2 && <span>{oneF.R2}</span>} */}
                 {oneF.R3 && <span>{oneF.R3}</span>}
               </div>
             </div>
           ))}
         </div>
       </div>
-      {/* <button
-        className="square-btn intense"
-        title="replace dash"
-        onClick={() => replace("-", "—")}>
-        -
-      </button>{" "}
-      <button
-        className="square-btn intense"
-        title="replace quotes"
-        onClick={replaceQuotes}>
-        «»
-      </button> */}
     </>
   );
 };

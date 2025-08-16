@@ -34,7 +34,7 @@ const EditFieldRub = ({
     const { curs, val } = replaceEndings(e, replacementsEnding);
     cursorPos.current = curs;
 
-    fieldFn.setNewValRub(val, fieldName);
+    fieldFn.setNewVal(val, fieldName);
   };
   useEffect(() => {
     if (ref.current && cursorPos.current !== null) {

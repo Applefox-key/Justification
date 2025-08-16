@@ -43,10 +43,10 @@ const MainPage = () => {
 
   return (
     <div className={"bg-main"} id="mainp">
-      {/* <div id="portal-root" /> */}
       <Responses compliteCrit={compliteCrit} toJustif={toJustif} /> <Popup />
       <div className="menu d-flex pb-1 pt-2 pe-4 ps-2 w-100 justify-content-between">
-        <ThemeBox />{" "}
+        MAIN PAGE
+        {/* <ThemeBox /> <ThemeBox /> */}
         <div className="d-flex">
           <FilesList
             justparts={justparts}

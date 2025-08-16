@@ -10,7 +10,8 @@ const DimSetsList = ({ curSet, setCurSet }) => {
   };
   return (
     <div className="setlist-btns">
-      <Button className="btnToHis">{curSet}</Button>
+      {/* <Button className="btnToHis">{curSet}</Button> */}
+      <Button className="btn-back m-0 round-btn">{curSet}</Button>
 
       <div className="sub-sets">
         {Object.entries(defaultDimSets).map(([key, el], i) => (

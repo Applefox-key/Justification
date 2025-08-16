@@ -20,6 +20,7 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
     const newVal = replaceQuotes3(handleTxt);
     setHandleTxt(newVal);
   };
+
   return (
     <>
       <button

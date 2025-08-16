@@ -6,8 +6,8 @@ const useSaveShortcut = (callback) => {
         ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") ||
         ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "ы")
       ) {
-        e.preventDefault(); // отменяем стандартное сохранение страницы
-        callback(); // вызываем переданную функцию
+        e.preventDefault();
+        callback();
       }
     };
 

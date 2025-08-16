@@ -140,6 +140,7 @@ export const defaultDimSets = {
       name: "Localization fluency",
       short: "LC",
       better: "is better in localization",
+      worth: "is less localized",
       justif: [
         {
           title: "Unlocalized",
@@ -162,35 +163,87 @@ export const defaultDimSets = {
           newT: "The response includes unrelevant generic festivals, holidays, or seasonal events",
         },
         {
-          newT: `BotModel contains phrases written in another language (not Russian) " ".`,
+          newT: `BotModel contains phrases written in another language (not Russian) "".`,
 
           title: "foreign",
         },
         {
-          newT: `BotModel contains The phrase that is often repeated, for example " ".`,
+          newT: `BotModel contains The phrase that is often repeated, for example "".`,
 
           title: "repetition",
         },
         {
-          newT: `Some phrases in BotModel sound unnatural ("").`,
-
-          title: "unnatural",
+          newT: `Some phrases in BotModel sound unnatural: `,
+          title: "unnat ♾️",
         },
         {
-          newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
-
-          title: "unnat.phrase",
+          newT: `The phrase "_" in BotModel sounds unnatural. It should be "".`,
+          title: "unnat ➀",
         },
 
         {
-          newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+          newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+          title: "robo",
+        },
+        {
+          newT: `BotModel contains phrases written in another language (not Russian) "".`,
+          title: "foreign",
+        },
+        {
+          newT: `BotModel contains The phrase that is often repeated, for example "".`,
+          title: "repetition",
+        },
 
+        {
+          oldT: ["gramar"],
+          newT: `BotModel contains grammatical errors, for example "" instead of "".`,
+          caseSensitive: false,
+          show: true,
           title: "gram err",
         },
         {
-          newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
-
+          newT: `BotModel contains punctuation errors, for example .`,
+          title: "punkt err",
+        },
+        {
+          newT: `BotModel uses incorrect word matching in Russian "" instead of ""`,
           title: "word matching",
+        },
+
+        {
+          newT: `BotModel  In the response the quotation marks should be replaced with «».`,
+          title: "«»",
+        },
+        {
+          newT: `In BotModel the hyphen should be replaced with a dash.`,
+          title: "—",
+        },
+        {
+          oldT: ["quotesDash"],
+          newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
+          caseSensitive: false,
+          show: true,
+          title: "« » —",
+        },
+        {
+          newT: `The comma after " " is unnecessary`,
+          title: "comma",
+        },
+        {
+          newT: `BotModel uses uppercase after the colon. In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
+          title: ":A",
+        },
+        {
+          newT: `No colon is needed after the title.`,
+          title: "A:",
+        },
+        {
+          newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+          title: "A:123",
+        },
+        {
+          newT: `The letter "ё" is inconsistently used`,
+          title: "ё",
         },
       ],
     },
@@ -200,6 +253,7 @@ export const defaultDimSets = {
       name: "Instruction following",
       short: "IF",
       better: "is better at following instructions",
+      worth: "follows instructions worse",
       justif: [
         {
           title: "not follow",
@@ -217,6 +271,11 @@ export const defaultDimSets = {
           title: "user asked",
           newT: " The user asked for _, but the response recommended/provided _. This does not follow the prompt's instructions.",
         },
+        { title: "failed", newT: "The model has failed in its task because " },
+        {
+          title: "not use some info",
+          newT: "The model did not use some information provided by the user in any way.",
+        },
       ],
     },
     {
@@ -225,6 +284,7 @@ export const defaultDimSets = {
       name: "Truthfulness",
       short: "TR",
       better: "is more accurate",
+      worth: "is less accurate",
       justif: [
         {
           title: "inaccurately claims",
@@ -239,6 +299,7 @@ export const defaultDimSets = {
       name: "Response Length",
       short: "RL",
       better: `is more dainty/short/long/ has long pleasantries that shift focus away from the answer`,
+      worth: `is less dainty/short/long/ has long pleasantries that shift focus away from the answer`,
       justif: [
         {
           title: "too detailed",
@@ -246,11 +307,11 @@ export const defaultDimSets = {
         },
         {
           title: "unrelated details",
-          newT: "A response that includes unrelated details, such as _",
+          newT: "A response includes unrelated details:",
         },
         {
-          title: "pleasantries",
-          newT: "A response contains long pleasantries that lead to lack of focus on the answer.",
+          title: "long pleasantries",
+          newT: "The response contains long pleasantries that lead to lack of focus on the answer.",
         },
         {
           title: "rephrases",
@@ -258,7 +319,24 @@ export const defaultDimSets = {
         },
         {
           title: "unrelated opinions",
-          newT: " Adding suggestions, opinions, or unrelated information",
+          newT: "Adding suggestions, opinions, or unrelated information",
+        },
+        { title: "short", newT: "The response is too short. " },
+        { title: "long", newT: "The response is too long." },
+        {
+          title: "short-long",
+          newT: `The response is too long and short at the same time. 
+          It is too short since there is little useful information in the response.
+          It is too long since it contains unnecessary unuseful details.`,
+        },
+
+        {
+          title: "pleasantries",
+          newT: "The response contains pleasantries (last/first paragraph/sentence).",
+        },
+        {
+          title: "not all info is used",
+          newT: "The model does not use all the information provided by the user in the prompt.",
         },
       ],
     },
@@ -268,6 +346,7 @@ export const defaultDimSets = {
       name: "Harmless",
       short: "H",
       better: "has no safety issue",
+      worth: "has safety issue",
       justif: [],
     },
     {
@@ -276,97 +355,29 @@ export const defaultDimSets = {
       name: "Structure, Writing Style & Tone",
       short: "SWT",
       better: `is more organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting`,
-      justif: [],
+      worth: `is less organized/uses a less appropriate tone/ideas are worth presented/the text is less readable due to poor formatting.`,
+      justif: [
+        {
+          newT: `BotModel provides a lot of information but lacks structure. Adding bullet points or bolding key details would improve readability`,
+          title: "Presentation",
+        },
+        {
+          newT: `BotModel provides a lot of information but lacks structure. Adding bullet points or bolding key details would improve readability`,
+          title: "Presentation",
+        },
+      ],
     },
   ],
 };
-// export const defaultDimSetsJustif = {
-//   set1: [
-//     {
-//       a: "Instructions_A",
-//       b: "Instructions_B",
-//       name: "Instruction following",
-//       short: "IF",
-//       better: "is better at following instructions",
-//     },
-//     {
-//       a: "Factuality_A",
-//       b: "Factuality_B",
-//       name: "Factuality",
-//       short: "F",
-//       better: "is more accurate",
-//     },
-//     {
-//       a: "Language_A",
-//       b: "Language_B",
-//       name: "Language fluency",
-//       short: "LF",
-//       better: "is better in fluency",
-//     },
-//     {
-//       a: "Coherence_A",
-//       b: "Coherence_B",
-//       name: "Coherence",
-//       short: "C",
-//       better: "is more coherent",
-//     },
-//     {
-//       a: "Presentation_A",
-//       b: "Presentation_B",
-//       name: "Presentation",
-//       short: "P",
-//       better: "has better presentation",
-//     },
-//     {
-//       a: "Tone_A",
-//       b: "Tone_B",
-//       name: "Tone",
-//       short: "T",
-//       better: "has a more appropriate tone",
-//     },
-//   ],
-//   set2: [
-//     { short: "LC", btns: [{ title: "", newT: "" }] },
-//     {
-//       short: "IF",
-//       better: "is better at following instructions",
-//     },
-//     {
-//       a: "Truthfulness_A",
-//       b: "Truthfulness_B",
-//       name: "Truthfulness",
-//       short: "TR",
-//       better: "is more accurate",
-//     },
 
-//     {
-//       a: "Length_A",
-//       b: "Length_B",
-//       name: "Response Length",
-//       short: "RL",
-//       better: `is more dainty/short/long/ has long pleasantries that shift focus away from the answer`,
-//     },
-//     {
-//       a: "Harmless_A",
-//       b: "Harmless_B",
-//       name: "Harmless",
-//       short: "H",
-//       better: "has no safety issue",
-//     },
-//     {
-//       a: "Structure_WritingStyle_Tone_A",
-//       b: "Structure_WritingStyle_Tone_B",
-//       name: "Structure, Writing Style & Tone",
-//       short: "SWT",
-//       better: `is more organized/uses a more appropriate tone/ideas are better presented/text is better read because of successful formatting`,
-//     },
-//   ],
-// };
 export const defaultDimTempl = {
   Rate: "",
   Justif: "",
   id: "",
   name: "",
+  RateA: "",
+  RateB: "",
+  likert: -1,
 };
 export const defaultDim = {
   Instructions_A: "",
@@ -385,6 +396,7 @@ export const defaultDim = {
   Justif: "",
   id: "",
   name: "",
+  likert: 0,
   Evals: {
     Instructions_A: 0,
     Factuality_A: 0,
@@ -417,6 +429,7 @@ export const defaultDmg = {
   Tone_B: "",
   Rate: "",
   Justif: "",
+  likert: 0,
   id: "",
   name: "",
   Evals: {

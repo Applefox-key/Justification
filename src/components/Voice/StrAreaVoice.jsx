@@ -33,14 +33,6 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
   const startBtn = useRef(null);
   return (
     <div className={type}>
-      <div onClick={() => setIsRepl(!isRepl)} className="box-hov">
-        {isRepl ? (
-          <MdOutlineRadioButtonChecked />
-        ) : (
-          <MdOutlineRadioButtonUnchecked />
-        )}{" "}
-        format text when pasting
-      </div>
       <div className="textarea-box">
         <Form.Control
           as="textarea"
@@ -53,7 +45,6 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === "Escape") onOK(e);
           }}
-          // onChange={handleChange}
         />
         <div className="voice-btns-all">
           {" "}
@@ -69,6 +60,14 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
           </Button>{" "}
           {!!actionFn && <Button onClick={onOK}>OK</Button>}{" "}
         </div>
+      </div>{" "}
+      <div onClick={() => setIsRepl(!isRepl)} className="box-hov">
+        {isRepl ? (
+          <MdOutlineRadioButtonChecked />
+        ) : (
+          <MdOutlineRadioButtonUnchecked />
+        )}{" "}
+        format text when pasting
       </div>
     </div>
   );

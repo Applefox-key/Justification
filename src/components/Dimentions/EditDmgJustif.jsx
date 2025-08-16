@@ -46,8 +46,8 @@ const EditDmgJustif = ({ editParam }) => {
   };
   return (
     <div className={"respDim-footer " + (!show ? " closeBar" : "")}>
-      <>
-        {show && (
+      {show && (
+        <>
           <EditFieldDmg
             scale=""
             key={"Rate"}
@@ -63,9 +63,8 @@ const EditDmgJustif = ({ editParam }) => {
             fieldVal={item["Rate"]}
             fieldFn={fieldFn}
           />
-        )}
-        <div className="mt-4">
-          {show && (
+
+          <div className="mt-4">
             <div className="evals-dim">
               <div>
                 {defaultDimSets[editParam.item.setName].map((field, i) => (
@@ -102,19 +101,14 @@ const EditDmgJustif = ({ editParam }) => {
                   </span>
                 ))}
               </div>
-            </div>
-          )}
-          {show && (
+            </div>{" "}
             <ComposeRate
               compose={compose}
               best={best}
               show={show}
               setShow={setShow}
             />
-          )}
-        </div>
-
-        {show && (
+          </div>
           <EditFieldDmg
             scale=""
             key={"Justif"}
@@ -130,8 +124,8 @@ const EditDmgJustif = ({ editParam }) => {
             fieldVal={item["Justif"]}
             fieldFn={fieldFn}
           />
-        )}
-      </>
+        </>
+      )}
     </div>
   );
 };

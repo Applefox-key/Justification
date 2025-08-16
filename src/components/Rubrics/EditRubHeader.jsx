@@ -23,7 +23,7 @@ const EditRubHeader = ({ editParam }) => {
   } = editParam;
   const toJustif = (txt) => {
     const textVal = fieldFn.getFieldValue(fieldId);
-    voiceToEdit(txt, textVal, fieldFn.setNewValRub, fieldId);
+    voiceToEdit(txt, textVal, fieldFn.setNewVal, fieldId);
   };
 
   return (
@@ -45,7 +45,7 @@ const EditRubHeader = ({ editParam }) => {
             type="RUB"
             statesVal={{
               handleTxt: fieldFn.getFieldValue(fieldId),
-              setHandleTxt: fieldFn.setNewValRub,
+              setHandleTxt: fieldFn.setNewVal,
               item,
               setItem,
             }}
@@ -62,7 +62,7 @@ const EditRubHeader = ({ editParam }) => {
           action={action}
           statesVal={{
             handleTxt: fieldFn.getFieldValue(fieldId),
-            setHandleTxt: fieldFn.setNewValRub,
+            setHandleTxt: fieldFn.setNewVal,
             item,
             setItem,
             type: "RUB",

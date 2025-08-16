@@ -11,6 +11,8 @@ import { FaRegPaste } from "react-icons/fa6";
 import BtnArchive from "./BtnArchive";
 import RubArchive from "../Rubrics/RubArchive";
 import { defaultRubJust } from "../../constants/textParts";
+import { saveToHistory } from "../../utils/localStorage";
+import { AiOutlineClear } from "react-icons/ai";
 
 const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
   const { handleTxt, setHandleTxt, item, setItem, type } = statesVal;
@@ -33,20 +35,6 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
 
   return (
     <div className="d-flex  align-items-center">
-      <div className="topsmallbtns-box">
-        <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
-      </div>{" "}
-      <Button
-        className="btnToHis hintBtn"
-        disabled={!handleTxt}
-        onClick={(e) => copyToClipboard(handleTxt)}>
-        <ImCopy />
-      </Button>{" "}
-      <Button
-        className="btnToHis hintBtn"
-        onClick={(e) => pasteFromClipboard()}>
-        <FaRegPaste />
-      </Button>{" "}
       {type === "RUB" ? (
         <RubArchive
           txt={item}
@@ -59,9 +47,36 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
       ) : (
         <BtnArchive txt={item} setTxt={setItem} type={type} />
       )}
-      <Button className="btnToHis" onClick={onOK}>
-        OK
+      <div className="topsmallbtns-box">
+        <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
+      </div>{" "}
+      <Button
+        className="btnToHis hintBtn"
+        disabled={!handleTxt}
+        onClick={() => {
+          // if (isTxt) setIsTxt(false);
+          saveToHistory({ en: handleTxt, ru: "" });
+          // setPopup("info has been added to the history");
+          setHandleTxt("");
+        }}>
+        <AiOutlineClear />
       </Button>
+      <Button
+        className="btnToHis hintBtn"
+        disabled={!handleTxt}
+        onClick={(e) => copyToClipboard(handleTxt)}>
+        <ImCopy />
+      </Button>{" "}
+      <Button
+        className="btnToHis hintBtn"
+        onClick={(e) => pasteFromClipboard()}>
+        <FaRegPaste />
+      </Button>{" "}
+      {onOK && (
+        <Button className="btnToHis" onClick={onOK}>
+          OK
+        </Button>
+      )}
     </div>
   );
 };

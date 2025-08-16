@@ -33,7 +33,7 @@ const TopBtns = ({ fieldid, statesVal, action = "RAB", type }) => {
           </Button>{" "}
         </div>
       )}
-      <Button
+      {/* <Button
         className="btnToHis"
         disabled={!handleTxt}
         onClick={() => {
@@ -43,7 +43,7 @@ const TopBtns = ({ fieldid, statesVal, action = "RAB", type }) => {
           setHandleTxt("");
         }}>
         clear
-      </Button>
+      </Button> */}
       <FormatBtn
         handleTxt={handleTxt}
         setHandleTxt={setHandleTxt}

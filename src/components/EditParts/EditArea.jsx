@@ -18,6 +18,7 @@ import { FaStar } from "react-icons/fa";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { TbBoxAlignTop } from "react-icons/tb";
 import { usePopup } from "../../hooks/usePopup";
+import { useRateLikert } from "../../hooks/useRateLikert";
 
 const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -155,6 +156,11 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     const txt = `TURN1.\n\nTURN2.\n\nTURN3.\n\nTURN4.`;
     setItem({ R1: `PROMPT.\n\n${txt}`, R2: txt, R3: txt, R0: "" });
   };
+  const likert = useRateLikert({
+    action,
+    item,
+    setItem,
+  });
   return (
     <>
       <div className="d-flex flex-wrap align-items-center justify-content-start mb-1">
@@ -218,11 +224,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                     title=" small or big field for the reason">
                     <TbBoxAlignTop />
                   </Button>
-                  <RateBoxes
-                    action={action}
-                    choosed={best.num}
-                    callback={handleRate}
-                  />
+                  <RateBoxes likert={likert} choosed={item.likert} />
                 </div>
                 <div>
                   {" "}
