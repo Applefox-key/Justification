@@ -3,6 +3,7 @@ import { usePopup } from "../../hooks/usePopup";
 import { TfiSave } from "react-icons/tfi";
 import { saveArrToHistory } from "../../utils/localStorage";
 import useSaveShortcut from "../../hooks/useSaveShortcut";
+import { defaultRubricator } from "../../constants/textParts";
 
 const RubArchive = ({ txt, setTxt }) => {
   const [items, setItems] = useState(() => {
@@ -13,10 +14,17 @@ const RubArchive = ({ txt, setTxt }) => {
   // remember quotes from the text
   const saveItems = () => {
     if (!txt) return;
-    if (txt.taskId) {
-      const existingIndex = items.findIndex(
-        (item) => item.taskId === txt.taskId
-      );
+    if (txt.id) {
+      const existingIndex = items.findIndex((item) => item.id === txt.id);
+      if (existingIndex !== -1) {
+        const updatedItems = [...items];
+        updatedItems[existingIndex] = txt;
+        setItems(updatedItems);
+        setPopup("info has been updated in the archive");
+        return;
+      }
+    } else if (txt.name) {
+      const existingIndex = items.findIndex((item) => item.name === txt.name);
       if (existingIndex !== -1) {
         const updatedItems = [...items];
         updatedItems[existingIndex] = txt;
@@ -31,36 +39,10 @@ const RubArchive = ({ txt, setTxt }) => {
       setPopup("info has been added to the archive");
     }
   };
-  // const getElementsByNamePattern = () => {
-  //   const baseName = txt.name;
-  //   if (!baseName) return; // no name - return
-  //   const regex = new RegExp(`^${baseName.replace(/\d+$/, "")}\\d*$`); //find names without suffix
-  //   // find elements with name
-  //   const matchedElements = items.filter(
-  //     (item) => regex.test(item.name) && item.id === txt.id
-  //   );
-  //   // Формирование текста результата
-  //   const result = matchedElements
-  //     .map(
-  //       (item) =>
-  //         `turn ${item.name.match(/\d+$/)?.[0] || "unknown"}: ${item.review}`
-  //     )
-  //     .join("\n");
-  //   copyToClipboard(result || "No matching elements found");
-  // };
-  // const save4Items = () => {
-  //   if (txt && !items.includes(txt)) {
-  //     const txtArr = [1, 2, 3, 4].map((el) => {
-  //       return { ...txt, name: txt.name + el };
-  //     });
 
-  //     setItems([...txtArr, ...items]);
-  //     setTxt({ ...txt, name: txt.name + "1" });
-  //     setPopup("info has been added to the archive");
-  //   }
-  // };
   const replacelast = () => {
     const old = [...items];
+
     old[0] = txt;
     if (txt && !items.includes(txt)) {
       setItems(old);
@@ -73,7 +55,16 @@ const RubArchive = ({ txt, setTxt }) => {
   //back to the text
   const replaceItems = (item, i) => {
     const it = item;
-    if (it.taskId === "") it.taskId = "save" + i;
+    if (it.id === "") it.id = "save" + i;
+
+    const rubr = it.rubricator ? it.rubricator : [];
+    if (rubr.length > 0) {
+      const newR = rubr.map((r) => {
+        return { ...defaultRubricator, ...r };
+      });
+      it.rubricator = newR;
+    }
+
     setTxt(it);
     // setHandleTxt(newString);
   };
@@ -104,14 +95,16 @@ const RubArchive = ({ txt, setTxt }) => {
           <TfiSave />
         </button>
         <div className="archive-box">
-          <button onClick={replacelast}>replace last</button>{" "}
+          <div className="d-flex w-100">
+            <button onClick={replacelast}>replace last</button>{" "}
+            <button onClick={clearItems}>clear</button>
+          </div>
           {/* <div className="archive-last" title="last 4 saves (turns)s">
             <button onClick={save4Items}>+4 turns</button>{" "}
             <button onClick={getElementsByNamePattern}>
               get all turns review
             </button>
           </div> */}
-          <button onClick={clearItems}>clear</button>
           {items.map((oneF, i) => (
             <div className="one-item" key={i}>
               {/* <div className="d-flex justify-content-between"> */}
@@ -126,7 +119,11 @@ const RubArchive = ({ txt, setTxt }) => {
                 </button>
               </div>
               <div className="title">
-                {oneF.taskId ? oneF.taskId : "save" + (items.length - i)}
+                {oneF.name
+                  ? oneF.name
+                  : oneF.id
+                  ? oneF.id
+                  : "save" + (items.length - i)}
               </div>
               {/* </div> */}
               <div className="save-cont">
@@ -137,18 +134,6 @@ const RubArchive = ({ txt, setTxt }) => {
           ))}
         </div>
       </div>
-      {/* <button
-        className="square-btn intense"
-        title="replace dash"
-        onClick={() => replace("-", "—")}>
-        -
-      </button>{" "}
-      <button
-        className="square-btn intense"
-        title="replace quotes"
-        onClick={replaceQuotes}>
-        «»
-      </button> */}
     </>
   );
 };

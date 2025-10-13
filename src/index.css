@@ -3,16 +3,21 @@
   --main-back:#fdfeff;
   --main-back-unfocus:#eaeaeb;
   --main-color:#000000;
+  --input-back:#f9f9f9;
+  --input-color:#494949;
   /* --rub-back:#a7cbd3; */
   /* --rub-back:#a49f9f; */
-  --rub-back:#a49f9f;
+  /* --rub-back:#a49f9f; */
+  /* --rub-back:rgb(249, 206, 213); */
+  --rub-back:rgb(207 207 207);
   --rub-back-focus: beige;  
   --rub-back-sum: aliceblue;
   --line1:#f6faff;
   --line2:#dadada ;
   --item-back:#e5e9ea;
-  --accent:#bcc5e8;
-  --menu:#e2e2e2;
+  --accent:#e4e5f5;
+  /* --menu:#e2e2e2; */
+  --menu:#f4f3f3;
   --sec-back:#c7cacf91;
   --sec-menu:#86898e91;
   --hot-color:#6e6969;
@@ -20,6 +25,7 @@
   --vertical-font: 0.7rem;
   --font-size-edit: 0.7rem;
   --second-color: #868686;
+  --even-row:    #eaeaeaa8; 
   --edit-width: 72vw;
   --edit-max-height:550px;
   --r3-max-height:150px;
@@ -28,7 +34,18 @@
   --img-back: url("./img/img0.jpg");
   --box-position:relative;
   --box-position-points:unset;
+  overflow: hidden;
+}
+@font-face {
+  font-family: "PoppinsLatin";
+  src: url('https://fonts.gstatic.com/s/poppins/v20/xyz.woff2') format('woff2');
+  unicode-range: U+0000-00FF; /* только латиница */
+}
 
+@font-face {
+  font-family: "MontserratCyrillic";
+  src: url('https://fonts.gstatic.com/s/montserrat/v25/xyz.woff2') format('woff2');
+  unicode-range: U+0400-04FF; /* кириллица */
 }
 body {
   margin: 0;
@@ -37,9 +54,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 min-width: 100vw;
 min-height: 100vh;  
-font-family: "Poppins", sans-serif;
+/* font-family: "Poppins", sans-serif;
+  font-family:sans-serif,"Montserrat", "Noto Sans"; */
 }
 html{
   min-height: 100%;

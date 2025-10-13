@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import { copyToClipboard } from "../../utils/utilStr";
-import { txtTemplatesGet, txtTemplatesSet } from "../../utils/localStorage";
-import FileChooseMenu from "../UI/FileChooseMenu";
-import { usePopup } from "../../hooks/usePopup";
-import TemplateItem from "./TemplateItem";
+
 import { Form } from "react-bootstrap";
 
 const TemplatesAddBox = ({ addDefaultState, levels }) => {
   const [addItem1, setAddItem1] = useState("");
   const [addItem2, setAddItem2] = useState("");
   const [addItem0, setAddItem0] = useState("");
-
-  const setPopup = usePopup();
 
   const handleClick = (e) => {
     addDefaultState(addItem0, addItem1, addItem2);

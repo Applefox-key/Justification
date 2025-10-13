@@ -2,7 +2,6 @@ import React from "react";
 
 import { IoMdArrowDropdown } from "react-icons/io";
 import DownloadHisBtn from "./DownloadHisBtn";
-import FileChooseMenu from "../UI/FileChooseMenu";
 import FileChooseBtn from "../UI/FileChooseBtn";
 import { getTxtFile } from "../../utils/readTxt";
 

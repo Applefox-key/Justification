@@ -1,20 +1,11 @@
 import { Button } from "react-bootstrap";
 import React from "react";
-import { applyAction, baseFormatChanges } from "../../utils/utilStr";
-import { HiRefresh } from "react-icons/hi";
+import { baseFormatChanges } from "../../utils/utilStr";
 
-const InFormatBtn = ({ handleTxt, action, setHandleTxt, fieldid }) => {
+const InFormatBtn = ({ setHandleTxt, fieldid }) => {
   return (
     <div className="format-btns">
-      <Button
-        className="btnToHis"
-        // onClick={(e) => {
-        //   const newVal = applyAction(handleTxt, action);
-        //   setHandleTxt(newVal);
-        // }}
-      >
-        Format
-      </Button>
+      <Button className="btnToHis">Format</Button>
       <div className="sub-btns">
         {Object.entries(baseFormatChanges).map(([key, config]) => (
           <button

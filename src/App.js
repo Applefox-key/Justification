@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.scss";
-import MainPage from "./components/MainPage";
+
 import { PopupContext } from "./context";
-import BaseAPI from "./components/API/BaseAPI";
+
 import Login from "./components/Login/Login";
 import md5 from "blueimp-md5";
 import { BrowserRouter } from "react-router-dom";

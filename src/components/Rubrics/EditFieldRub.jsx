@@ -1,94 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { replaceEndings } from "../../utils/utilStr";
-import { replacementsEnding } from "../../constants/replacements";
-import { GoZoomIn, GoZoomOut } from "react-icons/go";
+import React from "react";
+
+import ScalableInput from "../EditBtns/ScalableInput";
 
 const EditFieldRub = ({
-  autoFocus,
-  showArrow,
   fieldName,
-  placeholder,
-  fieldVal,
-
-  small = null,
-  fieldFn,
-  isActive,
   classN = "",
+  fieldFn,
+  classF = "",
   scale = null,
   show = true,
+  small = null,
+  ...props
 }) => {
-  const ref = useRef(null);
-  const refBox = useRef(null);
-  const cursorPos = useRef(null);
-  const [isScale, setIsScale] = useState(false);
-  const changeClass = () => {
-    const curV = isScale;
-    setIsScale(!curV);
-
-    if (!curV) ref.current.focus();
-  };
-  const handleChange = (e) => {
-    e.stopPropagation();
-
-    const { curs, val } = replaceEndings(e, replacementsEnding);
-    cursorPos.current = curs;
-
-    fieldFn.setNewVal(val, fieldName);
-  };
-  useEffect(() => {
-    if (ref.current && cursorPos.current !== null) {
-      ref.current.selectionStart = cursorPos.current;
-      ref.current.selectionEnd = cursorPos.current;
-      ref.current.focus();
-    }
-  }, [fieldVal]);
+  console.log(props);
+  console.log(fieldFn);
 
   return (
     <div
-      className={
-        "field-box" +
-        (!show ? " field-close-" + scale || "" : "") +
-        (isScale ? " field-rub-plus" : "")
-      }
-      ref={refBox}>
+      className={`field-box ${classF || ""}${
+        !show ? " field-close-" + scale || "" : ""
+      }`}>
       <>
-        <Form.Control
-          ref={ref}
-          as={small ? "input" : "textarea"}
+        <ScalableInput
+          fieldFn={fieldFn}
+          className={"fieldRub " + (small ? "dimFieldSmall " : "") + classN}
+          btnCount={2}
           id={fieldName}
-          autoFocus={autoFocus}
-          className={
-            "fieldRub " +
-            (small ? "dimFieldSmall " : "") +
-            classN +
-            (isScale ? " plusTextArea" : "")
-          }
-          onFocus={() => {
-            fieldFn.onFocus(ref);
-          }}
+          fieldName={fieldName}
           rows={1}
-          spellCheck
-          placeholder={placeholder}
-          value={fieldVal}
           onKeyDown={fieldFn.onKeyDown}
-          onChange={handleChange}
-        />{" "}
-        {((!small && show && isActive) || showArrow) && (
-          <>
-            <div className={"textarea-btns-" + scale}>
-              <button className={"square-btn"} onClick={changeClass}>
-                <GoZoomIn />
-              </button>
-            </div>
-          </>
-        )}
-        {!small && show && isActive && (
-          <button className={" btnMin"} onClick={changeClass}>
-            <GoZoomOut />
-            EDIT {fieldName} BACK TO RUBRICATOR
-          </button>
-        )}
+          onChange={(val) => fieldFn.setNewVal(val, fieldName)}
+          {...props}
+        />
       </>
     </div>
   );

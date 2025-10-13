@@ -1,21 +1,23 @@
 import React, { useMemo, useRef, useState } from "react";
 import OneHotBtn from "./OneHotBtn";
 import { useOutsideClick } from "../../hooks/useOutSideClick";
-import { applyAction, copyToClipboard } from "../../utils/utilStr";
+import { applyAction } from "../../utils/utilStr";
 import RateHot from "../Rate/RateHot";
-import { usePopup } from "../../hooks/usePopup";
+
 import { txtHotReplaceGet } from "../../utils/localStorage";
+import { useRightClickCopy } from "../../hooks/useRightClickCopy";
 
 const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
   const [isOpen, setIsOpen] = useState(null);
   const refBox = useRef(null);
   useOutsideClick(refBox, () => setIsOpen(null));
-  const setPopup = usePopup();
+  // const setPopup = usePopup();
   const btnsArr = useMemo(
     () => (btnsArrD === null ? txtHotReplaceGet() : btnsArrD),
     [btnsArrD]
   );
 
+  const onContextMenuClick = useRightClickCopy();
   const onHandleCLick = (e, newT, model = "") => {
     e.stopPropagation();
     let b = e.button;
@@ -26,13 +28,8 @@ const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
       toJustif(newVal);
       return;
     } //right mouse button
-    if (b === 2) {
-      e.preventDefault();
-      copyToClipboard(newVal);
-      setPopup("copied to the clipboard");
-    }
+    if (b === 2) onContextMenuClick(e, newVal);
   };
-
   return (
     <div className="hot " ref={refBox}>
       {btnsArr.map((oneBtn, btni) => (
@@ -40,6 +37,7 @@ const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
           key={btni}
           oneBtn={oneBtn}
           toJustif={onHandleCLick}
+          onContextMenuClick={onContextMenuClick}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         />

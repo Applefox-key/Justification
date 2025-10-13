@@ -129,7 +129,7 @@ const StrAreaEdit = ({
                   if (e.key === "Escape") onOK(e);
                   else {
                     lasttxt.saveLast();
-                    if (e.key === "F2") {
+                    if (e.key === "F4") {
                       const newVal = applyAction(handleTxt, action);
                       setHandleTxt(newVal);
                     }

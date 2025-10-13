@@ -12,8 +12,8 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
           const newVal = applyAction(handleTxt, action);
           setHandleTxt(newVal);
         }}>
-        {/* FORMAT (F2) */}
-        <HiRefresh /> {action} (F2)
+        {/* FORMAT (F4) */}
+        <HiRefresh /> {action} (F4)
       </Button>
       <div className="sub-btns">
         {Object.entries(baseRespName).map(([key, config]) => (

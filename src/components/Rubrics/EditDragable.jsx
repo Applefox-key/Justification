@@ -12,6 +12,7 @@ const EditDragable = ({
   fieldId,
   fieldFn,
   critEr,
+  comment,
 }) => {
   const ref = useRef(null);
 
@@ -20,8 +21,8 @@ const EditDragable = ({
       <Draggable handle=".handle1" defaultPosition={{ x: 750, y: 54 }}>
         <div ref={ref} className={"rub-drag"}>
           <div className="rub-drag-box">
-            <div className="handle1 handle1After">
-              {title}
+            <div className="handle1 handle1After ">
+              <div className="field-name-voice ">{title}</div>
               <button
                 className="btn-back"
                 onClick={(e) => {
@@ -29,11 +30,12 @@ const EditDragable = ({
                   closeModal();
                 }}>
                 x
-              </button>{" "}
+              </button>
             </div>
 
             <div className="modal-rub">
               <span> {crit}</span>
+              <span className="comment"> {comment}</span>
               {children}
               <div className="handle1 hbottom1">
                 <div className="form-btn">
@@ -41,23 +43,23 @@ const EditDragable = ({
                     className="rubBtn"
                     fieldId={fieldId}
                     fieldFn={fieldFn}
-                    type={"«»"}
+                    type={"guillemet"} //«»
                   />
                   <FlowerBtn
                     className="rubBtn"
                     fieldId={fieldId}
                     fieldFn={fieldFn}
-                    type={`""`}
+                    type={`straight`} //""
                   />
                   <FlowerBtn
                     className="rubBtn"
                     fieldId={fieldId}
                     fieldFn={fieldFn}
-                  />{" "}
-                  <BtnFontSize nameV="--font-size-edit" />
-                </div>
+                  />
+                  <BtnFontSize nameV="--font-size-edit" />{" "}
+                </div>{" "}
                 <RiDragMoveFill />
-              </div>{" "}
+              </div>
             </div>
           </div>
         </div>

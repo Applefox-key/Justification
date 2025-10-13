@@ -20,6 +20,7 @@ export const replacementsEnding = [
   [["resa", "res1", "respa", "куыф", "отв1", "респ1"], "Response A"],
   [["ress", "рсаа"], "responses"],
   [["rr", "рр"], "response"],
+
   [["екуы", "tres"], "the response"],
   [["bres"], "Both responses"],
   [["ilf"], "The response has a problem with language fluency"],
@@ -37,6 +38,7 @@ export const replacementsEnding = [
   [["mji", "ьош"], "major issue"],
   [["mni", "ьnш"], "major issue"],
   [["--"], "—"],
+  [["##"], `“”`],
   [["tns"], `turn1\nturn2\nturn3\nturn4\n`],
   [["trn"], `turn`],
   [
@@ -49,6 +51,7 @@ export const replacementsEnding = [
     ["refr"],
     `It is better to rephrase some fragments in the response since it sounds unnatural (" ").`,
   ],
+  [["@@"], `""`],
 ];
 //hot list
 export const autoreplaceFormat = [
@@ -469,114 +472,299 @@ export const autoreplaceNum = [
     title: "both->b",
   },
 ];
-export const autoreplaceGrammar = [
+// export const autoreplaceGrammar = [
+//   {
+//     oldT: ["robo"],
+//     newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "robo",
+//   },
+//   {
+//     oldT: ["another"],
+//     newT: `BotModel contains phrases written in another language (not Russian) " ".`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "foreign",
+//   },
+//   {
+//     oldT: ["repet"],
+//     newT: `BotModel contains The phrase that is often repeated, for example " ".`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "repetition",
+//   },
+//   {
+//     oldT: ["unnatural"],
+//     newT: `Some phrases in BotModel sound unnatural ("").`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "unnatural",
+//   },
+//   {
+//     oldT: ["unnatp"],
+//     newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "unnat.phrase",
+//   },
+
+//   {
+//     oldT: ["gramar"],
+//     newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "gram err",
+//   },
+//   {
+//     oldT: ["matching"],
+//     newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "word matching",
+//   },
+
+//   {
+//     oldT: ["punker"],
+//     newT: `BotModel contains punctuation errors, for example .`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "punkt err",
+//   },
+//   {
+//     oldT: ["dash"],
+//     newT: `In BotModel the hyphen should be replaced with a dash.`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "—",
+//   },
+//   {
+//     oldT: ["quotes"],
+//     newT: `In BotModel the quotation marks should be replaced with «».`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "« »",
+//   },
+//   {
+//     oldT: ["quotesDash"],
+//     newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "« » —",
+//   },
+//   {
+//     oldT: ["comma"],
+//     newT: `The comma after " " is unnecessary`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "comma",
+//   },
+
+//   {
+//     oldT: ["colo"],
+//     newT: `By the rules of the Russian language, after the colon should be a lowercase letter.`,
+//     caseSensitive: false,
+//     show: true,
+//     title: ":A",
+//   },
+//   {
+//     oldT: ["coloT"],
+//     newT: `No colon is needed after the title.`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "A:",
+//   },
+//   {
+//     oldT: ["coloTL"],
+//     newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+//     caseSensitive: false,
+//     show: true,
+//     title: "A:123",
+//   },
+// ];
+export const autoreplaceLocal = [
   {
-    oldT: ["robo"],
-    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
-    caseSensitive: false,
-    show: true,
-    title: "robo",
+    title: "❌ pov",
+    newT: "The response over-explains details that a local can easily understand",
+  },
+
+  {
+    title: "❌ Local",
+    newT: "The response provides information related to another locale",
   },
   {
-    oldT: ["another"],
-    newT: `BotModel contains phrases written in another language (not Russian) " ".`,
-    caseSensitive: false,
-    show: true,
+    title: "❌ Events",
+    newT: "The response includes unrelevant generic festivals, holidays, or seasonal events",
+  },
+  {
+    title: "too details",
+    newT: "The response should use details that a local would understand easily and are a local norm",
+  },
+];
+export const autoreplaceGrammar = [
+  {
+    title: "MU",
+    newT: "— made-up words:",
+    bold: true,
+  },
+  {
+    title: "made-up",
+    newT: "The response uses made-up words, for example",
+  },
+  {
+    newT: `BotModel contains The phrase that is often repeated, for example "".`,
+
+    title: "repetition",
+  },
+
+  {
+    newT: `— unnatural phrases:`,
+    title: "UN",
+    bold: true,
+  },
+  {
+    newT: `The phrase "_" in BotModel sounds unnatural. It should be "". It is better to use "".`,
+    title: "unnat ➰",
+  },
+  {
+    newT: `Some phrases in BotModel sound unnatural: `,
+    title: "unnat ➿",
+  },
+  {
+    newT: `A lot of phrases in BotModel sound unnatural: `,
+    title: "unnat ♾️",
+  },
+
+  {
+    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+    title: "robo",
+  },
+
+  {
+    newT: `— foreign language:`,
+    title: "FR",
+    bold: true,
+  },
+  {
+    newT: `BotModel contains phrases written in another language (not Russian) "".`,
     title: "foreign",
   },
   {
-    oldT: ["repet"],
-    newT: `BotModel contains The phrase that is often repeated, for example " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "repetition",
-  },
-  {
-    oldT: ["unnatural"],
-    newT: `Some phrases in BotModel sound unnatural ("").`,
-    caseSensitive: false,
-    show: true,
-    title: "unnatural",
-  },
-  {
-    oldT: ["unnatp"],
-    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
-    caseSensitive: false,
-    show: true,
-    title: "unnat.phrase",
+    newT: `BotModel contains phrases written in English "".`,
+    title: "Engl",
   },
 
   {
-    oldT: ["gramar"],
-    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "gram err",
+    newT: `— misspelled words:`,
+    title: "SP",
+    bold: true,
   },
   {
-    oldT: ["matching"],
-    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
-    caseSensitive: false,
-    show: true,
-    title: "word matching",
+    newT: `— Grammatical errors:`,
+    title: "GR",
+    bold: true,
   },
-
   {
-    oldT: ["punker"],
+    newT: `BotModel contains grammatical errors, for example: "", "".`,
+    title: "GR err",
+  },
+  {
+    newT: `BotModel contains grammatical errors, for example "" instead of "".`,
+    title: "GR inst",
+  },
+  {
+    newT: `Punctuation errors:`,
+    title: "punkt",
+  },
+  {
     newT: `BotModel contains punctuation errors, for example .`,
-    caseSensitive: false,
-    show: true,
     title: "punkt err",
   },
+
   {
-    oldT: ["dash"],
+    newT: `— incorrect word matching:`,
+    title: "WM",
+    bold: true,
+  },
+  {
+    newT: `— incorrect word agreement:`,
+    title: "WA",
+  },
+  {
+    newT: `BotModel uses incorrect word matching in Russian. For example: "", "".`,
+    title: "word matching",
+  },
+  {
+    newT: `BotModel uses incorrect word matching in Russian "" instead of ""`,
+    title: "WM inst",
+  },
+
+  {
+    newT: `— wrong quotation marks (should be «»).`,
+    title: "«»s",
+    bold: true,
+  },
+  {
+    newT: `In BotModel the quotation marks should be replaced with «».`,
+    title: "«»",
+  },
+  {
     newT: `In BotModel the hyphen should be replaced with a dash.`,
-    caseSensitive: false,
-    show: true,
     title: "—",
   },
   {
-    oldT: ["quotes"],
-    newT: `In BotModel the quotation marks should be replaced with «».`,
-    caseSensitive: false,
-    show: true,
-    title: "« »",
-  },
-  {
-    oldT: ["quotesDash"],
     newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
-    caseSensitive: false,
-    show: true,
     title: "« » —",
   },
   {
-    oldT: ["comma"],
     newT: `The comma after " " is unnecessary`,
-    caseSensitive: false,
-    show: true,
     title: "comma",
   },
 
   {
-    oldT: ["colo"],
-    newT: `By the rules of the Russian language, after the colon should be a lowercase letter.`,
-    caseSensitive: false,
-    show: true,
+    newT: `— BotModel uses uppercase after the colon, it should be a lowercase letter.`,
+    title: ":As",
+    bold: true,
+  },
+  {
+    newT: `BotModel uses uppercase after the colon. In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
     title: ":A",
   },
   {
-    oldT: ["coloT"],
     newT: `No colon is needed after the title.`,
-    caseSensitive: false,
-    show: true,
     title: "A:",
   },
   {
-    oldT: ["coloTL"],
     newT: `it is better to end the paragraph before the list with a period, not a colon.`,
-    caseSensitive: false,
-    show: true,
     title: "A:123",
+  },
+  {
+    newT: `The letter "ё" is inconsistently used`,
+    title: "ё",
+  },
+  {
+    newT: `— wrong preposition`,
+    title: "в-во",
+  },
+  {
+    title: "ALL",
+    newT: `— made-up words:
+
+           — unnatural phrases:
+
+           — foreign language:
+           
+           — misspelled words:
+
+           — grammatical errors:
+           
+           — incorrect word matching:
+
+           — wrong quotation marks (should be «»).
+
+          — BotModel uses uppercase after the colon, it should be a lowercase letter.
+          `,
+    bold: true,
   },
 ];
 export const autoreplaceRub = [
@@ -763,247 +951,268 @@ export const autoreplaceRub = [
 // ];
 export const autoreplaceLoc = [
   {
-    oldT: ["loc"],
-    newT: `BotModel has some localization issues.`,
+    oldT: ["if-"],
+    newT: `BotModel  follows instructions worse and therefore has problems with truthfulness, length, structure and tone.`,
     caseSensitive: false,
     show: true,
-    title: "LC|",
+    title: "if-",
   },
   {
-    oldT: ["robo"],
-    newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+    oldT: ["if+"],
+    newT: `BotModel  follows instructions better and therefore has fewer problems with truthfulness, length, structure and tone.`,
     caseSensitive: false,
     show: true,
-    title: "LC_robo",
+    title: "if+",
   },
   {
-    oldT: ["mach"],
-    newT: `BotModel sounds like machine translation. For example, it is uses a phrase like ""`,
+    oldT: ["2if-"],
+    newT: `Both responses do not follow instructions well and therefore has problems with truthfulness, length, structure and tone.`,
     caseSensitive: false,
     show: true,
-    title: "LC_mach",
+    title: "2if-",
   },
-  {
-    oldT: ["nos"],
-    newT: `A lot of sentences don't make sense in BotModel. For example: `,
-    caseSensitive: false,
-    show: true,
-    title: "LC_sence",
-  },
-  {
-    oldT: ["another"],
-    newT: `BotModel contains phrases written in another language (not Russian): " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "LC_foreign",
-  },
+  // {
+  //   oldT: ["loc"],
+  //   newT: `BotModel has some localization issues.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC|",
+  // },
+  // {
+  //   oldT: ["robo"],
+  //   newT: `BotModel sounds a bit chat-boty. For example, it is uses a phrase like ""`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_robo",
+  // },
+  // {
+  //   oldT: ["mach"],
+  //   newT: `BotModel sounds like machine translation. For example, it is uses a phrase like ""`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_mach",
+  // },
+  // {
+  //   oldT: ["nos"],
+  //   newT: `A lot of sentences don't make sense in BotModel. For example: `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_sence",
+  // },
+  // {
+  //   oldT: ["another"],
+  //   newT: `BotModel contains phrases written in another language (not Russian): " ".`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_foreign",
+  // },
 
-  {
-    oldT: ["unnatural"],
-    newT: `Some phrases in BotModel sound unnatural:`,
-    caseSensitive: false,
-    show: true,
-    title: "LC_un",
-  },
-  {
-    oldT: ["unnatp"],
-    newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
-    caseSensitive: false,
-    show: true,
-    title: "LC_un-1",
-  },
+  // {
+  //   oldT: ["unnatural"],
+  //   newT: `Some phrases in BotModel sound unnatural:`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_un",
+  // },
+  // {
+  //   oldT: ["unnatp"],
+  //   newT: `The phrase "_" in BotModel sounds unnatural. It should be "_".`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_un-1",
+  // },
 
-  {
-    oldT: ["pron"],
-    newT: `BotModel sounds impolite, it uses the pronoun "ты" when addressing the user, in Russian it is better to use "вы". For example: `,
-    caseSensitive: false,
-    show: true,
-    title: "LC_ТЫ",
-  },
-  {
-    oldT: ["gramer"],
-    newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
-    caseSensitive: false,
-    show: true,
-    title: "LC_gram err",
-  },
-  {
-    oldT: ["matching"],
-    newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
-    caseSensitive: false,
-    show: true,
-    title: "LC_w-match",
-  },
+  // {
+  //   oldT: ["pron"],
+  //   newT: `BotModel sounds impolite, it uses the pronoun "ты" when addressing the user, in Russian it is better to use "вы". For example: `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_ТЫ",
+  // },
+  // {
+  //   oldT: ["gramer"],
+  //   newT: `BotModel contains grammatical errors, for example " " instead of " ".`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_gram err",
+  // },
+  // {
+  //   oldT: ["matching"],
+  //   newT: `BotModel uses incorrect word matching in Russian " " instead of " "`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "LC_w-match",
+  // },
 
-  {
-    oldT: ["IFI"],
-    newT: `BotModel has instruction following issues.`,
-    caseSensitive: false,
-    show: true,
-    title: "IF",
-  },
-  {
-    oldT: ["if1"],
-    newT: `Since BotModel consists of meaningless phrases, the instruction is not executed. For example: `,
-    caseSensitive: false,
-    show: true,
-    title: "IF_sence",
-  },
-  {
-    oldT: ["if2"],
-    newT: `The tone of BotModel does not match the request - the instructions are violated: .`,
-    caseSensitive: false,
-    show: true,
-    title: "IF_tone",
-  },
-  {
-    oldT: ["tr1"],
-    newT: `Since BotModel consists of meaningless phrases, it does not contain the exact information that the user needs.`,
-    caseSensitive: false,
-    show: true,
-    title: "TR_sence",
-  },
-  {
-    oldT: ["lg1"],
-    newT: `BotModel is too long because it contains unnecessary information that the user did not request`,
-    caseSensitive: false,
-    show: true,
-    title: "Lg_long",
-  },
-  {
-    oldT: ["lg1"],
-    newT: `BotModel is too long because it contains unnecessary pleasantries, for example: `,
-    caseSensitive: false,
-    show: true,
-    title: "Lg_long_pl",
-  },
-  {
-    oldT: ["lg2"],
-    newT: `Since there is no truthful information in BotModel, it is rated as too short.`,
-    caseSensitive: false,
-    show: true,
-    title: "Lg_short_Tr",
-  },
-  {
-    oldT: ["st1"],
-    newT: `BotModel is poorly designed.`,
-    caseSensitive: false,
-    show: true,
-    title: "st_poor",
-  },
-  {
-    oldT: ["st2"],
-    newT: `There is no division into paragraphs in BotModel.`,
-    caseSensitive: false,
-    show: true,
-    title: "st_nodiv",
-  },
-  {
-    oldT: ["st3"],
-    newT: `BotModel does not use lists, although they would significantly improve the perception of information. `,
-    caseSensitive: false,
-    show: true,
-    title: "st_nolist",
-  },
-  {
-    oldT: ["st4"],
-    newT: `BotModel is written in a tone that does not suit the task: it is too formal/caual/unnatural.`,
-    caseSensitive: false,
-    show: true,
-    title: "st_tone",
-  },
-  {
-    oldT: ["punker"],
-    newT: `BotModel contains punctuation errors, for example: `,
-    caseSensitive: false,
-    show: true,
-    title: "punkt err",
-  },
-  {
-    oldT: ["dash"],
-    newT: `BotModel uses a hyphen instead of a dash.`,
-    caseSensitive: false,
-    show: true,
-    title: "—",
-  },
-  {
-    oldT: ["quotes"],
-    newT: `BotModel uses quotation marks "" instead of «».`,
-    caseSensitive: false,
-    show: true,
-    title: "« »",
-  },
-  {
-    oldT: ["quotes2"],
-    newT: `BotModel uses quotation marks "" instead of «» and '' instead of "".`,
-    caseSensitive: false,
-    show: true,
-    title: `«»""`,
-  },
-  {
-    oldT: ["quotesDash"],
-    newT: `In BotModel the quotation marks "" instead of «», and the hyphen instead of a dash`,
-    caseSensitive: false,
-    show: true,
-    title: "« » —",
-  },
-  {
-    oldT: ["comma"],
-    newT: `The comma after " " is unnecessary`,
-    caseSensitive: false,
-    show: true,
-    title: "comma",
-  },
+  // {
+  //   oldT: ["IFI"],
+  //   newT: `BotModel has instruction following issues.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "IF",
+  // },
+  // {
+  //   oldT: ["if1"],
+  //   newT: `Since BotModel consists of meaningless phrases, the instruction is not executed. For example: `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "IF_sence",
+  // },
+  // {
+  //   oldT: ["if2"],
+  //   newT: `The tone of BotModel does not match the request - the instructions are violated: .`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "IF_tone",
+  // },
+  // {
+  //   oldT: ["tr1"],
+  //   newT: `Since BotModel consists of meaningless phrases, it does not contain the exact information that the user needs.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "TR_sence",
+  // },
+  // {
+  //   oldT: ["lg1"],
+  //   newT: `BotModel is too long because it contains unnecessary information that the user did not request`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "Lg_long",
+  // },
+  // {
+  //   oldT: ["lg1"],
+  //   newT: `BotModel is too long because it contains unnecessary pleasantries, for example: `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "Lg_long_pl",
+  // },
+  // {
+  //   oldT: ["lg2"],
+  //   newT: `Since there is no truthful information in BotModel, it is rated as too short.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "Lg_short_Tr",
+  // },
+  // {
+  //   oldT: ["st1"],
+  //   newT: `BotModel is poorly designed.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "st_poor",
+  // },
+  // {
+  //   oldT: ["st2"],
+  //   newT: `There is no division into paragraphs in BotModel.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "st_nodiv",
+  // },
+  // {
+  //   oldT: ["st3"],
+  //   newT: `BotModel does not use lists, although they would significantly improve the perception of information. `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "st_nolist",
+  // },
+  // {
+  //   oldT: ["st4"],
+  //   newT: `BotModel is written in a tone that does not suit the task: it is too formal/caual/unnatural.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "st_tone",
+  // },
+  // {
+  //   oldT: ["punker"],
+  //   newT: `BotModel contains punctuation errors, for example: `,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "punkt err",
+  // },
+  // {
+  //   oldT: ["dash"],
+  //   newT: `BotModel uses a hyphen instead of a dash.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "—",
+  // },
+  // {
+  //   oldT: ["quotes"],
+  //   newT: `BotModel uses quotation marks "" instead of «».`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "« »",
+  // },
+  // {
+  //   oldT: ["quotes2"],
+  //   newT: `BotModel uses quotation marks "" instead of «» and '' instead of "".`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: `«»""`,
+  // },
+  // {
+  //   oldT: ["quotesDash"],
+  //   newT: `In BotModel the quotation marks "" instead of «», and the hyphen instead of a dash`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "« » —",
+  // },
+  // {
+  //   oldT: ["comma"],
+  //   newT: `The comma after " " is unnecessary`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "comma",
+  // },
 
-  {
-    oldT: ["colo"],
-    newT: `BotModel uses uppercase after the colon (for example, “ …”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
-    caseSensitive: false,
-    show: true,
-    title: ":A",
-  },
-  {
-    oldT: ["coloT"],
-    newT: `BotModel uses colon after the titles. No colon is needed after the title by the rules of the Russian language.`,
-    caseSensitive: false,
-    show: true,
-    title: "A:",
-  },
-  {
-    oldT: ["coloTL"],
-    newT: `it is better to end the paragraph before the list with a period, not a colon.`,
-    caseSensitive: false,
-    show: true,
-    title: "A:123",
-  },
-  {
-    oldT: ["coml"],
-    newT: `The lists are formatted incorrectly in the response. According to the rules of the Russian language, a comma, a semicolon, or a period is placed after the elements of the list.`,
-    caseSensitive: false,
-    show: true,
-    title: "-.;,",
-  },
-  {
-    oldT: ["comlr"],
-    newT: `In this case, since the list items do not represent a sentence, it is better to write them with a small letter and use a comma for all but the last item — use a period for it.`,
-    caseSensitive: false,
-    show: true,
-    title: `-a,-b.`,
-  },
-  {
-    oldT: ["qp"],
-    newT: `The period at the end of sentences should be placed outside the closing bracket according to the rules of the Russian language.`,
-    caseSensitive: false,
-    show: true,
-    title: `).`,
-  },
-  {
-    oldT: ["qp"],
-    newT: `The period at the end of sentences should be placed outside the closing quotation mark according to the rules of the Russian language.`,
-    caseSensitive: false,
-    show: true,
-    title: `».`,
-  },
+  // {
+  //   oldT: ["colo"],
+  //   newT: `BotModel uses uppercase after the colon (for example, “ …”). In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: ":A",
+  // },
+  // {
+  //   oldT: ["coloT"],
+  //   newT: `BotModel uses colon after the titles. No colon is needed after the title by the rules of the Russian language.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "A:",
+  // },
+  // {
+  //   oldT: ["coloTL"],
+  //   newT: `it is better to end the paragraph before the list with a period, not a colon.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "A:123",
+  // },
+  // {
+  //   oldT: ["coml"],
+  //   newT: `The lists are formatted incorrectly in the response. According to the rules of the Russian language, a comma, a semicolon, or a period is placed after the elements of the list.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: "-.;,",
+  // },
+  // {
+  //   oldT: ["comlr"],
+  //   newT: `In this case, since the list items do not represent a sentence, it is better to write them with a small letter and use a comma for all but the last item — use a period for it.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: `-a,-b.`,
+  // },
+  // {
+  //   oldT: ["qp"],
+  //   newT: `The period at the end of sentences should be placed outside the closing bracket according to the rules of the Russian language.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: `).`,
+  // },
+  // {
+  //   oldT: ["qp"],
+  //   newT: `The period at the end of sentences should be placed outside the closing quotation mark according to the rules of the Russian language.`,
+  //   caseSensitive: false,
+  //   show: true,
+  //   title: `».`,
+  // },
 ];
 export const hotReplaceRewiew = [
   {
@@ -1163,7 +1372,7 @@ export const hotreplaceSuggest = [
     title: "should",
   },
 ];
-const autoReplaceToModels = [
+export const autoReplaceToModels = [
   {
     oldT: [
       "@response a",
@@ -1494,7 +1703,33 @@ export const replacementsResponsesNum = [
   { oldT: ["BotModela"], newT: "@Response 1", caseSensitive: false },
   { oldT: ["BotModelb"], newT: "@Response 2", caseSensitive: false },
   { oldT: ["BotModels"], newT: "Responses", caseSensitive: false },
-  { oldT: ["BotModel"], newT: "The response", caseSensitive: false },
+  { oldT: ["BotModel"], newT: "the response", caseSensitive: false },
+  {
+    oldT: ["the answer", "Botmodel"],
+    newT: "the response",
+    caseSensitive: false,
+  },
+  {
+    oldT: ["answers"],
+    newT: "responses",
+    caseSensitive: true,
+  },
+  {
+    oldT: ["Answers"],
+    newT: "Responses",
+    caseSensitive: true,
+  },
+  {
+    oldT: ["@@"],
+    newT: "@",
+    caseSensitive: false,
+  },
+];
+export const replacementsResponsesNumShort = [
+  { oldT: ["BotModela"], newT: "@R1", caseSensitive: false },
+  { oldT: ["BotModelb"], newT: "@R2", caseSensitive: false },
+  { oldT: ["BotModels"], newT: "Responses", caseSensitive: false },
+  { oldT: ["BotModel"], newT: "the response", caseSensitive: false },
   {
     oldT: ["the answer", "Botmodel"],
     newT: "the response",

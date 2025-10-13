@@ -1,13 +1,8 @@
 import React, { useMemo } from "react";
 import { labelsFullVerdict, labelsFullVerdictEdit } from "../../utils/analysis";
+import { useRightClickCopy } from "../../hooks/useRightClickCopy";
 
-const RateBoxes = ({ likert, choosed = -1 }) => {
-  // const rateStr = (i) =>
-  //   i > -1 ? applyAction(labelsFullVerdictEdit[i], action) : "";
-
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const titleChoosed = useMemo(() => rateStr(choosed), [action, choosed]);
-
+const RateBoxes = ({ likert, choosed = -1, nospan = false }) => {
   const { setNewRate, titleChoosed } = likert;
 
   const clN = useMemo(() => {
@@ -17,6 +12,8 @@ const RateBoxes = ({ likert, choosed = -1 }) => {
     else if (choosed > 4) return "rate-B";
   }, [choosed]);
 
+  const onContextMenuClick = useRightClickCopy();
+
   return (
     <div className="header-fin">
       <div className="final-rate">
@@ -24,13 +21,16 @@ const RateBoxes = ({ likert, choosed = -1 }) => {
           <div
             key={i}
             onClick={(e) => setNewRate(e, i)}
+            onContextMenu={(e) =>
+              onContextMenuClick(e, labelsFullVerdictEdit[i])
+            }
             title={labelsFullVerdictEdit[i]}
             className={`rate rates${i + 1} ${i === choosed ? clN : ""}`}>
             {el[0]}
           </div>
         ))}
       </div>
-      {choosed > -1 && titleChoosed && <span>{titleChoosed}</span>}
+      {choosed > -1 && titleChoosed && !nospan && <span>{titleChoosed}</span>}
     </div>
   );
 };

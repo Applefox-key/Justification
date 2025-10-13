@@ -4,7 +4,7 @@ import { BiSolidRightArrow } from "react-icons/bi";
 import SummaryRub from "./SummaryRub";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { detectHeightRub } from "../../utils/analysis";
-import { copyToClipboard, replaceQuotes } from "../../utils/utilStr";
+import { copyToClipboard, replaceQuotesUniversal } from "../../utils/utilStr";
 import { TiPlusOutline } from "react-icons/ti";
 
 import { MdBorderClear, MdVoiceOverOff } from "react-icons/md";
@@ -15,7 +15,9 @@ import {
 } from "react-icons/tb";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { VscClearAll } from "react-icons/vsc";
-import { defaultRubrics } from "../../utils/rubricsFn";
+
+import { rubExExample } from "../../constants/textParts";
+import { defaultRubrics } from "../../utils/rubricsTemplates";
 
 const Rubricator = ({ editParam }) => {
   const [showRubricator, setShowRubricator] = useState(false);
@@ -70,7 +72,7 @@ const Rubricator = ({ editParam }) => {
               "Ответ использует правильную пунктуацию"
             )
               ? el.example
-              : replaceQuotes(el.example),
+              : replaceQuotesUniversal(el.example, "guillemet"),
           };
         });
         editParam.setItem({ ...editParam.item, rubricator: rb });
@@ -95,8 +97,9 @@ const Rubricator = ({ editParam }) => {
 
     if (e.button === 2 && val) {
       const rb = defaultRubrics[val];
-
-      copyToClipboard(rb.rubric + ". Например: " + rb.example);
+      copyToClipboard(
+        rb.rubric + rubExExample[1][editParam.item.version] + rb.example
+      );
     }
   };
   const splitLineData = async (e) => {
@@ -107,7 +110,6 @@ const Rubricator = ({ editParam }) => {
   const splitLineDataT = async (e) => {
     e.stopPropagation();
     const input = await navigator.clipboard.readText();
-    console.log(input);
 
     fieldFn.createRubPromptScoresTask(input);
   };

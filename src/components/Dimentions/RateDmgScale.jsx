@@ -1,4 +1,5 @@
 import React from "react";
+import { rateColorClasses } from "../../utils/rates";
 
 const RateDmgScale = ({ setVal, val, cl, horiz, addElem }) => {
   const onHandleCLick = (nv) => {
@@ -7,7 +8,12 @@ const RateDmgScale = ({ setVal, val, cl, horiz, addElem }) => {
   };
 
   return (
-    <div className={"rate-vert-wrap" + (horiz ? " horiz-score" : "")}>
+    <div
+      className={
+        "rate-vert-wrap " +
+        (horiz ? " horiz-score " : "") +
+        rateColorClasses[val]
+      }>
       {addElem || <></>}
       {[5, 4, 3, 2, 1].map((el) => (
         <div

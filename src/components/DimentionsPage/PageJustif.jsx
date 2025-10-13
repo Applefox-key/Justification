@@ -1,36 +1,30 @@
-import React, { useCallback } from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import React from "react";
+
 import EditFieldDmg from "../Dimentions/EditFieldDmg";
 
-import { compose, composeRateBoth, rateIcons } from "../../utils/rates";
 import RateBoxes from "../Rate/RateBoxes";
+import { getActionButtons } from "../../utils/dimentions";
 
 const PageJustif = ({ editParam }) => {
-  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert } =
+  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert, action } =
     editParam;
+  const actionButtons = getActionButtons({ item, setItem, likert, action });
 
   return (
     <div>
-      <div className="hot hot-sum  w-100">
-        <div className="rec">Recommendation: {likert.best.rec}</div>
-      </div>
-      <div className="d-flex mb-2 justify-content-between">
-        <RateBoxes likert={likert} choosed={item.likert} />
+      <div className="menu-accent">
+        <RateBoxes likert={likert} choosed={item.likert} nospan />
+
         <div>
-          <button
-            onClick={() =>
-              composeRateBoth(item, setItem, "Justif", likert.best, true)
-            }>
-            Justification full
-          </button>
-          <button
-            onClick={() =>
-              composeRateBoth(item, setItem, "Justif", likert.best)
-            }>
-            Justification
-          </button>
+          {actionButtons.map(({ label, onClick }) => (
+            <button key={label} onClick={onClick}>
+              {label}
+            </button>
+          ))}
+          {/* <div className="rec">Hint: {likert.best.rec}</div> */}
         </div>
       </div>
+
       <div className={"respDim-footer "}>
         <EditFieldDmg
           scale=""

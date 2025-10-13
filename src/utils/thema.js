@@ -11,6 +11,7 @@ const dayTheme = {
   "--sec-back": "#c7cacf91",
   "--sec-menu": "#ffffff61",
   "--second-color": "#868686",
+  "--even-row": "rgba(234, 234, 234, 0.6588235294)",
   "--rub-back-focus": "beige",
   "--rub-back": "#a49f9f",
   "--rub-back-sum": "aliceblue",
@@ -29,6 +30,7 @@ const nightTheme = {
   "--sec-back": "#14265091",
   "--sec-menu": "#29293d61",
   "--second-color": "#f4dea0",
+  "--even-row": "#414a5f",
   "--rub-back-sum": "#494a4b",
 };
 export const changeTheme = (isCheckedDay) => {

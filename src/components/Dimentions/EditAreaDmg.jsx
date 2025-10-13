@@ -6,7 +6,7 @@ import {
 } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import SideBtns from "../EditBtns/SideBtns";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
 import { getNewOrParseDmg } from "../../constants/textParts";
 
@@ -19,6 +19,7 @@ import EditDmgBody from "./EditDmgBody";
 import EditDmgJustif from "./EditDmgJustif";
 import EditDmgMenuBar from "./EditDmgMenuBar";
 import EditDmgTask from "./EditDmgTask";
+import DimAddDetail from "../DimentionsPage/DimAddDetail";
 
 const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -34,7 +35,7 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const fieldId = useMemo(() => {
     return textRef && textRef.current && textRef.current.id
       ? textRef.current.id
-      : "R3";
+      : "Prompt";
   }, [textRef]);
 
   const fieldFn = {
@@ -77,7 +78,7 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       setItem({ ...item, [fieldVal]: val });
     },
     onKeyDown: (e) => {
-      if (e.key === "F2") {
+      if (e.key === "F4") {
         const val = item[fieldId];
         const newVal = applyAction(val, action);
         fieldFn.setNewVal(newVal);
@@ -107,12 +108,13 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const setPopup = usePopup();
   const toHist = () => {
     const handleTxt = JSON.stringify(item);
-    saveToHistory({ en: handleTxt, ru: "DIM" });
-    setPopup("info has been added to the history");
+
+    saveToHistorygeneral({ en: handleTxt, ru: "DIM" }, setPopup);
   };
   const clear = (e = null, notAllFields = false) => {
     toHist();
     const defaultDmg = getNewOrParseDmg();
+
     const newV = notAllFields
       ? {
           ...defaultDmg,
@@ -207,10 +209,12 @@ const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
               }}
             />
             <div className="body-dim-line">
-              <button id="show-body-dim" onClick={() => setShowBody(!showBody)}>
-                Dimentions scores
-                <BiSolidRightArrow className={showBody ? "arr-down " : ""} />
-              </button>
+              <DimAddDetail
+                val={showBody}
+                setVal={setShowBody}
+                title=" Dimentions scores"
+                isBtn
+              />
             </div>
             <div className={dimHeight()}>
               <EditDmgBody

@@ -1,12 +1,15 @@
 import {
+  autoReplaceToModels,
   replacementsGeneral,
   replacementsInteractions,
   replacementsPunctuation,
   replacementsResponses,
   replacementsResponsesNum,
   replacementsResponsesNum2,
+  replacementsResponsesNumShort,
 } from "../constants/replacements";
 import { defaultDim, defaultDimSets } from "../constants/textParts";
+import { sAlert } from "./alert";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
@@ -50,7 +53,16 @@ export const copyToClipboard = async (text, popup = null) => {
   }
 };
 
-const sentencesCaps = (text, exceptions = new Set()) => {
+const sentencesCaps = (_text) => {
+  const exceptionsArr = ["I", "English", "Russian"];
+  let text = _text.replace(/\be\.g\./gi, "§EG§");
+
+  const exceptions = new Map(
+    exceptionsArr.map((word) => [word.toLowerCase(), word])
+  );
+  exceptions.set("e.G.", "e.g.");
+  exceptions.set("E.G.", "e.g.");
+  exceptions.set("e.g.", "e.g.");
   // // Putting the sentences back into the text
   // return sentences.join("");
   let sentences = text.split(/([.!?]\s*)/);
@@ -60,7 +72,8 @@ const sentencesCaps = (text, exceptions = new Set()) => {
     for (let j = 0; j < words.length; j++) {
       const wordLower = words[j].toLowerCase();
       if (exceptions.has(wordLower)) {
-        words[j] = wordLower.charAt(0).toUpperCase() + wordLower.slice(1);
+        // words[j] = wordLower.charAt(0).toUpperCase() + wordLower.slice(1);
+        words[j] = exceptions.get(wordLower);
       }
     }
 
@@ -68,33 +81,104 @@ const sentencesCaps = (text, exceptions = new Set()) => {
       words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
     }
 
-    sentences[i] = words.join("");
+    sentences[i] = words.join("").replace(/@response\b/gi, "@Response");
   }
 
-  return sentences.join("");
+  return sentences.join("").replace(/§EG§/g, "e.g.");
 };
-export const replaceQuotes3 = (txt) => {
+
+// const sentencesCaps = (text, exceptions = new Set()) => {
+//   let sentences = text.split(/([.!?]\s*)/);
+
+//   for (let i = 0; i < sentences.length; i++) {
+//     let words = sentences[i].split(/\b/);
+
+//     for (let j = 0; j < words.length; j++) {
+//       const wordLower = words[j].toLowerCase();
+
+//       if (exceptions.has(wordLower)) {
+//         // Находим первую букву
+//         const match = words[j].match(/([a-zа-яё])/i);
+//         if (match) {
+//           const idx = match.index;
+//           words[j] =
+//             words[j].slice(0, idx) +
+//             words[j].charAt(idx).toUpperCase() +
+//             words[j].slice(idx + 1);
+//         }
+//       }
+//     }
+
+//     // Первая буква предложения (если не исключение)
+//     if (words[0] && /[a-zа-яё]/i.test(words[0].charAt(0))) {
+//       words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+//     }
+
+//     sentences[i] = words.join("");
+//   }
+
+//   return sentences.join("");
+// };
+
+export const replaceQuotesUniversal = (txt, style = "typographic") => {
   if (!txt) return "";
+
+  // 1️⃣ Определяем варианты кавычек
+  const styles = {
+    typographic: { open: "“", close: "”" },
+    straight: { open: '"', close: '"' },
+    guillemet: { open: "«", close: "»" },
+  };
+
+  const { open, close } = styles[style] || styles.typographic;
+
+  // 2️⃣ Нормализуем все возможные кавычки
+  let normalized = txt.replace(/[«»„”“"‚`‘’‹›']/g, '"');
+
+  // 3️⃣ Каждую первую кавычку — в <open>, каждую вторую — в <close>
   let isOpening = true;
-  let newVal = txt.replace(/"/g, () => {
-    if (isOpening) {
-      isOpening = false;
-      return "“";
-    } else {
-      isOpening = true;
-      return "”";
-    }
+  let withPlaceholders = normalized.replace(/"/g, () => {
+    const tag = isOpening ? "<open>" : "<close>";
+    isOpening = !isOpening;
+    return tag;
   });
 
-  newVal = newVal.replace(/“\s+/g, "“");
-  newVal = newVal.replace(/“\s+/g, "”");
-  newVal = newVal.replace(/«/g, "“");
-  newVal = newVal.replace(/»/g, "”");
-  return newVal;
+  // 4️⃣ Убираем пробелы внутри кавычек, но не снаружи
+  // Пример: <open>  Hello   <close>  → <open>Hello<close>
+  withPlaceholders = withPlaceholders
+    .replace(/<open>\s+/g, "<open>")
+    .replace(/\s+<close>/g, "<close>");
+
+  // 5️⃣ Заменяем плейсхолдеры на реальные кавычки
+  const result = withPlaceholders
+    .replace(/<open>/g, open)
+    .replace(/<close>/g, close);
+
+  return result;
 };
+
+// export const replaceQuotes3 = (txt) => {
+//   if (!txt) return "";
+//   let isOpening = true;
+//   let newVal = txt.replace(/"/g, () => {
+//     if (isOpening) {
+//       isOpening = false;
+//       return "“";
+//     } else {
+//       isOpening = true;
+//       return "”";
+//     }
+//   });
+
+//   newVal = newVal.replace(/“\s+/g, "“"); //пробелы после откр
+//   newVal = newVal.replace(/“\s+/g, "”"); // пробелы после закр
+//   newVal = newVal.replace(/«/g, "“"); //русские откр на англ
+//   newVal = newVal.replace(/»/g, "”"); //русские закр на англ
+//   return newVal;
+// };
 export const cleanAndCapitalize = (text) => {
   // text = text.replace(/\s+/g, " ").trim();
-  const alwaysCapitalize = new Set(["i", "english", "russian"]);
+
   text = text.trim();
   text = text.replace(/ +/g, " ").replace(/ ?\n ?/g, "\n");
   // text = text.replace(/\.\./g, ".");
@@ -117,14 +201,15 @@ export const cleanAndCapitalize = (text) => {
     if (
       urlRegex.test(part) ||
       part.startsWith("\n") ||
+      // part.startsWith("@") ||
       /^[“”"«»].*[“”"«»]$/.test(part)
     ) {
       // a link or new line
       return part;
     } else {
       // not a link
-      part = part.toLowerCase();
-      part = sentencesCaps(part, alwaysCapitalize);
+      // part = part.toLowerCase();
+      part = sentencesCaps(part);
       return part;
     }
   });
@@ -160,26 +245,41 @@ export const replacegen = (txt) => {
   // tmpText = tmpText.replace(/\s+/g, " ");
   return replaceByArr(replacementsGeneral, tmpText);
 };
-export const replaceWords = (allJust) => {
-  allJust = replacegen(allJust);
-  return replaceByArr(replacementsResponses, allJust);
+export const replaceWords = (allJust, onlyRespNames) => {
+  const allJust_ = !onlyRespNames
+    ? replacegen(allJust)
+    : replaceByArr(autoReplaceToModels, allJust);
+  return replaceByArr(replacementsResponses, allJust_);
 };
-export const replaceWordsInteractions = (allJust) => {
-  allJust = replacegen(allJust);
-  return replaceByArr(replacementsInteractions, allJust);
+export const replaceWordsInteractions = (allJust, onlyRespNames = false) => {
+  const allJust_ = !onlyRespNames
+    ? replacegen(allJust)
+    : replaceByArr(autoReplaceToModels, allJust);
+  return replaceByArr(replacementsInteractions, allJust_);
 };
-export const replaceNum = (text, setText) => {
-  text = replacegen(text);
+export const replaceNum = (text, onlyRespNames = false) => {
+  // text = replacegen(text);
+  const text_ = !onlyRespNames
+    ? replacegen(text)
+    : replaceByArr(autoReplaceToModels, text);
+  return replaceByArr(replacementsResponsesNum, text_);
+};
+export const replaceNumShort = (text, onlyRespNames = false) => {
+  // text = replacegen(text);
+  const text_ = !onlyRespNames
+    ? replacegen(text)
+    : replaceByArr(autoReplaceToModels, text);
+  return replaceByArr(replacementsResponsesNumShort, text_);
+};
+export const replaceNum2 = (text, onlyRespNames = false) => {
+  const text_ = !onlyRespNames
+    ? replacegen(text)
+    : replaceByArr(autoReplaceToModels, text);
 
-  return replaceByArr(replacementsResponsesNum, text);
-};
-export const replaceNum2 = (text, setText) => {
-  text = replacegen(text);
-
-  return replaceByArr(replacementsResponsesNum2, text);
+  return replaceByArr(replacementsResponsesNum2, text_);
 };
 export const numIsteadLetter = (text, setText) => {
-  text = replacegen(text);
+  // text = replacegen(text);
 
   let newTxt = replaceByArr(replacementsResponsesNum, text);
   setText(newTxt);
@@ -390,12 +490,25 @@ export const voiceToEdit = (
     textarea.setSelectionRange(start, start + newVal.length);
   }, 0);
 };
-
+const getTextBeforeQuoteOrColon = (str) => {
+  const match = str.match(/^[^":]+/);
+  return match ? match[0].trim() : "";
+};
 const quoteEachLine = (input) => {
   return input
     .split("\n") // Разбиваем на строки
     .map((line) => `"${line}"`) // Оборачиваем каждую строку в кавычки
     .join("\n"); // Собираем обратно в строку
+};
+export const quoteEachLinePlus = (input, pasteTxt) => {
+  // const pasteTxt = await navigator.clipboard.readText();
+
+  let resultPst = pasteTxt ? getTextBeforeQuoteOrColon(pasteTxt) + ": " : "";
+  const result = input
+    .split("\n") // Разбиваем на строки
+    .map((line) => `"${line}"`) // Оборачиваем каждую строку в кавычки
+    .join(", "); // Собираем обратно в строку
+  return `${resultPst}${result}.`;
 };
 const quoteEachLineI = (input, txt = " instead of ") => {
   const lines = input.split("\n").filter(Boolean); // убираем пустые строки
@@ -409,7 +522,150 @@ const quoteEachLineI = (input, txt = " instead of ") => {
 
   return result.join("\n");
 };
-export const editTextAction = (
+const getFragment = (textarea) => {
+  const text = textarea.value;
+  const cursor = textarea.selectionStart;
+
+  // Определяем все виды кавычек
+  const openQuotes = ['"', "“", "«"];
+  const closeQuotes = ['"', "”", "»"];
+
+  // --- находим все пары кавычек ---
+  const pairs = [];
+  const stack = [];
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (openQuotes.includes(ch)) {
+      stack.push(i); // индекс открывающей кавычки
+    } else if (closeQuotes.includes(ch)) {
+      if (stack.length > 0) {
+        const start = stack.pop();
+        pairs.push([start, i]);
+      }
+    }
+  }
+
+  // --- ищем самую внутреннюю пару, в которой курсор ---
+  let selectedPair = null;
+  for (const [start, end] of pairs) {
+    if (cursor > start && cursor < end) {
+      if (!selectedPair || (start > selectedPair[0] && end < selectedPair[1])) {
+        selectedPair = [start, end];
+      }
+    }
+  }
+
+  if (selectedPair) {
+    const [start, end] = selectedPair;
+    textarea.setSelectionRange(start, end + 1); // включаем кавычки
+    textarea.focus();
+    const selectedText = text.slice(start, end + 1);
+    if (selectedText) {
+      navigator.clipboard.writeText(selectedText).catch((err) => {
+        console.error("Ошибка копирования:", err);
+      });
+    }
+    return;
+  }
+
+  // --- если курсор не в кавычках → выделяем предложение ---
+  const punct = [".", "!", "?"];
+  let start = cursor;
+  let end = cursor;
+
+  while (start > 0 && !punct.includes(text[start - 1])) start--;
+  while (end < text.length && !punct.includes(text[end])) end++;
+  if (end < text.length) end++; // включаем знак препинания
+
+  textarea.setSelectionRange(start, end);
+  textarea.focus();
+  const selectedText = text.slice(start, end);
+  if (selectedText) {
+    navigator.clipboard.writeText(selectedText).catch((err) => {
+      console.error("Ошибка копирования:", err);
+    });
+  }
+};
+
+const transformText = (text) => {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  let result = [];
+  let currentHeader = null;
+  let currentWords = [];
+
+  const flushBlock = () => {
+    if (currentHeader !== null) {
+      const wordsStr = currentWords
+        .map((w) => {
+          let cleaned = w.trim();
+
+          // Убираем существующие кавычки любого типа
+          cleaned = cleaned.replace(/['"`«»„”“‹›〝〞「」『』]/g, "");
+
+          // Добавляем умные кавычки
+          return `“${cleaned}”`;
+        })
+        .join(", ");
+
+      result.push(`${currentHeader} ${wordsStr};`);
+    }
+    currentHeader = null;
+    currentWords = [];
+  };
+
+  for (let line of lines) {
+    if (line.startsWith("—")) {
+      // Если уже был блок — сбрасываем
+      flushBlock();
+      currentHeader = line.replace(/^—\s*/, "—"); // убираем лишние пробелы после дефиса
+    } else {
+      currentWords.push(line);
+    }
+  }
+
+  // финальный блок
+  flushBlock();
+
+  return result.join("\n");
+};
+const pairLines = (text) => {
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  let result = [];
+  for (let i = 0; i < lines.length; i += 2) {
+    if (i + 1 < lines.length) {
+      result.push(`${lines[i]} — ${lines[i + 1]}.`);
+    } else {
+      // если осталась последняя непарная строка
+      result.push(`${lines[i]}.`);
+    }
+  }
+
+  return result.join("\n");
+};
+export const wordUnderCursor = (text, start) => {
+  const left = text.slice(0, start);
+  const right = text.slice(start);
+  const leftMatch = left.match(/([\p{L}\p{M}\p{N}_'-]+)$/u);
+  const rightMatch = right.match(/^([\p{L}\p{M}\p{N}_'-]+)/u);
+  const leftWord = leftMatch ? leftMatch[0] : "";
+  const rightWord = rightMatch ? rightMatch[0] : "";
+  const wordStart = leftWord ? start - leftWord.length : start;
+  const wordEnd = rightWord ? start + rightWord.length : start;
+
+  const word = text.slice(wordStart, wordEnd);
+  return [word, wordStart, wordEnd];
+};
+
+export const editTextAction = async (
   fieldId,
   text,
   setText,
@@ -420,12 +676,12 @@ export const editTextAction = (
 ) => {
   const textarea = document.getElementById(fieldId);
   if (!textarea && !text) return "";
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-
+  let start = textarea.selectionStart;
+  let end = textarea.selectionEnd;
   if (start === end && !ignoreNoselected) {
     return; // No text selected
   }
+  let spaceBef = " ";
 
   if (action === "delSel") {
     const newText = text.slice(0, start) + text.slice(end);
@@ -435,30 +691,75 @@ export const editTextAction = (
   }
 
   const textF = text ? text : textarea.value;
-  const selectedText = textF.slice(start, end);
+  let selectedText = textF.slice(start, end);
 
   let resultText = "";
-
+  if (action === "getFragment") {
+    if (textarea !== null) getFragment(textarea);
+    return;
+  }
   if (action === "add") {
     resultText = newVal || "";
   } else if (action === "upFirst") {
+    if (!selectedText)
+      [selectedText, start, end] = wordUnderCursor(text, start);
     resultText = wordCaps(selectedText);
-  } else if (action === "down")
+    spaceBef = "";
+  } else if (action === "down") {
     // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
+
+    if (!selectedText)
+      [selectedText, start, end] = wordUnderCursor(text, start);
+
+    // debugger;
     resultText = selectedText.toLowerCase();
-  else if (action === "up") resultText = selectedText.toUpperCase();
-  else if (action === "accent")
+    spaceBef = "";
+  } else if (action === "up") {
+    if (!selectedText)
+      [selectedText, start, end] = wordUnderCursor(text, start);
+    resultText = selectedText.toUpperCase();
+    spaceBef = "";
+  } else if (action === "accent")
     resultText = `"${selectedText}" instead of "${selectedText}"`;
   else if (action === "quotation") resultText = `"${selectedText}"`;
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "quotationL") resultText = quoteEachLine(selectedText);
-  else if (action === "quotationLI") resultText = quoteEachLineI(selectedText);
+  else if (action === "transformAll") resultText = transformText(selectedText);
+  else if (action === "englBaseComm") {
+    // замена кавычек на англ, убрать лишние пробелы, в т.ч внутри кавычек и скобок, лишние пробелы. Добавить большие буквы в начале предложений
+    selectedText = start === end ? textF : selectedText;
+    resultText = replaceQuotesUniversal(selectedText);
+    resultText = cleanAndCapitalize(resultText);
+    const newText =
+      end === start
+        ? resultText
+        : textF.slice(0, start) + " " + resultText + textF.slice(end);
+    setText(newText);
+    if (textarea !== null)
+      textarea.setSelectionRange(start, start + resultText.length + 1);
+    return;
+  } else if (action === "rubErrComm") {
+    const pasteTxt = await navigator.clipboard.readText();
+
+    resultText = quoteEachLinePlus(selectedText, pasteTxt);
+    resultText = replaceQuotesUniversal(resultText);
+  } else if (action === "quotationLP") {
+    const pasteTxt = await navigator.clipboard.readText();
+    resultText = quoteEachLinePlus(selectedText, pasteTxt);
+  } else if (action === "quotationLP0") {
+    // const pasteTxt = await navigator.clipboard.readText();
+    resultText = quoteEachLinePlus(selectedText);
+  } else if (action === "quotationLI")
+    resultText = quoteEachLineI(selectedText);
   else if (action === "quotationLB")
     resultText = quoteEachLineI(selectedText, ": it is better to use ");
+  else if (action === "linePairD") resultText = pairLines(selectedText);
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
-  else if (action === "quotation3") resultText = replaceQuotes3(selectedText);
-  const newText = textF.slice(0, start) + " " + resultText + textF.slice(end);
+  else if (action === "quotation3") resultText = `“${selectedText}”`;
+
+  const newText =
+    textF.slice(0, start) + spaceBef + resultText + textF.slice(end);
 
   setText(newText);
   if (textarea !== null)
@@ -515,6 +816,23 @@ export const editTextActionRef = (
   setText(newText);
   if (textarea !== null)
     textarea.setSelectionRange(start, start + resultText.length + 1);
+};
+export const getSelection = (fieldId) => {
+  const textarea = document.getElementById(fieldId);
+  const handleTxt = textarea.textContent;
+  let start = 0;
+  let end = 0;
+  let isSelected = false;
+  if (textarea) {
+    start = textarea.selectionStart;
+    end = textarea.selectionEnd;
+    isSelected = start !== end;
+    if (isSelected) {
+      // only selection
+      return handleTxt.slice(start, end);
+    }
+  }
+  return "";
 };
 export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
   const textarea = document.getElementById(fieldId);
@@ -575,10 +893,11 @@ export const fromJsonString = (jsonString) => {
 export const baseRespName = {
   "INT": {
     R1: "Interaction 1",
-    R2: "Interaction 1",
+    R2: "Interaction 2",
     fn: replaceWordsInteractions,
   },
-  "@R": { R1: "@Response 1", R2: "@Response 1", fn: replaceNum },
+  "@R": { R1: "@Response 1", R2: "@Response 2", fn: replaceNum },
+  "@R12": { R1: "@R1", R2: "@R1", fn: replaceNumShort },
   "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
   "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
 };
@@ -602,9 +921,9 @@ export const concatenateEnFields = (justification) => {
     .trim();
 };
 
-export const applyAction = (newFr_, action = "") => {
+export const applyAction = (newFr_, action = "", onlyRespNames = false) => {
   if (!action) return newFr_;
-  const newVal = baseRespName[action].fn(newFr_);
+  const newVal = baseRespName[action].fn(newFr_, onlyRespNames);
   return newVal;
 };
 
@@ -682,35 +1001,36 @@ export const getNameByAorB = (value, set) => {
   return item ? item.name : ""; // Возвращает поле name или null, если не найдено
 };
 
-export const replaceQuotes = (txt) => {
-  if (!txt) return "";
-  let isOpening = true;
-  let newVal = txt.replace(/"/g, () => {
-    if (isOpening) {
-      isOpening = false;
-      return "«";
-    } else {
-      isOpening = true;
-      return "»";
-    }
-  });
-  newVal = newVal.replace(/“/g, "«");
-  newVal = newVal.replace(/”/g, "»");
-  return newVal;
-};
-export const replaceQuotes4 = (txt) => {
-  if (!txt) return "";
-  const newVal = txt.replace(/[“«”»]/g, `"`);
+// export const replaceQuotes = (txt) => {
+//   if (!txt) return "";
+//   let isOpening = true;
+//   let newVal = txt.replace(/["«»'`“”‘’]/g, () => {
+//     if (isOpening) {
+//       isOpening = false;
+//       return "«";
+//     } else {
+//       isOpening = true;
+//       return "»";
+//     }
+//   });
+//   newVal = newVal.replace(/“/g, "«");
+//   newVal = newVal.replace(/”/g, "»");
+//   return newVal;
+// };
+// export const replaceQuotes4 = (txt) => {
+//   if (!txt) return "";
+//   const newVal = txt.replace(/[`“«”»]/g, `"`);
 
-  return newVal;
-};
+//   return newVal;
+// };
 export const toOrder = (fieldid, val, type = "") => {
   if (!val) return "";
   let txt = cleanAndCapitalize(val);
   txt = replaceText(fieldid, txt, "-", "—");
-  if (type === "") txt = replaceQuotes3(txt);
-  if (type === "«»") txt = replaceQuotes(txt);
-  if (type === `""`) txt = replaceQuotes4(txt);
+  txt = replaceQuotesUniversal(txt, type);
+  // if (type === "") txt = replaceQuotes3(txt);
+  // if (type === "«»") txt = replaceQuotes(txt);
+  // if (type === `""`) txt = replaceQuotes4(txt);
   txt = txt.replace("russian", "Russian");
   return txt;
 };
@@ -851,4 +1171,14 @@ export const getRefSelection = (textRef) => {
 
   if (start === end) return ""; //
   return textarea.value.slice(start, end).trim();
+};
+
+export const wordCount = (txt, field = "") => {
+  const cleanedText = txt.replace(/[.,!?;:"()«»—]/g, "");
+  if (!txt) return;
+  const wc = cleanedText.split(/\s+/).filter((word) => word.length > 0).length;
+  sAlert({
+    title: "Word counts " + (field ? field : ""),
+    text: wc,
+  });
 };

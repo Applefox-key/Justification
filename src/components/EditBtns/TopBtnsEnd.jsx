@@ -11,7 +11,7 @@ import { FaRegPaste } from "react-icons/fa6";
 import BtnArchive from "./BtnArchive";
 import RubArchive from "../Rubrics/RubArchive";
 import { defaultRubJust } from "../../constants/textParts";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import { AiOutlineClear } from "react-icons/ai";
 
 const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
@@ -39,8 +39,6 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         <RubArchive
           txt={item}
           setTxt={(val) => {
-            console.log({ ...defaultRubJust, val });
-
             setItem({ ...defaultRubJust, ...val });
           }}
         />
@@ -55,8 +53,8 @@ const TopBtnsEnd = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         disabled={!handleTxt}
         onClick={() => {
           // if (isTxt) setIsTxt(false);
-          saveToHistory({ en: handleTxt, ru: "" });
-          // setPopup("info has been added to the history");
+          saveToHistorygeneral({ en: handleTxt, ru: "" });
+
           setHandleTxt("");
         }}>
         <AiOutlineClear />

@@ -1,19 +1,17 @@
 import React, { useMemo, useState } from "react";
 import { editTextActionRef, applyAction } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
-import SideBtns from "../EditBtns/SideBtns";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
 import { defaultRubJust } from "../../constants/textParts";
 
 import { createFieldFn } from "../../utils/rubricsFn";
-import EditRubHeader from "../Rubrics/EditRubHeader";
-import EditFieldRub from "../Rubrics/EditFieldRub";
-import Rubricator from "../Rubrics/Rubricator";
 import DmgPageTask from "../DimentionsPage/DmgPageTask";
 import MyPortal from "../UI/MyPortal/MyPortal";
 import RubBodyTabs from "./RubBodyTabs";
 import SideBtnsFiled from "../EditBtns/SideBtnsFiled";
+import RubPageBtns from "../EditBtns/RubPageBtns";
+import PageRubHeader from "./PageRubHeader";
 
 const RubricPageBody = ({ actionFn, item, setItem, action }) => {
   const [textRef, setTextRef] = useState(null);
@@ -22,7 +20,7 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
   const [isHotBtns, setIsHotBtns] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
-  const [show, setShow] = useState(false);
+
   const [countR, setCountR] = useState(4);
 
   const fieldId = useMemo(() => {
@@ -66,25 +64,21 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
       newVal
     );
   };
-  const handleCountChange = () => {
-    const v = countR === 4 ? 2 : 4;
-    setCountR(v);
-  };
 
   const toHist = () => {
     const handleTxt = JSON.stringify(item);
-    saveToHistory({ en: handleTxt, ru: "RUB" });
-    setPopup("info has been added to the history");
+    saveToHistorygeneral({ en: handleTxt, ru: "RUB" }, setPopup);
   };
   const clear = (e = null, notAllFields = false) => {
     toHist();
+    const defaulRUB = defaultRubJust;
     const newV = notAllFields
       ? {
-          ...defaultRubJust,
+          ...defaulRUB,
           ...(item.id && { id: item.id }),
           ...(item.name && { name: item.name }),
         }
-      : defaultRubJust;
+      : { ...defaulRUB };
     setItem(newV);
   };
   const onOK = (e) => {
@@ -94,15 +88,36 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
     clear();
     if (!!actionFn) actionFn(val);
   };
-  const gv = (e) => {
-    const v = fieldFn.getFieldValue();
-    return v;
-  };
 
   return (
     <>
-      <div className="dmg-page-menu">
-        <EditRubHeader
+      <MyPortal containerId="navidPortalCenter">
+        <div className="task-head-box">
+          <div className="taskidBox">
+            <DmgPageTask
+              editParam={{
+                item,
+                fieldFn,
+                fieldId,
+              }}
+            />
+          </div>
+          <RubPageBtns
+            fieldFn={fieldFn}
+            fieldid={fieldId}
+            action={action}
+            clear={clear}
+            statesVal={{
+              handleTxt: item[fieldId],
+              setHandleTxt: fieldFn.setNewVal,
+              item,
+              setItem,
+            }}
+          />
+        </div>
+      </MyPortal>
+      <div className="dmg-page-menu ">
+        <PageRubHeader
           editParam={{
             item,
             setItem,
@@ -117,8 +132,6 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
             pasteToText,
           }}
         />
-      </div>
-      <div className="task-head-box">
         <SideBtnsFiled
           fieldId={fieldId}
           alwaysOpen
@@ -127,19 +140,8 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
             setHandleTxt: fieldFn.setNewVal,
           }}
         />
-        <div className="taskidBox">
-          <button onClick={handleCountChange} className="unsetW ">
-            Resp. num 2/4: {countR}
-          </button>{" "}
-          <DmgPageTask
-            editParam={{
-              item,
-              fieldFn,
-              fieldId,
-            }}
-          />
-        </div>
       </div>
+      <div className="task-head-box"></div>
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
@@ -159,20 +161,29 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
                   action,
                   countR,
                   setCountR,
-                }}
-              />
+                }}>
+                <div>
+                  <button onClick={fieldFn.setVersion} className="button-count">
+                    Version:
+                    <span className={item.version === 0 ? "pinkB" : ""}>0</span>
+                    {"/"}{" "}
+                    <span className={item.version === 1 ? "pinkB" : ""}>1</span>
+                    {/* <span>{countR}</span> */}
+                  </button>
+                  <button onClick={fieldFn.setRCount} className="button-count">
+                    Resp. num:
+                    <span className={item.countR === 2 ? "pinkB" : ""}>2</span>
+                    {"/"}{" "}
+                    <span className={item.countR === 3 ? "pinkB" : ""}>3</span>
+                    {"/"}{" "}
+                    <span className={item.countR === 4 ? "pinkB" : ""}>4</span>
+                    {/* <span>{countR}</span> */}
+                  </button>
+                </div>
+              </RubBodyTabs>
             </div>
           </div>
         </div>
-        {/* <SideBtns
-          fieldId={fieldId}
-          handleTxt1={gv()}
-          statesVal={{
-            handleTxt: fieldFn.getFieldValue(),
-            setHandleTxt: fieldFn.setNewVal,
-          }}
-          textSelected={textSelected}
-        /> */}
       </div>
     </>
   );

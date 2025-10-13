@@ -1,30 +1,20 @@
 import React from "react";
-import { applyAction, copyToClipboard } from "../../utils/utilStr";
-import { defaultDimSets } from "../../constants/textParts";
+import { applyAction } from "../../utils/utilStr";
+import { useRightClickCopy } from "../../hooks/useRightClickCopy";
 
 const DimBtnsHot = ({ field, pasteToText, action, set }) => {
-  const onHandleCLick = (e, newT, model = "") => {
-    e.stopPropagation();
-    let b = e.button;
+  const getNewVal = (newT, model = "") => {
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
-    const newVal = applyAction(newFr_, action);
-    if (b === 0) {
-      //left mouse button
-      pasteToText(newVal);
-      return;
-    } //right mouse button
-    if (b === 2) {
-      e.preventDefault();
-      copyToClipboard(newVal);
-      pasteToText("copied to the clipboard");
-    }
+    return applyAction(newFr_, action);
   };
 
-  //   const btns = defaultDimSets[field].justif;
-  //   console.log(defaultDimSets[set][field].justif || []);
-  //   console.log(field.justif);
-  //   console.log(field.justif | "no");
-
+  const onHandleCLick = (e, newT, model = "") => {
+    e.stopPropagation();
+    const newVal = getNewVal(newT);
+    pasteToText(newVal);
+    return;
+  };
+  const onContextMenuClick = useRightClickCopy(getNewVal);
   return (
     <div className="hot  w-100">
       <div className="hot-menu  w-100">
@@ -34,10 +24,13 @@ const DimBtnsHot = ({ field, pasteToText, action, set }) => {
             field.justif.length &&
             field.justif.map((btn, i) => (
               <button
-                className="square-btn hot-sub-btn"
+                key={i}
+                className={`square-btn hot-sub-btn ${
+                  btn?.bold ? " colorBtn" : ""
+                }`}
                 title={btn.newT}
-                onMouseDown={(e) => onHandleCLick(e, btn.newT)}
-                onContextMenu={(e) => onHandleCLick(e, btn.newT)}>
+                onClick={(e) => onHandleCLick(e, btn.newT)}
+                onContextMenu={(e) => onContextMenuClick(e, btn.newT)}>
                 {btn.title}
               </button>
             ))}

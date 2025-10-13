@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
 const Login = ({ login }) => {
+  // eslint-disable-next-line no-unused-vars
   const [userN, setUserN] = useState("");
   const [userP, setUserP] = useState("");
 
@@ -9,17 +10,6 @@ const Login = ({ login }) => {
     <div className="login-wrap">
       Login
       <div className="login-box">
-        {/* <Form.Control
-          as="input"
-          //   id={"voice"}
-          className={"fit-height "}
-          rows={1}
-          spellCheck="true"
-          placeholder={"Name"}
-          //   ref={textRef}
-          value={userN}
-          onChange={(e) => setUserN(e.target.value)}
-        />{" "} */}
         <Form.Control
           as="input"
           //   id={"voice"}

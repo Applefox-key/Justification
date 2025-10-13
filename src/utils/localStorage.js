@@ -1,6 +1,11 @@
 import { hotbtnsArrDef } from "../constants/replacements";
-import { textParts } from "../constants/textParts";
+import {
+  constructDefItem,
+  defaultRubJust,
+  textParts,
+} from "../constants/textParts";
 import { baseRespName } from "./utilStr";
+import isEqual from "lodash/isEqual";
 
 export const toLS = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
@@ -26,6 +31,20 @@ export const saveToHistory = (el) => {
   }
   // toLS("History", val === null ? [el] : [...val, el]);
 };
+export const saveToHistorygeneral = (el, setPopup = null) => {
+  if (el === "") return;
+  const type = el.ru;
+
+  if (type === "RUB" && isEqual(el.en, defaultRubJust)) return;
+  if (type === "DIM") {
+    const set = el.en.setName || getSet();
+    const defVal = constructDefItem(set);
+    if (isEqual(el.en, defVal)) return;
+  }
+  saveToHistory(el);
+  if (setPopup !== null) setPopup("info has been added to the history");
+};
+
 export const saveArrToHistory = (elArr) => {
   let val = fromLS("History");
   toLS("History", val === null ? [...elArr] : [...val, ...elArr]);
@@ -83,10 +102,11 @@ export const txtHotReplaceGet = () => {
   return val;
 };
 
-export const setRespNames = (action, setAction) => {
+export const setRespNames = (action, setAction, currentI = null) => {
   const keys = Object.keys(baseRespName);
   const currentIndex = keys.indexOf(action);
-  const nextIndex = (currentIndex + 1) % keys.length;
+  const nextIndex =
+    currentI === null ? (currentIndex + 1) % keys.length : currentI;
   const newV = Object.keys(baseRespName)[nextIndex];
   localStorage.setItem("lastAction", newV);
   setAction(newV);

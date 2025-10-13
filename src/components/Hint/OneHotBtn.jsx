@@ -19,7 +19,9 @@ const OneHotBtn = ({ oneBtn, toJustif, isOpen, setIsOpen }) => {
           {oneBtn.btns.map((btn, i) => (
             <div className="hot-one" key={i}>
               <button
-                className="square-btn hot-sub-btn"
+                className={`square-btn hot-sub-btn ${
+                  btn?.bold ? " colorBtn" : ""
+                }`}
                 title={btn.newT}
                 onMouseDown={(e) => toJustif(e, btn.newT)}
                 onContextMenu={(e) => toJustif(e, btn.newT)}>

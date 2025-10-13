@@ -120,20 +120,20 @@ export const rubEx = (item) => {
       "example",
       "exExample",
     ],
-    ...item.rubricator.map((item) => [
-      getRubricName(item),
-      item.score1,
-      item.score2,
-      item.score3,
-      item.score4,
-      item.error1,
-      item.error2,
-      item.error3,
-      item.error4,
+    ...item.rubricator.map((el) => [
+      getRubricName(el, item.version, ["name", "separator", "example"]),
+      el.score1,
+      el.score2,
+      el.score3,
+      el.score4,
+      el.error1,
+      el.error2,
+      el.error3,
+      el.error4,
       "",
-      item.rubric,
-      item.example,
-      item.exExample,
+      el.rubric,
+      el.example,
+      el.exExample,
     ]),
 
     ["", "", "", "", "", item.stat1, item.stat2, item.stat3, item.stat4],
@@ -162,8 +162,5 @@ export const rubEx = (item) => {
   utils.book_append_sheet(workbook, worksheet, "Rubric Data");
 
   // Сохранение файла
-  writeFile(
-    workbook,
-    "RubricData+" + (item.taskId ? item.taskId : "") + ".xlsx"
-  );
+  writeFile(workbook, "RubricData+" + (item.id ? item.id : "") + ".xlsx");
 };

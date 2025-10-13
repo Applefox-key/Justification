@@ -4,15 +4,16 @@ const RubRespBtn = ({
   value,
   setValue,
   field,
+  isMinor,
   small,
-
   valueEr,
   switchSize,
 }) => {
   const scaleSm = { "-1": "NA", 0: "No", 1: "Mn", 2: "Mj" };
   const onClick = (e) => {
     e.stopPropagation();
-    const newV = value + 1 > 2 ? -1 : value + 1;
+    const newV =
+      value + 1 > 2 ? -1 : value + 1 === 1 && !isMinor ? 2 : value + 1;
     setValue(newV, field);
   };
 

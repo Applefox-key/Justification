@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
-import { copyToClipboard, replaceEndings } from "../../utils/utilStr";
+import { replaceEndings } from "../../utils/utilStr";
 import { replacementsEnding } from "../../constants/replacements";
-
-import { FaRegCopy } from "react-icons/fa";
-import { GoZoomIn, GoZoomOut } from "react-icons/go";
-import { AiOutlineClear } from "react-icons/ai";
-import { PiCopyleftDuotone } from "react-icons/pi";
 import RateDmgScale from "./RateDmgScale";
+import TextFocusBtns from "../EditBtns/TextFocusBtns";
 
 const EditFieldDmg = ({
   autoFocus,
@@ -16,30 +12,27 @@ const EditFieldDmg = ({
   fieldName,
   placeholder,
   fieldVal,
-  estim = null,
-  small = null,
   fieldFn,
   isActive,
   classN,
+  classF,
+  onChangePrew = null,
+  onFocus = null,
+  estim = null,
+  small = null,
   scale = null,
   show = true,
+  onContextMenu = null,
+  onBlur = null,
 }) => {
   const ref = useRef(null);
   const refBox = useRef(null);
   const cursorPos = useRef(null);
   // const { isFocused, handleFocus, handleBlur } = useShowOnFocus();
-  const changeClass = (IsToAdd = true) => {
-    if (IsToAdd) {
-      refBox.current.classList.add("field-box-plus");
-      ref.current.classList.add("plusTextArea");
-      ref.current.focus();
-    } else {
-      ref.current.classList.remove("plusTextArea");
-      refBox.current.classList.remove("field-box-plus");
-    }
-  };
+
   const handleChange = (e) => {
     e.stopPropagation();
+
     const { curs, val } = replaceEndings(e, replacementsEnding);
     cursorPos.current = curs;
     fieldFn.setNewVal(val);
@@ -53,7 +46,9 @@ const EditFieldDmg = ({
   }, [fieldVal]);
   return (
     <div
-      className={"field-box" + (!show ? " field-close-" + scale || "" : "")}
+      className={`field-box ${classF || ""} ${
+        !show ? " field-close-" + scale || "" : ""
+      }`}
       ref={refBox}>
       {isTxt ? (
         <div
@@ -85,12 +80,20 @@ const EditFieldDmg = ({
               id={fieldName}
               autoFocus={autoFocus}
               className={"fieldDim " + (small ? "dimFieldSmall " : "") + classN}
-              onFocus={() => fieldFn.onFocus(ref)}
+              onFocus={() => {
+                if (onFocus) onFocus();
+                fieldFn.onFocus(ref);
+              }}
               rows={1}
               spellCheck
               placeholder={placeholder}
               value={fieldVal}
-              onKeyDown={fieldFn.onKeyDown}
+              onKeyDown={(e) => {
+                if (onChangePrew) onChangePrew(e);
+                fieldFn.onKeyDown(e);
+              }}
+              onContextMenu={onContextMenu}
+              onBlur={onBlur}
               onChange={handleChange}
             />
           ) : (
@@ -105,33 +108,13 @@ const EditFieldDmg = ({
           )}
           {!small && (
             <>
-              <div className={"textarea-btns-" + scale}>
-                <button className={"square-btn"} onClick={changeClass}>
-                  <GoZoomIn />
-                </button>{" "}
-                <button
-                  className={"square-btn"}
-                  onClick={(e) => copyToClipboard(fieldVal)}>
-                  <FaRegCopy />
-                </button>
-                <button
-                  className={"square-btn"}
-                  onClick={(e) => fieldFn.setNewVal("")}>
-                  <AiOutlineClear />
-                </button>{" "}
-                <button
-                  title="translate prompt for gpt"
-                  className={"square-btn"}
-                  onClick={(e) =>
-                    copyToClipboard("translate to English: " + fieldVal)
-                  }>
-                  <PiCopyleftDuotone />
-                </button>
-              </div>{" "}
-              <button className={" btnMin"} onClick={() => changeClass(false)}>
-                <GoZoomOut />
-                EDIT {fieldName} BACK TO DIMENTIONS
-              </button>
+              <TextFocusBtns
+                fieldName={fieldName}
+                fieldVal={fieldVal}
+                fieldFn={fieldFn}
+                refBox={refBox}
+                refC={ref}
+              />
             </>
           )}
         </>

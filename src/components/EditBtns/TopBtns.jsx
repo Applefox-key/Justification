@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Hint from "../Hint/Hint";
 import { Button, Form } from "react-bootstrap";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import FormatBtn from "./FormatBtn";
 import { usePopup } from "../../hooks/usePopup";
 
-const TopBtns = ({ fieldid, statesVal, action = "RAB", type }) => {
-  const { handleTxt, setHandleTxt, isTxt, setIsTxt } = statesVal;
+const TopBtns = ({ statesVal, action = "RAB", type }) => {
+  const { handleTxt, setHandleTxt } = statesVal;
   const [autohis, setAutohis] = useState(true);
   const setPopup = usePopup();
   return (
@@ -25,11 +25,10 @@ const TopBtns = ({ fieldid, statesVal, action = "RAB", type }) => {
           <Button
             className="btnToHis"
             disabled={!handleTxt}
-            onClick={(e) => {
-              saveToHistory({ en: handleTxt, ru: "" });
-              setPopup("info has been added to the history");
-            }}>
-            to history{" "}
+            onClick={(e) =>
+              saveToHistorygeneral({ en: handleTxt, ru: "" }, setPopup)
+            }>
+            to history
           </Button>{" "}
         </div>
       )}
@@ -38,8 +37,7 @@ const TopBtns = ({ fieldid, statesVal, action = "RAB", type }) => {
         disabled={!handleTxt}
         onClick={() => {
           if (isTxt) setIsTxt(false);
-          if (autohis) saveToHistory({ en: handleTxt, ru: "" });
-          setPopup("info has been added to the history");
+          if (autohis) saveToHistorygeneral({ en: handleTxt, ru: "" },setPopup);
           setHandleTxt("");
         }}>
         clear

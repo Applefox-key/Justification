@@ -1,14 +1,9 @@
 import React from "react";
 import EditFieldRub from "../Rubrics/EditFieldRub";
-import Rubricator from "../Rubrics/Rubricator";
 import RubricatorShort from "./RubricatorShort";
 
 const PageRubPrompt = ({ editParam }) => {
-  const { fieldId, countR, setCountR, fieldFn, item, setItem } = editParam;
-  // const handleCountChange = () => {
-  //   const v = countR === 4 ? 2 : 4;
-  //   setCountR(v);
-  // };
+  const { fieldId, countR, fieldFn, item, setItem } = editParam;
 
   const rubPr = (notAutoText = false) => {
     const textarea = document.getElementById(fieldId);
@@ -42,15 +37,12 @@ const PageRubPrompt = ({ editParam }) => {
   return (
     <div className="h-90">
       <div className="d-flex hot-sum">
-        {/* <button onClick={handleCountChange} className="unsetW ">
-          Responses number 2/4: {countR}
-        </button>{" "} */}
         <button onClick={() => rubPr()} className="unsetW ">
           CREATE AUTO RUBRICATOR
-        </button>{" "}
+        </button>
         <button onClick={() => rubPr(1)} className="unsetW ">
           CREATE RUBRICATOR
-        </button>{" "}
+        </button>
         <button onClick={() => splitLineData()} className="unsetW ">
           CREATE RAITINGS FOR REVIEW
         </button>
@@ -58,8 +50,6 @@ const PageRubPrompt = ({ editParam }) => {
 
       <div className="d-flex h-100">
         <EditFieldRub
-          // showArrow
-          // show={show} // key={i}
           fieldName={"prompt"}
           classN="w-100 rub-prompt"
           placeholder={"prompt text"}
@@ -67,6 +57,7 @@ const PageRubPrompt = ({ editParam }) => {
           fieldVal={item.prompt}
           fieldFn={fieldFn}
         />
+
         <RubricatorShort
           editParam={{
             item,

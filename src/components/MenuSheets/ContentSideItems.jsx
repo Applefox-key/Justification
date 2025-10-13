@@ -4,7 +4,6 @@ import { delFromHistory, getHistory } from "../../utils/localStorage";
 
 const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   const elP = (el) => {
-    console.log(el);
     if (el.en === "") return "";
     if (el.ru === "") return el.en;
 

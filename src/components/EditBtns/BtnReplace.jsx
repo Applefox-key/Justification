@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  replaceQuotes,
-  replaceQuotes3,
-  replaceText,
-} from "../../utils/utilStr";
+import { replaceQuotesUniversal, replaceText } from "../../utils/utilStr";
 import { GrBlockQuote } from "react-icons/gr";
 
 const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
@@ -12,15 +8,12 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
     const newVal = replaceText(fieldid, handleTxt, oldV, newV);
     setHandleTxt(newVal);
   };
-  const replaceQ = () => {
-    const newVal = replaceQuotes(handleTxt);
-    setHandleTxt(newVal);
-  };
-  const replaceQQ = () => {
-    const newVal = replaceQuotes3(handleTxt);
-    setHandleTxt(newVal);
-  };
 
+  const replaceQU = (type) => {
+    // const newVal = replaceQuotes(handleTxt);
+    const newVal = replaceQuotesUniversal(handleTxt, type);
+    setHandleTxt(newVal);
+  };
   return (
     <>
       <button
@@ -34,14 +27,14 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
         className="square-btn intense btn-replace"
         title="replace quotes"
         disabled={!handleTxt}
-        onClick={replaceQ}>
+        onClick={() => replaceQU("guillemet")}>
         «»
       </button>{" "}
       <button
         className="square-btn intense btn-replace"
         title="replace quotes"
         disabled={!handleTxt}
-        onClick={replaceQQ}>
+        onClick={() => replaceQU()}>
         <GrBlockQuote />
       </button>
     </>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { copyToClipboard, highlightedCheckedText } from "../../utils/utilStr";
+import { sAlert } from "../../utils/alert";
 
 const TextChecker = ({ close }) => {
   const [text, setText] = useState("");
@@ -10,9 +11,7 @@ const TextChecker = ({ close }) => {
   const checkText = () => {
     if (!text) return;
     const doubleSpacesRegex = / {2,}/g;
-    // const quotesRegex = /"(.*?)"/g; // Найти кавычки и текст между ними
-    // const dashesRegex = /(\S+)\s*[-–]\s*(\S+)/g; // Найти дефис и слова вокруг него
-    // const dashesRegex = /(\S.*?)\s+[-–]\s+(.*?\S)/g;
+
     const dashesRegex = /(\S+)\s+[-–]\s+(\S+)/g;
     const quotesRegex = /"([\s\S]*?)"/g;
     const foundErrors = [];
@@ -63,9 +62,9 @@ const TextChecker = ({ close }) => {
         matches: dashesMatches,
       });
     }
+    // eslint-disable-next-line no-useless-escape
     const nonCyrillicRegex = /[^а-яё0-9\s.,!?;:"()«»=—\-]/gi;
-    // const nonCyrillicRegex =
-    //   /(?<![а-яёА-ЯЁ])[^\s.,!?;:"()«»—–0-9\-+=/*@#$%^&()[\]{}<>\\|~`']/gi;
+
     const nonCyrillicMatches = text.match(nonCyrillicRegex);
     if (nonCyrillicMatches) {
       rextJust += "The response contains phrases written in another language.";
@@ -85,10 +84,12 @@ const TextChecker = ({ close }) => {
       matches: "word count: " + wordCount,
     });
     setErrors(foundErrors);
-    console.log(foundErrors.length < 1);
 
     if (foundErrors.length < 2) {
-      alert("ошибок нет");
+      sAlert({
+        title: "Text Checker",
+        text: "ошибок нет",
+      });
     }
   };
 

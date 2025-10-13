@@ -1,5 +1,4 @@
 import React from "react";
-import MainPage from "./components/MainPage";
 import { Route, Routes } from "react-router-dom";
 import { arrRoutes } from "./router/routes";
 import MyNavbar from "./components/Navigation/MyNavbar";

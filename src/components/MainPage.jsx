@@ -6,7 +6,6 @@ import { firstBack, getHistory } from "../utils/localStorage";
 import Responses from "./Rate/Responses";
 import FileChooseMenu from "./UI/FileChooseMenu";
 import ContentSide from "./MenuSheets/ContentSide";
-import ThemeBox from "./ImgBack/ThemeBox";
 import Popup from "./UI/Popup";
 
 const MainPage = () => {

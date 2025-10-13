@@ -3,26 +3,30 @@ import {
   editTextActionRef,
   applyAction,
   getNameByAorB,
+  editTextAction,
 } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
-import SideBtns from "../EditBtns/SideBtns";
-import { saveToHistory } from "../../utils/localStorage";
+
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
 import { getNewOrParseDmg } from "../../constants/textParts";
-import { BiSolidRightArrow } from "react-icons/bi";
-import { recomDim } from "../../utils/analysis";
+
 import DmgPageHeader from "./DmgPageHeader";
 import DmgPageTask from "./DmgPageTask";
-import DmgPageDim from "./PageBodyTabs";
-import PageBodyTabs from "./PageBodyTabs";
-import MyPortal from "../UI/MyPortal/MyPortal";
-import EditFieldDmg from "../Dimentions/EditFieldDmg";
-import { useRateLikert } from "../../hooks/useRateLikert";
-import SideBtnsFiled from "../EditBtns/SideBtnsFiled";
 
-const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
+import PageBodyTabs from "./PageBodyTabs";
+
+import { useRateLikert } from "../../hooks/useRateLikert";
+
+import MyPortal from "../UI/MyPortal/MyPortal";
+
+import PageBtns from "../EditBtns/PageBtns";
+import { defaultKey } from "../../utils/defaultKey";
+import DimAddDetail from "./DimAddDetail";
+
+const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   const [textSelected, setTextSelected] = useState("");
-  // const [best, setBest] = useState({ num: -1, title: "", fields: [], rec: "" });
+
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
   const [isHotBtns, setIsHotBtns] = useState(false);
@@ -30,7 +34,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textRef, setTextRef] = useState(null);
   const [addIssueName, setAddIssueName] = useState(false);
 
-  const { setNewRate, titleChoosed, best, setBest } = useRateLikert({
+  const likert = useRateLikert({
     action,
     item,
     setItem,
@@ -39,7 +43,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const fieldId = useMemo(() => {
     return textRef && textRef.current && textRef.current.id
       ? textRef.current.id
-      : "R3";
+      : "Prompt";
   }, [textRef]);
 
   const fieldFn = {
@@ -71,8 +75,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         setItem({ ...item, Evals: newEst, ...{ [field]: newT } });
       } else setItem({ ...item, Evals: newEst });
 
-      const rec = recomDim(newEst);
-      if (rec.recom !== rec) setBest({ ...best, rec: rec.recom });
+      likert.getRecomendation(newEst);
     },
     setNewVal: (val) => {
       const field = fieldId;
@@ -82,11 +85,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       setItem({ ...item, [fieldVal]: val });
     },
     onKeyDown: (e) => {
-      if (e.key === "F2") {
-        const val = item[fieldId];
-        const newVal = applyAction(val, action);
-        fieldFn.setNewVal(newVal);
-      }
+      defaultKey(e, fieldId, item[fieldId], fieldFn.setNewVal, action);
     },
   };
   const clickOnPhrase = (e) => {
@@ -112,12 +111,12 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const setPopup = usePopup();
   const toHist = () => {
     const handleTxt = JSON.stringify(item);
-    saveToHistory({ en: handleTxt, ru: "DIM" });
-    setPopup("info has been added to the history");
+    saveToHistorygeneral({ en: handleTxt, ru: "DIM" }, setPopup);
   };
   const clear = (e = null, notAllFields = false) => {
     toHist();
     const defaultDmg = getNewOrParseDmg();
+
     const newV = notAllFields
       ? {
           ...defaultDmg,
@@ -126,7 +125,8 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         }
       : defaultDmg;
     setItem(newV);
-    setBest({ num: -1, title: "", fields: [] });
+
+    likert.setBest({ num: -1, title: "", fields: [] });
   };
   const onOK = (e) => {
     e.stopPropagation();
@@ -140,6 +140,32 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   };
   return (
     <>
+      <MyPortal containerId="navidPortalCenter">
+        <div className="task-head-box">
+          <div className="taskidBox">
+            <DmgPageTask
+              editParam={{
+                setIsTxt,
+                item,
+                fieldFn,
+                fieldId,
+                isTxt,
+              }}
+            />
+          </div>
+          <PageBtns
+            fieldid={fieldId}
+            action={action}
+            clear={clear}
+            statesVal={{
+              handleTxt: item[fieldId],
+              setHandleTxt: fieldFn.setNewVal,
+              item,
+              setItem,
+            }}
+          />
+        </div>
+      </MyPortal>
       <DmgPageHeader
         editParam={{
           clear,
@@ -160,7 +186,6 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
           pasteToText,
         }}
       />
-
       <div
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
@@ -169,42 +194,11 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
 
           <div className="editParts-wrap">
-            <div className="task-head-box">
-              <SideBtnsFiled
-                fieldId={fieldId}
-                alwaysOpen
-                statesVal={{
-                  handleTxt: item[fieldId],
-                  setHandleTxt: fieldFn.setNewVal,
-                }}
-              />
-              <div className="taskidBox">
-                <div className="add-details">
-                  <input
-                    id="issueNameCh"
-                    type="checkbox"
-                    checked={addIssueName}
-                    onChange={() => setAddIssueName(!addIssueName)}
-                  />
-                  <label htmlFor="issueNameCh">add dimention name issue </label>
-                </div>
-                <DmgPageTask
-                  editParam={{
-                    setIsTxt,
-                    item,
-                    fieldFn,
-                    fieldId,
-                    isTxt,
-                  }}
-                />
-              </div>
-            </div>
+            <div id="portal-got-resp"></div>
             <div className={dimHeight()}>
               <PageBodyTabs
                 editParam={{
-                  setBest,
                   setIsTxt,
-                  best,
                   item,
                   setItem,
                   fieldFn,
@@ -212,23 +206,21 @@ const DmgPageBody = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                   isTxt,
                   pasteToText,
                   action,
-                  setNewRate,
-                  titleChoosed,
                 }}
-              />
+                likert={likert}>
+                <div className="taskidBox w-100 ps-1">
+                  <DimAddDetail
+                    id="issueNameCh"
+                    title="add dimention name issue"
+                    val={addIssueName}
+                    setVal={setAddIssueName}
+                  />
+                </div>
+                <div id="portal-on-tabs"></div>
+              </PageBodyTabs>
             </div>
           </div>
         </div>
-        {/* <SideBtns
-          fieldId={fieldId}
-          statesVal={{
-            handleTxt: item[fieldId],
-            setHandleTxt: fieldFn.setNewVal,
-            isTxt,
-            setIsTxt,
-          }}
-          textSelected={textSelected}
-        /> */}
       </div>
     </>
   );

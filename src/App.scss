@@ -4,6 +4,7 @@
   text-align: center;
   background-size: cover;
 
+
   @media screen and (max-width:900px) {
     min-height: 200vh;
   }
@@ -13,25 +14,15 @@
   z-index: 900;
 }
 
-#portal-root {
-  position: fixed;
-  /* Чтобы контейнер всегда находился на экране */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  /* Покрывает всю ширину экрана */
-  height: 100vh;
-  /* Покрывает всю высоту экрана */
-  z-index: 9999;
-  /* Максимально высокий z-index */
-  pointer-events: none;
-}
+
 
 #navidPortal {
   display: flex;
   width: fit-content;
 
 }
+
+
 
 .voice-btns-all {
   display: flex;
@@ -89,6 +80,8 @@ button {
 textarea.form-control {
   font-size: 12px;
   border-width: 2px;
+
+
 }
 
 textarea.form-control::placeholder {
@@ -184,7 +177,7 @@ textarea.form-control::placeholder {
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
 }
 
 .page-body {
@@ -294,16 +287,6 @@ textarea.form-control::placeholder {
   }
 }
 
-.list-wrap {
-  @extend .un-wrap;
-  font-size: 10px;
-  background-color: #ecedf2;
-  height: fit-content;
-  margin-bottom: 1rem;
-
-}
-
-
 
 .just-menu {
 
@@ -326,6 +309,7 @@ textarea.form-control::placeholder {
       flex-wrap: wrap;
       position: relative;
       background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+
       color: var(--main-color);
       font-size: 12px;
       margin: 0;
@@ -365,9 +349,6 @@ textarea.form-control::placeholder {
         border-radius: 5px 0 10px 0;
         right: -1px;
         left: unset;
-        // width: 2rem;
-        // height: 2rem;
-        // min-width: 5px;
         transform: scaleX(-1);
       }
 
@@ -562,6 +543,7 @@ textarea.form-control::placeholder {
 
 
 
+
 .text-list-body-edit,
 .text-list-body {
   @extend .un-wrap;
@@ -604,9 +586,58 @@ textarea.form-control::placeholder {
   .wrap-cp {
     position: relative;
     width: 0px;
+  }
 
+  .wrap-dim-nav,
+  .tab-dim-nav {
+    // position: absolute;
+    width: 48px;
+    bottom: 0;
+    // background: red;
+    align-items: center;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
 
+    button {
+      width: 30px;
+      max-width: 30px;
+      min-width: 30px;
+      margin: 1px 0;
+      padding: 1px;
+      max-height: 100%;
+      height: 2rem;
+    }
 
+    .activeTab {
+      background: pink;
+    }
+
+    .h-6 {
+      height: 6rem;
+    }
+  }
+
+  .tab-dim-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 200px;
+    padding: 0 13px;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: flex-end;
+
+    .activeTab {
+      background: pink;
+    }
+
+    .tab-dim-nav-one {
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid grey;
+
+      margin-bottom: 1px;
+    }
   }
 
   .respRub {
@@ -644,9 +675,10 @@ textarea.form-control::placeholder {
     // padding-top: 20px;
     border-bottom: 3px dotted;
 
-    .textarea-btns-null {
+    .textarea-btns-null,
+    .textarea-btns-left {
       position: absolute;
-      left: -13px;
+      left: 0;
       width: fit-content;
     }
 
@@ -692,8 +724,40 @@ textarea.form-control::placeholder {
       color: var(--main-color);
     }
 
+    .mav-block-one-rub {
+      height: -webkit-fill-available;
+      width: fit-content;
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    .toggle-rub-open {
+      all: unset;
+      width: 80px;
+      height: 83%;
+      // background-color: red;
+      display: block;
+      cursor: pointer;
+      z-index: 1900;
+      position: absolute;
+
+      span {
+        width: 100%;
+        display: flex;
+        height: 80%;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+      }
+    }
+
     .rub-open {
       display: flex;
+      opacity: 0.7;
+      flex-direction: column;
+      align-items: flex-end;
+
+
 
       span {
         position: absolute;
@@ -705,41 +769,137 @@ textarea.form-control::placeholder {
       textarea {
         border-radius: 0;
         font-size: var(--vertical-font);
-
+        padding-left: 25px;
+        padding-right: 5px;
+        padding-top: 5px;
+        min-height: 45px;
       }
 
+      .comment-edit {
 
+        width: 20%;
+        max-width: 20%;
+        min-width: 20%;
+
+        min-height: 100%;
+        // min-height: 20px;
+      }
+
+      .rubric-simple-edit {
+        display: flex;
+        width: 100%;
+
+        div {
+          min-width: 50%
+        }
+      }
+
+      .comment-rub-edit-input {
+        background-color: var(--menu);
+        // max-height: fit-content;
+        // height: fit-content;
+        // min-height: 20px;
+
+        color: crimson;
+        text-align: end;
+        max-height: 100%;
+        height: 100%;
+        min-height: 100%;
+      }
     }
 
+    .rub-active {
+      border: 1pх solid red;
+      opacity: 1;
+
+      span {
+        content: "🔎";
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        font-size: 20px;
+        height: 70%;
+        width: 86px;
+      }
+    }
+
+    .separator-rub-btn {
+
+      display: flex;
+      // flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      color: var(--main-color);
+
+      border-radius: 5px;
+
+      text-transform: uppercase;
+      background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+
+      mark {
+        color: green;
+        font-weight: 600;
+        padding: 0 5px;
+      }
+
+      span {
+        all: unset;
+        width: fit-content;
+        margin-right: 10px;
+        padding: 0 5px;
+        line-height: 1.5;
+        cursor: pointer;
+        border: 1px solid transparent;
+
+        &:hover {
+          background-color: #f6eed7;
+          border: 1px solid green;
+        }
+      }
+    }
+
+
+
+    .rubric-rub-edit-input {
+      font-weight: 700;
+    }
 
     .textarea.form-control {
       max-height: fit-content;
       // height: 3rem;
     }
 
-    .rub-score-box-small {
-      background: var(--menu);
+    .field-rub-plus {
+      top: 180px;
+      max-height: 70%;
+    }
 
+    .rub-score-box-small {
+      // background: var(--menu);
+      // background: var(--rub-back);
 
       width: 100%;
       // text-align: end;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
 
       button {
         font-size: 9px;
+
       }
+
+
 
       .hot .hot-menu {
         flex-direction: column;
         align-content: flex-end;
-        align-items: flex-end;
+        // align-items: flex-end;
       }
 
       .rubName {
-        position: absolute;
-        left: 90px;
+        // position: absolute;
+        // left: 90px;
         font-weight: 700;
         cursor: copy;
         // top: 35px;
@@ -750,7 +910,8 @@ textarea.form-control::placeholder {
 
     .greyTop {
       color: white;
-      background-color: rgb(37, 126, 144);
+      // background-color: rgb(37, 126, 144);
+      background-color: rgb(66 85 89);
 
       button svg {
         color: white;
@@ -760,6 +921,11 @@ textarea.form-control::placeholder {
     .rub-color-box {
       width: max-content;
       // animation: pulse 2s ease-in-out 3s 2;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
 
       .rubBtn {
         margin-top: 0;
@@ -772,7 +938,7 @@ textarea.form-control::placeholder {
         opacity: 0;
         transition: opacity 0.6s ease, visibility 0s 0.6s;
         position: absolute;
-        top: -18px;
+        top: -3px;
         // bottom: -10px;
         right: 0;
         color: #6c757d;
@@ -804,12 +970,14 @@ textarea.form-control::placeholder {
       color: var(--second-color);
 
       &:hover {
-        border: 2px solid;
+
+        background: pink;
+        color: black;
       }
 
       span {
         position: absolute;
-        left: 0;
+        left: -4px;
       }
 
       svg {
@@ -825,6 +993,7 @@ textarea.form-control::placeholder {
     .rub-resp-box {
       display: flex;
       // width: 50%;
+      border: 1px solid pink;
 
       button {
 
@@ -834,6 +1003,12 @@ textarea.form-control::placeholder {
       .rub-score-box {
         position: relative;
         width: 25%;
+        min-height: 1rem;
+        margin-left: 2px;
+
+        .textarea-btns-null {
+          top: 20px;
+        }
       }
 
       .rub2 {
@@ -854,12 +1029,17 @@ textarea.form-control::placeholder {
         line-height: 1;
         font-size: 9px;
 
+
       }
 
 
 
       .hideBtn {
-        opacity: 0;
+        opacity: 0.25;
+        width: 100%;
+        height: 100%;
+        min-height: 1rem;
+        top: -5px;
       }
 
 
@@ -875,6 +1055,9 @@ textarea.form-control::placeholder {
           flex: 1;
           resize: none;
           overflow: auto;
+          padding-left: 25px;
+          padding-right: 5px;
+          padding-top: 5px;
 
           &:focus {
             resize: vertical;
@@ -888,6 +1071,7 @@ textarea.form-control::placeholder {
 
     }
 
+
     .rubB-1 {
 
       background: linear-gradient(0deg, var(--menu) 0%, var(--menu) 100%);
@@ -898,16 +1082,26 @@ textarea.form-control::placeholder {
       &::placeholder {
         color: darkgreen;
       }
+
+      &:hover {
+        background: linear-gradient(0deg, var(--line2) 0%, var(--line2) 100%);
+
+      }
     }
 
     .rubB0 {
-      background: linear-gradient(0deg, rgb(107 255 107) 0%, rgb(107 255 107) 100%);
-      background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62 141 62) 100%);
+
       background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+      background: linear-gradient(0deg, #73e073 0%, #73e073 100%);
       color: black;
 
       &::placeholder {
         color: darkgreen;
+      }
+
+      &:hover {
+        background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+
       }
     }
 
@@ -915,6 +1109,11 @@ textarea.form-control::placeholder {
     .rubB1 {
       background: linear-gradient(0deg, yellow 0%, yellow 100%);
       color: black;
+
+      &:hover {
+        background: linear-gradient(0deg, yellow 0%, yellow 100%);
+      }
+
     }
 
     .rubBtxt1 {
@@ -929,7 +1128,23 @@ textarea.form-control::placeholder {
 
     .rubB2 {
       background: linear-gradient(0deg, red 0%, red 100%);
+      background: linear-gradient(0deg, #ff7373 0%, #ff6b6b 100%);
       color: black;
+
+      &:hover {
+        background: linear-gradient(0deg, red 0%, red 100%);
+      }
+
+    }
+
+    .rubB0,
+    .rubB1,
+    .rubB2,
+    .rubB-1 {
+      min-height: 23px;
+
+
+
     }
 
     .nojust {
@@ -942,6 +1157,8 @@ textarea.form-control::placeholder {
   .sumTitle {
 
     min-height: 38px;
+    justify-content: flex-end;
+
   }
 
   .sumBtn {
@@ -997,7 +1214,8 @@ textarea.form-control::placeholder {
 
 
 
-    .textarea-btns-null {
+    .textarea-btns-null,
+    .textarea-btns-right {
       position: absolute;
       right: 10px;
       opacity: 0.4;
@@ -1074,17 +1292,20 @@ textarea.form-control::placeholder {
     }
 
     .field-box {
-      height: 80%;
+      height: 85%;
     }
 
     textarea.form-control {
       height: 100%;
       max-height: 100%;
       width: 100%;
+      background-color: var(--input-back);
+      color: var(--input-color);
+      font-size: var(--vertical-font);
       background-color: var(--main-back);
       color: var(--main-color);
-      font-size: var(--vertical-font);
-      background: var(--rub-back-sum);
+      // background: var(--rub-back-sum);
+
     }
 
     .rublink.form-control {
@@ -1132,6 +1353,8 @@ textarea.form-control::placeholder {
 
   }
 
+
+
   .one-rub {
     display: flex;
     text-align: start;
@@ -1141,16 +1364,22 @@ textarea.form-control::placeholder {
     padding-bottom: 3px;
     border: 5px solid transparent;
     padding-bottom: 3px;
-    border-bottom: 2px dotted;
+    border-bottom: 2px solid grey;
     margin-bottom: 5px;
     background: var(--menu);
+    // background: var(--rub-back);
 
     &:hover {
       // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
       // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-      border: 5px solid #257e90;
+      // border: 5px solid #257e90;
+      border: 3px solid #7dda7d;
+      border-left-color: transparent;
+      border-right-color: transparent;
     }
   }
+
+
 
   .field-rub-close {
     display: flex;
@@ -1160,6 +1389,8 @@ textarea.form-control::placeholder {
     font-size: 12px;
     flex-direction: row-reverse;
     justify-content: space-between;
+    min-height: 40px;
+
   }
 
   .field-rub-open {
@@ -1171,18 +1402,17 @@ textarea.form-control::placeholder {
   }
 
   .active-rub-edit {
-    border: 15px solid #257e90;
+    border: 1px solid #257e90;
     border-top: 5px;
     position: fixed;
     top: 136px;
-    width: 95%;
+    width: 99%;
     left: 6px;
-    background: #257e90;
+
     background: var(--menu);
-    ;
     height: -webkit-fill-available;
     max-height: 70%;
-    z-index: 10;
+    z-index: 800;
     border-radius: 15px;
 
     .rub-resp-box {
@@ -1213,22 +1443,27 @@ textarea.form-control::placeholder {
   .one-rub-close {
     display: flex;
     font-size: 12px;
-
+    align-items: flex-start;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    border: 1px solid transparent;
+    padding-top: 4px;
 
     &:nth-child(odd) {
+      cursor: pointer;
       // background: #f9f9f9; // светлый фон
     }
 
     &:nth-child(even) {
       background: #eaeaeaa8; // чуть темнее
+      background: var(--even-row);
     }
 
     &:hover {
+      border: 1px solid #7dda7d;
 
-      background: var(--menu);
-      color: var(--main-color);
-      color: #257e90;
+      // background: var(--menu);
+      // color: var(--main-color);
+      // color: #0000ff;
       z-index: 5;
       // transform: translateY(-5px);
       // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -1241,23 +1476,30 @@ textarea.form-control::placeholder {
 
 
   .rub-text-closed {
-    width: 80%;
+    width: 90%;
     font-size: var(--vertical-font);
+    padding-bottom: 10px;
+    display: flex;
 
     span {
       width: 20px;
+      min-width: 20px;
       display: inline-block;
       margin-right: 7px;
-      font-size: 12px;
+      font-size: 10px;
+      bottom: 0;
+      top: unset;
     }
   }
 
   .one-dim-close {
     display: flex;
     min-height: 2rem;
-    width: 100;
+    width: 100%;
     justify-content: center;
     box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+
+    align-items: center;
 
     .dim-cp {
       width: 50px;
@@ -1994,14 +2236,14 @@ textarea.form-control::placeholder {
     // padding-top: 1rem;
     font-size: 16px;
     font-size: var(--vertical-font);
-    width: 97%;
+    width: 100%;
     // height: var(--edit-AreaMax-height);
     // max-height: var(--edit-AreaMax-height);
     height: 120px;
 
 
-    background-color: var(--main-back);
-    color: var(--main-color);
+    background-color: var(--input-back);
+    color: var(--input-color);
 
 
     border: none;
@@ -2020,7 +2262,7 @@ textarea.form-control::placeholder {
     // flex-direction: column;
     margin: 2px;
     position: relative;
-    opacity: 0.5;
+    opacity: 0.8;
 
     button {
       max-width: 100%;
@@ -2059,20 +2301,21 @@ textarea.form-control::placeholder {
 
 
     .evals-spanl {
-      &::before {
-        content: attr(rate);
-        position: absolute;
-        font-weight: 800;
-        right: 11px;
-        top: 3px;
-        z-index: 0;
-        font-size: 8px;
-      }
+      // &::before {
+      //   content: attr(rate);
+      //   position: absolute;
+      //   font-weight: 800;
+      //   right: 11px;
+      //   top: 3px;
+      //   z-index: 0;
+      //   font-size: 8px;
+      // }
 
       &::after {
         content: attr(title);
         position: absolute;
-        color: red;
+        // color: red;
+        color: #5ca996;
         font-weight: 800;
         font-size: 10px;
         right: -6px;
@@ -2081,20 +2324,21 @@ textarea.form-control::placeholder {
     }
 
     .evals-spanr {
-      &::before {
-        content: attr(rate);
-        position: absolute;
+      // &::before {
+      //   content: attr(rate);
+      //   position: absolute;
 
-        font-weight: 800;
-        right: -2px;
-        top: 3px;
-        font-size: 8px;
-      }
+      //   font-weight: 800;
+      //   right: -2px;
+      //   top: 3px;
+      //   font-size: 8px;
+      // }
 
       &::after {
         content: attr(title);
         position: absolute;
-        color: red;
+        // color: red;
+        color: #5ca996;
         font-weight: 800;
         font-size: 10px;
         left: -7px;
@@ -2106,8 +2350,6 @@ textarea.form-control::placeholder {
     .evals-span {
       font-weight: 700;
       background-color: transparent;
-
-
     }
 
     .evals-span-isempty-true {
@@ -2117,7 +2359,24 @@ textarea.form-control::placeholder {
       // box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     }
 
+    .yellow {
+      background: #f1c34f;
+    }
 
+    .green {
+      background: #6ffba5;
+    }
+
+    .red {
+      background: #df3d51;
+    }
+
+    .empty {
+      background: #df3d51;
+      background-color: transparent;
+      color: transparent;
+      box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    }
 
     .evals-span-b {
       background-color: #257e90;
@@ -2177,8 +2436,8 @@ textarea.form-control::placeholder {
     color: #747474;
     // border: 1px solid #747474;
     box-shadow: none;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-    // background-color: var(--main-back-unfocus);
+    // box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    background-color: var(--main-back);
   }
 
   textarea.form-control {
@@ -2186,15 +2445,11 @@ textarea.form-control::placeholder {
 
   }
 
-  textarea.form-control:focus {
-    // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    // box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    background-color: #ebfbff;
-  }
+
 
   textarea.form-control.active-field:not(:focus) {
-    background-color: var(--main-back);
-    color: var(--main-color);
+    background-color: var(--input-back);
+    color: var(--input-color);
 
     // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   }
@@ -2303,13 +2558,43 @@ textarea.form-control::placeholder {
   border-radius: 0;
   // margin-top: 5px;
   width: 100vw;
+  max-height: none;
 
   // max-height: 90vh;
   .field-boxes span {
     position: absolute;
     top: 6px;
     left: 6px;
-    color: #e5e5e5;
+    color: #4b92a0;
+  }
+
+  #text-plus-portal,
+  .text-plus-portal {
+    position: fixed;
+    background: #c3b7b7;
+    z-index: 2000;
+    max-height: 100%;
+    left: 0rem;
+    width: 100vw;
+    height: 80vh;
+    top: 130px;
+
+    textarea.form-control {
+      width: 100vw !important;
+      height: 90vh !important;
+      max-width: 100vw !important;
+      max-height: 90vh !important;
+      font-size: var(--vertical-font);
+    }
+  }
+
+  .btnMinP {
+    top: 2px;
+    right: 13px;
+    opacity: 0.8;
+    z-index: 20000;
+    background: #ffc0cb;
+    width: 100%;
   }
 }
 
@@ -2344,9 +2629,13 @@ textarea.form-control::placeholder {
     text-shadow: 0px 0px 2px rgb(66, 68, 90);
 
   }
+
+  div {
+    margin-left: 5px;
+  }
 }
 
-//d-flex flex-wrap justify-content-between w-100 align-items-center
+
 .dmg-page-menu {
   display: flex;
   margin-bottom: 5px;
@@ -2356,6 +2645,11 @@ textarea.form-control::placeholder {
   align-items: center;
   background: var(--menu);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+  button {
+    text-transform: uppercase;
+    font-size: 10px;
+  }
 }
 
 .rubbox {
@@ -2507,67 +2801,7 @@ textarea.form-control::placeholder {
 }
 
 
-// .txt-box {
-//   height: 75%;
 
-
-
-//   @media screen and (max-width:900px) {
-
-//     height: fit-content;
-//   }
-
-//   button {
-//     font-size: 12px;
-//     min-width: 90px;
-//     text-transform: uppercase;
-//   }
-
-
-
-//   .square-btn {
-
-//     width: 1.5rem;
-//     margin: 1px;
-//     margin-bottom: 3px;
-//     padding: 0;
-//     min-width: unset;
-//     height: 1.5rem;
-//     text-transform: none;
-//     font-size: 17px;
-//   }
-
-//   .btn-replace {
-//     &::before {
-//       content: "replace";
-//       position: absolute;
-//       left: 2px;
-//       top: 2px;
-//       font-size: 5px;
-//     }
-
-
-//   }
-
-
-
-//   .isTxtAct {
-//     background-color: red;
-//     background: linear-gradient(0deg, red 0%, red 100%);
-//     box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
-//   }
-// }
-
-.font-size-box {
-  max-height: 3rem;
-
-  // button {
-  //   height: 0.5rem;
-  //   margin: 0;
-  //   display: block;
-  //   width: 3rem;
-  // }
-}
 
 .btnToHis {
   height: fit-content;
@@ -2635,7 +2869,7 @@ textarea.form-control::placeholder {
     top: -1px;
     left: 27px;
     z-index: 600;
-
+    // justify-content: flex-end;
 
     .hot-one {
       display: flex;
@@ -3189,6 +3423,8 @@ textarea.form-control::placeholder {
   font-weight: 700;
 }
 
+
+
 .toast {
   width: 100%;
   font-size: x-small;
@@ -3214,7 +3450,8 @@ textarea.form-control::placeholder {
 }
 
 .bit-intense {
-  background: linear-gradient(0deg, #e5e5e5 0%, #bac3e6 100%);
+  // background: linear-gradient(0deg, #e5e5e5 0%, #bac3e6 100%);
+  background: #e3e5f5;
   color: #000000;
   border: 1px solid blue;
 }
@@ -3300,13 +3537,14 @@ textarea.form-control::placeholder {
     background: var(--main-back);
     padding: 10px;
     border-radius: 5px;
-    border: 5px solid #239aff;
+    border: 5px solid #b4ccbc;
     font-size: 9px;
     color: #239aff;
     z-index: 3000;
 
     div {
-      border: 1px solid var(--main-color);
+
+      border-bottom: .5px solid #b4ccbc;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -3358,6 +3596,7 @@ button.hintBtn {
     position: relative;
 
     display: flex;
+    background: var(--accent);
 
     .header-fin {
       padding: 0 7px;
@@ -3386,10 +3625,10 @@ button.hintBtn {
     display: flex;
 
     flex-wrap: wrap;
-    background-color: var(--accent);
+    // background-color: var(--accent);
     top: -1px;
     left: 27px;
-    z-index: 3;
+    // z-index: 3;
 
 
     .hot-one {
@@ -3409,9 +3648,14 @@ button.hintBtn {
           z-index: 300;
           background: #bcc5e8;
           border: 1px solid #6e6969;
+          text-align: start;
         }
       }
     }
+  }
+
+  .colorBtn {
+    border: 2px solid pink;
   }
 
   .hot-sub-btn {
@@ -3430,6 +3674,24 @@ button.hintBtn {
     margin: 2px;
     padding: 3px;
     text-transform: uppercase;
+    font-size: 14px;
+  }
+}
+
+.div-placeholder {
+  height: 28px;
+  background: var(--accent);
+
+  button {
+    width: fit-content;
+    margin: 1px;
+    margin-bottom: 3px;
+    padding: 0;
+    min-width: unset;
+    height: 1.5rem;
+    text-transform: none;
+    font-size: 17px;
+    padding: 0 5px;
   }
 }
 
@@ -3442,8 +3704,8 @@ button.hintBtn {
 
 .message {
   position: absolute;
-  top: 30px;
-  right: 60px;
+  top: 60px;
+  right: 0px;
   transform: translate(-50%, -50%);
   padding: 10px;
   background-color: black;
@@ -3458,11 +3720,7 @@ button.hintBtn {
     animation: popup 5s;
     animation-iteration-count: 1;
     z-index: 30000;
-    // &.hide {
-    //   opacity: 0;
-    //   animation: popup 3s;
-    //   animation-iteration-count: 1;
-    // }
+
 
     @keyframes popup {
       0% {
@@ -3885,30 +4143,41 @@ button.hintBtn {
 }
 
 .rub-drag-box {
-  width: 500px;
+  width: 600px;
+
+  .form-btn {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    button {
+      color: #000;
+      border-radius: 10px;
+      position: relative;
+      min-width: 2rem;
+      width: 2rem;
+      height: 2rem;
+      margin: 3px;
+    }
+  }
 
   .hbottom1 {
-    // position: relative;
-    height: 374px;
     height: 91%;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 2.6rem;
+    padding: 0;
+    top: unset;
+    bottom: unset;
+    position: relative;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin-left: 0;
     display: flex;
-    align-content: space-around;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: column;
-
-    .form-btn {
-      height: fit-content;
-
-
-      // background-color: red;
-
-      .rubBtn {
-        color: #000;
-        border-radius: 10px;
-        position: relative;
-      }
-    }
+    align-items: center;
+    padding: 0 5px;
   }
 
 
@@ -3917,10 +4186,10 @@ button.hintBtn {
 
 
     &::after {
-      left: 10px;
-      content: "EDIT";
-      position: absolute;
-      font-size: 12px;
+      // left: 10px;
+      content: "";
+      // position: absolute;
+      // font-size: 12px;
     }
   }
 }
@@ -4477,7 +4746,8 @@ button.hintBtn {
 
 .dimBox,
 .dimBoxPage,
-.rubBoxPage {
+.rubBoxPage,
+.rubTabBody {
   display: flex;
   height: 82%;
   overflow-y: auto;
@@ -4517,16 +4787,21 @@ button.hintBtn {
 
   .rub-link-edit {
     position: absolute;
-    left: 215px;
+    right: 235px;
     z-index: 15;
-    background: #0221a0;
-    color: white;
+    background: #e4e5f5;
+    color: black;
     border: 3px solid #a7cbd3;
     border: 3px solid var(--rub-back);
 
     border-radius: 15px;
     padding: 3px;
     text-align: end;
+    width: 350px;
+
+    label {
+      width: 100%;
+    }
 
     p {
       max-width: 235px;
@@ -4535,20 +4810,35 @@ button.hintBtn {
 
     textarea {
       width: 100%;
+      border-radius: 5px;
     }
   }
 }
 
+.rubTabBody {
+  height: 90%;
+}
+
 .rubBoxPage {
-  height: 80vh;
+  height: 85vh;
 
   .tabs>.oneTab {
-    width: 30%;
-    min-width: 30%;
+    width: 10%;
+    min-width: 10%;
 
     span {
       width: 100%;
       min-width: 100%;
+    }
+
+
+  }
+
+  .field-box85 {
+    .field-box {
+      max-height: 85%;
+      height: 85%;
+
     }
   }
 }
@@ -4564,45 +4854,40 @@ button.hintBtn {
     font-size: 12px;
     margin: 0;
     margin-bottom: 10px;
-    justify-content: space-around;
+    justify-content: flex-start;
     background-color: var(--menu);
     padding: 5px;
-
-
-    // width: 100%;
-    // // height: 18px;
-    // padding: 0;
-    // display: flex;
-    // justify-content: space-between;
-    // background-color: var(--menu);
-    // position: relative;
-    // text-align: center;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     flex-wrap: wrap;
+    align-items: center;
+
+    .button-count {
+      max-height: 28px;
+      margin: 0px;
+      min-width: fit-content;
+      width: fit-content;
+      border: 2px solid pink;
+
+      span.pinkB {
+        background-color: pink;
+        padding: 0 5px;
+
+      }
+    }
   }
 
   .oneTab {
     text-transform: uppercase;
     flex-direction: column;
-    // width: max-content;
     align-items: center;
-    // border: 1px solid var(--second-color);
-    // border-bottom: 1px solid var(--second-color);
-    // padding: 5px 15px;
-    // border-radius: 5px;
     cursor: pointer;
-    // box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-    // padding-bottom: 1.5rem;
-    min-width: 160px;
-    width: fit-content;
-    font-size: 14px;
+    min-width: 125px;
+    width: 125px;
+    font-size: 10px;
     font-weight: 700;
     justify-content: flex-end;
-    // background-color: var(--main-back);
-    // padding: 0 5px;
-    // span {
-    //  
-    // }
+    margin: 0 2px;
+
 
     &:hover {
       background-color: var(--line1);
@@ -4614,8 +4899,8 @@ button.hintBtn {
       opacity: 0.7;
       background-color: var(--line2);
       height: 1.5rem;
-      width: 160px;
-      min-width: 160px;
+      width: 100%;
+      min-width: 100%;
       text-wrap: nowrap;
       border-radius: 0 5px 5px 0;
       text-align: center;
@@ -4630,38 +4915,106 @@ button.hintBtn {
     // background-color: var(--line2);
     box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 
-    &::after {
-      content: "✅";
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
     span {
 
       opacity: 1;
-      // background-color: var(--rub-back);
-      background-color: #f64771;
-      color: white;
-      // transform: rotate(90deg);
+      background-color: pink;
     }
 
 
   }
 
-  .no-just-top {
-    all: unset;
-    position: absolute;
-    top: 10px;
-    right: 17px;
+
+
+}
+
+.dimBoxPage {
+  flex-direction: row;
+  width: 100vw;
+  max-width: 98vw;
+  justify-content: space-between;
+  padding: 0 5px;
+
+  .page-work-wrap {
+    width: 90%;
+    height: 100%;
+    max-height: 80vh;
   }
 
-  .no-just-bottom {
-    all: unset;
-    position: absolute;
-    bottom: 26px;
-    right: 17px;
+  .page-work {
+    width: 100%;
+    height: 100%;
+    max-height: 78vh;
+    overflow-y: scroll;
+    font-family: "Roboto", sans-serif;
   }
+
+  .noScroll {
+    overflow: hidden;
+  }
+
+  .tabs {
+    font-family: sans-serif;
+    flex-direction: column;
+    box-shadow: none;
+    width: 225px;
+    padding: 0;
+    flex-wrap: nowrap;
+    min-width: 200px;
+    max-height: 80vh;
+    overflow-y: scroll;
+    align-items: flex-start;
+    overflow-x: hidden;
+
+    .oneTab {
+      // border: 1px solid black;
+      margin: 2px 0;
+      padding: 0;
+      width: 180px;
+      opacity: 0.8;
+      border: 1px solid #c8c5c5;
+
+      span {
+        width: 180px;
+        min-width: 180px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .activeTab {
+      border: 1px solid pink;
+      opacity: 1;
+    }
+  }
+
+  .half-hight {
+    max-height: 40vh;
+  }
+}
+
+
+
+.rubBoxPage {
+  .tab {
+    justify-content: space-between;
+
+  }
+
+  .activeTab>span {
+
+    opacity: 1;
+    // background-color: var(--rub-back);
+    background-color: #ffc0cb;
+    // line-height: 2;
+    // padding: 0;
+    color: #454545;
+    // color: white;
+    // transform: rotate(90deg);
+  }
+
 
 }
 
@@ -4813,12 +5166,24 @@ button.hintBtn {
   display: flex;
   justify-content: space-between;
   min-height: 30px;
-  background: var(--rub-back);
+  // background: var(--rub-back);
+  background: var(--accent);
+  z-index: 799;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     transform: translateY(-1px);
 
+  }
+
+  .add-details {
+    width: 140px;
+    margin: 0 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: fit-content;
+    flex-wrap: nowrap;
   }
 }
 
@@ -4830,13 +5195,28 @@ button.hintBtn {
   display: flex;
   align-content: center;
   align-items: center;
+  width: 90%;
+  justify-content: space-between;
 
   .rubBtn {
-    height: 22px;
-    line-height: 1;
-    width: 2rem;
+    height: 24px;
+    line-height: 0;
+    width: 3rem;
     min-width: 2rem;
     margin: 0 5px;
+    font-size: 16px;
+  }
+
+  .btn-rub-add {
+    width: fit-content;
+
+    &::before {
+      content: "+";
+      width: fit-content;
+      position: absolute;
+      left: 3px;
+      top: 4px;
+    }
   }
 }
 
@@ -4981,6 +5361,7 @@ button.hintBtn {
   .field-box {
     margin: 0;
   }
+
 
   .textarea-btns-,
   .btnPlus,
@@ -5185,23 +5566,27 @@ button.hintBtn {
       display: flex;
       justify-content: space-between;
       text-overflow: ellipsis;
+      position: relative;
 
       .title {
         flex-wrap: wrap;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+
+        .spanid {
+          position: absolute;
+          font-size: 8px;
+          color: crimson;
+          right: 0px;
+          top: 19px;
+        }
+
+
+
+
       }
-
-      .loadbtn,
-      .delbtn {
-        display: none;
-        height: 25px;
-        width: 30px;
-
-      }
-
-
 
       .save-cont {
         display: none;
@@ -5226,6 +5611,8 @@ button.hintBtn {
           font-size: 10px;
           min-height: 9px;
           font-style: italic;
+          height: 30px;
+          width: 100%;
         }
 
         .spanName {
@@ -5234,6 +5621,18 @@ button.hintBtn {
           color: #239aff;
         }
       }
+
+      .loadbtn,
+      .delbtn {
+        display: none;
+        height: 25px;
+        width: 30px;
+
+      }
+
+
+
+
 
       button {
         display: flex;
@@ -5264,12 +5663,16 @@ button.hintBtn {
           max-width: 48%;
         }
 
-        .save-cont {
-          // display: block;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+        &:hover {
+          .save-cont {
+            // display: block;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            height: 40px;
+          }
         }
+
       }
     }
   }
@@ -5278,13 +5681,16 @@ button.hintBtn {
 
 
 .textarea-btns-,
+.textarea-btns-up,
+.textarea-btns-bottom,
 .textarea-btns-left,
 .textarea-btns-right {
   display: none;
   position: absolute;
-  top: 2px;
-  right: 25px;
-  opacity: 0.6;
+
+  top: 2rem;
+  right: 4px;
+  opacity: 0.8;
   z-index: 20000;
   flex-direction: column;
 
@@ -5295,8 +5701,25 @@ button.hintBtn {
   }
 }
 
+.textarea-btns-up {
+  flex-direction: row;
+  top: 0;
+  right: 20px;
+}
+
+.textarea-btns-bottom {
+  flex-direction: row;
+  top: unset;
+  bottom: 0;
+  right: 20px;
+}
+
 .textarea-btns-left {
   right: 4px;
+}
+
+.textarea-btns-right {
+  right: 15px;
 }
 
 .btnCopyField,
@@ -5310,7 +5733,7 @@ button.hintBtn {
   position: absolute;
   top: 2px;
   right: 13px;
-  opacity: 0.6;
+  opacity: 0.8;
   z-index: 20000;
   background-color: red;
 
@@ -5510,10 +5933,14 @@ button.hintBtn {
   background-color: red;
 }
 
+
+
 // d-flex justify-content-center m-auto mt-4 w-100
 .field-box,
+.one-resp-box,
 .oneTab,
-.field-boxes {
+.field-boxes,
+.field-box-score {
   position: relative;
   width: 100%;
   display: flex;
@@ -5556,8 +5983,9 @@ button.hintBtn {
     }
 
     .vert-active {
-      background-color: rgb(37 126 144);
+      // background-color: rgb(37 126 144);
       color: black;
+      // font-size: 10px;
     }
 
     .vert-active.rateA {
@@ -5612,12 +6040,34 @@ button.hintBtn {
     }
 
     .textarea-btns-,
+    .textarea-btns-up,
+    .textarea-btns-bottom,
     .textarea-btns-left,
     .textarea-btns-right {
       display: flex;
+      z-index: 2;
     }
   }
 
+}
+
+.rubBoxPage {
+
+  .textarea-btns-,
+  .textarea-btns-up,
+
+  .textarea-btns-left,
+  .textarea-btns-right {
+    top: 0;
+  }
+}
+
+
+
+.field-box-score {
+  display: flex;
+  width: fit-content;
+  align-items: flex-start
 }
 
 .field-boxes {
@@ -5637,13 +6087,123 @@ button.hintBtn {
 
 }
 
+.one-resp-wrap {
+  height: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+
+  .one-resp-box {
+    width: 450px;
+  }
+}
+
+// .two-resp-wrap {
+//   height: 50%;
+//   display: flex;
+//   flex-wrap: wrap;
+//   overflow: auto;
+// }
+
+.one-resp-box {
+  width: 400px;
+  height: 250px;
+  border: 1px solid grey;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+
+  .textarea-btns-left {
+    top: 27px;
+  }
+
+  .header-one-dim {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    color: #747474;
+    font-style: italic;
+
+    span {
+      background-color: var(--bs-highlight-bg);
+      padding: 0 3px;
+      cursor: pointer;
+    }
+
+  }
+
+  .empty-estim {
+    color: red;
+  }
+
+  textarea.form-control {
+    max-height: 96%;
+    height: 300px;
+  }
+
+}
+
+.two-resp-wrap,
+.two-resp-wrap-plus {
+  height: 50%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  flex-direction: column;
+  height: 100%;
+
+  .rrr {
+    // flex-direction: column;
+    flex-direction: row;
+    display: flex;
+  }
+
+  .one-resp-box {
+    height: 200px;
+    width: 50%;
+    border-radius: 3px;
+  }
+
+
+}
+
+.two-resp-wrap-plus {
+  max-height: 45vh;
+  height: 45vh;
+  overflow: hidden;
+  // border-bottom: 2px solid pink;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+
+  .rrr {
+    max-height: fit-content;
+    height: -webkit-fill-available;
+  }
+
+  .additional-row {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .one-resp-box {
+    max-height: 100%;
+    height: -webkit-fill-available;
+    border-radius: 3px;
+  }
+
+
+}
+
+
+
+
 .field-box-plus {
   position: absolute;
   z-index: 800;
   top: 50px;
   top: 0px;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   left: 0;
 
 
@@ -5690,7 +6250,7 @@ button.hintBtn {
 
 .field-rub-plus {
   position: fixed;
-  z-index: 800;
+  z-index: 10;
   top: 50px;
   top: 27px;
   width: 100%;
@@ -5821,15 +6381,16 @@ button.hintBtn {
 .resp-links-wrap {
   // position: absolute;
   width: 300px;
-  height: 93%;
+  height: 95%;
   background-color: #0221a0;
   color: white;
   overflow: auto;
   border-radius: 10px;
   position: sticky;
   top: 0;
-  background-color: #239aff;
-  color: #ffffff;
+  background-color: #e4e5f5;
+  color: black;
+  border: 3px solid var(--rub-back);
 
   button {
     margin: 1px;
@@ -5880,22 +6441,43 @@ button.hintBtn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10px;
+    font-size: 14px;
     transition: all .2s ease-in-out;
+    margin: 5px 0;
 
     input {
-      margin-right: 10px;
+      margin-right: 5px;
+      width: 23px;
+      height: 20px;
     }
 
     button {
-      font-size: 7px;
-      height: 15px;
+      height: 24px;
       margin: 1px;
+      padding: 2px;
     }
 
     &:hover {
       background-color: #2196f3;
       cursor: pointer;
+    }
+
+    .links-resp-btn,
+    .links-resp-btn-h {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        font-size: 18px;
+        line-height: 1;
+      }
+    }
+
+    .links-resp-btn-h {
+      button {
+        max-width: unset;
+        width: fit-content;
+      }
     }
   }
 
@@ -5906,17 +6488,19 @@ button.hintBtn {
     width: 140px;
     text-overflow: ellipsis;
     overflow: hidden;
+
+    .linkName {
+      text-align: left;
+      cursor: pointer;
+      text-decoration: underline;
+      width: 100%;
+    }
   }
 }
 
 .toast {
 
-  /* margin-top: 1rem; */
-  // margin-right: 10%;
-  // width: 100%;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
+
   animation: popup 5s;
   animation-iteration-count: 1;
 }
@@ -5971,7 +6555,7 @@ button.hintBtn {
     button {
       margin-right: 5px;
       max-width: max-content;
-      font-size: 8px;
+      font-size: 16px;
     }
   }
 
@@ -6009,6 +6593,7 @@ button.hintBtn {
     button {
       margin: 2px;
       width: auto;
+      min-width: 100%;
       border: 3px solid;
     }
   }
@@ -6017,12 +6602,122 @@ button.hintBtn {
     .sub-btns {
       opacity: 1;
       top: 40px;
+      left: 0;
       height: fit-content;
       visibility: visible;
+      width: max-content;
       // transition: all 0s;
       // transition-delay: 0s;
     }
   }
+}
+
+.drop-down-btns-menu {
+  position: relative;
+  // top: -3px;
+
+  .main-btn {
+    height: 24px;
+    margin: 0;
+    padding: 5px;
+    // width: 3rem;
+    min-width: 2rem;
+
+  }
+
+  .respB {
+    width: fit-content;
+    font-size: 10px;
+
+  }
+
+  .drop-down-btns {
+    background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+    position: absolute;
+    z-index: 600;
+    // background: var(--main-back);
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border: 3px solid pink;
+
+    button {
+      width: 100%;
+      text-align: left;
+      font-size: 11px;
+      padding: 1px;
+      margin: 1px;
+
+      &:hover {
+        background-color: pink;
+        background: linear-gradient(0deg, pink 0%, var(--line2) 100%);
+      }
+    }
+  }
+}
+
+.drop-down-btns1 {
+  position: relative;
+  width: 150px;
+  outline: none;
+  border: none;
+  color: var(--main-color);
+  text-decoration: none;
+  text-wrap: nowrap;
+  min-height: 1rem;
+  min-width: 1.5rem;
+  margin: 5px 5px;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  transition: all 0.4s ease-in-out;
+  margin-right: 1px;
+  flex-wrap: wrap;
+  position: relative;
+  background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+  font-size: 10px;
+
+
+
+  .sub-btns {
+    background-color: var(--menu);
+    opacity: 0;
+    display: flex;
+    // height: 0;
+    position: absolute;
+    left: 0;
+    flex-direction: column;
+    transition: all 0.2s ease-in;
+    transition-delay: 0.5s;
+    z-index: 3500;
+    visibility: hidden;
+    top: 40px;
+    height: fit-content;
+
+    button {
+      margin: 2px;
+      width: auto;
+      border: 3px solid;
+    }
+  }
+
+  &:hover {
+    .sub-btns {
+      opacity: 1;
+
+      visibility: visible;
+
+    }
+  }
+
 }
 
 .maxw-160 {
@@ -6059,6 +6754,14 @@ button.hintBtn {
   position: relative;
 }
 
+.maxhrub-100 {
+  max-height: 85%;
+
+  height: fit-content;
+  overflow: auto;
+  position: relative;
+}
+
 .h-0 {
   height: 2%;
   overflow: visible;
@@ -6075,18 +6778,45 @@ button.hintBtn {
   color: var(--main-color);
 }
 
+.rub-com {
+  color: crimson;
+  text-align: end;
+  text-transform: uppercase;
+  max-width: 160px;
+  min-width: 160px;
+  display: flex;
+  justify-content: flex-end;
+
+  .comm {
+    height: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+
+}
+
+.small-indent {
+  right: 80px;
+}
+
 #justifSBS {
   // background-color: #a7cbd3;
-  background: var(--rub-back);
+  // background: var(--rub-back);
   // color: white;
-  height: 4rem;
+  // height: 4rem;
   width: 100%;
   font-weight: 600;
+  max-height: 100%;
+  height: 100%;
 
   &::placeholder {
     color: rgb(127, 127, 127);
   }
 }
+
+
 
 .box-hov {
   transition: all 0.2s ease-in-out;
@@ -6193,11 +6923,12 @@ button.hintBtn {
 
     &:hover::after {
 
-      content: attr(datarub)"—————————————————————————-" attr(datacont);
+      content: attr(datacomm) "——————————————————————————" attr(datarub)"——————————————————————————" attr(datacont);
       visibility: visible;
       // white-space: pre;
       opacity: 1;
       transition: opacity 0.6s ease;
+      max-width: fit-content;
 
     }
 
@@ -6279,6 +7010,7 @@ button.hintBtn {
 
   .isAc {
     text-decoration: overline;
+    outline: 5px solid #0000fe;
   }
 }
 
@@ -6289,27 +7021,41 @@ button.hintBtn {
   background: #257e90;
   top: 0;
   height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
 
-
+  .comment {
+    color: white;
+    width: 100%;
+    text-align: end;
+    padding-right: 10px;
+    font-style: italic;
+    font-size: var(--font-size-edit);
+  }
 
   // width: 500px;
   span {
-    font-size: 12px;
-    width: 89%;
+    font-size: 16px;
+    width: 90%;
     display: block;
-    color: #9fff48;
+    // color: #9fff48;
   }
 
   .field-box {
     height: 100%;
-    width: 93%;
+    width: 98%;
 
     textarea.form-control {
       max-height: unset;
       min-height: unset;
       height: 305px;
-      width: 464px;
+      width: 100%;
       font-size: var(--font-size-edit);
+      background: #3f3e3f;
+      color: #dadbdb;
+      box-shadow: none;
     }
   }
 }
@@ -6320,7 +7066,7 @@ button.hintBtn {
   span {
     position: absolute;
     color: #257e90;
-    top: -2px;
+    top: -5px;
 
   }
 }
@@ -6343,6 +7089,12 @@ button.hintBtn {
   .field-box,
   .respDim-footer {
     align-items: flex-start;
+
+
+
+
+
+
   }
 
   .respDim-footer {
@@ -6392,6 +7144,7 @@ button.hintBtn {
 
     div {
       display: flex;
+      align-items: center;
     }
 
     .ratebtn,
@@ -6410,7 +7163,7 @@ button.hintBtn {
     .ratebtnSM {
       position: absolute;
       left: -7px;
-      top: 8px;
+      top: 12px;
     }
 
     .rateActive {
@@ -6424,6 +7177,17 @@ button.hintBtn {
   .rateInform {
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    .ico {
+      &::before {
+        content: attr(dataScore);
+        font-size: 8px;
+        right: 0px;
+        top: 0px;
+
+      }
+    }
 
     div {
       font-size: 10px;
@@ -6443,20 +7207,81 @@ button.hintBtn {
 
   .header-fin>span {
     font-size: 12px;
+    top: 22px;
+    position: absolute;
+    left: 0;
+  }
+
+  .menu-accent {
+    position: relative;
+    background-color: var(--accent);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .rate {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .rates1,
+    .rates9 {
+      font-size: 22px;
+    }
+
+    .rates2,
+    .rates8 {
+      font-size: 18px;
+    }
+
+    .rates3,
+    .rates7 {
+      font-size: 14px;
+    }
+
+    .rates4,
+    .rates6 {
+      font-size: 10px;
+    }
+
+    .rates5 {
+      font-size: 22px;
+    }
+
   }
 
   .rec {
     background-color: var(--accent);
-    width: 100%;
+    // width: 100%;
     text-align: left;
-    font-size: 12px;
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 500px;
   }
 
   textarea.form-control {
     height: 110px;
     max-height: 200px;
-    height: 55vh;
+    height: 70vh;
     max-height: 70vh;
+    padding-right: 35px;
+  }
+
+
+
+  textarea.form-control {
+    height: 110px;
+    max-height: 200px;
+    height: 70vh;
+    max-height: 60vh;
+    padding-right: 35px;
+  }
+
+  textarea.form-control.sm {
+    max-height: 6rem;
+    overflow-y: auto;
+
   }
 
   .field-box-plus textarea.form-control {
@@ -6466,6 +7291,17 @@ button.hintBtn {
     width: 100%;
   }
 
+
+  .task-rev-build-body {
+    display: flex;
+    flex-direction: column;
+
+    textarea.form-control {
+      height: 30vh;
+      max-height: 30vh;
+    }
+  }
+
   // #Justif {
   //   max-height: unset;
   //   height: 300px;
@@ -6473,13 +7309,66 @@ button.hintBtn {
 
 
 
+  .JustifTxt {
+
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+
+    .oneDimReview {
+
+      height: 235px;
+      max-height: 30vh;
+      width: 45%;
+      margin: 10px;
+      border: 1px solid var(--accent);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-one-dim {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      color: #747474;
+      font-style: italic;
+      background: var(--accent);
+
+      div {
+        font-style: normal;
+      }
+    }
+
+    .empty-estim {
+      color: red;
+    }
 
 
+
+    // span {
+    //   all: unset;
+    // }
+
+    textarea.form-control {
+      // height: 235px;
+      // // max-height: 30vh;
+      width: 97%;
+      // height: 100%;
+      margin: 0;
+      border: 1px solid var(--accent);
+    }
+  }
+
+  .partly-height {
+    max-height: 35vh;
+    height: 35vh;
+  }
 
   .add-details {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-right: 5px;
 
     label {
       font-size: 12px;
@@ -6495,27 +7384,55 @@ button.hintBtn {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  background: var(--menu);
+  align-items: center;
 
   .taskidBox {
     display: flex;
     width: fit-content;
-    border: 2px solid #6e6969;
+    border: 2px solid #d7cbcb;
     border-radius: 5px;
-    padding-left: 5px;
+
 
     button {
       max-height: 28px;
       margin: 0px;
+      min-width: fit-content;
+      width: fit-content;
+
+      span.pinkB {
+        background-color: pink;
+        padding: 0 5px;
+
+      }
+    }
+
+    .field-box {
+      width: 225px;
+    }
+
+    .field-null {
+      position: absolute;
+      top: -1px;
+      left: 6px;
+      color: #000000;
+      font-style: italic;
     }
 
     input {
-      color: white;
-      background-color: #6e6969;
+      // color: white;
+      // background-color: #6e6969;
       width: 100%;
       font-size: 12px;
       padding: 0px;
-      padding-left: 50px;
+      padding-left: 35px;
       height: 28px;
+      background: #ffc0cb;
+      color: black;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 0;
 
       span {
         position: absolute;
@@ -6525,7 +7442,7 @@ button.hintBtn {
       }
 
       &::placeholder {
-        color: white;
+        color: #6e6969;
       }
     }
 
@@ -6539,9 +7456,10 @@ button.hintBtn {
   margin-top: 0;
 
   .rub-prompt {
-    height: 100%;
+    // height: 100%;
     max-height: unset;
-    background-color: var(--main-back);
+    background: rgba(234, 234, 234, 0.6588235294);
+    height: 78vh;
     // max-width: 90%;
   }
 
@@ -6553,8 +7471,13 @@ button.hintBtn {
   }
 
   .hv100 {
-    max-height: 100vh;
+    max-height: 100%;
     height: 100%;
+
+  }
+
+  .autoscroll-y {
+    overflow-y: auto;
   }
 }
 
@@ -6562,4 +7485,346 @@ button.hintBtn {
 #navPortalBtns {
   display: flex;
   width: fit-content;
+}
+
+
+textarea.form-control {
+
+
+  &:focus {
+    border: 1px solid #ffc0cb;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgb(228 229 245);
+    padding-top: 20px;
+
+  }
+}
+
+
+
+// .setlist-btns {
+//   display: flex;
+//   position: relative;
+//   z-index: 1800;
+//   z-index: inherit;
+
+
+//   span {
+//     font-weight: 700;
+//     border: 1px solid;
+//     padding: 2px;
+//     border-radius: 15px;
+//   }
+
+//   .sub-sets {
+//     background-color: var(--menu);
+//     opacity: 0;
+//     display: flex;
+//     font-size: 9px;
+//     position: absolute;
+//     top: 31px;
+//     left: 0px;
+//     width: fit-content;
+//     max-width: 80vw;
+//     display: flex;
+
+//     // flex-direction: column;
+//     transition: all 0.2s ease-in;
+//     transition-delay: 0.5s;
+//     z-index: 1500;
+//     // top: -50px;
+//     visibility: hidden;
+
+//     button {
+//       margin-right: 5px;
+//       max-width: max-content;
+//       font-size: 8px;
+//     }
+//   }
+
+//   &:hover {
+//     .sub-sets {
+//       opacity: 1;
+//       // top: 40px;
+//       height: fit-content;
+//       visibility: visible;
+//       // transition: all 0s;
+//       // transition-delay: 0s;
+//     }
+//   }
+// }
+
+.btns-font-size {
+  display: flex;
+  // flex-direction: column-reverse;
+  // position: relative;
+  flex-direction: row;
+  position: relative;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 2px;
+  margin-right: 5px;
+  cursor: auto;
+  color: var(--main-color);
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+
+
+    button {
+      all: unset;
+      font-size: 15px;
+      margin: 0;
+      padding: 0;
+      height: 12px;
+      /* max-height: 5px; */
+      line-height: 0;
+      width: 14px;
+      opacity: 0.8;
+      cursor: pointer;
+
+      &:hover {
+        // border: 1px solid;
+        // box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover {
+    // border: 1px solid;
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  span {
+    // position: absolute;
+    // top: -9px;
+    // left: 3px;
+    font-size: 21px;
+    z-index: 1;
+
+
+
+
+
+    // max-width: 25px;
+    // width: 25px;
+    // overflow: hidden;
+    // font-size: 12px;
+    // top: -10px;
+    // color: red;
+    // left: -2px;
+    // opacity: 0;
+  }
+
+  .font-size-manage {
+    background-color: var(--accent);
+    border: 1px solid black;
+    color: black;
+    opacity: 0;
+    font-size: 9px;
+    position: absolute;
+    top: 31px;
+    left: 0px;
+    width: fit-content;
+    max-width: 80vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // flex-direction: column;
+    transition: all 0.2s ease-in;
+    transition-delay: 0.5s;
+    z-index: 1500;
+    // top: -50px;
+    visibility: hidden;
+    width: 70px;
+    // background: red;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  &:hover {
+    // background-color: var(--accent);
+    // border: 1px solid;
+
+    .m-btn {
+      box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+      color: black;
+      color: var(--main-color);
+    }
+
+
+
+    span {
+      opacity: 1;
+    }
+
+    .font-size-manage {
+      opacity: 1;
+      // top: 40px;
+      height: fit-content;
+      visibility: visible;
+      // transition: all 0s;
+      // transition-delay: 0s;
+    }
+  }
+
+  // button {
+  //   height: 10px;
+  //   border-radius: 0;
+
+
+  // }
+}
+
+#navidPortalCenter {
+  .field-boxes {
+    background-attachment: red;
+  }
+}
+
+.red-border {
+  // border: 1px solid #fb6161;
+
+  .vert-active {
+    background-color: #fb6161;
+  }
+}
+
+.orange-border {
+  // border: 1px solid #ffc107;
+
+  .vert-active {
+    background-color: #ffc107;
+  }
+}
+
+.green-border {
+  // border: 1px solid #5bdb94;
+
+  .vert-active {
+    background-color: #5bdb94;
+  }
+}
+
+.additional-colon {
+  width: 50vw;
+
+  .field-box {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.newRub-btns {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background: var(--accent);
+  opacity: 1;
+  z-index: 3000;
+}
+
+.separatorEx {
+  // color: crimson;
+  text-decoration: none;
+  // text-transform: uppercase;
+  // margin-left: 30px;
+  color: green;
+}
+
+.w-85 {
+  width: 85%;
+}
+
+.header-comment {
+  font-size: var(--vertical-font);
+  color: crimson;
+  text-transform: uppercase;
+}
+
+.hiden-wrap {
+  width: 100%;
+  opacity: 1;
+
+  .hiden-text {
+    position: fixed;
+    top: 9rem;
+    display: none;
+    transition: all 0.2s ease-in;
+    transition-delay: 0.5s;
+    background-color: var(--rub-back);
+    right: 4rem;
+    color: var(--main-color);
+    border: 3px solid pink;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: flex-start;
+    white-space: pre-line;
+    max-height: 70vh;
+    overflow-y: scroll;
+    max-width: 70vw;
+    z-index: 1900;
+    z-index: 1900;
+    font-weight: 200;
+    text-transform: none;
+    text-align: left;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    transition: all 0.2s ease-in-out;
+    transition-delay: 0.5s;
+    display: flex;
+
+
+    opacity: 0;
+  }
+
+  &:hover {
+    .hiden-text {
+      visibility: visible;
+      width: auto;
+      height: auto;
+      opacity: 1;
+    }
+
+  }
+}
+
+#portal-dmg-page-colon {
+  display: flex;
+  // align-items: center;
+  align-content: flex-end;
+
+}
+
+.pad-text-left,
+.pad-text-up,
+.pad-text-bottom {
+  padding-left: 35px;
+}
+
+.pad-text-right {
+  padding-right: 35px;
+}
+
+#portal-on-tabs {
+  margin-bottom: 5px;
+}
+
+.markB {
+  background: #fff3cd;
+}
+
+.h-min {
+  height: min-content !important;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-color: transparent;
 }

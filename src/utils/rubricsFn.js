@@ -1,31 +1,14 @@
-import { defaultRubJust, defaultRubricator } from "../constants/textParts";
+import {
+  defaultRubJust,
+  defaultRubricator,
+  rubExExample,
+} from "../constants/textParts";
+import { sAlert } from "./alert";
 import { summariseRub } from "./analysis";
-import { saveToHistory } from "./localStorage";
-import { applyAction } from "./utilStr";
-
-export const defaultRubrics = {
-  "createRubP": {
-    rubric: "Ответ использует правильную пунктуацию",
-    example: `использует кавычки вида «» вместо "".`,
-  },
-  "createRubU": {
-    rubric: "Ответ оформлен без орфографических ошибок",
-    example: `использует строчную букву вместо заглавной после двоеточия согласно правилам русского языка`,
-  },
-  "createRubN": {
-    rubric: "Ответ использует фразы естественно звучащие в русском языке",
-    example: `«» вместо «».`,
-  },
-  "createRubF": {
-    rubric:
-      "Ответ написан на русском языке, не используя иностранные слова без необходимости",
-    example: `«» вместо «».`,
-  },
-  "createRubG": {
-    rubric: "Ответ в использует гендерно-нейтральные формулировки.",
-    example: `«(а)» вместо «».`,
-  },
-};
+import { defaultKey } from "./defaultKey";
+import { saveToHistorygeneral } from "./localStorage";
+import { defaultRubrics } from "./rubricsTemplates";
+import { applyAction, editTextAction } from "./utilStr";
 
 export const createFieldFn = (
   item,
@@ -37,14 +20,24 @@ export const createFieldFn = (
   setPopup
 ) => {
   const fieldFn = {
-    delRub: (index) => {
-      if (!window.confirm("Delete criraria # " + (index + 1))) return;
-      setItem((prev) => {
-        return {
-          ...prev,
-          rubricator: prev.rubricator.filter((it, i) => i !== parseInt(index)),
-        };
+    delRub: async (index) => {
+      const result = await sAlert({
+        title: `Delete criteria #${index + 1}`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, deleted it",
+        cancelButtonText: "Cancel",
       });
+
+      if (result.isConfirmed)
+        setItem((prev) => {
+          return {
+            ...prev,
+            rubricator: prev.rubricator.filter(
+              (it, i) => i !== parseInt(index)
+            ),
+          };
+        });
     },
     setDefRef: () => setTextRef(null),
     move: (ind, dir) => {
@@ -80,6 +73,17 @@ export const createFieldFn = (
           rubricator,
         };
       });
+    },
+    isRubricInEdit: (rubIndex) => {
+      // eslint-disable-next-line no-unused-vars
+      let index;
+
+      if (fieldId && fieldId.includes("-")) {
+        [, index] = fieldId.split("-");
+        return Number(index) === Number(rubIndex);
+      } else {
+        return false;
+      }
     },
     getFieldValue: (fieldName = "") => {
       if (!item) return "";
@@ -121,9 +125,19 @@ export const createFieldFn = (
         });
       else setItem({ ...item, [field]: val });
     },
+    setRCount: () => {
+      const v = item.countR === 4 ? 2 : item.countR === 2 ? 3 : 4;
+      setItem({ ...item, countR: v });
+    },
+    setVersion: () => {
+      const v = item.version === 0 ? 1 : 0;
+      setItem({ ...item, version: v });
+    },
     createRub: (type = "") => {
       if (type && type !== "createRub") {
-        let nr = defaultRubrics[type];
+        let defr = defaultRubrics[type];
+        let nr = defr[item.version];
+        let sepEx = defr.config.separEx;
         setItem((prev) => {
           return {
             ...prev,
@@ -132,6 +146,8 @@ export const createFieldFn = (
               {
                 ...defaultRubricator,
                 ...nr,
+                exExample: sepEx,
+                comment: `${defr.config.title}\n${defr.config.justif}`,
               },
             ],
           };
@@ -147,6 +163,7 @@ export const createFieldFn = (
           };
         });
     },
+
     deleteRub: () => {
       if (window.confirm("Clear rubrics?"))
         setItem((prev) => {
@@ -162,13 +179,14 @@ export const createFieldFn = (
           return {
             ...defaultRubJust,
             prompt: prev.prompt,
-            taskId: prev.taskId,
+            id: prev.id,
             links: prev.links,
             rubricator: prev.rubricator.map((item) => ({
               ...defaultRubricator,
               rubric: item.rubric || "",
               example: item.example || "",
-              exExample: !!item.exExample,
+              comment: item.comment || "",
+              exExample: item.exExample,
             })),
           };
         });
@@ -181,8 +199,9 @@ export const createFieldFn = (
             rubricator: prev.rubricator.map((item) => ({
               ...defaultRubricator,
               rubric: item.rubric || "",
+              comment: item.comment || "",
               example: item.example || "",
-              exExample: !!item.exExample,
+              exExample: item.exExample,
             })),
           };
         });
@@ -201,11 +220,14 @@ export const createFieldFn = (
         .split("\n")
         .filter(Boolean)
         .map((el) => {
-          const [r, ex] = el.split("==");
+          let [comm, crit] = el.split("==");
+          if (crit === "") crit = comm;
+          const [r, ex] = crit.split("++");
           return {
             ...defaultRubricator,
             rubric: (notAutoText ? "" : "Ответ содержит ") + r,
             example: ex,
+            comment: comm,
           };
         });
 
@@ -298,10 +320,11 @@ export const createFieldFn = (
           s3Raw,
           s4Raw,
         ].map((val) => scores[val.trim()] ?? -1);
-
+        const comment = "";
         rubrArr.push({
           ...defaultRubricator,
           rubric,
+          comment,
           example,
           score1,
           score2,
@@ -325,11 +348,37 @@ export const createFieldFn = (
       setTextRef(ref);
     },
     onKeyDown: (e) => {
-      if (e.key === "F2") {
-        const val = fieldFn.getFieldValue(fieldId);
-        const newVal = applyAction(val, action);
-        fieldFn.setNewVal(newVal);
-      }
+      defaultKey(
+        e,
+        fieldId,
+        fieldFn.getFieldValue(fieldId),
+        fieldFn.setNewVal,
+        action
+      );
+      // if (e.key === "F4") {
+      //   const val = fieldFn.getFieldValue(fieldId);
+      //   const newVal = applyAction(val, action);
+      //   fieldFn.setNewVal(newVal);
+      // } else if (e.key === "F2") {
+      //   editTextAction(
+      //     fieldId,
+      //     item[fieldId],
+      //     fieldFn.setNewVal,
+      //     "englBaseComm",
+      //     true
+      //   );
+      // } else if (
+      //   e.ctrlKey &&
+      //   (e.key.toLowerCase() === "b" || e.key.toLowerCase() === "и")
+      // ) {
+      //   editTextAction(
+      //     fieldId,
+      //     item[fieldId],
+      //     fieldFn.setNewVal,
+      //     "getFragment",
+      //     true
+      //   );
+      // }
     },
     notNew: (index) => {
       setItem((prev) => {
@@ -356,9 +405,8 @@ export const createFieldFn = (
     },
     clearAll: () => {
       if (window.confirm("Clear task?"))
-        saveToHistory({ en: JSON.stringify(item), ru: "RUB" });
-      setPopup("info has been added to the history");
-      setItem(defaultRubJust);
+        saveToHistorygeneral({ en: JSON.stringify(item), ru: "RUB" }, setPopup);
+      setItem({ ...defaultRubJust });
     },
     addLinkToRub: (linkObj) => {
       // linkObj { name: "...", link: "..." }
@@ -395,187 +443,12 @@ export const createFieldFn = (
   };
   return fieldFn;
 };
-// const fieldFn = {
-//   delRub: (index) => {
-//     if (!window.confirm("Delete criraria # " + (index + 1))) return;
-//     setItem((prev) => {
-//       return {
-//         ...prev,
-//         rubricator: prev.rubricator.filter((it, i) => i !== parseInt(index)),
-//       };
-//     });
-//   },
-//   move: (ind, dir) => {
-//     setItem((prev) => {
-//       const rubricator = [...prev.rubricator];
 
-//       // Сдвиг вверх (если элемент первый, он становится последним)
-//       if (dir === "up") {
-//         if (ind === 0) {
-//           rubricator.push(rubricator.shift()); // Переносим первый элемент в конец
-//         } else {
-//           // Сдвигаем элемент вверх
-//           const temp = rubricator[ind];
-//           rubricator[ind] = rubricator[ind - 1];
-//           rubricator[ind - 1] = temp;
-//         }
-//       }
-
-//       // Сдвиг вниз (если элемент последний, он становится первым)
-//       if (dir === "down") {
-//         if (ind === rubricator.length - 1) {
-//           rubricator.unshift(rubricator.pop()); // Переносим последний элемент в начало
-//         } else {
-//           // Сдвигаем элемент вниз
-//           const temp = rubricator[ind];
-//           rubricator[ind] = rubricator[ind + 1];
-//           rubricator[ind + 1] = temp;
-//         }
-//       }
-
-//       return {
-//         ...prev,
-//         rubricator,
-//       };
-//     });
-//   },
-//   getFieldValue: (fieldName = "") => {
-//     if (!item) return "";
-//     if (!fieldId && !fieldName) return "";
-//     const [field, index] = fieldName
-//       ? fieldName.split("-")
-//       : fieldId.split("-");
-
-//     const dr = { ...defaultRubricator };
-//     if (field in item) return item[field];
-//     if (item.rubricator.length > index && field in dr)
-//       return item.rubricator[index][field];
-//     else return "";
-//     // return field in item
-//     //   ? item[field]
-//     //   : item.rubricator.length < index
-//     //   ? ""
-//     //   : item.rubricator[index][field];
-
-//     // return field in defaultRubricator
-//     //   ? item.rubricator.length >= index
-//     //     ? ""
-//     //     : item.rubricator[index][field]
-//     //   : item[field];
-//   },
-//   setNewVal: (val, fieldName = "") => {
-//     const [field, index] = fieldName
-//       ? fieldName.split("-")
-//       : fieldId.split("-");
-//     if (field in defaultRubricator)
-//       setItem((prev) => {
-//         return {
-//           ...prev,
-//           rubricator: prev.rubricator.map((it, i) =>
-//             i === parseInt(index) ? { ...it, [field]: val } : it
-//           ),
-//         };
-//       });
-//     else setItem({ ...item, [field]: val });
-//   },
-//   createRub: (type = "") => {
-//     if (type) {
-//       let nr;
-//       if (type === "punct")
-//         nr = {
-//           rubric: "Ответ использует правильную пунктуацию",
-//           example: `использует кавычки вида «» вместо "".`,
-//         };
-//       if (type === "upperCA")
-//         nr = {
-//           rubric: "Ответ оформлен без орфографических ошибок",
-//           example: `использует строчную букву вместо заглавной после двоеточия`,
-//         };
-//       if (type === "fluency")
-//         nr = {
-//           rubric:
-//             "Ответ использует фразы естественно звучащие в русском языке",
-//           example: `использует "" вместо "".`,
-//         };
-//       setItem((prev) => {
-//         return {
-//           ...prev,
-//           rubricator: [
-//             ...prev.rubricator,
-//             {
-//               ...defaultRubricator,
-//               ...nr,
-//             },
-//           ],
-//         };
-//       });
-//     } else
-//       setItem((prev) => {
-//         return {
-//           ...prev,
-//           rubricator: [
-//             ...prev.rubricator,
-//             { ...defaultRubricator, new: true },
-//           ],
-//         };
-//       });
-//   },
-//   onFocus: (ref) => {
-//     if (textRef && textRef.current) {
-//       const field = fieldId;
-//       const val = textRef.current.value || "";
-//       fieldFn.setNewVal(val, field);
-//     }
-//     setTextRef(ref);
-//   },
-//   onKeyDown: (e) => {
-//     if (e.key === "F2") {
-//       const val = item[fieldId];
-//       const newVal = applyAction(val, action);
-//       fieldFn.setNewVal(newVal);
-//     }
-//   },
-//   notNew: (index) => {
-//     setItem((prev) => {
-//       return {
-//         ...prev,
-//         rubricator: prev.rubricator.map((it, i) =>
-//           i === parseInt(index)
-//             ? (() => {
-//                 const { new: _, ...rest } = it;
-//                 return rest;
-//               })()
-//             : it
-//         ),
-//       };
-//     });
-//   },
-//   summ: (i = null) => {
-//     if (i && typeof i.preventDefault === "function") {
-//       i.preventDefault();
-//       i = null;
-//     }
-//     const newV = summariseRub(item, i);
-//     setItem({ ...newV });
-//   },
-//   clearAll: () => {
-//     if (window.confirm("Clear task?"))
-//       saveToHistory({ en: JSON.stringify(item), ru: "RUB" });
-//     setPopup("info has been added to the history");
-//     setItem(defaultRubJust);
-//   },
-// };
-
-// export const waitForElementAndFocus = (id, maxTries = 10, interval = 100) => {
-//   let tries = 0;
-//   const check = () => {
-//     const el = document.getElementById(id);
-//     if (el) {
-//       el.focus();
-//     } else if (tries < maxTries) {
-//       tries++;
-//       setTimeout(check, interval);
-//     }
-//   };
-//   check();
-// };
+export const getCriterisText = (criteria, version) =>
+  `${criteria.rubric}  
+${
+  criteria.exExample === null || !criteria.example
+    ? ""
+    : rubExExample[Number(criteria.exExample)][version]
+}             
+${criteria.example}`;

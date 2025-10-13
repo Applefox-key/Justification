@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import EditFieldDmg from "./EditFieldDmg";
-import { applyAction, copyToClipboard } from "../../utils/utilStr";
 import DimBtnsHot from "./DimBtnsHot";
 
 const EditOneDmg = ({ editParam }) => {
@@ -35,7 +34,6 @@ const EditOneDmg = ({ editParam }) => {
       setShow(showBody);
     }
   }, [showBody]);
-  console.log(item);
 
   return (
     <>

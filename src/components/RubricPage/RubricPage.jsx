@@ -6,11 +6,11 @@ import BtnFontSize from "../EditBtns/BtnFontSize";
 import TextChecker from "../UI/TextChecker";
 import { BsCardText } from "react-icons/bs";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import { setRespNames } from "../../utils/localStorage";
 import RubricPageBody from "./RubricPageBody";
 import MyPortal from "../UI/MyPortal/MyPortal";
+import ResponseFormatList from "../Dimentions/ResponseFormatList";
 
-const RubricPage = ({ setEdit, savefn, el }) => {
+const RubricPage = ({ savefn, el }) => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);
 
   const [item, setItem] = useState(
@@ -23,6 +23,7 @@ const RubricPage = ({ setEdit, savefn, el }) => {
     if (newVal !== action) setAction(newVal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(item);
 
   return (
     <div className={"bg-main rubpage"} id="mainp">
@@ -32,13 +33,9 @@ const RubricPage = ({ setEdit, savefn, el }) => {
         </div> */}
         <MyPortal containerId="navidPortal">
           <div className="small-menu-nav">
-            <button
-              className="btn-back m-0 round-btn"
-              onClick={() => setRespNames(action, setAction)}>
-              {action}
-            </button>
-
+            <ResponseFormatList action={action} setAction={setAction} />
             <BtnFontSize />
+
             <Button
               className="btn-back"
               onClick={() => setIsCheckerMode(!isСheckerMode)}>

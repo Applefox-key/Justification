@@ -1,3 +1,5 @@
+import { exampleSeparators } from "./rubricsTemplates";
+
 export const defaultEval = {
   score: 0,
   critMinor: 0,
@@ -453,7 +455,6 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
 
 //   // Определяем победителя
 //   const winner = criteriaAdvantageA > criteriaAdvantageB ? "A" : "B";
-//   console.log({ dif, difCrit });
 //   if (difCrit === 0 && dif < 3)
 //     return `Slightly Better: Response ${winner} outperforms in 1–2 criteria.`;
 //   if (dif > 2 && difCrit < 2)
@@ -463,31 +464,35 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
 //   else
 //     return `Much Better: Response ${winner} significantly outperforms another response.`;
 // };
-export const recomDim = (evals) => {
+export const recomDim = (evals, critSet) => {
   try {
     let ev = { ...evals };
     delete ev.Rate;
     if (Object.values(ev).some((value) => value === 0))
       return { recom: "", detales: "" };
-    const criteria = [
-      "Instructions",
-      "Factuality",
-      "Language",
-      "Coherence",
-      "Presentation",
-      "Tone",
-    ];
+    const criteria = !critSet
+      ? [
+          { id: "Instructions", isCrit: true },
+          { id: "Factuality", isCrit: true },
+          { id: "Language", isCrit: true },
+          { id: "Coherence", isCrit: false },
+          { id: "Presentation", isCrit: false },
+          { id: "Tone", isCrit: false },
+        ]
+      : critSet.map((el) => {
+          return { id: el.id, isCrit: el.isCrit };
+        });
 
     const rate = {
       A: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
       B: { scoreCrit: 0, scoreNonCrit: 0, dimCrit: 0, dimNonCrit: 0 },
     };
     criteria.forEach((criterion, i) => {
-      const dif = evals[`${criterion}_A`] - evals[`${criterion}_B`];
-      rate.A[`score${i < 2 || i === 3 ? "Crit" : "NonCrit"}`] +=
-        evals[`${criterion}_A`];
-      rate.B[`score${i < 2 || i === 3 ? "Crit" : "NonCrit"}`] +=
-        evals[`${criterion}_B`];
+      const dif = evals[`${criterion.id}_A`] - evals[`${criterion.id}_B`];
+      rate.A[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] +=
+        evals[`${criterion.id}_A`];
+      rate.B[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] +=
+        evals[`${criterion.id}_B`];
 
       if (dif !== 0) {
         const win = dif > 0 ? "A" : "B";
@@ -524,63 +529,63 @@ export const recomDim = (evals) => {
     let anRecom = "";
     if (rate.winCrit === null && rate.winNonCrit === null) {
       if (rate.winScore === null)
-        anRecom = `1 EQUALLY GOOD/BAD: Both responses are very close in quality. Choose either Response A or Response B based on personal preference.`;
+        anRecom = `EQUALLY GOOD/BAD: Both responses are very close in quality. Choose either Response A or Response B based on personal preference. (rec#0)`;
       else
-        anRecom = `2 SLIGHTLY BETTER: Response ${rate.winScore} has higher average score.`;
+        anRecom = `SLIGHTLY BETTER: Response ${rate.winScore} has higher average score. (rec#2)`;
     } else if (rate.difCrit !== 0) {
       if (rate.difCrit === 1)
         if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null)
           if (rate.difCrit + rate.difNonCrit < 3)
             if (Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1)
-              anRecom = `3_1 BETTER: Response ${rate.winCrit} significantly outperforms in 1 important criteria.`;
+              anRecom = `BETTER: Response ${rate.winCrit} significantly outperforms in 1 important criteria. (rec#3_1)`;
             else
-              anRecom = `3 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+              anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria. (rec#3)`;
           else if (
             parseFloat(rate[rate.winCrit].avScore) === 5 &&
             parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
           )
-            anRecom = `4 MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other.`;
+            anRecom = `MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other. (rec#4)`;
           else
-            anRecom = `5 BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+            anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#5)`;
         //winners a and b
         else {
-          anRecom = `6 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important`;
+          anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important. (rec#6)`;
         }
       else if (
         (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) &&
         rate.difCrit === 2 &&
         Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1
       )
-        anRecom = `3_0 BETTER: Response ${rate.winCrit} significantly outperforms in 2 important criteria.`;
+        anRecom = `BETTER: Response ${rate.winCrit} significantly outperforms in 2 important criteria. (rec#3_0)`;
       else if (
         rate.difCrit + rate.difNonCrit <= 2 &&
         Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) < 1
       )
-        anRecom = `3_2 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria.`;
+        anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria. (rec#3_2)`;
       else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
         if (
           parseFloat(rate[rate.winCrit].avScore) === 5 &&
           parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
         )
-          anRecom = `7 MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other.`;
+          anRecom = `MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other. (rec#7)`;
         else
-          anRecom = `8 BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria.`;
+          anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#8)`;
       } //winners a and b
       //better non crit win 1 crit but lose 2 crit
       else if (
         rate.winNonCrit !== null &&
         rate[rate.winNonCrit]?.dimCrit !== 0
       ) {
-        anRecom = `9 SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria.`;
+        anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria. (rec#9)`;
       }
       //better noncrit only non crit
       else
-        anRecom = `10 BETTER: Response ${rate.winCrit}  is stronger in most important criteria.`;
+        anRecom = `BETTER: Response ${rate.winCrit}  is stronger in most important criteria. (rec#10)`;
       ///crit dif is null
     } else if (rate.difNonCrit < 3)
-      anRecom = `11 SLIGHTLY BETTER: Response ${rate.winNonCrit} outperforms in 1–2 criteria.`;
+      anRecom = `SLIGHTLY BETTER: Response ${rate.winNonCrit} outperforms in 1–2 criteria. (rec#11)`;
     else
-      anRecom = `12 BETTER: Response ${rate.winNonCrit} outperforms in more than 2 criteria.`;
+      anRecom = `BETTER: Response ${rate.winNonCrit} outperforms in more than 2 criteria. (rec#12)`;
 
     const avCritA = (rate.A.scoreCrit / 3).toFixed(2);
     const avNonCritA = (rate.A.scoreNonCrit / 3).toFixed(2);
@@ -634,7 +639,6 @@ export const summariseRub = (item, i = null, ovr = false) => {
         if (item["score" + ind] === 1) result["score" + ind].mn++;
         else result["score" + ind].mj++;
         const txt_n = window.location.hostname === "localhost" ? "#" : ".";
-        console.log(window.location.hostname);
 
         result["score" + ind].just +=
           (isAdd === "start"
@@ -670,99 +674,99 @@ export const summariseRub = (item, i = null, ovr = false) => {
 
   return newV;
 };
-export const summariseRub1 = (item, i = null) => {
-  const countRub = item.rubricator.length;
-  const isAdd = "start";
-  const result = {
-    score1: { mn: 0, mj: 0, just: "" },
-    score2: { mn: 0, mj: 0, just: "" },
-    score3: { mn: 0, mj: 0, just: "" },
-    score4: { mn: 0, mj: 0, just: "" },
-  };
-  item.rubricator.forEach((item, numR) => {
-    [1, 2, 3, 4].forEach((ind) => {
-      if (item["score" + ind] === 1) {
-        result["score" + ind].mn++;
-        let j = item["error" + ind];
-        result["score" + ind].just +=
-          (isAdd === "start" ? ` Crit# ${numR + 1} (minor issue): ` : "") +
-          j.charAt(0).toUpperCase() +
-          j.slice(1).trimEnd() +
-          // (isAdd === "end" ? ` (a minor issue in crit# ${numR + 1})` : "") +
-          ". " +
-          "\n";
-      }
-      if (item["score" + ind] === 2) {
-        result["score" + ind].mj++;
-        let j = item["error" + ind];
+export const sumJustificationRub = (item) => {
+  const oneSummary = (ind) => {
+    let res = "";
+    item.rubricator.forEach((item, numR) => {
+      if (item["score" + ind] > 0) {
+        let j = item["error" + ind].trim();
+        if (!j.endsWith(".")) j += ".";
+        const jtxt = j.charAt(0).toUpperCase() + j.slice(1);
 
-        result["score" + ind].just +=
-          (isAdd === "start" ? ` Crit# ${numR + 1} (major issue): ` : "") +
-          j.charAt(0).toUpperCase() +
-          j.slice(1).trimEnd() +
-          // (isAdd === "end" ? ` (a major issue in crit# ${numR + 1})` : "") +
-          ". " +
-          "\n";
+        if (jtxt) res += jtxt + "\n\n";
       }
     });
-  });
-  const newV = { ...item };
+    return res;
+  };
+
+  let newV = "";
+
   [1, 2, 3, 4].forEach((ind) => {
-    const mnp = Math.round((100 * result["score" + ind].mn) / countRub);
-    const mjp = Math.round((100 * result["score" + ind].mj) / countRub);
-    let est = 5;
-    // =ЕСЛИ(ИЛИ(S27>74,U27>50),1,ЕСЛИ(ИЛИ(S27>49,U27>24),2,ЕСЛИ(ИЛИ(S27>24,U27>0),3,ЕСЛИ(S27>0,4,5))))
-    if (mnp > 74 || mjp > 50) est = 1;
-    else if (mnp > 49 || mjp > 24) est = 2;
-    else if (mnp > 24 || mjp > 0) est = 3;
-    else if (mnp > 0) est = 4;
+    const r = oneSummary(ind);
 
-    newV["eval" + ind] = est;
-    newV["stat" + ind] =
-      "MINOR- " + (mnp ? mnp : 0) + "% MAJOR- " + (mjp ? mjp : 0) + "%";
-    newV["justif" + ind] = result["score" + ind].just;
+    if (r) newV = `${newV} RESPONSE ${ind}:\n${r} \n`;
   });
 
-  // if (dub) {
-  //   newV.justif1 = newV.justif1
-  //     ? newV.justif1 + "\n" + newV.justif1
-  //     : "No issue.";
-  //   newV.justif2 = newV.justif2
-  //     ? newV.justif2 + "\n" + newV.justif2
-  //     : "No issue.";
-  //   newV.justif3 = newV.justif3
-  //     ? newV.justif3 + "\n" + newV.justif3
-  //     : "No issue.";
-  //   newV.justif4 = newV.justif4
-  //     ? newV.justif4 + "\n" + newV.justif4
-  //     : "No issue.";
-  // }
   return newV;
 };
-export const getRubricName = (criteria, getTxt = false) => {
+
+//format=null (all fields) OR array with needed field names ["name","separator","example"]
+// format: null - text, 1-"separator 2-all
+
+// export const getRubricName = (criteria, getTxt = false, version = 0, formatText=) => {
+
+export const getRubricName = (criteria, version = 0, format = []) => {
   let name =
     criteria.rubric.charAt(0).toUpperCase() +
     criteria.rubric.slice(1).trimEnd();
+  // if (!name.endsWith(".")) name += ".";
+  let formatText = !format.length;
+  if (!criteria.example && formatText)
+    return name.endsWith(".") ? name : name + ".";
 
-  if (!name.endsWith(".") && !criteria.exExample) name += ".";
-  if (!name.endsWith(",") && criteria.exExample) name += ",";
+  //example
   let exa = "";
-  if (criteria.example) {
-    const example = criteria.example.trimEnd();
-    const exampleLower = example.charAt(0).toLowerCase() + example.slice(1);
+  const example = criteria.example.trimEnd();
+  exa = example.charAt(0).toLowerCase() + example.slice(1);
 
-    exa = criteria.exExample
-      ? " а именно: " + exampleLower
-      : " Например: " + exampleLower;
-  } else return getTxt ? name : <b>{name}</b>;
-  if (exa && !exa.endsWith(".")) exa += ".";
+  //separator
 
-  return getTxt ? (
-    name + exa
-  ) : (
-    <>
-      <b>{name}</b>
+  let exSep = exampleSeparators[Number(criteria.exExample)];
+  let sepVal = exSep.value[version];
+  if (sepVal) {
+    name =
+      name.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") +
+      exSep.punkt.nameEnd;
+    exa =
+      exa.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") +
+      exSep.punkt.exEnd;
+  }
+  // if (sepVal && !name.endsWith(exSep.punkt)) name += exSep.punkt;
+  // if (exa && exSep.punkt === " (") exa += ")";
+  // if (exa && !exa.endsWith(".")) exa += ".";
+  // console.log(criteria);
+  // console.log(sepVal);
+
+  // exaSeparator = `${criteria.exExample === null ? "" : sepVal} `;
+
+  if (formatText) return `${name} ${sepVal} ${exa}`;
+
+  let formatName =
+    format.includes("name") || format.includes("all") ? (
+      <mark>
+        <b>{name}</b> <br />
+      </mark>
+    ) : (
+      <>{name + " "}</>
+    );
+
+  let formatSeparator =
+    sepVal && (format.includes("separator") || format.includes("all")) ? (
+      <i className="separatorEx">{sepVal} </i>
+    ) : (
+      <>{sepVal + " "}</>
+    );
+  let formatExample =
+    format.includes("example") || format.includes("all") ? (
       <i>{exa}</i>
+    ) : (
+      <>{exa}</>
+    );
+  return (
+    <>
+      {formatName}
+      {formatSeparator}
+      {formatExample}
     </>
   );
 };

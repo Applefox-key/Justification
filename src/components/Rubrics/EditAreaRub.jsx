@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { editTextActionRef, applyAction } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import SideBtns from "../EditBtns/SideBtns";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
 import { defaultRubJust } from "../../constants/textParts";
 
@@ -88,8 +88,7 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
 
   const toHist = () => {
     const handleTxt = JSON.stringify(item);
-    saveToHistory({ en: handleTxt, ru: "RUB" });
-    setPopup("info has been added to the history");
+    saveToHistorygeneral({ en: handleTxt, ru: "RUB" }, setPopup);
   };
   const clear = (e = null, notAllFields = false) => {
     toHist();
@@ -215,12 +214,12 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
               <div>
                 <EditFieldRub
                   small
-                  classN="rub-taskid"
+                  classN="rub-id"
                   show={show} // key={i}
-                  fieldName={"taskId"}
+                  fieldName={"id"}
                   placeholder={"task id"}
-                  isActive={fieldId === "taskId"}
-                  fieldVal={item.taskId}
+                  isActive={fieldId === "id"}
+                  fieldVal={item.id}
                   fieldFn={fieldFn}
                 />
               </div>

@@ -1,18 +1,20 @@
 import React, { useRef, useState } from "react";
-
-import { useOutsideClick } from "../../hooks/useOutSideClick";
+import { useRightClickCopy } from "../../hooks/useRightClickCopy";
 
 //btnsArray [groupName:"", btns:[{btnName:"",BtnCallBack:()=>{}}]]
 
-const MenuBtnsWrap = ({ btnsArr, alwaysOpen }) => {
-  const [isOpen, setIsOpen] = useState(null);
+const MenuBtnsWrap = ({ btnsArr, alwaysOpen, defaultOpen = null }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isAlwaysOpen, setIsAlwaysOpen] = useState(alwaysOpen);
   const refBox = useRef(null);
-  useOutsideClick(refBox, () => setIsOpen(null));
 
+  // useOutsideClick(refBox, () => setIsOpen(null));
+  const onContextMenuClick = useRightClickCopy();
   const onHandleCLick = (e, btn) => {
+    let b = e.button;
     e.stopPropagation();
-    btn.onClick();
+    if (b === 2 && btn.RightClickCopy) onContextMenuClick(e, btn.title);
+    else if (btn.onClick) btn.onClick(e);
   };
 
   return (
@@ -20,12 +22,13 @@ const MenuBtnsWrap = ({ btnsArr, alwaysOpen }) => {
       <button
         className="square-btn hotBtnGr bit-intense"
         onClick={(e) => {
+          e.stopPropagation();
           setIsAlwaysOpen(!isAlwaysOpen);
         }}>
         {`>`}
       </button>
       {btnsArr.map((oneBtn, gi) => (
-        <div className="hot-menu" key={gi}>
+        <div className="hot-menu flex-row" key={oneBtn.groupName}>
           <button
             className="square-btn hotBtnGr bit-intense"
             key={oneBtn.groupName}
@@ -41,12 +44,31 @@ const MenuBtnsWrap = ({ btnsArr, alwaysOpen }) => {
               {oneBtn.btns.map((btn, i) => (
                 <div className="hot-one" key={i}>
                   <button
-                    className="square-btn hot-menu-btn"
+                    key={oneBtn.groupName + i}
+                    className={`square-btn hot-menu-btn  ${
+                      btn?.bold ? " colorBtn" : ""
+                    }`}
                     title={btn.title}
                     onMouseDown={(e) => onHandleCLick(e, btn)}
                     onContextMenu={(e) => onHandleCLick(e, btn)}>
                     {btn.label}
                   </button>
+                  {btn.subList && (
+                    <div>
+                      {btn.subList.map((subBtn, j) => (
+                        <button
+                          key={"sb" + j}
+                          className={`square-btn hot-menu-btn  ${
+                            subBtn?.bold ? " colorBtn" : ""
+                          }`}
+                          title={subBtn.title}
+                          onMouseDown={(e) => onHandleCLick(e, subBtn)}
+                          onContextMenu={(e) => onHandleCLick(e, subBtn)}>
+                          {subBtn.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -59,11 +81,18 @@ const MenuBtnsWrap = ({ btnsArr, alwaysOpen }) => {
 
 export default MenuBtnsWrap;
 {
-  /* <OneHotBtn
-          key={btni}
-          oneBtn={oneBtn}
-          toJustif={onHandleCLick}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        /> */
+  /* <button
+                        className="square-btn hot-sub-btn"
+                        title={btn.newT}
+                        onMouseDown={(e) => toJustif(e, btn.newT, "A")}
+                        onContextMenu={(e) => toJustif(e, btn.newT, "A")}>
+                        {"Resp A"}
+                      </button>{" "}
+                      <button
+                        className="square-btn hot-sub-btn"
+                        title={btn.newT}
+                        onMouseDown={(e) => toJustif(e, btn.newT, "B")}
+                        onContextMenu={(e) => toJustif(e, btn.newT, "B")}>
+                        {"Resp B"}
+                      </button>{" "} */
 }

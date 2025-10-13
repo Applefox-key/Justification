@@ -11,11 +11,10 @@ import RubLinks from "../Rubrics/RubLinks";
 import EditFieldRub from "../Rubrics/EditFieldRub";
 import EditDragable from "../Rubrics/EditDragable";
 
-const SummaryRubPage = ({ editParam }) => {
+const SummaryRubPage = ({ editParam, nameShowOnly = null }) => {
   const [editEl, setEditEl] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const fieldFn = editParam.fieldFn;
-  const [isLinks, setisLinks] = useState(false);
+  const [isLinks, setisLinks] = useState(nameShowOnly === "Links");
   const ev = {
     5: { name: "[5] (Perfect)", mn: "No issues", mj: "No issues" },
     4: { name: "[4] (Good) ", mn: "Minor: 1-24% ", mj: " Major: No issues" },
@@ -65,7 +64,6 @@ const SummaryRubPage = ({ editParam }) => {
   const handleContextMenu = (e, i) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e.button);
 
     if (e.button === 2) {
       const vl =
@@ -73,10 +71,8 @@ const SummaryRubPage = ({ editParam }) => {
       copyToClipboard(vl);
     }
     if (e.button === 3) {
-      console.log(3);
     }
   };
-  // console.log(editParam);
 
   return (
     <>
@@ -84,7 +80,11 @@ const SummaryRubPage = ({ editParam }) => {
         <EditDragable
           title={"Crit " + (editEl.crit + 1) + ": Response-" + editEl.fieldName}
           closeModal={closeModal}
-          crit={getRubricName(editParam.item.rubricator[editEl.crit], true)}
+          crit={getRubricName(
+            editParam.item.rubricator[editEl.crit],
+            editParam.item.version
+          )}
+          comment={editParam.item.rubricator[editEl.crit].comment}
           critEr={editParam.item.rubricator[editEl.crit][editEl.fieldName]}
           fieldId={editEl.fieldName + "-" + editEl.crit}
           fieldFn={fieldFn}
@@ -102,142 +102,152 @@ const SummaryRubPage = ({ editParam }) => {
         />
       )}
       <div className="body-dim-line rub-title sumTitle">
-        <div className="">
-          <button onClick={handleClickLinks}>LINKS</button>
+        {(!nameShowOnly || nameShowOnly === "Justification") && (
           <button onClick={handleClickRefrSum}>REFRESH SUMMARY</button>
+        )}
+        {(!nameShowOnly || nameShowOnly === "Overall") && (
           <button onClick={handleClickRefrOvr}>REFRESH OVERALL</button>
-          <button className="hintBtn" onClick={handleClickXls}>
-            xls
-          </button>
-          {[1, 2, 3, 4, 5, 6, 7].map((el, i) => (
-            <button
-              key={i}
-              onContextMenu={(e) => handleContextMenu(e, el)}
-              className="hintBtn sumcolor"
-              onClick={(e) => handleClickSBS(e, el)}>
-              {el}
+        )}
+        {!nameShowOnly && (
+          <>
+            <button className="hintBtn" onClick={handleClickXls}>
+              xls
             </button>
-          ))}{" "}
-          {["jbS1", "ovrS1", "link1", "justifSBS"].map((el, i) => (
-            <button
-              key={i}
-              className="hintBtn"
-              onClick={(e) => scrollToId(e, el)}>
-              {el.charAt(0).toUpperCase()}
-            </button>
-          ))}{" "}
-        </div>
-
-        {/* <div>
-          SUMMARY
-          <FaAngleDoubleRight
-            className={editParam.showSummary ? "arr-down " : ""}
-          />
-        </div> */}
+            {[1, 2, 3, 4, 5, 6, 7].map((el, i) => (
+              <button
+                key={i}
+                onContextMenu={(e) => handleContextMenu(e, el)}
+                className="hintBtn sumcolor"
+                onClick={(e) => handleClickSBS(e, el)}>
+                {el}
+              </button>
+            ))}
+            {["jbS1", "ovrS1", "link1", "justifSBS"].map((el, i) => (
+              <button
+                key={i}
+                className="hintBtn"
+                onClick={(e) => scrollToId(e, el)}>
+                {el.charAt(0).toUpperCase()}
+              </button>
+            ))}
+          </>
+        )}
+        {(!nameShowOnly || nameShowOnly === "Links") && (
+          <button onClick={handleClickLinks}>LINKS</button>
+        )}
       </div>
-      <div
-        className="hv100"
-        // {
-        //   detectHeightRub(
-        //   editParam.showSummary,
-        //   editParam.showRubricator && editParam.showSummary
-        // )}
-      >
+      <div className="hv100 autoscroll-y">
         <>
-          {" "}
-          <div className={"dimBox pt-0"}>
-            {isLinks && (
+          <div className={"rubTabBody pt-0"}>
+            {/* {(editParam.countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => ( */}
+            {Array.from({ length: editParam.item.countR }, (_, i) => i + 1).map(
+              (el, i) => (
+                <div
+                  className={
+                    editParam.countR === 2 ? "rub-sum-box rub2" : "rub-sum-box"
+                  }
+                  style={{ width: `${100 / editParam.item.countR}%` }}
+                  key={el}>
+                  <InfoRubBtn
+                    editParam={editParam}
+                    fieldFn={fieldFn}
+                    el={el}
+                    edit={openModalForEdit}
+                    editEl={editEl}
+                  />
+
+                  {(!nameShowOnly || nameShowOnly === "Justification") && (
+                    <div className="rub-span rub-spanShow">
+                      <button
+                        id={"jbS" + el}
+                        className="refBtn"
+                        onClick={() => editParam.fieldFn.summ(el)}>
+                        №{el}
+                        {editParam.item["eval" + el] && (
+                          <span>
+                            <span className="rub-eval">
+                              {editParam.item["eval" + el]}
+
+                              <span className="rub-stat">
+                                {ev[editParam.item["eval" + el]].name}
+                                <br />
+                                {ev[editParam.item["eval" + el]].mn}
+                                <br />
+                                {ev[editParam.item["eval" + el]].mj}
+                                <br />
+                                <br />( {editParam.item["stat" + el]})
+                              </span>
+                            </span>
+                            <span className="rub-stat">
+                              {editParam.item["stat" + el]}
+                            </span>
+                          </span>
+                        )}
+                        <SlRefresh />
+                      </button>
+                    </div>
+                  )}
+                  <>
+                    {(!nameShowOnly || nameShowOnly === "Justification") && (
+                      <EditFieldRub
+                        fieldName={"justif" + el}
+                        placeholder={"justif" + el}
+                        isActive={editParam.fieldId === "justif" + el}
+                        fieldVal={editParam.item["justif" + el]}
+                        fieldFn={fieldFn}
+                      />
+                    )}
+                    {(!nameShowOnly || nameShowOnly === "Overall") && (
+                      <>
+                        <button
+                          id={"ovrS" + el}
+                          className="refBtn sumcolor"
+                          onClick={() => editParam.fieldFn.summ(el, true)}>
+                          №{el} OVERALL <SlRefresh />
+                        </button>
+                        <EditFieldRub
+                          fieldName={"overall" + el}
+                          placeholder={"overall" + el}
+                          isActive={editParam.fieldId === "overall" + el}
+                          fieldVal={editParam.item["overall" + el]}
+                          fieldFn={fieldFn}
+                        />
+                      </>
+                    )}
+                    {(!nameShowOnly || nameShowOnly === "Links") && (
+                      <>
+                        <EditFieldRub
+                          fieldName={"link" + el}
+                          placeholder={"link" + el}
+                          isActive={editParam.fieldId === "link" + el}
+                          fieldVal={editParam.item["link" + el]}
+                          fieldFn={fieldFn}
+                        />
+                      </>
+                    )}
+                  </>
+                </div>
+              )
+            )}{" "}
+            {isLinks && (!nameShowOnly || nameShowOnly === "Links") && (
               <RubLinks
                 links={editParam.item.links}
                 fieldFn={fieldFn}
                 editParam={editParam}
               />
             )}
-            {(editParam.countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
-              <div
-                className={
-                  editParam.countR === 2 ? "rub-sum-box rub2" : "rub-sum-box"
-                }
-                key={el}>
-                <InfoRubBtn
-                  editParam={editParam}
-                  fieldFn={fieldFn}
-                  el={el}
-                  edit={openModalForEdit}
-                  editEl={editEl}
-                />
-
-                <div className="rub-span rub-spanShow">
-                  <button
-                    id={"jbS" + el}
-                    className="refBtn"
-                    onClick={() => editParam.fieldFn.summ(el)}>
-                    №{el}
-                    {editParam.item["eval" + el] && (
-                      <span>
-                        <span className="rub-eval">
-                          {editParam.item["eval" + el]}
-
-                          <span className="rub-stat">
-                            {ev[editParam.item["eval" + el]].name}
-                            <br />
-                            {ev[editParam.item["eval" + el]].mn}
-                            <br />
-                            {ev[editParam.item["eval" + el]].mj}
-                            <br />
-                            <br />( {editParam.item["stat" + el]})
-                          </span>
-                        </span>
-                        <span className="rub-stat">
-                          {editParam.item["stat" + el]}
-                        </span>
-                      </span>
-                    )}
-                    <SlRefresh />
-                  </button>
-                </div>
-
-                <>
-                  <EditFieldRub
-                    fieldName={"justif" + el}
-                    placeholder={"justif" + el}
-                    isActive={editParam.fieldId === "justif" + el}
-                    fieldVal={editParam.item["justif" + el]}
-                    fieldFn={fieldFn}
-                  />{" "}
-                  <button
-                    id={"ovrS" + el}
-                    className="refBtn sumcolor"
-                    onClick={() => editParam.fieldFn.summ(el, true)}>
-                    №{el} OVERALL <SlRefresh />
-                  </button>
-                  <EditFieldRub
-                    fieldName={"overall" + el}
-                    placeholder={"overall" + el}
-                    isActive={editParam.fieldId === "overall" + el}
-                    fieldVal={editParam.item["overall" + el]}
-                    fieldFn={fieldFn}
-                  />
-                  <EditFieldRub
-                    fieldName={"link" + el}
-                    placeholder={"link" + el}
-                    isActive={editParam.fieldId === "link" + el}
-                    fieldVal={editParam.item["link" + el]}
-                    fieldFn={fieldFn}
-                  />
-                </>
-              </div>
-            ))}
           </div>
           <br />
-          <EditFieldRub
-            // show={show}
-            fieldName={"justifSBS"}
-            placeholder={"justifSBS"}
-            isActive={editParam.fieldId === "justifSBS"}
-            fieldVal={editParam.item["justifSBS"]}
-            fieldFn={fieldFn}
-          />
+          {!nameShowOnly && (
+            <EditFieldRub
+              // show={show}
+              fieldName={"justifSBS"}
+              placeholder={"justifSBS"}
+              isActive={editParam.fieldId === "justifSBS"}
+              fieldVal={editParam.item["justifSBS"]}
+              fieldFn={fieldFn}
+            />
+          )}
         </>
       </div>
     </>

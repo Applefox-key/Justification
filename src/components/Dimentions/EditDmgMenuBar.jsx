@@ -1,9 +1,8 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
 import { defaultDimSets } from "../../constants/textParts";
-import { recomDim } from "../../utils/analysis";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { useRateLikert } from "../../hooks/useRateLikert";
 
@@ -14,7 +13,7 @@ const EditDmgMenuBar = ({ editParam }) => {
     item,
     action,
     fieldId,
-    setBest,
+
     setItem,
     best,
     clear,
@@ -22,29 +21,6 @@ const EditDmgMenuBar = ({ editParam }) => {
     setShow,
   } = editParam;
 
-  const handleRate = (e, val) => {
-    let v = best.num === val.num ? -1 : val.num;
-    const rec = best.rec === "" ? recomDim(item.Evals).recom : best.rec;
-    setBest(
-      v === -1
-        ? { num: -1, title: "", fields: [], rec: rec }
-        : { ...val, title: val.title, fields: bestField(v), rec: rec }
-    );
-  };
-  const bestField = useCallback((i) => {
-    const result = [];
-    if (i > -1 && i < 5) result.push("R1");
-    if (i > 3) result.push("R2");
-    return result;
-  }, []);
-  // const compose = (r) => {
-  //   const arf = r === 1 ? "a" : "b";
-  //   const newArr = defaultDimSets[editParam.item.setName]
-  //     .filter((it) => item[it[arf]] && item[it[arf]] !== "OK")
-  //     .map((el) => item[el[arf]]);
-
-  //   setItem({ ...item, Justif: newArr.join(`\n`) });
-  // };
   const composeRate = (r3targ = true) => {
     const rateStr = best.title;
 

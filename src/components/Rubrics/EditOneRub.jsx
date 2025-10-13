@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditFieldRub from "./EditFieldRub";
 import RubRespBtn from "./RubRespBtn";
-import { copyToClipboard } from "../../utils/utilStr";
+import { copyToClipboard, editTextAction } from "../../utils/utilStr";
 import {
   FaArrowDown,
   FaArrowUp,
@@ -11,15 +11,29 @@ import {
 import { AiOutlineClear } from "react-icons/ai";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { getRubricName } from "../../utils/analysis";
-import FlowerBtn from "../EditBtns/FlowerBtn";
 import { usePopup } from "../../hooks/usePopup";
 
-const EditOneRub = ({ editParam }) => {
-  const { fieldId, fieldFn, showBody, criteria, index, countR, noScores } =
-    editParam;
-  const [show, setShow] = useState(criteria.new ? 1 : 0);
+import OneRubMenuDefault from "../RubricPage/OneRubMenuDefault";
+import OneRubMenuWrap from "../RubricPage/OneRubMenuWrap";
+import { SlMagicWand } from "react-icons/sl";
 
+const SHOW = {
+  CLOSED: 0,
+  SMALL: 1,
+  BIG: 2,
+  BIG_FROM_CLOSED: 3,
+};
+
+const EditOneRub = ({ editParam, simpleMode = false }) => {
+  const { fieldId, fieldFn, showBody, criteria, index, noScores, item } =
+    editParam;
+
+  const [show, setShow] = useState(criteria.new ? SHOW.SMALL : SHOW.CLOSED);
+  const popup = usePopup();
+  const clickTimeout = useRef(null);
   const isFirstRender = useRef(true);
+
+  /** ====== synchronization showBody ====== */
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -27,301 +41,335 @@ const EditOneRub = ({ editParam }) => {
     }
     if (typeof showBody === "boolean" && showBody !== !!show) {
       if (criteria.new && !showBody) fieldFn.notNew(index);
-      setShow(showBody ? 1 : 0);
+      setShow(showBody ? SHOW.SMALL : SHOW.CLOSED);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showBody]);
-  const rubricName = (getTxt = false) => {
-    return getRubricName(criteria, getTxt);
-  };
-  const changeShow = () => {
-    const stateShow = show;
-    setShow(stateShow ? 0 : 1);
-    if (criteria.new) fieldFn.notNew(index);
-  };
-  const popup = usePopup();
-  const changeShowDiv = (e) => {
-    e.stopPropagation();
-    const stateShow = show;
-    //closed 0 0    0
-    //open small 1 0  1
-    //open big from small 1 1   2
-    //open big from closed 1 2  3
 
-    switch (stateShow) {
-      case 0:
-        setShow(3);
-        break;
-      case 1:
-        setShow(0);
-        break;
-      case 2:
-        setShow(1);
-        break;
-      case 3:
-        setShow(0);
-        break;
+  /** ====== ХЕЛПЕРЫ ====== */
+  const rubricName = (format = []) =>
+    getRubricName(criteria, editParam.item.version, format);
 
-      default:
-        break;
-    }
+  const updateShow = (next) => {
+    setShow(next);
     if (criteria.new) fieldFn.notNew(index);
   };
 
-  const btnsRubOnClick = (e, type) => {
+  const toggleShow = () => updateShow(show ? SHOW.CLOSED : SHOW.SMALL);
+
+  const toggleExpand = (e) => {
     e.stopPropagation();
-    switch (type) {
-      case "moveup":
-        fieldFn.move(index, "up");
-        break;
-      case "movedown":
-        fieldFn.move(index, "down");
-        break;
-      case "copy":
-        copyToClipboard(rubricName(true), popup);
-        break;
-      case "del":
-        fieldFn.delRub(index);
-        break;
-      default:
-    }
+    const transitions = {
+      [SHOW.CLOSED]: SHOW.BIG_FROM_CLOSED,
+      [SHOW.SMALL]: SHOW.CLOSED,
+      [SHOW.BIG]: SHOW.SMALL,
+      [SHOW.BIG_FROM_CLOSED]: SHOW.CLOSED,
+    };
+    updateShow(transitions[show] ?? SHOW.CLOSED);
   };
+
   const switchSize = (e) => {
     e.stopPropagation();
-
-    const stateShow = show;
-    //closed 0 0    0
-    //open small 1 0  1
-    //open big from small 1 1   2
-    //open big from closed 1 2  3
-
-    switch (stateShow) {
-      case 0:
-        setShow(2);
-        break;
-      case 1:
-        setShow(2);
-        break;
-      case 2:
-        setShow(1);
-        break;
-      case 3:
-        setShow(2);
-        break;
-
-      default:
-        break;
-    }
+    const transitions = {
+      [SHOW.CLOSED]: SHOW.BIG,
+      [SHOW.SMALL]: SHOW.BIG,
+      [SHOW.BIG]: SHOW.SMALL,
+      [SHOW.BIG_FROM_CLOSED]: SHOW.BIG,
+    };
+    updateShow(transitions[show] ?? SHOW.CLOSED);
   };
-  const handleContextMenu = (e) => {
-    e.preventDefault(); // Блокировка контекстного меню
-    if (e.button === 2) {
-      btnsRubOnClick(e, "copy");
-    }
+
+  /** ====== actions ====== */
+  const actions = {
+    moveup: () => fieldFn.move(index, "up"),
+    movedown: () => fieldFn.move(index, "down"),
+    copy: () => copyToClipboard(rubricName(), popup),
+    del: () => fieldFn.delRub(index),
   };
-  const btnCrit = (e, type) => {
+
+  const handleAction = (e, type) => {
     e.stopPropagation();
-    fieldFn.setNewVal("Ответ " + type + " " + criteria.rubric, "crit" + index);
+    actions[type]?.();
+  };
+
+  /** ====== Clicks ====== */
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    handleAction(e, "copy");
+  };
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (clickTimeout.current) {
+      // double click
+      clearTimeout(clickTimeout.current);
+      clickTimeout.current = null;
+      toggleExpand(e);
+    } else {
+      clickTimeout.current = setTimeout(() => {
+        updateShow(SHOW.SMALL);
+        clickTimeout.current = null;
+      }, 150);
+    }
+  };
+
+  /** ====== Render ====== */
+  const renderClosedView = () => (
+    <div
+      className="rub-text-closed"
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}>
+      <span onClick={(e) => handleAction(e, "copy")} className="num">
+        {index + 1}
+      </span>
+      <div>{rubricName(simpleMode ? [] : ["all"])}</div>
+    </div>
+  );
+
+  const renderRubTextArea = (arr) => (
+    <>
+      {arr.map((field) => (
+        <>
+          <EditFieldRub
+            key={field}
+            show={show}
+            btnSide={field === "comment" ? "bottom" : "right"}
+            classN={field + "-rub-edit-input"}
+            classF={field === "comment" ? "comment-edit" : ""}
+            autoHeight
+            fieldName={`${field}-${index}-CR${index + 1}`}
+            placeholder={`${field} text`}
+            isActive={fieldId === `${field}-${index}-CR${index + 1}`}
+            fieldVal={criteria[field]}
+            fieldFn={fieldFn}
+            autoFocus={field === "rubric"}
+          />
+        </>
+      ))}
+    </>
+  );
+
+  const renderOpenFields = () => (
+    <>
+      <div
+        className={`rub-open
+        ${fieldFn.isRubricInEdit(index) ? "rub-active " : ""}
+        `}>
+        <>
+          {" "}
+          <div className="d-flex w-100 justify-content-between">
+            <div className="w-100">
+              {renderRubTextArea(["rubric"])}{" "}
+              <OneRubMenuDefault
+                fieldFn={fieldFn}
+                switchSize={switchSize}
+                criteria={criteria}
+                index={index}
+              />
+              {renderRubTextArea(["example"])}
+            </div>
+
+            {renderRubTextArea(["comment"])}
+          </div>
+          {<i>{rubricName(["separator"])}</i>}
+        </>
+      </div>
+    </>
+  );
+
+  const renderScores = () => (
+    <div className="rub-resp-box">
+      {Array.from({ length: item.countR }, (_, i) => i + 1).map((el) => (
+        <div
+          key={el}
+          className={item.countR === 2 ? "rub-score-box rub2" : "rub-score-box"}
+          style={{ width: `${100 / item.countR}%` }}>
+          <RubRespBtn
+            hide
+            isMinor={item.version === 0}
+            value={criteria["score" + el]}
+            setValue={fieldFn.setNewVal}
+            field={`score${el}-${index}`}
+          />
+          {criteria["score" + el] > 0 && (
+            <EditFieldRub
+              classN={`rubBtxt${criteria["score" + el]}`}
+              show={show}
+              btnSide="right"
+              fieldName={`error${el}-${index}-C${index + 1}`}
+              placeholder={`error${el}`}
+              isActive={fieldId === `error${el}-${index}-C${index + 1}`}
+              fieldVal={criteria["error" + el]}
+              fieldFn={fieldFn}
+              autoHeight
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  // const applyAction = useCallback(
+  //   (action, isIgnore = false) => {
+  //     if (!fieldId) return;
+  //     editTextAction(fieldId, handleTxt, fieldFn.setNewVal, action, isIgnore);
+  //   },
+  //   [fieldId, handleTxt, setHandleTxt]
+  // );
+
+  const magic = async (e) => {
+    e.stopPropagation();
+    editTextAction(
+      fieldId,
+      fieldFn.getFieldValue(),
+      fieldFn.setNewVal,
+      "rubErrComm",
+      true
+    );
   };
   return (
     <>
-      <div className={!!show ? "wrap-rub one-rub" : "wrap-rub one-rub-close"}>
-        <button className="rubBtn" onClick={changeShow}>
-          <BiSolidRightArrow className={show ? "arr-down " : ""} />
-          <span>{index + 1}</span>
-        </button>
-        <button
-          className={"rubBtn rub-dsb"}
-          onClick={(e) => btnsRubOnClick(e, "moveup")}>
-          <FaArrowUp />
-        </button>
-        <button
-          className={"rubBtn rub-dsb"}
-          onClick={(e) => btnsRubOnClick(e, "movedown")}>
-          <FaArrowDown />
-        </button>{" "}
-        <div
-          id={"rubr" + index}
-          className={
-            (!!show ? "field-rub-open" : "field-rub-close") +
-            (show > 1 ? " active-rub-edit" : "")
-          }>
-          <div
-            onClick={changeShowDiv}
-            className={
-              (show ? "rub-score-box-small" : "d-flex") +
-              (show > 1 ? " greyTop" : "")
-            }>
-            {!!show && (
-              <>
-                <FlowerBtn
-                  className="rubBtn"
-                  fieldId={fieldId}
-                  fieldFn={fieldFn}
-                  type={"«»"}
-                />
-                <FlowerBtn
-                  className="rubBtn"
-                  fieldId={fieldId}
-                  fieldFn={fieldFn}
-                />
-                <button className={"rubBtn"} onClick={switchSize}>
-                  <FaRegWindowMaximize />
-                </button>{" "}
-                <span
-                  className="rubName"
-                  onClick={(e) => btnsRubOnClick(e, "copy")}>
-                  CRITERIA {index + 1}
-                  {["использует", "предлагает", "содержит"].map((el, i) => (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        fieldFn.setNewVal(
-                          "Ответ " + el + " " + criteria.rubric,
-                          "rubric-" + index
-                        );
-                      }}>
-                      {el}
-                    </button>
-                  ))}
-                </span>
-                <button
-                  className={""}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    fieldFn.setNewVal(
-                      !criteria.exExample,
-                      "exExample-" + index
-                    );
-                  }}>
-                  {criteria.exExample ? (
-                    <>
-                      <strong>а именно: / </strong> Например
-                    </>
-                  ) : (
-                    <>
-                      а именно:<strong> / Например</strong>
-                    </>
-                  )}
-                </button>
-              </>
-            )}
-            <button
-              className={"rubBtn"}
-              onClick={(e) => btnsRubOnClick(e, "copy")}>
-              <FaRegCopy />
+      <div className={show ? "wrap-rub one-rub" : "wrap-rub one-rub-close"}>
+        {/* Title */}
+        <div className="mav-block-one-rub">
+          <div className="d-flex">
+            <button className="rubBtn" onClick={toggleShow}>
+              <BiSolidRightArrow className={show ? "arr-down" : ""} />
+              <span>{index + 1}</span>
             </button>
-            {!noScores && (
-              <div
-                className="rub-color-box"
-                onClick={(e) => e.stopPropagation()}
-                datarub={index + 1 + ") " + criteria.rubric}>
-                {(countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
-                  <RubRespBtn
-                    key={el}
-                    small
-                    value={criteria["score" + el]}
-                    setValue={fieldFn.setNewVal}
-                    field={"score" + el + "-" + index}
-                    valueEr={criteria["error" + el]}
-                    switchSize={switchSize}
-                  />
-                ))}
-              </div>
-            )}
-            <span onClick={(e) => btnsRubOnClick(e, "copy")} className="num">
-              {index + 1}
-            </span>
-
             <button
-              className={"rubBtn rub-dsb"}
-              onClick={(e) => btnsRubOnClick(e, "del")}>
-              <AiOutlineClear />
-            </button>
-            {/* <button
-              className={"rubBtn rub-dsb"}
-              onClick={(e) => btnsRubOnClick(e, "moveup")}>
+              className="rubBtn rub-dsb"
+              onClick={(e) => handleAction(e, "moveup")}>
               <FaArrowUp />
             </button>
             <button
-              className={"rubBtn rub-dsb"}
-              onClick={(e) => btnsRubOnClick(e, "movedown")}>
+              className="rubBtn rub-dsb"
+              onClick={(e) => handleAction(e, "movedown")}>
               <FaArrowDown />
-            </button> */}
+            </button>
           </div>
-          {show ? (
-            <div className="rub-open">
-              <EditFieldRub
-                show={show} // key={i}
-                fieldName={"rubric-" + index + "-CR" + (index + 1)}
-                placeholder={"criteria text"}
-                isActive={fieldId === "rubric-" + index + "-CR" + (index + 1)}
-                fieldVal={criteria.rubric}
+          {!!show && (
+            <div className="toggle-rub-open" onClick={toggleShow}>
+              {fieldId === `rubric-${index}-CR${index + 1}` && (
+                <OneRubMenuWrap
+                  criteria={criteria}
+                  fieldFn={fieldFn}
+                  index={index}
+                  version={item.version}
+                />
+              )}{" "}
+              {/* <OneRubMenuDefault
                 fieldFn={fieldFn}
-                autoFocus
-              />
-
-              <EditFieldRub
-                show={show} // key={i}
-                fieldName={"example-" + index + "-CR" + (index + 1)}
-                placeholder={"example text"}
-                isActive={fieldId === "example-" + index + "-CR" + (index + 1)}
-                fieldVal={criteria.example}
-                fieldFn={fieldFn}
-              />
+                switchSize={switchSize}
+                criteria={criteria}
+                index={index}
+              /> */}
+              {fieldFn.isRubricInEdit(index) && (
+                <span>✅{/* <FcEditImage /> */}</span>
+              )}
             </div>
-          ) : (
-            <div
-              className="rub-text-closed"
-              onClick={changeShowDiv}
-              onContextMenu={(e) => handleContextMenu(e)}
-              onDoubleClick={(e) => btnsRubOnClick(e, "copy")}>
-              {" "}
-              <span onClick={(e) => btnsRubOnClick(e, "copy")} className="num">
+          )}
+        </div>
+        {/*Main part*/}
+        <div
+          id={`rubr${index}`}
+          className={`${show ? "field-rub-open" : "field-rub-close"} ${
+            show > SHOW.SMALL ? "active-rub-edit" : ""
+          }`}>
+          <div
+            onClick={toggleExpand}
+            className={`${
+              show ? "rub-score-box-small" : "d-flex align-items-center"
+            } ${show > SHOW.SMALL ? "greyTop" : ""}`}>
+            {!!show && (
+              <>
+                <span
+                  className="rubName"
+                  onClick={(e) => handleAction(e, "copy")}>
+                  CRITERION {index + 1}
+                </span>
+              </>
+            )}
+            <div className="d-flex align-items-center">
+              {!!show && (
+                <>
+                  <mark>
+                    <span
+                      onClick={(e) => e.stopPropagation()}
+                      className="header-comment">
+                      {criteria.comment.split("\n")[0]}- {index + 1}
+                    </span>
+                  </mark>
+                  <button className="rubBtn" onClick={magic}>
+                    <SlMagicWand />
+                  </button>
+                </>
+              )}
+              {!!show && (
+                <button className={"rubBtn"} onClick={switchSize}>
+                  <FaRegWindowMaximize />
+                </button>
+              )}
+              <button
+                className="rubBtn"
+                onClick={(e) => handleAction(e, "copy")}>
+                <FaRegCopy />
+              </button>
+              {!noScores && (
+                <div
+                  className="rub-color-box"
+                  onClick={(e) => e.stopPropagation()}
+                  datarub={`${index + 1}) ${criteria.rubric}`}>
+                  {Array.from({ length: item.countR }, (_, i) => i + 1).map(
+                    (el) => (
+                      <RubRespBtn
+                        key={el}
+                        small
+                        isMinor={item.version === 0}
+                        value={criteria["score" + el]}
+                        setValue={fieldFn.setNewVal}
+                        field={`score${el}-${index}`}
+                        valueEr={criteria["error" + el]}
+                        switchSize={switchSize}
+                      />
+                    )
+                  )}
+                </div>
+              )}
+              <span onClick={(e) => handleAction(e, "copy")} className="num">
                 {index + 1}
               </span>
-              {rubricName()}{" "}
+              <button
+                className="rubBtn rub-dsb"
+                onClick={(e) => handleAction(e, "del")}>
+                <AiOutlineClear />
+              </button>
+            </div>
+          </div>
+          {!show && (
+            <div className="d-flex w-100 ">
+              {renderClosedView()}{" "}
+              {/* <span
+                  className={`header-comment ${
+                    noScores ? "small-indent" : ""
+                  }`}>
+                  {criteria.comment.split("\n")[0]} - {index + 1}
+                </span>{" "} */}
+              <div className={`rub-com  ${noScores ? "small-indent" : ""}`}>
+                <span className="comm">{criteria.comment.split("\n")[0]} </span>{" "}
+                <span>-{index + 1}</span>
+              </div>{" "}
             </div>
           )}
 
           {!!show && (
-            <div className="rub-resp-box">
-              {(countR === 2 ? [1, 2] : [1, 2, 3, 4]).map((el, i) => (
-                <div
-                  key={i}
-                  className={
-                    countR === 2 ? "rub-score-box rub2" : "rub-score-box"
-                  }>
-                  <RubRespBtn
-                    hide
-                    value={criteria["score" + el]}
-                    setValue={fieldFn.setNewVal}
-                    field={"score" + el + "-" + index}
-                  />
+            <>
+              {renderOpenFields()}
 
-                  {criteria["score" + el] > 0 ? (
-                    <EditFieldRub
-                      classN={"rubBtxt" + criteria["score" + el]}
-                      show={show} // key={i}
-                      fieldName={
-                        "error" + el + "-" + index + "-C" + (index + 1)
-                      }
-                      placeholder={"error" + el}
-                      isActive={
-                        fieldId ===
-                        "error" + el + "-" + index + "-C" + (index + 1)
-                      }
-                      fieldVal={criteria["error" + el]}
-                      fieldFn={fieldFn}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              ))}{" "}
-            </div>
+              {renderScores()}
+            </>
           )}
-        </div>
+        </div>{" "}
       </div>
     </>
   );

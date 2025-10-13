@@ -3,8 +3,8 @@ import EditFieldDmg from "../Dimentions/EditFieldDmg";
 
 const DmgPageTask = ({ editParam }) => {
   const { setIsTxt, item, fieldFn, fieldId, isTxt } = editParam;
+
   return (
-    // <div       className="respDim-footer dmgrew closeBarTask">
     <div className="field-boxes">
       <EditFieldDmg
         fieldName={"id"}

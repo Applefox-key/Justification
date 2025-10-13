@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import {
   voiceToEdit,
@@ -10,7 +10,7 @@ import HotBtns from "../Hint/HotBtns";
 import TopBtns from "../EditBtns/TopBtns";
 import SideBtns from "../EditBtns/SideBtns";
 import EditField from "./EditField";
-import { saveToHistory } from "../../utils/localStorage";
+import { saveToHistorygeneral } from "../../utils/localStorage";
 import RateBoxes from "../Rate/RateBoxes";
 import BtnArchive from "../EditBtns/BtnArchive";
 import { baseRespName } from "../../utils/utilStr";
@@ -31,15 +31,8 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const fieldId = useMemo(() => {
     return textRef && textRef.current && textRef.current.id
       ? textRef.current.id
-      : "R3";
+      : "Prompt";
   }, [textRef]);
-
-  const bestField = useCallback((i) => {
-    const result = [];
-    if (i > -1 && i < 5) result.push("R1");
-    if (i > 3) result.push("R2");
-    return result;
-  }, []);
 
   const fieldFn = {
     onFocus: (ref) => {
@@ -56,7 +49,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
       setItem({ ...item, [field]: val });
     },
     onKeyDown: (e) => {
-      if (e.key === "F2") {
+      if (e.key === "F4") {
         const val = item[fieldId];
         const newVal = applyAction(val, action);
         fieldFn.setNewVal(newVal);
@@ -115,8 +108,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
         ? ""
         : `R1:${item.R1}\n R2:${item.R2}\n R3:${item.R3}\n R0:${item.R0}`;
 
-    saveToHistory({ en: handleTxt, ru: "" });
-    setPopup("info has been added to the history");
+    saveToHistorygeneral({ en: handleTxt, ru: "" }, setPopup);
   };
   const clear = () => {
     toHist();
@@ -129,14 +121,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     clear();
     if (!!actionFn) actionFn(val);
   };
-  const handleRate = (e, val) => {
-    let v = best.num === val.num ? -1 : val.num;
-    setBest(
-      v === -1
-        ? { num: -1, title: "", fields: [] }
-        : { ...val, title: val.title, fields: bestField(v) }
-    );
-  };
+
   const refBoxR03 = useRef(null);
   // const isFlex = refBoxR03.current ? refBoxR03.current.classList.length - 1 : 0;
 
