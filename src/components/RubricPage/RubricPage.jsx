@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { defaultRubJust } from "../../constants/textParts";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 import BtnFontSize from "../EditBtns/BtnFontSize";
 
 import TextChecker from "../UI/TextChecker";
@@ -26,7 +26,7 @@ const RubricPage = ({ savefn, el }) => {
   console.log(item);
 
   return (
-    <div className={"bg-main rubpage"} id="mainp">
+    <div className={"rubpage"} id="mainp">
       <div className="editWin" onClick={(e) => e.stopPropagation()}>
         {/* <div className="bigmenu">
         

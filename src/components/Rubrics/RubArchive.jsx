@@ -3,7 +3,7 @@ import { usePopup } from "../../hooks/usePopup";
 import { TfiSave } from "react-icons/tfi";
 import { saveArrToHistory } from "../../utils/localStorage";
 import useSaveShortcut from "../../hooks/useSaveShortcut";
-import { defaultRubricator } from "../../constants/textParts";
+import { defaultRubricator } from "../../constants/rubricsTemplates";
 
 const RubArchive = ({ txt, setTxt }) => {
   const [items, setItems] = useState(() => {

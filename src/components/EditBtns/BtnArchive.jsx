@@ -4,7 +4,8 @@ import { TfiSave } from "react-icons/tfi";
 import { getSet, saveArrToHistory } from "../../utils/localStorage";
 import useSaveShortcut from "../../hooks/useSaveShortcut";
 import { sAlert } from "../../utils/alert";
-import { constructDefItem } from "../../constants/textParts";
+import { constructDefItem } from "../../utils/dimentions";
+// import { constructDefItem } from "../../constants/textParts";
 
 const BtnArchive = ({ txt, setTxt }) => {
   const txtRef = useRef(txt);

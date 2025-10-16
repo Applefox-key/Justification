@@ -8,7 +8,7 @@ import {
   replacementsResponsesNum2,
   replacementsResponsesNumShort,
 } from "../constants/replacements";
-import { defaultDim, defaultDimSets } from "../constants/textParts";
+import { defaultDim, defaultDimSets } from "../constants/dimDefault";
 import { sAlert } from "./alert";
 const escapeSpecialCharacters = (text) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -241,6 +241,7 @@ export const replacePunctuations = (allJust) => {
 export const replacegen = (txt) => {
   let tmpText = replacePunctuations(txt);
   tmpText = cleanAndCapitalize(tmpText);
+
   // Replace all sequences of spaces with a single space
   // tmpText = tmpText.replace(/\s+/g, " ");
   return replaceByArr(replacementsGeneral, tmpText);

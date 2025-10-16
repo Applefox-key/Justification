@@ -10,7 +10,7 @@ import { FaRegPaste } from "react-icons/fa6";
 
 import BtnArchive from "./BtnArchive";
 import RubArchive from "../Rubrics/RubArchive";
-import { defaultRubJust } from "../../constants/textParts";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import { AiOutlineClear } from "react-icons/ai";
 

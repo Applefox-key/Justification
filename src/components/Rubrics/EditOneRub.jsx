@@ -138,7 +138,11 @@ const EditOneRub = ({ editParam, simpleMode = false }) => {
             classF={field === "comment" ? "comment-edit" : ""}
             autoHeight
             fieldName={`${field}-${index}-CR${index + 1}`}
-            placeholder={`${field} text`}
+            placeholder={
+              field === "comment"
+                ? `short name \n custom jusification for error `
+                : `${field} text`
+            }
             isActive={fieldId === `${field}-${index}-CR${index + 1}`}
             fieldVal={criteria[field]}
             fieldFn={fieldFn}

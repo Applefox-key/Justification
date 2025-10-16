@@ -8,7 +8,7 @@ const AppRouter = () => {
   //   const routesArr = useAuth();
 
   return (
-    <div>
+    <>
       {/* <MainPage /> */}
       <MyNavbar />
       <Popup />
@@ -27,7 +27,7 @@ const AppRouter = () => {
           ))}
         </Routes>
       </div> */}
-    </div>
+    </>
   );
 };
 

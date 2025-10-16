@@ -10,7 +10,7 @@ const RubricatorShort = ({ editParam }) => {
   const fieldFn = editParam.fieldFn;
 
   return (
-    <div className={editParam.noScores ? "h-90 w-85" : "h-90"}>
+    <div className={editParam.noScores ? "h-90 w-50" : "h-90"}>
       <div className="body-dim-line rub-title" id="RubricaT">
         <RubMenu
           fieldFn={fieldFn}

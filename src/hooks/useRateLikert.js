@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { labelsFullVerdictEdit, recomDim } from "../utils/analysis";
 import { applyAction } from "../utils/utilStr";
-import { defaultDimSets } from "../constants/textParts";
+import { defaultDimSets } from "../constants/dimDefault";
 import { sAlert } from "../utils/alert";
 
 export const useRateLikert = (rateInput) => {

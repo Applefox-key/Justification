@@ -113,7 +113,7 @@ export const defaultRubrics = {
     config: {
       title: "грамматика wrong spelling",
       icon: <FaSpellCheck />,
-      justif: `The response uses incorrect spelling: “”`,
+      justif: `The response contains spelling errors`,
       separEx: null,
     },
     0: {
@@ -341,4 +341,58 @@ export const exampleSeparators = {
     value: ["в отличие от:", "(as opposed to"],
     punkt: { nameEnd: "", exEnd: ")." },
   },
+};
+
+export const defaultRubricator = {
+  rubric: "",
+  example: "",
+  comment: "",
+  exExample: false,
+  score1: -1,
+  score2: -1,
+  score3: -1,
+  score4: -1,
+  error1: "",
+  error2: "",
+  error3: "",
+  error4: "",
+};
+export const rubExExample = {
+  0: [" Например:", " For example:"],
+  1: [" а именно:", " namely:"],
+};
+
+export const defaultRubJust = {
+  id: "",
+  name: "",
+  rubricator: [],
+  links: [],
+  prompt: "",
+  response1: "",
+  response2: "",
+  response3: "",
+  response4: "",
+  eval1: "",
+  eval2: "",
+  eval3: "",
+  eval4: "",
+  stat1: "",
+  stat2: "",
+  stat3: "",
+  stat4: "",
+  justif1: "",
+  justif2: "",
+  justif3: "",
+  justif4: "",
+  link1: "",
+  link2: "",
+  link3: "",
+  link4: "",
+  overall1: "",
+  overall2: "",
+  overall3: "",
+  overall4: "",
+  justifSBS: "",
+  version: 1,
+  countR: 3,
 };

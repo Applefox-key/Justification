@@ -1,7 +1,7 @@
 import React from "react";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 import { rateIcons } from "../../utils/rates";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 
 const DimTab = ({ item, fieldFn, activeTab, setAct }) => {
   const isNoJisfif = (field) => {

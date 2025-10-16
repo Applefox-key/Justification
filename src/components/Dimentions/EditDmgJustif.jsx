@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 
 import EditFieldDmg from "./EditFieldDmg";
 import ComposeRate from "../EditParts/ComposeRate";

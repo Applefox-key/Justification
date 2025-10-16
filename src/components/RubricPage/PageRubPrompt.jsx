@@ -36,27 +36,29 @@ const PageRubPrompt = ({ editParam }) => {
   };
   return (
     <div className="h-90">
-      <div className="d-flex hot-sum">
-        <button onClick={() => rubPr()} className="unsetW ">
-          CREATE AUTO RUBRICATOR
-        </button>
-        <button onClick={() => rubPr(1)} className="unsetW ">
-          CREATE RUBRICATOR
-        </button>
-        <button onClick={() => splitLineData()} className="unsetW ">
-          CREATE RAITINGS FOR REVIEW
-        </button>
-      </div>
-
       <div className="d-flex h-100">
-        <EditFieldRub
-          fieldName={"prompt"}
-          classN="w-100 rub-prompt"
-          placeholder={"prompt text"}
-          isActive={fieldId === "prompt"}
-          fieldVal={item.prompt}
-          fieldFn={fieldFn}
-        />
+        <div className="w-50">
+          <div className="d-flex hot-sum">
+            <button onClick={() => rubPr()} className="unsetW ">
+              CREATE AUTO RUBRICATOR
+            </button>
+            <button onClick={() => rubPr(1)} className="unsetW ">
+              CREATE RUBRICATOR
+            </button>
+            <button onClick={() => splitLineData()} className="unsetW ">
+              CREATE RAITINGS FOR REVIEW
+            </button>
+          </div>
+
+          <EditFieldRub
+            fieldName={"prompt"}
+            classN="w-100 rub-prompt"
+            placeholder={`prompt text \n short == rubric++example`}
+            isActive={fieldId === "prompt"}
+            fieldVal={item.prompt}
+            fieldFn={fieldFn}
+          />
+        </div>
 
         <RubricatorShort
           editParam={{

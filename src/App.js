@@ -60,7 +60,7 @@ function App() {
   }, []);
   return (
     <PopupContext.Provider value={{ popupSettings, setPopupSettings }}>
-      <div className="App">
+      <div className="App bg-main">
         {isAuth ? (
           <BrowserRouter>
             <AppRouter />

@@ -15,7 +15,8 @@
   --line1:#f6faff;
   --line2:#dadada ;
   --item-back:#e5e9ea;
-  --accent:#e4e5f5;
+  --accent:#b2d0f370;
+  /* --accent:#e4e5f5; */
   /* --menu:#e2e2e2; */
   --menu:#f4f3f3;
   --sec-back:#c7cacf91;
@@ -26,6 +27,7 @@
   --font-size-edit: 0.7rem;
   --second-color: #868686;
   --even-row:    #eaeaeaa8; 
+  --back-mark: #fff3cd;
   --edit-width: 72vw;
   --edit-max-height:550px;
   --r3-max-height:150px;

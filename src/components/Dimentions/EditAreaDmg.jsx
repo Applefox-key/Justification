@@ -8,7 +8,7 @@ import TemplatesBox from "../TextParts/TemplatesBox";
 import SideBtns from "../EditBtns/SideBtns";
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
-import { getNewOrParseDmg } from "../../constants/textParts";
+// import { getNewOrParseDmg } from "../../constants/textParts";
 
 import { BiSolidRightArrow } from "react-icons/bi";
 
@@ -20,6 +20,7 @@ import EditDmgJustif from "./EditDmgJustif";
 import EditDmgMenuBar from "./EditDmgMenuBar";
 import EditDmgTask from "./EditDmgTask";
 import DimAddDetail from "../DimentionsPage/DimAddDetail";
+import { getNewOrParseDmg } from "../../utils/dimentions";
 
 const EditAreaDmg = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");

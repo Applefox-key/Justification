@@ -1,6 +1,5 @@
 import React from "react";
-
-import { exampleSeparators } from "../../utils/rubricsTemplates";
+import { exampleSeparators } from "../../constants/rubricsTemplates";
 
 const OneRubMenuDefault = ({ fieldFn, criteria, index, version }) => {
   const exSep = criteria.exExample === null ? -1 : Number(criteria.exExample);

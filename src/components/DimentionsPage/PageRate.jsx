@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import EditFieldDmg from "../Dimentions/EditFieldDmg";
 
 import { compose, rateIcons } from "../../utils/rates";

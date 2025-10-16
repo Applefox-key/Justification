@@ -4,6 +4,7 @@ import HintItems from "../Hint/HintItems";
 
 const ContentSide = ({ currentBtn, toJustif, setCurrBtn, curSection }) => {
   const [lev, setLev] = useState(null);
+
   useEffect(() => {
     if (currentBtn === null) return;
     setLev(null);

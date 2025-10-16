@@ -5,7 +5,8 @@ import { wordUnderCursor } from "../../utils/utilStr";
 
 const DimLastField = ({ fieldRate, item, fieldFn, fieldId, ...props }) => {
   const [lastF, setLastF] = useState({ name: "", poz: 0 });
-  const copyToLastField = (e, poz = false) => {
+
+  const copyToLastField = (e, poz = false, oldRow = false) => {
     if (lastF.name.at(-1) !== fieldRate.at(-1)) return;
     e.preventDefault();
     const textarea = e.target;
@@ -20,16 +21,17 @@ const DimLastField = ({ fieldRate, item, fieldFn, fieldId, ...props }) => {
     console.log(selectedText);
     if (!selectedText)
       [selectedText, start, end] = wordUnderCursor(textF, start);
-
     if (!selectedText) return;
     if (!lastF.name) return;
     const lastV = item[lastF.name];
-
+    const divider = oldRow ? "" : "\n";
+    const newPaste = `“${selectedText}”${oldRow ? ", " : ""}`;
     const val = poz
-      ? `${lastV.slice(0, lastF.poz)}\n“${selectedText}” ${lastV.slice(
+      ? `${lastV.slice(0, lastF.poz)}${divider}${newPaste}${lastV.slice(
           lastF.poz
         )}`
-      : ` ${lastV}${lastV ? "\n" : ""}“${selectedText}”`;
+      : ` ${lastV}${lastV ? divider : ""}${newPaste}`;
+
     fieldFn.setNewValF(val, lastF.name);
   };
   const onFocusR = () => {
@@ -48,6 +50,13 @@ const DimLastField = ({ fieldRate, item, fieldFn, fieldId, ...props }) => {
     ) {
       copyToLastField(e, true);
     }
+
+    if (
+      e.altKey &&
+      (e.key.toLowerCase() === "z" || e.key.toLowerCase() === "я")
+    ) {
+      copyToLastField(e, true, true);
+    }
   };
 
   return (
@@ -55,6 +64,9 @@ const DimLastField = ({ fieldRate, item, fieldFn, fieldId, ...props }) => {
       <MyPortal containerId="portal-got-resp">
         {fieldId === fieldRate && (
           <div className="div-placeholder">
+            <span className="me-4">ALT+X: copy with new row</span>
+
+            <span className="me-4">ALT+Z: copy to the end of the row</span>
             <button className=" hotBtnGr intense" onClick={copyToLastField}>
               to {lastF.name} (end)
             </button>

@@ -4,7 +4,7 @@ import Draggable from "react-draggable";
 import { IoIosClose } from "react-icons/io";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
 import ThemeBox from "../ImgBack/ThemeBox";
-import { defaultRubJust } from "../../constants/textParts";
+// import { defaultRubJust } from "../../constants/textParts";
 import BtnFontSize from "../EditBtns/BtnFontSize";
 import EditAreaRub from "./EditAreaRub";
 import { RiDragMoveFill } from "react-icons/ri";
@@ -12,6 +12,7 @@ import TextChecker from "../UI/TextChecker";
 import { BsCardText } from "react-icons/bs";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { setRespNames } from "../../utils/localStorage";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 
 const RubBox = ({ setEdit, savefn, el }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);

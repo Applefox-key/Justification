@@ -1,9 +1,7 @@
-import { hotbtnsArrDef } from "../constants/replacements";
-import {
-  constructDefItem,
-  defaultRubJust,
-  textParts,
-} from "../constants/textParts";
+import { hotbtnsArrDef } from "../constants/hotPaste";
+import { defaultRubJust } from "../constants/rubricsTemplates";
+import { textParts } from "../constants/textParts";
+import { constructDefItem } from "./dimentions";
 import { baseRespName } from "./utilStr";
 import isEqual from "lodash/isEqual";
 
@@ -51,6 +49,7 @@ export const saveArrToHistory = (elArr) => {
 };
 export const getHistory = () => {
   let val = fromLS("History");
+
   const his = {
     name: "history",
     hint: [],

@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import RateBoxes from "../Rate/RateBoxes";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { useRateLikert } from "../../hooks/useRateLikert";
 

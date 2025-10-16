@@ -6,7 +6,7 @@ import { BiSolidRightArrow } from "react-icons/bi";
 import { copyToClipboard, replaceQuotesUniversal } from "../../utils/utilStr";
 
 import DropDownBtnsList2 from "../UI/DropDownBtnsList2";
-import { defaultRubrics } from "../../utils/rubricsTemplates";
+import { defaultRubrics } from "../../constants/rubricsTemplates";
 
 const RubMenu = ({
   editParam,

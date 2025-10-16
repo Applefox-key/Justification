@@ -3,13 +3,11 @@ import {
   editTextActionRef,
   applyAction,
   getNameByAorB,
-  editTextAction,
 } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
-import { getNewOrParseDmg } from "../../constants/textParts";
 
 import DmgPageHeader from "./DmgPageHeader";
 import DmgPageTask from "./DmgPageTask";
@@ -23,6 +21,7 @@ import MyPortal from "../UI/MyPortal/MyPortal";
 import PageBtns from "../EditBtns/PageBtns";
 import { defaultKey } from "../../utils/defaultKey";
 import DimAddDetail from "./DimAddDetail";
+import { getNewOrParseDmg } from "../../utils/dimentions";
 
 const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   const [textSelected, setTextSelected] = useState("");

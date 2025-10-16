@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import DmgOneTab from "./DmgOneTab";
 import PageJustif from "./PageJustif";
 import PageRate from "./PageRate";
-import RateInform from "../Rate/RateInform";
+
 import RateLikert from "../Rate/RateLikert";
 
 import DmgOneResponse from "./DmgOneResponse";
@@ -18,6 +18,8 @@ import DmgPrompt from "./DmgPrompt";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 import HidenText from "../UI/HidenText";
+import PageRespTxt from "./PageRespTxt";
+import DimTaskAll from "./DimTaskAll";
 
 const PageBodyTabs = ({ editParam, likert, children }) => {
   const [activeTab, setActiveTab] = useState({
@@ -40,29 +42,38 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
           <IoChatboxEllipsesOutline /> Prompt
         </>
       ),
+      alwaysShow: true,
       content: <HidenText text={editParam.item.Prompt} />,
       // content: <HidenText>18</HidenText>,
     },
     {
+      short: "RespTxt",
+      title: "RESPONSES TEXT",
+      // content: <RateInform item={editParam.item} />,
+    },
+    {
       short: "Response_A",
       title: "Response A",
+      alwaysShow: true,
       content: <RateInformOne item={editParam.item} resp="a" />,
     },
     {
       short: "Response_B",
       title: "Response B",
+      alwaysShow: true,
       content: <RateInformOne item={editParam.item} resp="b" />,
     },
-    {
-      short: "Rate",
-      title: "RATE",
-      // content: <RateInform item={editParam.item} />,
-    },
+
     {
       short: "SBS",
       title: "SIDE by SIDE",
-      content: <></>,
+      content: null,
       className: "page-work",
+    },
+    {
+      short: "Rate",
+      title: "RATES",
+      // content: <RateInform item={editParam.item} />,
     },
     {
       short: "Justif",
@@ -76,7 +87,7 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
     {
       short: "Review",
       title: "REVIEW",
-      content: <></>,
+      content: null,
     },
     {
       short: "DIM",
@@ -93,18 +104,25 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
     {
       short: "SBSJ",
       title: "COMPARE SBS",
-      content: <></>,
+      content: null,
     },
     {
       short: "Review_builder",
       title: "REVIEW BUILDER",
-      content: <></>,
+      content: null,
       className: "page-work noScroll",
+    },
+    {
+      short: "Task",
+      title: "REVIEW TASK",
+      content: null,
     },
   ];
   const renderTabs = {
     Prompt: <DmgPrompt editParam={{ ...editParam, likert }} />,
     Rate: <PageRate editParam={{ ...editParam, likert }} />,
+    RespTxt: <PageRespTxt editParam={editParam} />,
+    Task: <DimTaskAll editParam={editParam} />,
     Review: <DmgPageReview editParam={{ ...editParam, likert }} />,
     Review_builder: (
       <DmgPageReviewBuilder editParam={{ ...editParam, likert }} />
@@ -157,6 +175,7 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
             ? renderTabs[activeTab.short]
             : activeTab && (
                 <DmgOneTab
+                  showBody={true}
                   editParam={{
                     ...editParam,
                     field: activeTab,
@@ -172,6 +191,7 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
         {tabs.map((tab) => (
           <OneTab
             key={tab.short}
+            alwShow={tab.alwaysShow}
             isActive={
               tab.short === "DIM"
                 ? activeTab && dims.includes(activeTab.short)

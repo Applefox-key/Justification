@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import { recomDim } from "../../utils/analysis";
 import RateDmgScale from "../EditParts/RateDimScale";
 

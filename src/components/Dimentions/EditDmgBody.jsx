@@ -1,6 +1,6 @@
 import React from "react";
 
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 
 import EditOneDmg from "./EditOneDmg";
 

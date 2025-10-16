@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { voiceToEdit } from "../../utils/utilStr";
 
 import RubArchive from "../Rubrics/RubArchive";
-import { defaultRubJust } from "../../constants/textParts";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 
 import VoiceDragable from "../Voice/VoiceDragable";
 import Hint from "../Hint/Hint";

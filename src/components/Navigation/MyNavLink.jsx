@@ -6,9 +6,7 @@ const MyNavLink = ({ root, i }) => {
     <NavLink
       to={root.path}
       className={({ isActive }) =>
-        isActive
-          ? "nav-link px-2 text-white bg-dark"
-          : "nav-link px-2 text-dark"
+        isActive ? "nav-link px-2 link-act" : "nav-link px-2 link"
       }>
       {root.nameNav}
     </NavLink>

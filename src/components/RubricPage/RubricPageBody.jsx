@@ -3,7 +3,7 @@ import { editTextActionRef, applyAction } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
-import { defaultRubJust } from "../../constants/textParts";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 
 import { createFieldFn } from "../../utils/rubricsFn";
 import DmgPageTask from "../DimentionsPage/DmgPageTask";
@@ -134,7 +134,6 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
         />
         <SideBtnsFiled
           fieldId={fieldId}
-          alwaysOpen
           statesVal={{
             handleTxt: fieldFn.getFieldValue(),
             setHandleTxt: fieldFn.setNewVal,
@@ -146,7 +145,7 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
         className="editarearub pagedimbody">
-        <span className="fieldid-t">{fieldId}</span>
+        {/* <span className="fieldid-t">{fieldId}</span> */}
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
           <div className="editParts-wrap">

@@ -138,6 +138,18 @@ textarea.form-control::placeholder {
     display: flex;
     flex-wrap: wrap;
   }
+
+  .link-act {
+    background: var(--main-color);
+    color: var(--main-back);
+    border-radius: 5px;
+  }
+
+  .link {
+    color: var(--main-color);
+    background: var(--main);
+    border-radius: 5px;
+  }
 }
 
 
@@ -177,7 +189,7 @@ textarea.form-control::placeholder {
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
-  height: 95vh;
+  height: 100vh;
 }
 
 .page-body {
@@ -667,13 +679,13 @@ textarea.form-control::placeholder {
 
   .rubh {
 
-    border-left-style: dotted;
+    // border-left-style: dotted;
     // border-bottom-style: solid;
     // overflow-y: scroll;
     max-height: 70vh;
     max-height: 100%;
     // padding-top: 20px;
-    border-bottom: 3px dotted;
+    // border-bottom: 3px dotted;
 
     .textarea-btns-null,
     .textarea-btns-left {
@@ -1127,7 +1139,7 @@ textarea.form-control::placeholder {
     }
 
     .rubB2 {
-      background: linear-gradient(0deg, red 0%, red 100%);
+      // background: linear-gradient(0deg, red 0%, red 100%);
       background: linear-gradient(0deg, #ff7373 0%, #ff6b6b 100%);
       color: black;
 
@@ -1884,9 +1896,27 @@ textarea.form-control::placeholder {
     @extend .current-item;
     padding-top: 15px;
     font-size: 10px;
+    transition-delay: 0.3s;
+
+    .history-txt {
+      all: unset;
+      display: none;
+      background: var(--accent);
+      position: absolute;
+      width: 40vw;
+      background: beige;
+      top: 100%;
+      max-height: 250px;
+      overflow-y: auto;
+    }
 
     &:hover {
       transform: scale(1) translateX(5px);
+      z-index: 500;
+
+      .history-txt {
+        display: block;
+      }
     }
   }
 }
@@ -2541,11 +2571,11 @@ textarea.form-control::placeholder {
   max-height: var(--edit-max-height);
   height: fit-content;
   // position: var(--box-position);
-  position: absolute;
-  top: var(--box-position-points);
-  left: var(--box-position-points);
-  right: var(--box-position-points);
-  bottom: var(--box-position-points);
+  // position: absolute;
+  // top: var(--box-position-points);
+  // left: var(--box-position-points);
+  // right: var(--box-position-points);
+  // bottom: var(--box-position-points);
   max-width: 97vw;
   border: 1px solid var(--line2);
   max-height: fit-content;
@@ -2555,10 +2585,13 @@ textarea.form-control::placeholder {
   height: 90vh;
   position: relative;
   max-width: 99vw;
-  border-radius: 0;
+  border-radius: 5px;
   // margin-top: 5px;
   width: 100vw;
   max-height: none;
+  margin: auto;
+  background: transparent;
+  border: none;
 
   // max-height: 90vh;
   .field-boxes span {
@@ -2644,7 +2677,8 @@ textarea.form-control::placeholder {
   width: 100%;
   align-items: center;
   background: var(--menu);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  // box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
   button {
     text-transform: uppercase;
@@ -4919,6 +4953,7 @@ button.hintBtn {
 
       opacity: 1;
       background-color: pink;
+      color: black;
     }
 
 
@@ -4973,10 +5008,25 @@ button.hintBtn {
       width: 180px;
       opacity: 0.8;
       border: 1px solid #c8c5c5;
+      // background: #e6e5e5;
+      background-color: var(--menu);
 
       span {
         width: 180px;
         min-width: 180px;
+
+        svg {
+          position: absolute;
+          right: 0;
+          font-size: 19px;
+          top: 4px;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background: #959494;
+            border-radius: 50%;
+          }
+        }
       }
 
       &:hover {
@@ -5168,6 +5218,7 @@ button.hintBtn {
   min-height: 30px;
   // background: var(--rub-back);
   background: var(--accent);
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   z-index: 799;
 
   &:hover {
@@ -5321,7 +5372,7 @@ button.hintBtn {
     // font-size: 8px;
     background-color: rgb(37 126 144);
     color: white;
-    top: -10px;
+    // top: -10px;
     // opacity: 0.5;
     // writing-mode: vertical-lr;
     // width: 15px;
@@ -6087,6 +6138,20 @@ button.hintBtn {
 
 }
 
+.task-rewiew-wrap {
+
+
+  .task-review-block {
+    // max-height: 240px;
+    margin-bottom: 5px;
+
+    textarea.form-control {
+      max-height: 220px;
+    }
+
+  }
+}
+
 .one-resp-wrap {
   height: 50%;
   display: flex;
@@ -6125,7 +6190,7 @@ button.hintBtn {
     font-style: italic;
 
     span {
-      background-color: var(--bs-highlight-bg);
+      background-color: var(--back-mark);
       padding: 0 3px;
       cursor: pointer;
     }
@@ -6133,7 +6198,7 @@ button.hintBtn {
   }
 
   .empty-estim {
-    color: red;
+    color: coral;
   }
 
   textarea.form-control {
@@ -6836,12 +6901,12 @@ button.hintBtn {
   }
 }
 
-.fieldid-t {
-  position: absolute;
-  top: -30px;
-  left: 146px;
-  color: deeppink;
-}
+// .fieldid-t {
+//   position: absolute;
+//   top: -30px;
+//   left: 146px;
+//   color: deeppink;
+// }
 
 .relp {
   position: relative;
@@ -6898,6 +6963,7 @@ button.hintBtn {
 
   .rub-color-box {
     position: relative;
+
 
 
     &::after {
@@ -6971,13 +7037,16 @@ button.hintBtn {
   }
 
   .rubB0 {
-    background: linear-gradient(0deg, rgb(107 255 107) 0%, rgb(107 255 107) 100%);
-    background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62 141 62) 100%);
-    background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+    background: linear-gradient(0deg, #73e073 0%, #73e073 100%);
     color: black;
 
     &::placeholder {
       color: darkgreen;
+    }
+
+    &:hover {
+      background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+
     }
   }
 
@@ -6998,19 +7067,24 @@ button.hintBtn {
   }
 
   .rubB2 {
-    background: linear-gradient(0deg, red 0%, red 100%);
+    // background: linear-gradient(0deg, red 0%, red 100%);
+    background: linear-gradient(0deg, #ff7373 0%, #ff6b6b 100%);
     color: black;
+
+    &:hover {
+      background: linear-gradient(0deg, red 0%, red 100%);
+    }
   }
 
   .nojust {
 
     box-sizing: border-box;
-    outline: 3px solid orange;
+    outline: 3px solid #454647;
   }
 
   .isAc {
     text-decoration: overline;
-    outline: 5px solid #0000fe;
+    outline: 5px solid #0000ff;
   }
 }
 
@@ -7136,6 +7210,7 @@ button.hintBtn {
 .pagedimwrap {
   position: relative;
   width: unset;
+  margin-top: 10px;
 
   .justinfo {
     display: flex;
@@ -7180,6 +7255,8 @@ button.hintBtn {
     position: relative;
 
     .ico {
+      font-size: 8px;
+
       &::before {
         content: attr(dataScore);
         font-size: 8px;
@@ -7443,6 +7520,7 @@ button.hintBtn {
 
       &::placeholder {
         color: #6e6969;
+
       }
     }
 
@@ -7452,15 +7530,24 @@ button.hintBtn {
 .rubpage {
   width: 100%;
   z-index: 0;
-  max-width: 100vw;
+  max-width: 98vw;
   margin-top: 0;
+  // max-height: 95vh;
+  height: 95vh;
+  min-height: fit-content;
+  margin: auto;
+  margin-top: 10px;
 
   .rub-prompt {
     // height: 100%;
     max-height: unset;
     background: rgba(234, 234, 234, 0.6588235294);
-    height: 78vh;
-    // max-width: 90%;
+    height: 75vh;
+
+    // max-width: 90%;  
+    &::placeholder {
+      color: #818181;
+    }
   }
 
   .field-boxes {

@@ -4,7 +4,7 @@ import TemplatesBox from "../TextParts/TemplatesBox";
 import SideBtns from "../EditBtns/SideBtns";
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import { usePopup } from "../../hooks/usePopup";
-import { defaultRubJust } from "../../constants/textParts";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
 
 import EditRubHeader from "./EditRubHeader";
 import EditFieldRub from "./EditFieldRub";
@@ -179,7 +179,7 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
         onClick={clickOnPhrase}
         onTouchEnd={clickOnPhrase}
         className="editarearub">
-        <span className="fieldid-t">{fieldId}</span>
+        {/* <span className="fieldid-t">{fieldId}</span> */}
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
           <div className="editParts-wrap">
@@ -203,7 +203,7 @@ const EditAreaRub = ({ actionFn, item, setItem, action }) => {
                 // show={show} // key={i}
                 fieldName={"prompt"}
                 classN="w-100 rub-prompt"
-                placeholder={"prompt text"}
+                placeholder={"prompt text="}
                 isActive={fieldId === "prompt"}
                 fieldVal={item.prompt}
                 fieldFn={fieldFn}

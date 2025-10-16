@@ -71,7 +71,11 @@ const HistoryBtn = ({ load, type }) => {
               </div>
 
               <div className="save-cont">
-                {oneF.name && <span className="spanName">{oneF.name}</span>}
+                {oneF.name && (
+                  <span className="spanName">
+                    {oneF.id}-{oneF.name}
+                  </span>
+                )}
                 {oneF.prompt && <span>{oneF.prompt}</span>}
               </div>
             </div>

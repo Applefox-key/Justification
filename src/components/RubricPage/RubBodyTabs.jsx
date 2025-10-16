@@ -5,6 +5,7 @@ import RubricatorShort from "./RubricatorShort";
 import SummaryRubPage from "./SummaryRubPage";
 import RubJustifSBS from "./RubJustifSBS";
 import OnlyRubScores from "./OnlyRubScores";
+import ResponsesRubPage from "./ResponsesRubPage";
 
 const RubBodyTabs = ({ editParam, children }) => {
   const [activeTab, setActiveTab] = useState({ short: "Prompt" });
@@ -19,6 +20,7 @@ const RubBodyTabs = ({ editParam, children }) => {
         {children}
         <div className="d-flex">
           <OneTabBtn {...{ activeTab, setAct, titleID: "Prompt" }} />
+          <OneTabBtn {...{ activeTab, setAct, titleID: "Responses" }} />
           <OneTabBtn {...{ activeTab, setAct, titleID: "Rubricator" }} />
           <OneTabBtn {...{ activeTab, setAct, titleID: "Scores" }} />
           <OneTabBtn {...{ activeTab, setAct, titleID: "Justification SBS" }} />
@@ -34,6 +36,8 @@ const RubBodyTabs = ({ editParam, children }) => {
             ...editParam,
           }}
         />
+      ) : activeTab && activeTab.short === "Responses" ? (
+        <ResponsesRubPage editParam={editParam} />
       ) : activeTab && activeTab.short === "Rubricator" ? (
         <RubricatorShort
           editParam={{

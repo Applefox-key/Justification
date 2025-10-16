@@ -16,8 +16,7 @@ import {
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { VscClearAll } from "react-icons/vsc";
 
-import { rubExExample } from "../../constants/textParts";
-import { defaultRubrics } from "../../utils/rubricsTemplates";
+import { defaultRubrics, rubExExample } from "../../constants/rubricsTemplates";
 
 const Rubricator = ({ editParam }) => {
   const [showRubricator, setShowRubricator] = useState(false);

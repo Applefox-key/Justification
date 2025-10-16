@@ -1,3 +1,5 @@
+import { defaultDimSets, defaultDimTempl } from "../constants/dimDefault";
+import { getSet } from "./localStorage";
 import {
   composeByResp,
   composeRateByScores,
@@ -75,4 +77,27 @@ export const getActionButtons = (param) => {
         }),
     },
   ];
+};
+export const constructDefItem = (sn) => {
+  const setName = sn ? sn : "set2";
+  const defAB = defaultDimSets[setName].reduce((acc, { a, b }) => {
+    acc[a] = "";
+    acc[b] = "";
+    return acc;
+  }, {});
+  const defABE = defaultDimSets[setName].reduce((acc, { a, b }) => {
+    acc[a] = 0;
+    acc[b] = 0;
+    return acc;
+  }, {});
+
+  return { ...defaultDimTempl, ...defAB, Evals: { ...defABE }, setName: sn };
+};
+
+export const getNewOrParseDmg = (el = null, set = null) => {
+  let setN = (el ? el.setName : "") || getSet();
+  // if ((setN = "")) setN = getSet();
+
+  const defEl = constructDefItem(setN);
+  return el ? { ...defEl, ...JSON.parse(el) } : defEl;
 };

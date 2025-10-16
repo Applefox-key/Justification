@@ -8,7 +8,7 @@ import TextChecker from "../UI/TextChecker";
 import BoxSizeBtn from "../UI/BoxSizeBtn";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import ThemeBox from "../ImgBack/ThemeBox";
-import { constructDefItem, getNewOrParseDmg } from "../../constants/textParts";
+import { constructDefItem, getNewOrParseDmg } from "../../utils/dimentions";
 
 import EditAreaDmg from "./EditAreaDmg";
 import BtnFontSize from "../EditBtns/BtnFontSize";

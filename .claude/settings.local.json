@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for comp in \"TxtBtnsOverlay\" \"TemplateItem\" \"Hint\" \"ConfirmationDialog\" \"JustifBody\" \"EditField\" \"FinalRate\" \"FileChooseBtn\" \"ComposeRate\" \"EditDmgTask\")",
+      "Bash(do echo -n \"$comp: \")",
+      "Bash(done)",
+      "Bash(for comp in \"RateDimScale\" \"EditTaskAnaliticDmg\" \"BoxSizeBtn\" \"RatingOverlay\" \"EditDmgHeader\" \"EditBox\" \"EditDmgBox\" \"RubBox\" \"BtnFragm\" \"SideBtns\")",
+      "Bash(for comp in \"RateLikert\" \"EditDmgJustif\" \"RubLinks\" \"RubRespBtn\" \"InfoRubBtn\" \"VoiceDragable\" \"InFormatBtn\" \"TemplatesAddBox\" \"EditRubHeader\" \"EditRubBody\")",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

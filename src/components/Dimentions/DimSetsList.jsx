@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import { Button } from "react-bootstrap";
 import { setSet } from "../../utils/localStorage";
 

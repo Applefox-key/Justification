@@ -1,4 +1,4 @@
-import { defaultDimSets } from "../constants/textParts";
+import { defaultDimSets } from "../constants/dimDefault";
 import { applyAction } from "./utilStr";
 const minDiv = `➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖`;
 const minDivShort = `➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖`;
@@ -105,14 +105,13 @@ export const composeRateBothByDim = (param) => {
       resDim.push(
         `Both responses have issues with ${elAb.name};\n` +
           `1️⃣👎Response A: \n▪️${formatTextBullet(item[elAb.a])};\n` +
-          `2️⃣👎Response B: \n▪️${formatTextBullet(item[elAb.b])}`,
-        divider
+          `2️⃣👎Response B: \n▪️${formatTextBullet(item[elAb.b])}`
       );
     }
     resultByDim.push({ dim: elAb, just: resDim.join("\n") });
     // rateStrDim += `
     //   ${divider} ${elAb.name.toUpperCase()}🔘${divider}${resDim.join("\n")}`;
-    rateStrDim += `\n${divider}\n🔘${elAb.name.toUpperCase()}\n${divider}\n${resDim.join(
+    rateStrDim += `\n${minDivShort}\n🔘${elAb.name.toUpperCase()}\n${minDivShort}\n${resDim.join(
       "\n"
     )}`;
     if (action !== null) rateStrDim = applyAction(rateStrDim, action, true);
@@ -282,11 +281,10 @@ const composeOneDim = (param, bestResp, score) => {
   // const formatText = (txt) => (txt ? txt.replace(/\r?\n/g, "\n▪️") : "");
 
   if (bestResp === 0) {
-    let block = [
-      `🔘${dim.name.toUpperCase()}\nBoth responses have issues with ${
-        dim.name
-      }.`,
-    ];
+    let block = [`🔘${dim.name.toUpperCase()} `];
+
+    // block.push(minDivShort);
+    block.push(`Both responses have issues with ${dim.name}.`);
     block.push(`Response A:\n▪️${formatTextBullet(errA)}`);
     block.push(`Response B:\n▪️${formatTextBullet(errB)}`);
     block.push(minDivShort);
@@ -305,7 +303,9 @@ const composeOneDim = (param, bestResp, score) => {
   let block = [];
 
   const betterTxt = score < 5 ? "has fewer errors with" : "has no errors with";
+  block.push(minDivShort);
   block.push(`🔘${dim.name.toUpperCase()}`);
+  block.push(minDivShort);
   block.push(
     `${respBest.name} ${betterTxt} ${dim.name}, while ${respWorse.name} ${
       dim.worth ?? "is worse at " + dim.name
@@ -384,7 +384,7 @@ export const justificationByScores = (param) => {
   const IssueSame = [];
   const NoIssueSame = [];
   // const formatText = (txt) => (txt ? txt.replace(/\r?\n/g, "\n▪️") : "");
-  const dividerM = "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+  // const dividerM = "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
   let dimTxtA = []; // A лучше
   let dimTxtB = []; // B лучше
   let dimTxtSame = []; // одинаковые, но есть ошибки

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DimBtnsHot from "../Dimentions/DimBtnsHot";
-import { defaultDimSets } from "../../constants/textParts";
+import { defaultDimSets } from "../../constants/dimDefault";
 import DmgFieldEditPage from "./DmgFieldEditPage";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 

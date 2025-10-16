@@ -71,6 +71,7 @@ const MainPage = () => {
               setJustification={setJustification}
               compliteCrit={compliteCrit}
             />
+            <div id="main-page-portal"></div>
           </div>
 
           {currBtn !== null && (

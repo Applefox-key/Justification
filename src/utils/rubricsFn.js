@@ -1,14 +1,14 @@
-import {
-  defaultRubJust,
-  defaultRubricator,
-  rubExExample,
-} from "../constants/textParts";
+// import { defaultRubJust, defaultRubricator } from "../constants/textParts";
 import { sAlert } from "./alert";
 import { summariseRub } from "./analysis";
 import { defaultKey } from "./defaultKey";
 import { saveToHistorygeneral } from "./localStorage";
-import { defaultRubrics } from "./rubricsTemplates";
-import { applyAction, editTextAction } from "./utilStr";
+import {
+  defaultRubrics,
+  rubExExample,
+  defaultRubJust,
+  defaultRubricator,
+} from "../constants/rubricsTemplates";
 
 export const createFieldFn = (
   item,

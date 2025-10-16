@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import RespDmgFieldEdit from "./RespDmgFieldEdit";
 import DimBtnsHot from "../Dimentions/DimBtnsHot";
 import MyPortal from "../UI/MyPortal/MyPortal";
@@ -10,7 +10,8 @@ const DmgOneResponse = ({ editParam, dimArr, resp }) => {
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
   const [showRate, setShowRate] = useState(true);
   // const [lastF, setLastF] = useState({ name: "", poz: 0 });
-  const fieldRate = resp === "a" ? "RateA" : "RateB";
+  // const fieldRate = resp === "a" ? "RateA" : "RateB";
+  const fieldResp = resp === "a" ? "ResponseA" : "ResponseB";
 
   return (
     <div className="one-resp-wrap">
@@ -27,16 +28,17 @@ const DmgOneResponse = ({ editParam, dimArr, resp }) => {
       <MyPortal containerId="portal-on-tabs">
         <DimAddDetail
           id="showRfSwitch"
-          title="Show rate field"
+          title="Show Response"
           val={showRate}
           setVal={setShowRate}
+          isBtn
         />
       </MyPortal>
       {showRate && (
         <MyPortal containerId="portal-dmg-page-colon">
           <div className="additional-colon">
             <DimLastField
-              fieldRate={fieldRate}
+              fieldRate={fieldResp}
               fieldId={editParam.fieldId}
               item={editParam.item}
               fieldFn={editParam.fieldFn}

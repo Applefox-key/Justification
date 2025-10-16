@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import RespDmgFieldEdit from "./RespDmgFieldEdit";
+
 import DimBtnsHot from "../Dimentions/DimBtnsHot";
 import MyPortal from "../UI/MyPortal/MyPortal";
 import DmgShortSBS from "./DmgShortSBS";
-import EditOneDmg from "../Dimentions/EditOneDmg";
-import EditFieldDmg from "../Dimentions/EditFieldDmg";
+
 import DimAddDetail from "./DimAddDetail";
 import DimLastField from "./DimLastField";
-import { BiSolidRightArrow } from "react-icons/bi";
-import { FaMinus } from "react-icons/fa";
 
-const DmgTwoResponses = ({ editParam, dimArr }) => {
-  const { item, fieldFn, fieldId } = editParam;
+const DmgTwoResponses = ({ editParam, dimArr, hideResp }) => {
+  const { item, fieldId } = editParam;
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
   const [scoresSBS, setScoresSBS] = useState(false);
   const [showBody, setShowBody] = useState(false);
-  const [isRate, setIsRate] = useState(true);
+  const [isRate, setIsRate] = useState(false);
   useEffect(() => {
     const elem = document.getElementById("page-dim");
     if (!elem) return;
@@ -34,7 +31,7 @@ const DmgTwoResponses = ({ editParam, dimArr }) => {
         <MyPortal containerId="portal-dmg-page-row">
           <div className="two-resp-wrap-plus half-hight">
             <div className="rrr w-100">
-              {["RateA", "RateB"].map((fieldRate) => (
+              {["ResponseA", "ResponseB"].map((fieldRate) => (
                 <div className="one-resp-box">
                   <DimLastField
                     fieldRate={fieldRate}
@@ -68,13 +65,15 @@ const DmgTwoResponses = ({ editParam, dimArr }) => {
           val={scoresSBS}
           setVal={setScoresSBS}
         />
-        <DimAddDetail
-          id="showRateSwitch"
-          title="Rate view"
-          val={isRate}
-          setVal={setIsRate}
-          isBtn
-        />
+        {!hideResp && (
+          <DimAddDetail
+            id="showRateSwitch"
+            title="Show responses"
+            val={isRate}
+            setVal={setIsRate}
+            isBtn
+          />
+        )}
         <DimAddDetail
           title="Dimentions scores"
           val={showBody}

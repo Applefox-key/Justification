@@ -6,10 +6,11 @@ import { voiceToEdit } from "../../utils/utilStr";
 
 import BtnArchive from "./BtnArchive";
 import RubArchive from "../Rubrics/RubArchive";
-import { defaultRubJust } from "../../constants/textParts";
 
 import VoiceDragable from "../Voice/VoiceDragable";
 import Hint from "../Hint/Hint";
+import { defaultRubJust } from "../../constants/rubricsTemplates";
+import HistoryBtn from "../UI/HistoryBtn";
 
 const PageBtns = ({ fieldid, statesVal, onOK, clear, action = "RAB" }) => {
   const { setHandleTxt, item, setItem, type } = statesVal;
@@ -52,6 +53,12 @@ const PageBtns = ({ fieldid, statesVal, onOK, clear, action = "RAB" }) => {
         X JUSTIF
       </button>{" "}
       <button onClick={clear}>NEW</button> <Hint />
+      <HistoryBtn
+        type="DIM"
+        load={(val) => {
+          setItem({ ...defaultRubJust, ...val });
+        }}
+      />
       {onOK && (
         <Button className="btnToHis" onClick={onOK}>
           OK

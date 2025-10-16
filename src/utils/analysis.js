@@ -1,4 +1,4 @@
-import { exampleSeparators } from "./rubricsTemplates";
+import { exampleSeparators } from "../constants/rubricsTemplates";
 
 export const defaultEval = {
   score: 0,

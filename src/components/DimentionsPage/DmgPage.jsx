@@ -5,11 +5,12 @@ import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { BsCardText } from "react-icons/bs";
 import DimSetsList from "../Dimentions/DimSetsList";
 import BtnFontSize from "../EditBtns/BtnFontSize";
-import { constructDefItem, getNewOrParseDmg } from "../../constants/textParts";
+// import { constructDefItem, getNewOrParseDmg } from "../../constants/dimentions";
 import DmgPageBody from "./DmgPageBody";
 import MyPortal from "../UI/MyPortal/MyPortal";
 import { sAlert } from "../../utils/alert";
 import ResponseFormatList from "../Dimentions/ResponseFormatList";
+import { constructDefItem, getNewOrParseDmg } from "../../utils/dimentions";
 
 const DmgPage = () => {
   const [isСheckerMode, setIsCheckerMode] = useState(false);

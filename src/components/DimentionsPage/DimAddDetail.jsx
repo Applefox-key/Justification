@@ -16,7 +16,7 @@ const DimAddDetail = ({ val, setVal, title, id, isBtn }) => {
             checked={val}
             onChange={() => setVal(!val)}
           />
-          <label htmlFor="showRespSwitch">{title}</label>
+          <label htmlFor={id}>{title}</label>
         </>
       )}
     </div>
