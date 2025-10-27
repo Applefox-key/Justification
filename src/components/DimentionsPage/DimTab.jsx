@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 import { rateIcons } from "../../utils/rates";
 import { defaultDimSets } from "../../constants/dimDefault";
 
 const DimTab = ({ item, fieldFn, activeTab, setAct }) => {
+  // const [isRate, setIsRate] = useState(false);
   const isNoJisfif = (field) => {
     const val = item.Evals[field];
     const txt = item[field];

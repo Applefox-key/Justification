@@ -1,5 +1,6 @@
 import React from "react";
 import { replacementsEnding } from "../../constants/replacements";
+import { defaultKeysList } from "../../utils/defaultKey";
 
 const Hint = () => {
   return (
@@ -11,6 +12,7 @@ const Hint = () => {
             {item[1]} <span>{item[0].join("/")}</span>
           </div>
         ))}
+        {defaultKeysList}
       </div>
     </div>
   );

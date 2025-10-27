@@ -6,6 +6,8 @@ import {
   composeRateBothByDim,
   composeRateBothSimple,
   justificationByScores,
+  justificationBySentences,
+  getResumeByDimTXT,
 } from "./rates";
 
 export const getActionButtons = (param) => {
@@ -38,7 +40,16 @@ export const getActionButtons = (param) => {
           action,
         }),
     },
-
+    {
+      label: "compose by sentences",
+      onClick: () => {
+        const res = getResumeByDimTXT(item);
+        setItem({
+          ...item,
+          Justif: res,
+        });
+      },
+    },
     {
       label: "By dimentions",
 

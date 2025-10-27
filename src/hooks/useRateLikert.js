@@ -7,31 +7,16 @@ import { sAlert } from "../utils/alert";
 export const useRateLikert = (rateInput) => {
   const { action, item, setItem } = rateInput;
 
-  const rateStr = useCallback(
-    (i) => (i > -1 ? applyAction(labelsFullVerdictEdit[i], action) : ""),
-    [action]
-  );
+  const rateStr = useCallback((i) => (i > -1 ? applyAction(labelsFullVerdictEdit[i], action) : ""), [action]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const titleChoosed = useMemo(
-    () => rateStr(item.likert),
-    [item.likert, rateStr]
-  );
+  const titleChoosed = useMemo(() => rateStr(item.likert), [item.likert, rateStr]);
   const [best, setBest] = useState({
     num: item.likert,
     title: labelsFullVerdictEdit[item.likert],
     fields: [],
     rec: "",
   });
-
-  // useEffect(() => {
-  //   setBest({
-  //     num: item.likert,
-  //     title: labelsFullVerdictEdit[item.likert],
-  //     fields: [],
-  //     rec: "",
-  //   });
-  // }, [item.likert]);
 
   const bestField = useCallback((i) => {
     const result = [];
@@ -41,30 +26,21 @@ export const useRateLikert = (rateInput) => {
   }, []);
 
   const getRecomendation = (evals = null, byBtn = null) => {
-    const isEvent =
-      evals && typeof evals === "object" && "preventDefault" in evals;
+    const isEvent = evals && typeof evals === "object" && "preventDefault" in evals;
     const ev = isEvent ? item.Evals : evals || item.Evals;
-
-    const rec = recomDim(
-      ev,
-      item.setName && defaultDimSets[item.setName]
-    ).recom;
-
+    const rec = recomDim(ev, item.setName && defaultDimSets[item.setName]).recom;
     setBest({ ...best, rec });
     if (rec && byBtn)
       sAlert({
         title: "Recomendation ",
         text: rec,
       });
+    return rec;
   };
 
   const setNewRate = (e, num) => {
     let v = best.num === num ? -1 : num;
-    // const rec =
-    //   v === -1
-    //     ? recomDim(item.Evals, item.setName && defaultDimSets[item.setName])
-    //         .recom
-    //     : "";
+
     setBest(
       v === -1
         ? { num: -1, title: "", fields: [], rec: "" }

@@ -3,16 +3,8 @@ import { FaQuoteLeft, FaRegCopy } from "react-icons/fa";
 import { GoZoomIn, GoZoomOut } from "react-icons/go";
 import { copyToClipboard, editTextAction } from "../../utils/utilStr";
 import { AiOutlineClear } from "react-icons/ai";
-import { PiCopyleftDuotone } from "react-icons/pi";
 
-const TextFocusBtns = ({
-  btnSide = "right",
-  fieldName,
-  fieldVal,
-  fieldFn,
-  refBox,
-  refC,
-}) => {
+const TextFocusBtns = ({ btnSide = "right", fieldName, fieldVal, fieldFn, refBox, refC }) => {
   const changeClass = (IsToAdd = true) => {
     if (IsToAdd) {
       refBox.current.classList.add("field-box-plus");
@@ -24,13 +16,7 @@ const TextFocusBtns = ({
     }
   };
   const quotes = () => {
-    editTextAction(
-      fieldName,
-      fieldVal,
-      fieldFn.setNewVal,
-      "englBaseComm",
-      true
-    );
+    editTextAction(fieldName, fieldVal, fieldFn.setNewVal, "englBaseComm", true);
   };
   return (
     <>
@@ -38,9 +24,7 @@ const TextFocusBtns = ({
         <button className={"square-btn"} onClick={changeClass}>
           <GoZoomIn />
         </button>{" "}
-        <button
-          className={"square-btn"}
-          onClick={(e) => copyToClipboard(fieldVal)}>
+        <button className={"square-btn"} onClick={(e) => copyToClipboard(fieldVal)}>
           <FaRegCopy />
         </button>
         <button className={"square-btn"} onClick={(e) => fieldFn.setNewVal("")}>

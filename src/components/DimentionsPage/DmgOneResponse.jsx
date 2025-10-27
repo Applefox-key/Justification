@@ -4,17 +4,22 @@ import DimBtnsHot from "../Dimentions/DimBtnsHot";
 import MyPortal from "../UI/MyPortal/MyPortal";
 import DimAddDetail from "./DimAddDetail";
 import DimLastField from "./DimLastField";
+import { Form } from "react-bootstrap";
 
 const DmgOneResponse = ({ editParam, dimArr, resp }) => {
-  const { item, fieldFn, fieldId } = editParam;
+  const { item, fieldFn, fieldId, activeTab } = editParam;
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
-  const [showRate, setShowRate] = useState(true);
+  const [showRate, setShowRate] = useState("Response");
   // const [lastF, setLastF] = useState({ name: "", poz: 0 });
   // const fieldRate = resp === "a" ? "RateA" : "RateB";
-  const fieldResp = resp === "a" ? "ResponseA" : "ResponseB";
-
+  const fieldResp = showRate + resp.toUpperCase();
+  const switchShowRate = (val = "") => {
+    let nv = val === "" ? (showRate === null ? "Response" : null) : val;
+    setShowRate(nv);
+  };
   return (
     <div className="one-resp-wrap">
+      {/* <MyPortal containerId="portal-got-resp"> */}
       <MyPortal containerId="portal-got-resp">
         {!!currField && !!currField.length && (
           <DimBtnsHot
@@ -26,13 +31,21 @@ const DmgOneResponse = ({ editParam, dimArr, resp }) => {
         )}
       </MyPortal>
       <MyPortal containerId="portal-on-tabs">
-        <DimAddDetail
-          id="showRfSwitch"
-          title="Show Response"
-          val={showRate}
-          setVal={setShowRate}
-          isBtn
-        />
+        <DimAddDetail id="showRfSwitch" title="Show Response" val={showRate} setVal={() => switchShowRate()} isBtn />
+        {showRate && (
+          <div className="d-flex justify-content-between mt-2">
+            {["Response", "Rate"].map((el) => (
+              <Form.Check
+                type={"radio"}
+                label={el}
+                id={"opt-" + el}
+                name={`switchO`}
+                checked={showRate === el}
+                onChange={() => switchShowRate(el)}
+              />
+            ))}
+          </div>
+        )}
       </MyPortal>
       {showRate && (
         <MyPortal containerId="portal-dmg-page-colon">
@@ -54,7 +67,7 @@ const DmgOneResponse = ({ editParam, dimArr, resp }) => {
           show={true}
           fieldName={field[resp]}
           placeholder={field[resp]}
-          isActive={fieldId === field[resp]}
+          fieldId={fieldId}
           fieldVal={item[field[resp]]}
           estim={item.Evals[field[resp]]}
           fieldFn={fieldFn}

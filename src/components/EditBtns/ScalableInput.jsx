@@ -1,18 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaQuoteLeft, FaRegCopy } from "react-icons/fa";
 import { GoZoomIn, GoZoomOut } from "react-icons/go";
-import {
-  copyToClipboard,
-  editTextAction,
-  replaceEndings,
-} from "../../utils/utilStr";
+import { copyToClipboard, editTextAction, replaceEndings } from "../../utils/utilStr";
 import { AiOutlineClear } from "react-icons/ai";
 import { Form } from "react-bootstrap";
 import { replacementsEnding } from "../../constants/replacements";
+import HeaderInputSA from "../DimentionsPage/HeaderInputSA";
 // props:
 // fieldVal,
 //   fieldFn,
-//   isActive,
+//   fieldId,
 //   btnCount,
 //   btnSide = "right",
 //   small,
@@ -34,13 +31,17 @@ const ScalableInput = (props) => {
     fieldName,
     fieldVal,
     fieldFn,
-    isActive,
     btnCount,
     btnSide = "right",
     small,
     autoHeight,
     onChange,
+    onKeyDownPrew,
+    onFocus,
+
     className,
+    children,
+    fieldId,
     ...inputProps
   } = props;
 
@@ -49,13 +50,7 @@ const ScalableInput = (props) => {
     setLg(!lg);
   };
   const quotes = () => {
-    editTextAction(
-      fieldName,
-      fieldVal,
-      fieldFn.setNewVal,
-      "englBaseComm",
-      true
-    );
+    editTextAction(fieldName, fieldVal, fieldFn.setNewVal, "englBaseComm", true);
   };
   const ref = useRef(null);
   const cursorPos = useRef(null);
@@ -67,16 +62,21 @@ const ScalableInput = (props) => {
       el.style.height = `${el.scrollHeight}px`;
     }
   };
+  const handleOnFocus = (e) => {
+    if (onFocus) onFocus();
+    fieldFn.onFocus(ref);
+  };
   const handleChange = (e) => {
     e.stopPropagation();
-
     const { curs, val } = replaceEndings(e, replacementsEnding);
     cursorPos.current = curs;
     if (onChange) onChange(val);
-
     if (autoHeight) adjustHeight();
   };
-
+  const handleOnKeyDown = (e) => {
+    if (onKeyDownPrew) onKeyDownPrew(e);
+    fieldFn.onKeyDown(e);
+  };
   useEffect(() => {
     if (autoHeight) {
       adjustHeight();
@@ -94,17 +94,19 @@ const ScalableInput = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldVal]);
   useEffect(() => {
-    if (!isActive && lg) {
+    if (fieldId !== fieldName && lg) {
       setLg(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive]);
+  }, [fieldId, fieldName]);
   const inputRender = () => (
     <Form.Control
       ref={ref}
       as={small ? "input" : "textarea"}
-      // id={id}
+      id={fieldName}
       spellCheck
+      // onKeyDown={handleChange}
+      onKeyDown={handleOnKeyDown}
       className={className + (btnSide ? " right-pad " : "pad-text-" + btnSide)}
       onChange={handleChange}
       {...inputProps}
@@ -112,11 +114,12 @@ const ScalableInput = (props) => {
       style={{
         ...(autoHeight ? { overflow: "hidden", resize: "none" } : {}),
       }}
-      onFocus={() => fieldFn.onFocus(ref)}
+      onFocus={handleOnFocus}
     />
   );
   return (
     <>
+      {!!children && <HeaderInputSA title={fieldName} btns={children} />}
       {lg ? (
         <>
           <div className="text-plus-portal">
@@ -139,9 +142,7 @@ const ScalableInput = (props) => {
         </button>
         {!btnCount && (
           <>
-            <button
-              className={"square-btn"}
-              onClick={(e) => copyToClipboard(fieldVal)}>
+            <button className={"square-btn"} onClick={(e) => copyToClipboard(fieldVal)}>
               <FaRegCopy />
             </button>
             <button title="quotes" className={"square-btn"} onClick={quotes}>
@@ -149,7 +150,7 @@ const ScalableInput = (props) => {
             </button>
           </>
         )}
-      </div>{" "}
+      </div>
     </>
   );
 };

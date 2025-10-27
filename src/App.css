@@ -127,6 +127,16 @@ textarea.form-control::placeholder {
     flex-wrap: wrap;
   }
 }
+.nav-menu .link-act {
+  background: var(--main-color);
+  color: var(--main-back);
+  border-radius: 5px;
+}
+.nav-menu .link {
+  color: var(--main-color);
+  background: var(--main);
+  border-radius: 5px;
+}
 
 .file-choose {
   width: 75%;
@@ -163,7 +173,7 @@ textarea.form-control::placeholder {
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
-  height: 95vh;
+  height: 100vh;
 }
 
 .page-body {
@@ -541,6 +551,7 @@ textarea.form-control::placeholder {
 .txt-box .tab-dim-nav {
   width: 48px;
   bottom: 0;
+  align-items: center;
   height: -moz-fit-content;
   height: fit-content;
   display: flex;
@@ -550,16 +561,25 @@ textarea.form-control::placeholder {
 .txt-box-rub .tab-dim-nav button,
 .txt-box .wrap-dim-nav button,
 .txt-box .tab-dim-nav button {
-  width: 48px;
-  max-width: 48px;
-  min-width: 48px;
-  margin: 2px 0;
+  width: 30px;
+  max-width: 30px;
+  min-width: 30px;
+  margin: 1px 0;
+  padding: 1px;
+  max-height: 100%;
+  height: 2rem;
 }
 .txt-box-rub .wrap-dim-nav .activeTab,
 .txt-box-rub .tab-dim-nav .activeTab,
 .txt-box .wrap-dim-nav .activeTab,
 .txt-box .tab-dim-nav .activeTab {
   background: pink;
+}
+.txt-box-rub .wrap-dim-nav .h-6,
+.txt-box-rub .tab-dim-nav .h-6,
+.txt-box .wrap-dim-nav .h-6,
+.txt-box .tab-dim-nav .h-6 {
+  height: 6rem;
 }
 .txt-box-rub .tab-dim-nav,
 .txt-box .tab-dim-nav {
@@ -574,6 +594,13 @@ textarea.form-control::placeholder {
 .txt-box-rub .tab-dim-nav .activeTab,
 .txt-box .tab-dim-nav .activeTab {
   background: pink;
+}
+.txt-box-rub .tab-dim-nav .tab-dim-nav-one,
+.txt-box .tab-dim-nav .tab-dim-nav-one {
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid grey;
+  margin-bottom: 1px;
 }
 .txt-box-rub .respRub,
 .txt-box .respRub {
@@ -600,15 +627,15 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .rubh,
 .txt-box .rubh {
-  border-left-style: dotted;
   max-height: 70vh;
   max-height: 100%;
-  border-bottom: 3px dotted;
 }
 .txt-box-rub .rubh .textarea-btns-null,
-.txt-box .rubh .textarea-btns-null {
+.txt-box-rub .rubh .textarea-btns-left,
+.txt-box .rubh .textarea-btns-null,
+.txt-box .rubh .textarea-btns-left {
   position: absolute;
-  left: -13px;
+  left: 0;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -650,9 +677,39 @@ textarea.form-control::placeholder {
   background-color: var(--main-back);
   color: var(--main-color);
 }
+.txt-box-rub .wrap-rub .mav-block-one-rub,
+.txt-box .wrap-rub .mav-block-one-rub {
+  height: -webkit-fill-available;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-height: 100%;
+  overflow: hidden;
+}
+.txt-box-rub .wrap-rub .toggle-rub-open,
+.txt-box .wrap-rub .toggle-rub-open {
+  all: unset;
+  width: 80px;
+  height: 83%;
+  display: block;
+  cursor: pointer;
+  z-index: 1900;
+  position: absolute;
+}
+.txt-box-rub .wrap-rub .toggle-rub-open span,
+.txt-box .wrap-rub .toggle-rub-open span {
+  width: 100%;
+  display: flex;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
 .txt-box-rub .wrap-rub .rub-open,
 .txt-box .wrap-rub .rub-open {
   display: flex;
+  opacity: 0.7;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .txt-box-rub .wrap-rub .rub-open span,
 .txt-box .wrap-rub .rub-open span {
@@ -665,18 +722,102 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rub-open textarea {
   border-radius: 0;
   font-size: var(--vertical-font);
+  padding-left: 25px;
+  padding-right: 5px;
+  padding-top: 5px;
+  min-height: 45px;
+}
+.txt-box-rub .wrap-rub .rub-open .comment-edit,
+.txt-box .wrap-rub .rub-open .comment-edit {
+  width: 20%;
+  max-width: 20%;
+  min-width: 20%;
+  min-height: 100%;
+}
+.txt-box-rub .wrap-rub .rub-open .rubric-simple-edit,
+.txt-box .wrap-rub .rub-open .rubric-simple-edit {
+  display: flex;
+  width: 100%;
+}
+.txt-box-rub .wrap-rub .rub-open .rubric-simple-edit div,
+.txt-box .wrap-rub .rub-open .rubric-simple-edit div {
+  min-width: 50%;
+}
+.txt-box-rub .wrap-rub .rub-open .comment-rub-edit-input,
+.txt-box .wrap-rub .rub-open .comment-rub-edit-input {
+  background-color: var(--menu);
+  color: crimson;
+  text-align: end;
+  max-height: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+.txt-box-rub .wrap-rub .rub-active,
+.txt-box .wrap-rub .rub-active {
+  border: 1pх solid red;
+  opacity: 1;
+}
+.txt-box-rub .wrap-rub .rub-active span,
+.txt-box .wrap-rub .rub-active span {
+  content: "🔎";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  font-size: 20px;
+  height: 70%;
+  width: 86px;
+}
+.txt-box-rub .wrap-rub .separator-rub-btn,
+.txt-box .wrap-rub .separator-rub-btn {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  color: var(--main-color);
+  border-radius: 5px;
+  text-transform: uppercase;
+  background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+}
+.txt-box-rub .wrap-rub .separator-rub-btn mark,
+.txt-box .wrap-rub .separator-rub-btn mark {
+  color: green;
+  font-weight: 600;
+  padding: 0 5px;
+}
+.txt-box-rub .wrap-rub .separator-rub-btn span,
+.txt-box .wrap-rub .separator-rub-btn span {
+  all: unset;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 10px;
+  padding: 0 5px;
+  line-height: 1.5;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.txt-box-rub .wrap-rub .separator-rub-btn span:hover,
+.txt-box .wrap-rub .separator-rub-btn span:hover {
+  background-color: #f6eed7;
+  border: 1px solid green;
+}
+.txt-box-rub .wrap-rub .rubric-rub-edit-input,
+.txt-box .wrap-rub .rubric-rub-edit-input {
+  font-weight: 700;
 }
 .txt-box-rub .wrap-rub .textarea.form-control,
 .txt-box .wrap-rub .textarea.form-control {
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
+.txt-box-rub .wrap-rub .field-rub-plus,
+.txt-box .wrap-rub .field-rub-plus {
+  top: 180px;
+  max-height: 70%;
+}
 .txt-box-rub .wrap-rub .rub-score-box-small,
 .txt-box .wrap-rub .rub-score-box-small {
-  background: var(--menu);
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 .txt-box-rub .wrap-rub .rub-score-box-small button,
@@ -687,19 +828,16 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rub-score-box-small .hot .hot-menu {
   flex-direction: column;
   align-content: flex-end;
-  align-items: flex-end;
 }
 .txt-box-rub .wrap-rub .rub-score-box-small .rubName,
 .txt-box .wrap-rub .rub-score-box-small .rubName {
-  position: absolute;
-  left: 90px;
   font-weight: 700;
   cursor: copy;
 }
 .txt-box-rub .wrap-rub .greyTop,
 .txt-box .wrap-rub .greyTop {
   color: white;
-  background-color: rgb(37, 126, 144);
+  background-color: rgb(66, 85, 89);
 }
 .txt-box-rub .wrap-rub .greyTop button svg,
 .txt-box .wrap-rub .greyTop button svg {
@@ -709,6 +847,11 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rub-color-box {
   width: -moz-max-content;
   width: max-content;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 .txt-box-rub .wrap-rub .rub-color-box .rubBtn,
 .txt-box .wrap-rub .rub-color-box .rubBtn {
@@ -722,7 +865,7 @@ textarea.form-control::placeholder {
   opacity: 0;
   transition: opacity 0.6s ease, visibility 0s 0.6s;
   position: absolute;
-  top: -18px;
+  top: -3px;
   right: 0;
   color: #6c757d;
   z-index: 10;
@@ -749,12 +892,13 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .wrap-rub .rubBtn:hover,
 .txt-box .wrap-rub .rubBtn:hover {
-  border: 2px solid;
+  background: pink;
+  color: black;
 }
 .txt-box-rub .wrap-rub .rubBtn span,
 .txt-box .wrap-rub .rubBtn span {
   position: absolute;
-  left: 0;
+  left: -4px;
 }
 .txt-box-rub .wrap-rub .rubBtn svg,
 .txt-box .wrap-rub .rubBtn svg {
@@ -763,6 +907,7 @@ textarea.form-control::placeholder {
 .txt-box-rub .wrap-rub .rub-resp-box,
 .txt-box .wrap-rub .rub-resp-box {
   display: flex;
+  border: 1px solid pink;
 }
 .txt-box-rub .wrap-rub .rub-resp-box button,
 .txt-box .wrap-rub .rub-resp-box button {
@@ -772,6 +917,12 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rub-resp-box .rub-score-box {
   position: relative;
   width: 25%;
+  min-height: 1rem;
+  margin-left: 2px;
+}
+.txt-box-rub .wrap-rub .rub-resp-box .rub-score-box .textarea-btns-null,
+.txt-box .wrap-rub .rub-resp-box .rub-score-box .textarea-btns-null {
+  top: 20px;
 }
 .txt-box-rub .wrap-rub .rub-resp-box .rub2,
 .txt-box .wrap-rub .rub-resp-box .rub2 {
@@ -793,7 +944,11 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .wrap-rub .rub-resp-box .hideBtn,
 .txt-box .wrap-rub .rub-resp-box .hideBtn {
-  opacity: 0;
+  opacity: 0.25;
+  width: 100%;
+  height: 100%;
+  min-height: 1rem;
+  top: -5px;
 }
 .txt-box-rub .wrap-rub .rub-resp-box .field-box,
 .txt-box .wrap-rub .rub-resp-box .field-box {
@@ -809,6 +964,9 @@ textarea.form-control::placeholder {
   flex: 1;
   resize: none;
   overflow: auto;
+  padding-left: 25px;
+  padding-right: 5px;
+  padding-top: 5px;
 }
 .txt-box-rub .wrap-rub .rub-resp-box .field-box textarea.form-control:focus,
 .txt-box .wrap-rub .rub-resp-box .field-box textarea.form-control:focus {
@@ -829,11 +987,14 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rubB-1::placeholder {
   color: darkgreen;
 }
+.txt-box-rub .wrap-rub .rubB-1:hover,
+.txt-box .wrap-rub .rubB-1:hover {
+  background: linear-gradient(0deg, var(--line2) 0%, var(--line2) 100%);
+}
 .txt-box-rub .wrap-rub .rubB0,
 .txt-box .wrap-rub .rubB0 {
-  background: linear-gradient(0deg, rgb(107, 255, 107) 0%, rgb(107, 255, 107) 100%);
-  background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62, 141, 62) 100%);
   background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+  background: linear-gradient(0deg, #73e073 0%, #73e073 100%);
   color: black;
 }
 .txt-box-rub .wrap-rub .rubB0::-moz-placeholder, .txt-box .wrap-rub .rubB0::-moz-placeholder {
@@ -843,10 +1004,18 @@ textarea.form-control::placeholder {
 .txt-box .wrap-rub .rubB0::placeholder {
   color: darkgreen;
 }
+.txt-box-rub .wrap-rub .rubB0:hover,
+.txt-box .wrap-rub .rubB0:hover {
+  background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+}
 .txt-box-rub .wrap-rub .rubB1,
 .txt-box .wrap-rub .rubB1 {
   background: linear-gradient(0deg, yellow 0%, yellow 100%);
   color: black;
+}
+.txt-box-rub .wrap-rub .rubB1:hover,
+.txt-box .wrap-rub .rubB1:hover {
+  background: linear-gradient(0deg, yellow 0%, yellow 100%);
 }
 .txt-box-rub .wrap-rub .rubBtxt1,
 .txt-box .wrap-rub .rubBtxt1 {
@@ -858,8 +1027,22 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .wrap-rub .rubB2,
 .txt-box .wrap-rub .rubB2 {
-  background: linear-gradient(0deg, red 0%, red 100%);
+  background: linear-gradient(0deg, #ff7373 0%, #ff6b6b 100%);
   color: black;
+}
+.txt-box-rub .wrap-rub .rubB2:hover,
+.txt-box .wrap-rub .rubB2:hover {
+  background: linear-gradient(0deg, red 0%, red 100%);
+}
+.txt-box-rub .wrap-rub .rubB0,
+.txt-box-rub .wrap-rub .rubB1,
+.txt-box-rub .wrap-rub .rubB2,
+.txt-box-rub .wrap-rub .rubB-1,
+.txt-box .wrap-rub .rubB0,
+.txt-box .wrap-rub .rubB1,
+.txt-box .wrap-rub .rubB2,
+.txt-box .wrap-rub .rubB-1 {
+  min-height: 23px;
 }
 .txt-box-rub .wrap-rub .nojust,
 .txt-box .wrap-rub .nojust {
@@ -916,7 +1099,9 @@ textarea.form-control::placeholder {
   padding: 0;
 }
 .txt-box-rub .rub-sum-box .textarea-btns-null,
-.txt-box .rub-sum-box .textarea-btns-null {
+.txt-box-rub .rub-sum-box .textarea-btns-right,
+.txt-box .rub-sum-box .textarea-btns-null,
+.txt-box .rub-sum-box .textarea-btns-right {
   position: absolute;
   right: 10px;
   opacity: 0.4;
@@ -988,6 +1173,8 @@ textarea.form-control::placeholder {
   background-color: var(--input-back);
   color: var(--input-color);
   font-size: var(--vertical-font);
+  background-color: var(--main-back);
+  color: var(--main-color);
 }
 .txt-box-rub .rub-sum-box .rublink.form-control,
 .txt-box .rub-sum-box .rublink.form-control {
@@ -1017,7 +1204,7 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .backBl,
 .txt-box .backBl {
-  background: #257e90;
+  background: var(--back-serv);
   color: white;
 }
 .txt-box-rub .one-dim,
@@ -1036,13 +1223,15 @@ textarea.form-control::placeholder {
   padding-bottom: 3px;
   border: 5px solid transparent;
   padding-bottom: 3px;
-  border-bottom: 2px dotted;
+  border-bottom: 2px solid grey;
   margin-bottom: 5px;
   background: var(--menu);
 }
 .txt-box-rub .one-rub:hover,
 .txt-box .one-rub:hover {
-  border: 5px solid #257e90;
+  border: 3px solid #7dda7d;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
 .txt-box-rub .field-rub-close,
 .txt-box .field-rub-close {
@@ -1052,6 +1241,7 @@ textarea.form-control::placeholder {
   font-size: 12px;
   flex-direction: row-reverse;
   justify-content: space-between;
+  min-height: 40px;
 }
 .txt-box-rub .field-rub-open,
 .txt-box .field-rub-open {
@@ -1061,17 +1251,16 @@ textarea.form-control::placeholder {
 }
 .txt-box-rub .active-rub-edit,
 .txt-box .active-rub-edit {
-  border: 15px solid #257e90;
+  border: 1px solid var(--back-serv);
   border-top: 5px;
   position: fixed;
   top: 136px;
-  width: 95%;
+  width: 99%;
   left: 6px;
-  background: #257e90;
   background: var(--menu);
   height: -webkit-fill-available;
   max-height: 70%;
-  z-index: 10;
+  z-index: 800;
   border-radius: 15px;
 }
 .txt-box-rub .active-rub-edit .rub-resp-box,
@@ -1100,38 +1289,50 @@ textarea.form-control::placeholder {
 .txt-box .one-rub-close {
   display: flex;
   font-size: 12px;
+  align-items: flex-start;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  border: 1px solid transparent;
+  padding-top: 4px;
+}
+.txt-box-rub .one-rub-close:nth-child(odd),
+.txt-box .one-rub-close:nth-child(odd) {
+  cursor: pointer;
 }
 .txt-box-rub .one-rub-close:nth-child(even),
 .txt-box .one-rub-close:nth-child(even) {
   background: rgba(234, 234, 234, 0.6588235294);
+  background: var(--even-row);
 }
 .txt-box-rub .one-rub-close:hover,
 .txt-box .one-rub-close:hover {
-  background: var(--menu);
-  color: var(--main-color);
-  color: #257e90;
+  border: 1px solid #7dda7d;
   z-index: 5;
 }
 .txt-box-rub .rub-text-closed,
 .txt-box .rub-text-closed {
-  width: 80%;
+  width: 90%;
   font-size: var(--vertical-font);
+  padding-bottom: 10px;
+  display: flex;
 }
 .txt-box-rub .rub-text-closed span,
 .txt-box .rub-text-closed span {
   width: 20px;
+  min-width: 20px;
   display: inline-block;
   margin-right: 7px;
-  font-size: 12px;
+  font-size: 10px;
+  bottom: 0;
+  top: unset;
 }
 .txt-box-rub .one-dim-close,
 .txt-box .one-dim-close {
   display: flex;
   min-height: 2rem;
-  width: 100;
+  width: 100%;
   justify-content: center;
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  align-items: center;
 }
 .txt-box-rub .one-dim-close .dim-cp,
 .txt-box .one-dim-close .dim-cp {
@@ -1411,9 +1612,25 @@ textarea.form-control::placeholder {
 .variants-body .variants-item {
   padding-top: 15px;
   font-size: 10px;
+  transition-delay: 0.3s;
+}
+.variants-body .variants-item .history-txt {
+  all: unset;
+  display: none;
+  background: var(--accent);
+  position: absolute;
+  width: 40vw;
+  background: beige;
+  top: 100%;
+  max-height: 250px;
+  overflow-y: auto;
 }
 .variants-body .variants-item:hover {
   transform: scale(1) translateX(5px);
+  z-index: 500;
+}
+.variants-body .variants-item:hover .history-txt {
+  display: block;
 }
 
 .parts-btn {
@@ -1847,7 +2064,7 @@ textarea.form-control::placeholder {
 }
 .editbox-wrap-dim .evals-dim .evals-span-b,
 .pagedimwrap .evals-dim .evals-span-b {
-  background-color: #257e90;
+  background-color: var(--back-serv);
   color: white;
 }
 .editbox-wrap-dim .evals-dim .notfiveB,
@@ -1866,7 +2083,7 @@ textarea.form-control::placeholder {
   position: absolute;
   top: 0px;
   right: -11px;
-  color: #257e90;
+  color: var(--back-serv);
   font-weight: 700;
 }
 .editbox-wrap-dim .evals-dim .notfiveA::before,
@@ -1899,6 +2116,7 @@ textarea.form-control::placeholder {
   padding-top: 20px;
   color: #747474;
   box-shadow: none;
+  background-color: var(--main-back);
 }
 .editbox-wrap-dim textarea.form-control,
 .pagedimwrap textarea.form-control {
@@ -1996,11 +2214,6 @@ textarea.form-control::placeholder {
   max-height: var(--edit-max-height);
   height: -moz-fit-content;
   height: fit-content;
-  position: absolute;
-  top: var(--box-position-points);
-  left: var(--box-position-points);
-  right: var(--box-position-points);
-  bottom: var(--box-position-points);
   max-width: 97vw;
   border: 1px solid var(--line2);
   max-height: -moz-fit-content;
@@ -2011,14 +2224,45 @@ textarea.form-control::placeholder {
   height: 90vh;
   position: relative;
   max-width: 99vw;
-  border-radius: 0;
+  border-radius: 5px;
   width: 100vw;
+  max-height: none;
+  margin: auto;
+  background: transparent;
+  border: none;
 }
 .editWin .field-boxes span {
   position: absolute;
   top: 6px;
   left: 6px;
   color: #4b92a0;
+}
+.editWin #text-plus-portal,
+.editWin .text-plus-portal {
+  position: fixed;
+  background: #c3b7b7;
+  z-index: 2000;
+  max-height: 100%;
+  left: 0rem;
+  width: 100vw;
+  height: 80vh;
+  top: 130px;
+}
+.editWin #text-plus-portal textarea.form-control,
+.editWin .text-plus-portal textarea.form-control {
+  width: 100vw !important;
+  height: 90vh !important;
+  max-width: 100vw !important;
+  max-height: 90vh !important;
+  font-size: var(--vertical-font);
+}
+.editWin .btnMinP {
+  top: 2px;
+  right: 13px;
+  opacity: 0.8;
+  z-index: 20000;
+  background: #ffc0cb;
+  width: 100%;
 }
 
 .editbox {
@@ -2049,6 +2293,9 @@ textarea.form-control::placeholder {
   opacity: 0.7;
   text-shadow: 0px 0px 2px rgb(66, 68, 90);
 }
+.small-menu-nav div {
+  margin-left: 5px;
+}
 
 .dmg-page-menu {
   display: flex;
@@ -2058,7 +2305,11 @@ textarea.form-control::placeholder {
   width: 100%;
   align-items: center;
   background: var(--menu);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.dmg-page-menu button {
+  text-transform: uppercase;
+  font-size: 10px;
 }
 
 .rubbox {
@@ -2104,7 +2355,7 @@ textarea.form-control::placeholder {
   width: 90%;
   border-radius: 15px 15px 0 0;
   font-size: 12px;
-  background-color: #257e90;
+  background-color: var(--back-serv);
   position: relative;
   height: 1.5rem;
 }
@@ -2112,7 +2363,6 @@ textarea.form-control::placeholder {
   position: absolute;
   right: 10px;
   font-weight: 900;
-  color: white;
   width: 1rem;
   min-width: 2rem !important;
   border-radius: 50%;
@@ -2122,7 +2372,7 @@ textarea.form-control::placeholder {
   width: 90%;
   border-radius: 15px 15px 0 0;
   font-size: 12px;
-  background-color: #257e90;
+  background-color: var(--back-serv);
   position: relative;
   height: 1.5rem;
   width: 100%;
@@ -2766,8 +3016,8 @@ textarea.form-control::placeholder {
 }
 
 .ordinary {
-  background-color: #257e90;
-  background: linear-gradient(0deg, #257e90 0%, #257e90 100%);
+  background-color: var(--back-serv);
+  background: linear-gradient(0deg, var(--back-serv) 0%, var(--back-serv) 100%);
   color: white;
 }
 
@@ -2834,13 +3084,13 @@ textarea.form-control::placeholder {
   background: var(--main-back);
   padding: 10px;
   border-radius: 5px;
-  border: 5px solid #239aff;
+  border: 5px solid #b4ccbc;
   font-size: 9px;
   color: #239aff;
   z-index: 3000;
 }
 .hintBtn .hint div {
-  border: 1px solid var(--main-color);
+  border-bottom: 0.5px solid #b4ccbc;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2906,7 +3156,6 @@ button.hintBtn svg {
   flex-wrap: wrap;
   top: -1px;
   left: 27px;
-  z-index: 3;
 }
 .hot .hot-sum .hot-one {
   display: flex;
@@ -2923,6 +3172,14 @@ button.hintBtn svg {
   z-index: 300;
   background: #bcc5e8;
   border: 1px solid #6e6969;
+  text-align: start;
+  padding: 10px;
+  top: 20px;
+  left: -40px;
+  border-radius: 5px;
+}
+.hot .colorBtn {
+  border: 2px solid pink;
 }
 .hot .hot-sub-btn {
   min-width: 2rem;
@@ -2941,6 +3198,24 @@ button.hintBtn svg {
   margin: 2px;
   padding: 3px;
   text-transform: uppercase;
+  font-size: 14px;
+}
+
+.div-placeholder {
+  height: 28px;
+  background: var(--accent);
+}
+.div-placeholder button {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 1px;
+  margin-bottom: 3px;
+  padding: 0;
+  min-width: unset;
+  height: 1.5rem;
+  text-transform: none;
+  font-size: 17px;
+  padding: 0 5px;
 }
 
 .toTempBtn {
@@ -2952,8 +3227,8 @@ button.hintBtn svg {
 
 .message {
   position: absolute;
-  top: 30px;
-  right: 60px;
+  top: 60px;
+  right: 0px;
   transform: translate(-50%, -50%);
   padding: 10px;
   background-color: black;
@@ -3112,7 +3387,7 @@ button.hintBtn svg {
   max-width: 95vw;
   width: 100%;
   padding: 5px;
-  border: 4px solid #257e90;
+  border: 4px solid var(--back-serv);
   border-radius: 15px;
   background-color: var(--main-back);
   margin: 0;
@@ -3172,6 +3447,7 @@ button.hintBtn svg {
   height: 30px;
   width: 4px;
   min-width: 30px;
+  margin: 2px;
 }
 .voiceOver .delbtn {
   padding-bottom: 5px;
@@ -3200,7 +3476,7 @@ button.hintBtn svg {
   width: 100%;
   height: 2rem;
   font-size: 22px;
-  color: white;
+  color: black;
   cursor: move;
 }
 .voice-repl-box .handle1 .round-btn,
@@ -3266,7 +3542,7 @@ button.hintBtn svg {
 .voice-drag-box .handleBottom,
 .rub-drag-box .handleBottom {
   position: relative;
-  background-color: #257e90;
+  background-color: var(--back-serv);
   border-radius: 0 0 15px 15px;
   height: -moz-fit-content;
   height: fit-content;
@@ -3284,27 +3560,28 @@ button.hintBtn svg {
 .voice-repl-box .hbottom1,
 .voice-drag-box .hbottom1,
 .rub-drag-box .hbottom1 {
-  background-color: #257e90;
+  background-color: var(--back-serv);
   position: absolute;
   width: 26px;
   border-radius: 5px;
   margin-left: 10px;
   top: 34px;
   height: 157px;
-  height: 147px;
+  height: 180px;
   right: 0;
   border-radius: 0 0 15px 0;
   display: flex;
   align-items: flex-end;
   padding-bottom: 5px;
   padding-left: 2px;
+  background-color: #d9dbdb;
 }
 .voice-repl-box .voiceOver,
 .voice-drag-box .voiceOver,
 .rub-drag-box .voiceOver {
   width: 100%;
-  border: 5px solid #257e90;
-  background-color: #257e90;
+  border: 5px solid var(--back-serv);
+  background-color: var(--back-serv);
   z-index: 1900;
   width: 100%;
   margin-top: -1px;
@@ -3313,7 +3590,7 @@ button.hintBtn svg {
 .voice-repl-box .voiceOver .textarea-box,
 .voice-drag-box .voiceOver .textarea-box,
 .rub-drag-box .voiceOver .textarea-box {
-  background-color: #2a7b8c;
+  background-color: var(--back-serv);
 }
 .voice-repl-box .voiceOver .textarea-box .voice-btns-all,
 .voice-drag-box .voiceOver .textarea-box .voice-btns-all,
@@ -3325,7 +3602,7 @@ button.hintBtn svg {
 .rub-drag-box .voiceOver .textarea-box textarea {
   font-size: 16px;
   z-index: 1900;
-  height: 120px;
+  height: 150px;
   max-height: 150px;
   width: 95%;
   background: #3f3e3f;
@@ -3343,7 +3620,7 @@ button.hintBtn svg {
   height: -moz-fit-content;
   height: fit-content;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
 }
 .rub-drag-box .form-btn button {
@@ -3353,19 +3630,24 @@ button.hintBtn svg {
   min-width: 2rem;
   width: 2rem;
   height: 2rem;
-  margin: 3px 0;
+  margin: 3px;
 }
 .rub-drag-box .hbottom1 {
-  height: 374px;
   height: 91%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column;
+  justify-content: space-between;
+  flex-direction: row;
   width: 2.6rem;
   padding: 0;
   top: unset;
-  bottom: 0;
+  bottom: unset;
+  position: relative;
+  width: 100%;
+  left: 0;
+  right: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
 }
 .rub-drag-box .handle1After::after {
   content: "";
@@ -3564,6 +3846,12 @@ button.hintBtn svg {
   rotate: 90deg;
 }
 
+.btn-on {
+  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  background: linear-gradient(0deg, #ffc0cb 0%, var(--line2) 100%) !important;
+  background: linear-gradient(0deg, #a7c8f2 0%, var(--line2) 100%) !important;
+}
+
 .arr-up {
   rotate: -90deg;
 }
@@ -3582,6 +3870,26 @@ button.hintBtn svg {
   flex-wrap: nowrap;
 }
 
+.sidebtns-box-tmp {
+  display: flex;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-width: 280px;
+  flex-wrap: wrap;
+}
+.sidebtns-box-tmp button {
+  font-size: 11px;
+  padding: 5px 2px;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  margin: 1px;
+  text-transform: none;
+}
+.sidebtns-box-tmp .colorBtn {
+  border: 2px solid pink;
+}
+
 .topsmallbtns-box {
   display: flex;
   align-items: center;
@@ -3592,6 +3900,7 @@ button.hintBtn svg {
   height: 100%;
   width: 100%;
   position: relative;
+  background: var(--main-back);
 }
 .editParts-wrap .setIsTxt {
   max-height: 180px;
@@ -3623,7 +3932,7 @@ button.hintBtn svg {
   opacity: 0.7;
   width: 100%;
   text-align: start;
-  color: #257e90;
+  color: var(--back-serv);
   color: grey;
   font-style: italic;
 }
@@ -3812,8 +4121,8 @@ button.hintBtn svg {
   position: absolute;
   right: 235px;
   z-index: 15;
-  background: #239aff;
-  color: white;
+  background: #e4e5f5;
+  color: black;
   border: 3px solid #a7cbd3;
   border: 3px solid var(--rub-back);
   border-radius: 15px;
@@ -3850,12 +4159,16 @@ button.hintBtn svg {
   height: 85vh;
 }
 .rubBoxPage .tabs > .oneTab {
-  width: 15%;
-  min-width: 15%;
+  width: 10%;
+  min-width: 10%;
 }
 .rubBoxPage .tabs > .oneTab span {
   width: 100%;
   min-width: 100%;
+}
+.rubBoxPage .field-box85 .field-box {
+  max-height: 85%;
+  height: 85%;
 }
 
 .dimBoxPage,
@@ -3875,6 +4188,22 @@ button.hintBtn svg {
   padding: 5px;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   flex-wrap: wrap;
+  align-items: center;
+}
+.dimBoxPage .tabs .button-count,
+.rubBoxPage .tabs .button-count {
+  max-height: 28px;
+  margin: 0px;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: 2px solid pink;
+}
+.dimBoxPage .tabs .button-count span.pinkB,
+.rubBoxPage .tabs .button-count span.pinkB {
+  background-color: pink;
+  padding: 0 5px;
 }
 .dimBoxPage .oneTab,
 .rubBoxPage .oneTab {
@@ -3882,12 +4211,12 @@ button.hintBtn svg {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  min-width: 140px;
-  width: 140px;
-  font-size: 12px;
+  min-width: 125px;
+  width: 125px;
+  font-size: 10px;
   font-weight: 700;
   justify-content: flex-end;
-  margin: 0 10px;
+  margin: 0 2px;
 }
 .dimBoxPage .oneTab:hover,
 .rubBoxPage .oneTab:hover {
@@ -3896,11 +4225,10 @@ button.hintBtn svg {
 }
 .dimBoxPage .oneTab span,
 .rubBoxPage .oneTab span {
-  opacity: 0.7;
   background-color: var(--line2);
   height: 1.5rem;
-  width: 140px;
-  min-width: 140px;
+  width: 100%;
+  min-width: 100%;
   text-wrap: nowrap;
   border-radius: 0 5px 5px 0;
   text-align: center;
@@ -3917,6 +4245,7 @@ button.hintBtn svg {
 .rubBoxPage .activeTab span {
   opacity: 1;
   background-color: pink;
+  color: black;
 }
 
 .dimBoxPage {
@@ -3926,12 +4255,123 @@ button.hintBtn svg {
   justify-content: space-between;
   padding: 0 5px;
 }
-.dimBoxPage .page-work {
-  width: 87%;
+.dimBoxPage .two-sides-wrap {
+  display: flex;
+}
+.dimBoxPage .two-sides-wrap .one-side {
   height: 100%;
-  max-height: 70vh;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel {
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel button {
+  width: 25%;
+  border-radius: 4px 22px 0 0;
+  margin: 0;
+  font-size: 13px;
+  padding: 0px 5px;
+  margin-top: 5px;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel button:hover {
+  background-color: #cbdef5;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel div {
+  border: 1px solid;
+  width: 25%;
+  border-radius: 4px 22px 0 0;
+  transition: all 0.2s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  background-color: var(--menu);
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel div:hover {
+  background-color: #cbdef5;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel .active-pan {
+  background-color: pink;
+  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  background: linear-gradient(0deg, #dce9fa 0%, #b5cdec 100%) !important;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-panel .block-pan {
+  background-color: #d6d6d6;
+  opacity: 0.4;
+}
+.dimBoxPage .two-sides-wrap .one-side .short-prompt {
+  max-height: calc(100% - 360px);
+}
+.dimBoxPage .two-sides-wrap .one-side .short-rate {
+  max-height: 350px;
+}
+.dimBoxPage .two-sides-wrap .one-side .one-side-content {
+  overflow-y: auto;
+  height: 100%;
+  max-height: 75vh;
+}
+.dimBoxPage .two-sides-wrap .one-side .only-one-field {
+  height: 75vh;
+  max-height: 75vh;
+  display: block;
+}
+.dimBoxPage .two-sides-wrap .one-side .only-one-field .field-box {
+  display: inline;
+}
+.dimBoxPage .two-sides-wrap .one-side .only-one-field .textarea.form-control {
+  height: 75vh;
+  max-height: 75vh;
+}
+.dimBoxPage .two-sides-wrap .w-lx {
+  min-width: 50vw;
+  max-width: 50vw;
+}
+.dimBoxPage .two-sides-wrap .w-sx {
+  width: -webkit-fill-available;
+}
+.dimBoxPage .two-sides-wrap .w-sx .one-resp-box {
+  width: 100%;
+}
+.dimBoxPage .short-rate {
+  max-height: 400px;
+}
+.dimBoxPage #portal-dmg-prompt,
+.dimBoxPage #portal-dmg-arrow {
+  all: unset;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+.dimBoxPage .block-left {
+  display: flex;
+  max-width: calc(100% - 225px);
+  width: calc(100% - 225px);
+  height: 100%;
+  max-height: 80vh;
+  overflow: scroll;
+}
+.dimBoxPage .page-work-wrap {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh;
+}
+.dimBoxPage .page-work {
+  width: 100%;
+  height: 100%;
+  max-height: 78vh;
   overflow-y: scroll;
-  font-family: "Delius", cursive;
+  font-family: "Roboto", sans-serif;
+}
+.dimBoxPage .mh-50 {
+  max-height: 50vh;
+}
+.dimBoxPage .addColoneResp {
+  max-width: 430px;
+  border: 1px solid;
+}
+.dimBoxPage .addColoneRate {
+  max-width: 400px;
+  border: 1px solid;
 }
 .dimBoxPage .noScroll {
   overflow: hidden;
@@ -3943,31 +4383,96 @@ button.hintBtn svg {
   width: 225px;
   padding: 0;
   flex-wrap: nowrap;
-  max-height: 100%;
   min-width: 200px;
-  max-height: 70vh;
+  max-height: 80vh;
   overflow-y: scroll;
+  align-items: flex-start;
+  overflow-x: hidden;
 }
 .dimBoxPage .tabs .oneTab {
-  margin: 5px 0;
+  margin: 2px 0;
   padding: 0;
   width: 180px;
-  opacity: 0.6;
+  opacity: 0.8;
+  border: 1px solid #c8c5c5;
+  background-color: var(--line2);
 }
 .dimBoxPage .tabs .oneTab span {
   width: 180px;
   min-width: 180px;
+  text-align: left;
+}
+.dimBoxPage .tabs .oneTab span svg {
+  position: absolute;
+  right: 0;
+  font-size: 19px;
+  top: 4px;
+  transition: all 0.2s ease-in-out;
+}
+.dimBoxPage .tabs .oneTab span svg:hover {
+  background: #959494;
+  border-radius: 50%;
+}
+.dimBoxPage .tabs .oneTab:hover {
+  opacity: 1;
 }
 .dimBoxPage .tabs .activeTab {
   border: 1px solid pink;
   opacity: 1;
 }
+.dimBoxPage .half-hight {
+  max-height: 40vh;
+}
 
+.one-dim-resume {
+  height: 235px;
+  max-height: 30vh;
+  width: 50%;
+  margin: 10px;
+  border: 1px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+}
+.one-dim-resume .header-one-dim {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  color: #747474;
+  font-style: italic;
+  background: var(--accent);
+}
+.one-dim-resume .one-resp-resume {
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--accent);
+  height: 30vh;
+  max-height: 30vh;
+  padding: 15px;
+  color: #747474;
+  box-shadow: none;
+  background-color: var(--main-back);
+  min-height: calc(1.5em + 0.75rem + var(--bs-border-width) * 2);
+  min-height: calc(1.5em + 0.75rem + var(--bs-border-width) * 2);
+  font-size: 13px;
+  white-space: break-spaces;
+  text-align: left;
+  overflow-y: auto;
+}
+
+.rate-inform-dmg {
+  position: absolute;
+  display: flex;
+  right: -5px;
+  top: 1px;
+  scale: 0.9;
+}
+
+.rubBoxPage .tab {
+  justify-content: space-between;
+}
 .rubBoxPage .activeTab > span {
   opacity: 1;
   background-color: #ffc0cb;
-  line-height: 2;
-  padding: 0;
   color: #454545;
 }
 
@@ -4041,7 +4546,7 @@ button.hintBtn svg {
   background-color: #4bff79;
 }
 
-#show-body-dim,
+.show-body-dim,
 #show-body-dim-task {
   max-width: 90px;
   min-width: unset;
@@ -4057,9 +4562,13 @@ button.hintBtn svg {
   min-height: 25px;
   max-height: 25px;
 }
-#show-body-dim svg,
+.show-body-dim svg,
 #show-body-dim-task svg {
   transition: all 0.3s ease-in-out;
+}
+
+.show-body-dim {
+  width: 100%;
 }
 
 #show-body-dim-task {
@@ -4098,23 +4607,50 @@ button.hintBtn svg {
   justify-content: space-between;
   min-height: 30px;
   background: var(--accent);
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  z-index: 799;
 }
 .rub-title:hover {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   transform: translateY(-1px);
+}
+.rub-title .add-details {
+  width: 140px;
+  margin: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  flex-wrap: nowrap;
 }
 
 .rub-bode-menu {
   display: flex;
   align-content: center;
   align-items: center;
+  width: 90%;
+  justify-content: space-between;
 }
 .rub-bode-menu .rubBtn {
-  height: 22px;
-  line-height: 1;
-  width: 2rem;
+  height: 24px;
+  line-height: 0;
+  width: 3rem;
   min-width: 2rem;
   margin: 0 5px;
+  font-size: 16px;
+}
+.rub-bode-menu .btn-rub-add {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.rub-bode-menu .btn-rub-add::before {
+  content: "+";
+  width: -moz-fit-content;
+  width: fit-content;
+  position: absolute;
+  left: 3px;
+  top: 4px;
 }
 
 #show-body-dim {
@@ -4181,7 +4717,7 @@ button.hintBtn svg {
 .respDim span.evals-span-inline-true,
 .respDim-footer span.evals-span-inline-true,
 .respDim-task span.evals-span-inline-true {
-  background-color: #257e90;
+  background-color: var(--back-serv);
   color: #e9e8e4;
 }
 .respDim .field-left,
@@ -4201,7 +4737,6 @@ button.hintBtn svg {
 .respDim-task .active-span {
   background-color: rgb(37, 126, 144);
   color: white;
-  top: -10px;
 }
 
 .respDimEv {
@@ -4253,12 +4788,73 @@ button.hintBtn svg {
   position: relative;
 }
 
+.hiden-wrap {
+  width: 100%;
+  opacity: 1;
+}
+.hiden-wrap .hiden-text {
+  position: fixed;
+  top: 9rem;
+  display: none;
+  transition: all 0.2s ease-in;
+  transition-delay: 0.5s;
+  right: 4rem;
+  background-color: var(--rub-back);
+  color: var(--main-color);
+  border: 3px solid pink;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 15px;
+  align-items: flex-start;
+  justify-content: center;
+  align-content: flex-start;
+  white-space: pre-line;
+  max-height: 70vh;
+  overflow-y: scroll;
+  max-width: 70vw;
+  z-index: 1900;
+  z-index: 1900;
+  font-weight: 200;
+  text-transform: none;
+  text-align: left;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  transition: all 0.2s ease-in-out;
+  transition-delay: 0.5s;
+  display: flex;
+  opacity: 0;
+}
+.hiden-wrap:hover .hiden-text {
+  visibility: visible;
+  width: auto;
+  height: auto;
+  opacity: 1;
+}
+
+.half-p {
+  max-height: 35vh;
+  overflow: auto;
+  background-color: #dfdfdf;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-content: flex-start;
+  white-space: pre-line;
+  background-color: var(--rub-back);
+  color: var(--main-color);
+  font-size: var(--vertical-font);
+  display: flex;
+  justify-content: flex-end;
+  text-align: left;
+  border: 2px solid blue;
+}
+
 .closeBar,
 .closeBarTask {
   background-color: var(--menu);
   display: flex;
   justify-content: space-between;
-  background-color: #257e90;
+  background-color: var(--back-serv);
   padding: 0 5px;
 }
 
@@ -4347,6 +4943,7 @@ button.hintBtn svg {
 .fragmBtn:hover .fragments-box,
 .fragmBtn:hover .archive-box {
   display: flex;
+  padding-top: 2rem;
   height: -moz-fit-content;
   height: fit-content;
   visibility: visible;
@@ -4386,6 +4983,7 @@ button.hintBtn svg {
   display: flex;
   justify-content: space-between;
   text-overflow: ellipsis;
+  position: relative;
 }
 .fragmBtn .archive-box .one-item .title {
   flex-wrap: wrap;
@@ -4393,11 +4991,12 @@ button.hintBtn svg {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.fragmBtn .archive-box .one-item .loadbtn,
-.fragmBtn .archive-box .one-item .delbtn {
-  display: none;
-  height: 25px;
-  width: 30px;
+.fragmBtn .archive-box .one-item .title .spanid {
+  position: absolute;
+  font-size: 8px;
+  color: crimson;
+  right: 0px;
+  top: 19px;
 }
 .fragmBtn .archive-box .one-item .save-cont {
   display: none;
@@ -4422,11 +5021,19 @@ button.hintBtn svg {
   font-size: 10px;
   min-height: 9px;
   font-style: italic;
+  height: 30px;
+  width: 100%;
 }
 .fragmBtn .archive-box .one-item .save-cont .spanName {
   font-size: 15px;
   color: red;
   color: #239aff;
+}
+.fragmBtn .archive-box .one-item .loadbtn,
+.fragmBtn .archive-box .one-item .delbtn {
+  display: none;
+  height: 25px;
+  width: 30px;
 }
 .fragmBtn .archive-box .one-item button {
   display: flex;
@@ -4453,27 +5060,45 @@ button.hintBtn svg {
 .fragmBtn .archive-box .one-item:hover .title {
   max-width: 48%;
 }
-.fragmBtn .archive-box .one-item:hover .save-cont {
+.fragmBtn .archive-box .one-item:hover:hover .save-cont {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  height: 40px;
 }
 
 .textarea-btns-,
+.textarea-btns-up,
+.textarea-btns-bottom,
 .textarea-btns-left,
 .textarea-btns-right {
   display: none;
   position: absolute;
-  top: 2px;
-  right: 25px;
-  opacity: 0.6;
+  top: 2rem;
+  right: 4px;
+  opacity: 0.8;
   z-index: 20000;
   flex-direction: column;
 }
 .textarea-btns- button svg,
+.textarea-btns-up button svg,
+.textarea-btns-bottom button svg,
 .textarea-btns-left button svg,
 .textarea-btns-right button svg {
   stroke: unset;
+}
+
+.textarea-btns-up {
+  flex-direction: row;
+  top: 0;
+  right: 20px;
+}
+
+.textarea-btns-bottom {
+  flex-direction: row;
+  top: unset;
+  bottom: 0;
+  right: 20px;
 }
 
 .textarea-btns-left {
@@ -4481,7 +5106,7 @@ button.hintBtn svg {
 }
 
 .textarea-btns-right {
-  right: 0px;
+  right: 15px;
 }
 
 .btnCopyField,
@@ -4495,7 +5120,7 @@ button.hintBtn svg {
   position: absolute;
   top: 2px;
   right: 13px;
-  opacity: 0.6;
+  opacity: 0.8;
   z-index: 20000;
   background-color: red;
 }
@@ -4566,8 +5191,8 @@ button.hintBtn svg {
   left: -2px;
   font-size: 8px;
   background-color: unset;
-  border-right: 1px solid #257e90;
-  border-bottom: 1px solid #257e90;
+  border-right: 1px solid var(--back-serv);
+  border-bottom: 1px solid var(--back-serv);
   border-radius: 10px 0 10px 0;
 }
 .rate-hor-wrap p {
@@ -4716,7 +5341,6 @@ button.hintBtn svg {
 .oneTab .rate-vert-wrap .vert-active,
 .field-boxes .rate-vert-wrap .vert-active,
 .field-box-score .rate-vert-wrap .vert-active {
-  background-color: rgb(37, 126, 144);
   color: black;
 }
 .field-box .rate-vert-wrap .vert-active.rateA,
@@ -4814,22 +5438,39 @@ button.hintBtn svg {
   display: block;
 }
 .field-box:focus-within .textarea-btns-,
+.field-box:focus-within .textarea-btns-up,
+.field-box:focus-within .textarea-btns-bottom,
 .field-box:focus-within .textarea-btns-left,
 .field-box:focus-within .textarea-btns-right,
 .one-resp-box:focus-within .textarea-btns-,
+.one-resp-box:focus-within .textarea-btns-up,
+.one-resp-box:focus-within .textarea-btns-bottom,
 .one-resp-box:focus-within .textarea-btns-left,
 .one-resp-box:focus-within .textarea-btns-right,
 .oneTab:focus-within .textarea-btns-,
+.oneTab:focus-within .textarea-btns-up,
+.oneTab:focus-within .textarea-btns-bottom,
 .oneTab:focus-within .textarea-btns-left,
 .oneTab:focus-within .textarea-btns-right,
 .field-boxes:focus-within .textarea-btns-,
+.field-boxes:focus-within .textarea-btns-up,
+.field-boxes:focus-within .textarea-btns-bottom,
 .field-boxes:focus-within .textarea-btns-left,
 .field-boxes:focus-within .textarea-btns-right,
 .field-box-score:focus-within .textarea-btns-,
+.field-box-score:focus-within .textarea-btns-up,
+.field-box-score:focus-within .textarea-btns-bottom,
 .field-box-score:focus-within .textarea-btns-left,
 .field-box-score:focus-within .textarea-btns-right {
   display: flex;
   z-index: 2;
+}
+
+.rubBoxPage .textarea-btns-,
+.rubBoxPage .textarea-btns-up,
+.rubBoxPage .textarea-btns-left,
+.rubBoxPage .textarea-btns-right {
+  top: 0;
 }
 
 .field-box-score {
@@ -4852,23 +5493,26 @@ button.hintBtn svg {
   border-radius: 5px 0 0 5px;
 }
 
+.task-rewiew-wrap .task-review-block {
+  margin-bottom: 5px;
+}
+.task-rewiew-wrap .task-review-block textarea.form-control {
+  max-height: 220px;
+}
+
 .one-resp-wrap {
   height: 50%;
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
 }
-
-.two-resp-wrap {
-  height: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  overflow: auto;
+.one-resp-wrap .one-resp-box {
+  width: 450px;
 }
 
 .one-resp-box {
   width: 400px;
-  height: 300px;
+  height: 250px;
   border: 1px solid grey;
   margin: 5px;
   display: flex;
@@ -4877,26 +5521,78 @@ button.hintBtn svg {
 .one-resp-box .textarea-btns-left {
   top: 27px;
 }
-.one-resp-box .header-one-dim {
+.one-resp-box textarea.form-control {
+  max-height: 96%;
+  height: 300px;
+}
+
+.header-one-dim,
+.header-inputSa {
   display: flex;
   width: 100%;
   justify-content: space-between;
   color: #747474;
   font-style: italic;
 }
-.one-resp-box textarea.form-control {
-  max-height: 96%;
-  height: 300px;
+.header-one-dim span,
+.header-inputSa span {
+  background-color: var(--back-mark);
+  padding: 0 3px;
+  cursor: pointer;
 }
 
-.two-resp-wrap {
+.header-inputSa {
+  border: 1px solid grey;
+}
+.header-inputSa button {
+  max-height: 2rem;
+  margin: 0;
+}
+
+.empty-estim {
+  color: #4085dc;
+}
+
+.two-resp-wrap,
+.two-resp-wrap-plus {
   height: 50%;
   display: flex;
   flex-wrap: nowrap;
   overflow: auto;
+  flex-direction: column;
+  height: 100%;
 }
-.two-resp-wrap .one-resp-box {
-  height: 280px;
+.two-resp-wrap .rrr,
+.two-resp-wrap-plus .rrr {
+  flex-direction: row;
+  display: flex;
+}
+.two-resp-wrap .one-resp-box,
+.two-resp-wrap-plus .one-resp-box {
+  height: 200px;
+  width: 50%;
+  border-radius: 3px;
+}
+
+.two-resp-wrap-plus {
+  max-height: 45vh;
+  height: 45vh;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.two-resp-wrap-plus .rrr {
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+  height: -webkit-fill-available;
+}
+.two-resp-wrap-plus .additional-row {
+  flex-direction: column;
+  height: 100%;
+}
+.two-resp-wrap-plus .one-resp-box {
+  max-height: 100%;
+  height: -webkit-fill-available;
+  border-radius: 3px;
 }
 
 .field-box-plus {
@@ -4904,8 +5600,8 @@ button.hintBtn svg {
   z-index: 800;
   top: 50px;
   top: 0px;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   left: 0;
 }
 .field-box-plus textarea.form-control {
@@ -4941,7 +5637,7 @@ button.hintBtn svg {
 
 .field-rub-plus {
   position: fixed;
-  z-index: 800;
+  z-index: 10;
   top: 50px;
   top: 27px;
   width: 100%;
@@ -5050,8 +5746,9 @@ button.hintBtn svg {
   border-radius: 10px;
   position: sticky;
   top: 0;
-  background-color: #239aff;
-  color: #ffffff;
+  background-color: #e4e5f5;
+  color: black;
+  border: 3px solid var(--rub-back);
 }
 .resp-links-wrap button {
   margin: 1px;
@@ -5091,12 +5788,14 @@ button.hintBtn svg {
   margin: 5px 0;
 }
 .resp-links-wrap .rub-one-link input {
-  margin-right: 10px;
+  margin-right: 5px;
+  width: 23px;
+  height: 20px;
 }
 .resp-links-wrap .rub-one-link button {
-  font-size: 7px;
-  height: 15px;
+  height: 24px;
   margin: 1px;
+  padding: 2px;
 }
 .resp-links-wrap .rub-one-link:hover {
   background-color: #2196f3;
@@ -5109,7 +5808,7 @@ button.hintBtn svg {
 }
 .resp-links-wrap .rub-one-link .links-resp-btn button,
 .resp-links-wrap .rub-one-link .links-resp-btn-h button {
-  font-size: 10px;
+  font-size: 18px;
   line-height: 1;
 }
 .resp-links-wrap .rub-one-link .links-resp-btn-h button {
@@ -5124,6 +5823,12 @@ button.hintBtn svg {
   width: 140px;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.resp-links-wrap .rub-one-name .linkName {
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  width: 100%;
 }
 
 .toast {
@@ -5175,7 +5880,7 @@ button.hintBtn svg {
   margin-right: 5px;
   max-width: -moz-max-content;
   max-width: max-content;
-  font-size: 8px;
+  font-size: 16px;
 }
 .setlist-btns:hover .sub-sets {
   opacity: 1;
@@ -5204,13 +5909,108 @@ button.hintBtn svg {
 .format-btns .sub-btns button {
   margin: 2px;
   width: auto;
+  min-width: 100%;
   border: 3px solid;
+}
+.format-btns .left {
+  left: 0;
 }
 .format-btns:hover .sub-btns {
   opacity: 1;
   top: 40px;
   height: -moz-fit-content;
   height: fit-content;
+  visibility: visible;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.drop-down-btns-menu {
+  position: relative;
+}
+.drop-down-btns-menu .main-btn {
+  height: 24px;
+  margin: 0;
+  padding: 5px;
+  min-width: 2rem;
+}
+.drop-down-btns-menu .respB {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 10px;
+}
+.drop-down-btns-menu .drop-down-btns {
+  background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+  position: absolute;
+  z-index: 600;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border: 3px solid pink;
+}
+.drop-down-btns-menu .drop-down-btns button {
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  padding: 1px;
+  margin: 1px;
+}
+.drop-down-btns-menu .drop-down-btns button:hover {
+  background-color: pink;
+  background: linear-gradient(0deg, pink 0%, var(--line2) 100%);
+}
+
+.drop-down-btns1 {
+  position: relative;
+  width: 150px;
+  outline: none;
+  border: none;
+  color: var(--main-color);
+  text-decoration: none;
+  text-wrap: nowrap;
+  min-height: 1rem;
+  min-width: 1.5rem;
+  margin: 5px 5px;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  transition: all 0.4s ease-in-out;
+  margin-right: 1px;
+  flex-wrap: wrap;
+  position: relative;
+  background: linear-gradient(0deg, var(--line1) 0%, var(--line2) 100%);
+  font-size: 10px;
+}
+.drop-down-btns1 .sub-btns {
+  background-color: var(--menu);
+  opacity: 0;
+  display: flex;
+  position: absolute;
+  left: 0;
+  flex-direction: column;
+  transition: all 0.2s ease-in;
+  transition-delay: 0.5s;
+  z-index: 3500;
+  visibility: hidden;
+  top: 40px;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.drop-down-btns1 .sub-btns button {
+  margin: 2px;
+  width: auto;
+  border: 3px solid;
+}
+.drop-down-btns1:hover .sub-btns {
+  opacity: 1;
   visibility: visible;
 }
 
@@ -5246,6 +6046,14 @@ button.hintBtn svg {
   position: relative;
 }
 
+.maxhrub-100 {
+  max-height: 85%;
+  height: -moz-fit-content;
+  height: fit-content;
+  overflow: auto;
+  position: relative;
+}
+
 .h-0 {
   height: 2%;
   overflow: visible;
@@ -5262,11 +6070,33 @@ button.hintBtn svg {
   color: var(--main-color);
 }
 
+.rub-com {
+  color: crimson;
+  text-align: end;
+  text-transform: uppercase;
+  max-width: 160px;
+  min-width: 160px;
+  display: flex;
+  justify-content: flex-end;
+}
+.rub-com .comm {
+  height: -moz-fit-content;
+  height: fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.small-indent {
+  right: 80px;
+}
+
 #justifSBS {
-  background: var(--rub-back);
-  height: 4rem;
   width: 100%;
   font-weight: 600;
+  max-height: 100%;
+  height: 100%;
 }
 #justifSBS::-moz-placeholder {
   color: rgb(127, 127, 127);
@@ -5277,18 +6107,12 @@ button.hintBtn svg {
 
 .box-hov {
   transition: all 0.2s ease-in-out;
+  text-align: left;
   cursor: pointer;
   color: black;
 }
 .box-hov:hover {
-  color: #9fff48;
-}
-
-.fieldid-t {
-  position: absolute;
-  top: -30px;
-  left: 146px;
-  color: deeppink;
+  color: #ff4c6b;
 }
 
 .relp {
@@ -5357,10 +6181,12 @@ button.hintBtn svg {
   font-size: 12px;
 }
 .info-rub-box .rub-color-box:hover::after {
-  content: attr(datarub) "—————————————————————————-" attr(datacont);
+  content: attr(datacomm) "——————————————————————————" attr(datarub) "——————————————————————————" attr(datacont);
   visibility: visible;
   opacity: 1;
   transition: opacity 0.6s ease;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 .info-rub-box .right-after::after {
   right: unset;
@@ -5384,9 +6210,7 @@ button.hintBtn svg {
   color: black;
 }
 .info-rub-box .rubB0 {
-  background: linear-gradient(0deg, rgb(107, 255, 107) 0%, rgb(107, 255, 107) 100%);
-  background: linear-gradient(0deg, rgb(62, 141, 62) 0%, rgb(62, 141, 62) 100%);
-  background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
+  background: linear-gradient(0deg, #73e073 0%, #73e073 100%);
   color: black;
 }
 .info-rub-box .rubB0::-moz-placeholder {
@@ -5394,6 +6218,9 @@ button.hintBtn svg {
 }
 .info-rub-box .rubB0::placeholder {
   color: darkgreen;
+}
+.info-rub-box .rubB0:hover {
+  background: linear-gradient(0deg, #29c029 0%, #29c029 100%);
 }
 .info-rub-box .rubB1 {
   background: linear-gradient(0deg, yellow 0%, yellow 100%);
@@ -5406,40 +6233,57 @@ button.hintBtn svg {
   border: 1px solid red;
 }
 .info-rub-box .rubB2 {
-  background: linear-gradient(0deg, red 0%, red 100%);
+  background: linear-gradient(0deg, #ff7373 0%, #ff6b6b 100%);
   color: black;
+}
+.info-rub-box .rubB2:hover {
+  background: linear-gradient(0deg, red 0%, red 100%);
 }
 .info-rub-box .nojust {
   box-sizing: border-box;
-  outline: 3px solid orange;
+  outline: 3px solid #454647;
 }
 .info-rub-box .isAc {
   text-decoration: overline;
+  outline: 5px solid #0000ff;
 }
 
 .modal-rub {
   height: 150px;
-  background: #257e90;
+  background: var(--back-serv);
   top: 0;
   height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-rub .comment {
+  color: white;
+  width: 100%;
+  text-align: end;
+  padding-right: 10px;
+  font-style: italic;
+  font-size: var(--font-size-edit);
 }
 .modal-rub span {
-  font-size: 12px;
+  font-size: 16px;
   width: 90%;
   display: block;
 }
 .modal-rub .field-box {
   height: 100%;
-  width: 93%;
+  width: 98%;
 }
 .modal-rub .field-box textarea.form-control {
   max-height: unset;
   min-height: unset;
   height: 305px;
-  width: 565px;
+  width: 100%;
   font-size: var(--font-size-edit);
   background: #3f3e3f;
   color: #dadbdb;
+  box-shadow: none;
 }
 
 .flowBtn {
@@ -5447,8 +6291,8 @@ button.hintBtn svg {
 }
 .flowBtn span {
   position: absolute;
-  color: #257e90;
-  top: -2px;
+  color: var(--back-serv);
+  top: -5px;
 }
 
 .repl-z {
@@ -5494,6 +6338,7 @@ button.hintBtn svg {
 .pagedimwrap {
   position: relative;
   width: unset;
+  margin-top: 10px;
 }
 .pagedimwrap .justinfo {
   display: flex;
@@ -5522,7 +6367,7 @@ button.hintBtn svg {
   top: 12px;
 }
 .pagedimwrap .justinfo .rateActive {
-  background: #257e90;
+  background: var(--back-serv);
   box-shadow: none;
   color: white;
   opacity: 0.8;
@@ -5530,6 +6375,16 @@ button.hintBtn svg {
 .pagedimwrap .rateInform {
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+.pagedimwrap .rateInform .ico {
+  font-size: 8px;
+}
+.pagedimwrap .rateInform .ico::before {
+  content: attr(dataScore);
+  font-size: 8px;
+  right: 0px;
+  top: 0px;
 }
 .pagedimwrap .rateInform div {
   font-size: 10px;
@@ -5597,8 +6452,12 @@ button.hintBtn svg {
   height: 110px;
   max-height: 200px;
   height: 70vh;
-  max-height: 70vh;
+  max-height: 75vh;
   padding-right: 35px;
+}
+.pagedimwrap textarea.form-control.sm {
+  max-height: 6rem;
+  overflow-y: auto;
 }
 .pagedimwrap .field-box-plus textarea.form-control {
   max-height: 100%;
@@ -5638,6 +6497,9 @@ button.hintBtn svg {
 .pagedimwrap .JustifTxt .header-one-dim div {
   font-style: normal;
 }
+.pagedimwrap .JustifTxt .empty-estim {
+  color: red;
+}
 .pagedimwrap .JustifTxt textarea.form-control {
   width: 97%;
   margin: 0;
@@ -5649,13 +6511,29 @@ button.hintBtn svg {
 }
 .pagedimwrap .add-details {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin-right: 5px;
+  margin-bottom: 5px;
+}
+.pagedimwrap .add-details button {
+  max-width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0;
+  font-size: 10px;
+}
+.pagedimwrap .add-details button svg {
+  font-size: 14px;
 }
 .pagedimwrap .add-details label {
-  font-size: 12px;
+  font-size: 11px;
   text-wrap: nowrap;
+}
+.pagedimwrap .detail-dvd {
+  border-bottom: 2px solid pink;
 }
 
 .task-head-box {
@@ -5664,6 +6542,9 @@ button.hintBtn svg {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  background: var(--menu);
+  align-items: center;
 }
 .task-head-box .taskidBox {
   display: flex;
@@ -5671,7 +6552,6 @@ button.hintBtn svg {
   width: fit-content;
   border: 2px solid #d7cbcb;
   border-radius: 5px;
-  padding-left: 5px;
 }
 .task-head-box .taskidBox button {
   max-height: 28px;
@@ -5685,12 +6565,27 @@ button.hintBtn svg {
   background-color: pink;
   padding: 0 5px;
 }
+.task-head-box .taskidBox .field-box {
+  width: 225px;
+}
+.task-head-box .taskidBox .field-null {
+  position: absolute;
+  top: -1px;
+  left: 6px;
+  color: #000000;
+  font-style: italic;
+}
 .task-head-box .taskidBox input {
   width: 100%;
   font-size: 12px;
   padding: 0px;
-  padding-left: 50px;
+  padding-left: 35px;
   height: 28px;
+  background: #ffc0cb;
+  color: black;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 0;
 }
 .task-head-box .taskidBox input span {
   position: absolute;
@@ -5708,20 +6603,34 @@ button.hintBtn svg {
 .rubpage {
   width: 100%;
   z-index: 0;
-  max-width: 100vw;
+  max-width: 98vw;
   margin-top: 0;
+  height: 95vh;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
+  margin: auto;
+  margin-top: 10px;
 }
 .rubpage .rub-prompt {
-  height: 100%;
   max-height: unset;
-  background-color: var(--main-back);
+  background: rgba(234, 234, 234, 0.6588235294);
+  height: 75vh;
+}
+.rubpage .rub-prompt::-moz-placeholder {
+  color: #818181;
+}
+.rubpage .rub-prompt::placeholder {
+  color: #818181;
 }
 .rubpage .field-boxes input {
   font-size: 10px;
 }
 .rubpage .hv100 {
-  max-height: 100vh;
+  max-height: 100%;
   height: 100%;
+}
+.rubpage .autoscroll-y {
+  overflow-y: auto;
 }
 
 #navPortal,
@@ -5735,4 +6644,179 @@ textarea.form-control:focus {
   border: 1px solid #ffc0cb;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgb(228, 229, 245);
+  padding-top: 20px;
+}
+
+.btns-font-size {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 2px;
+  margin-right: 5px;
+  cursor: auto;
+  color: var(--main-color);
+}
+.btns-font-size .buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+}
+.btns-font-size .buttons button {
+  all: unset;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+  height: 12px;
+  /* max-height: 5px; */
+  line-height: 0;
+  width: 14px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.btns-font-size .buttons button:hover {
+  opacity: 1;
+}
+.btns-font-size:hover {
+  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+}
+.btns-font-size span {
+  font-size: 21px;
+  z-index: 1;
+}
+.btns-font-size .font-size-manage {
+  background-color: var(--accent);
+  border: 1px solid black;
+  color: black;
+  opacity: 0;
+  font-size: 9px;
+  position: absolute;
+  top: 31px;
+  left: 0px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in;
+  transition-delay: 0.5s;
+  z-index: 1500;
+  visibility: hidden;
+  width: 70px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.btns-font-size:hover .m-btn {
+  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5), -4px -4px 6px 0 rgba(116, 125, 136, 0.5), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2), inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  color: black;
+  color: var(--main-color);
+}
+.btns-font-size:hover span {
+  opacity: 1;
+}
+.btns-font-size:hover .font-size-manage {
+  opacity: 1;
+  height: -moz-fit-content;
+  height: fit-content;
+  visibility: visible;
+}
+
+#navidPortalCenter .field-boxes {
+  background-attachment: red;
+}
+
+.red-border .vert-active {
+  background-color: #fb6161;
+}
+
+.orange-border .vert-active {
+  background-color: #ffc107;
+}
+
+.green-border .vert-active {
+  background-color: #5bdb94;
+}
+
+.additional-colon {
+  min-width: 49vw;
+}
+.additional-colon .field-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.newRub-btns {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background: var(--accent);
+  opacity: 1;
+  z-index: 3000;
+}
+
+.separatorEx {
+  text-decoration: none;
+  color: green;
+}
+
+.w-85 {
+  width: 85%;
+}
+
+.header-comment {
+  font-size: var(--vertical-font);
+  color: crimson;
+  text-transform: uppercase;
+}
+
+#portal-dmg-page-colon {
+  display: flex;
+  align-content: flex-end;
+}
+
+.pad-text-left,
+.pad-text-up,
+.pad-text-bottom {
+  padding-left: 35px;
+}
+
+.pad-text-right {
+  padding-right: 35px;
+}
+
+#portal-on-tabs {
+  margin-bottom: 5px;
+  width: 100%;
+  border-bottom: 3px solid #9dc8ff;
+}
+
+.markB {
+  background: #fff3cd;
+}
+
+.h-min {
+  height: -moz-min-content !important;
+  height: min-content !important;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-color: transparent;
+}
+
+.div-prompt {
+  width: 100%;
+  background-color: var(--rub-back);
+  color: var(--main-color);
+  display: flex;
+  padding: 10px;
+  font-size: 15px;
+  align-items: flex-start;
+  justify-content: center;
+  align-content: flex-start;
+  white-space: pre-line;
+  max-height: 75vh;
+  overflow-y: scroll;
+  text-align: left;
 }/*# sourceMappingURL=App.css.map */

@@ -1,9 +1,5 @@
 import React, { useMemo, useState } from "react";
-import {
-  editTextActionRef,
-  applyAction,
-  getNameByAorB,
-} from "../../utils/utilStr";
+import { editTextActionRef, applyAction, getNameByAorB } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 
 import { saveToHistorygeneral } from "../../utils/localStorage";
@@ -40,9 +36,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   });
 
   const fieldId = useMemo(() => {
-    return textRef && textRef.current && textRef.current.id
-      ? textRef.current.id
-      : "Prompt";
+    return textRef && textRef.current && textRef.current.id ? textRef.current.id : "Prompt";
   }, [textRef]);
 
   const fieldFn = {
@@ -66,10 +60,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
 
         if (val === 5) newT = "OK " + newT;
         else if (val !== 0) {
-          newT =
-            fieldName +
-            " issues:" +
-            (newT.startsWith("OK") ? newT.replace("OK", "") : " " + newT);
+          newT = fieldName + " issues:" + (newT.startsWith("OK") ? newT.replace("OK", "") : " " + newT);
         }
         setItem({ ...item, Evals: newEst, ...{ [field]: newT } });
       } else setItem({ ...item, Evals: newEst });
@@ -97,14 +88,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   };
   const pasteToText = (val) => {
     const newVal = applyAction(val.en || val, action);
-    editTextActionRef(
-      textRef,
-      item[fieldId],
-      fieldFn.setNewVal,
-      "add",
-      true,
-      newVal
-    );
+    editTextActionRef(textRef, item[fieldId], fieldFn.setNewVal, "add", true, newVal);
   };
 
   const setPopup = usePopup();
@@ -185,10 +169,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
           pasteToText,
         }}
       />
-      <div
-        onClick={clickOnPhrase}
-        onTouchEnd={clickOnPhrase}
-        className="pagedimbody">
+      <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="pagedimbody">
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
 
@@ -207,15 +188,15 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
                   action,
                 }}
                 likert={likert}>
-                <div className="taskidBox w-100 ps-1">
+                <div className="taskidBox w-100">
                   <DimAddDetail
                     id="issueNameCh"
-                    title="add dimention name issue"
+                    title="add dim name to issue"
                     val={addIssueName}
                     setVal={setAddIssueName}
                   />
                 </div>
-                <div id="portal-on-tabs"></div>
+                <div id="portal-on-tabs"> </div>
               </PageBodyTabs>
             </div>
           </div>

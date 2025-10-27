@@ -1,16 +1,17 @@
 import React from "react";
 import EditFieldDmg from "../Dimentions/EditFieldDmg";
 import PageRespTxt from "./PageRespTxt";
-import DmgShortSBS from "./DmgShortSBS";
 import { defaultDimSets } from "../../constants/dimDefault";
 import DmgTwoResponses from "./DmgTwoResponses";
+import TaskPart from "./TaskPart";
 
 const DimTaskAll = ({ editParam }) => {
   const { setIsTxt, item, fieldFn, fieldId, isTxt } = editParam;
   const dimArr = defaultDimSets[editParam.item.setName];
-  return (
-    <>
-      <div className="task-rewiew-wrap">
+  const arrParts = [
+    {
+      title: "Prompt",
+      children: (
         <div className="task-review-block">
           <EditFieldDmg
             scale=""
@@ -26,21 +27,25 @@ const DimTaskAll = ({ editParam }) => {
             fieldFn={fieldFn}
           />
         </div>
+      ),
+    },
+    {
+      title: "Responses text",
+      children: (
         <div className="task-review-block">
-          <PageRespTxt editParam={editParam} />
-        </div>{" "}
-        <div class="menu-accent ">Responses SCORES</div>
-        <DmgTwoResponses
-          hideResp
-          editParam={
-            editParam
-            //   field: activeTab,
-            //   setAct,
-            //   activeTab: "SBS",
-          }
-          dimArr={dimArr}
-        />
-        <div class="menu-accent ">RATES</div>
+          <PageRespTxt editParam={editParam} noTitle />
+        </div>
+      ),
+    },
+    {
+      title: "Responses SCORES",
+      children: (
+        <DmgTwoResponses hideResp editParam={editParam} dimArr={dimArr} />
+      ),
+    },
+    {
+      title: "RATES",
+      children: (
         <div className="two-resp-wrap">
           {/* <DmgShortSBS editParam={editParam} dimArr={dimArr} showBody={true} /> */}
           <div className="task-review-block rrr">
@@ -63,7 +68,11 @@ const DimTaskAll = ({ editParam }) => {
             ))}
           </div>
         </div>
-        <div class="menu-accent ">JUSTIFICATIONS</div>
+      ),
+    },
+    {
+      title: "JUSTIFICATIONS",
+      children: (
         <div className="task-review-block">
           <EditFieldDmg
             scale=""
@@ -79,6 +88,35 @@ const DimTaskAll = ({ editParam }) => {
             fieldFn={fieldFn}
           />
         </div>
+      ),
+    },
+    {
+      title: "Review",
+      children: (
+        <div className="task-review-block">
+          <EditFieldDmg
+            scale=""
+            key={"review"}
+            fieldName={"review"}
+            placeholder={"review"}
+            setIsTxt={setIsTxt}
+            classN={fieldId === "review" ? "active-field" : ""}
+            classF="flex-column"
+            isTxt={isTxt && fieldId === "review"}
+            isActive={fieldId === "review"}
+            fieldVal={item["review"]}
+            fieldFn={fieldFn}
+          />
+        </div>
+      ),
+    },
+  ];
+  return (
+    <>
+      <div className="task-rewiew-wrap">
+        {arrParts.map((part, i) => (
+          <TaskPart title={part.title}>{part.children}</TaskPart>
+        ))}
       </div>
     </>
   );

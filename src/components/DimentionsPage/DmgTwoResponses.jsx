@@ -6,12 +6,13 @@ import DmgShortSBS from "./DmgShortSBS";
 
 import DimAddDetail from "./DimAddDetail";
 import DimLastField from "./DimLastField";
+import { VscTriangleRight } from "react-icons/vsc";
 
-const DmgTwoResponses = ({ editParam, dimArr, hideResp }) => {
+const DmgTwoResponses = ({ editParam, dimArr, hideResp, dmg }) => {
   const { item, fieldId } = editParam;
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
   const [scoresSBS, setScoresSBS] = useState(false);
-  const [showBody, setShowBody] = useState(false);
+  const [showBody, setShowBody] = useState(true);
   const [isRate, setIsRate] = useState(false);
   useEffect(() => {
     const elem = document.getElementById("page-dim");
@@ -58,60 +59,19 @@ const DmgTwoResponses = ({ editParam, dimArr, hideResp }) => {
           )}
         </MyPortal>
       )}
+      {/* <MyPortal containerId="portal-dmg-arrow"> */}
       <MyPortal containerId="portal-on-tabs">
-        <DimAddDetail
-          id="showRespSwitch"
-          title="scores sbs"
-          val={scoresSBS}
-          setVal={setScoresSBS}
-        />
-        {!hideResp && (
-          <DimAddDetail
-            id="showRateSwitch"
-            title="Show responses"
-            val={isRate}
-            setVal={setIsRate}
-            isBtn
-          />
-        )}
-        <DimAddDetail
-          title="Dimentions scores"
-          val={showBody}
-          setVal={setShowBody}
-          isBtn
-        />
+        {!hideResp && <DimAddDetail id="showRateSwitch" title="Show responses" val={isRate} setVal={setIsRate} isBtn />}
+        {!dmg && <DimAddDetail title="Dimentions scores" val={showBody} setVal={setShowBody} isBtn />}
       </MyPortal>
+      {dmg && (
+        <MyPortal containerId="portal-dmg-arrow">
+          <VscTriangleRight onClick={() => setShowBody(!showBody)} className={!showBody ? " " : "arr-down"} />
+        </MyPortal>
+      )}
       <div className="two-resp-wrap">
         {/* {short ? ( */}
-        <DmgShortSBS
-          editParam={editParam}
-          dimArr={dimArr}
-          showBody={showBody}
-          scoresSBS={scoresSBS}
-        />
-        {/* ) : (
-          <>
-            {dimArr.map((field, i) => (
-              <>
-                <div className="rrr">
-                  {["a", "b"].map((resp) => (
-                    <RespDmgFieldEdit
-                      key={i + resp}
-                      scale="left"
-                      show={!!item[field[resp]]}
-                      fieldName={field[resp]}
-                      placeholder={field[resp]}
-                      isActive={fieldId === field[resp]}
-                      fieldVal={item[field[resp]]}
-                      estim={item.Evals[field[resp]]}
-                      fieldFn={fieldFn}
-                    />
-                  ))}
-                </div>
-              </>
-            ))}
-          </>
-        )} */}
+        <DmgShortSBS editParam={editParam} dimArr={dimArr} showBody={showBody} scoresSBS={scoresSBS} />
       </div>
     </>
   );

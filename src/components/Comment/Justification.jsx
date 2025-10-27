@@ -13,8 +13,6 @@ import { MdOutlineContentPaste } from "react-icons/md";
 import { GrClearOption, GrConnect } from "react-icons/gr";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import VoiceOverlay from "../Voice/VoiceOverlay";
-import RubBox from "../Rubrics/RubBox";
-import EditDmgBox from "../Dimentions/EditDmgBox";
 
 const Justification = ({ justification, setJustification, compliteCrit }) => {
   const [edit, setEdit] = useState(null);
@@ -92,30 +90,18 @@ const Justification = ({ justification, setJustification, compliteCrit }) => {
           savefn={refresh}
         />
       )}
-      {(edit === "dim" ||
-        justification[edit]?.ru === "DIM" ||
-        edit === "dmg" ||
-        justification[edit]?.ru === "DMG") && (
-        <EditDmgBox
-          setEdit={setEdit}
-          el={justification[edit]?.en}
-          savefn={refresh}
-        />
-      )}
 
-      {(edit === "rub" || justification[edit]?.ru === "RUB") && (
+      {/* {(edit === "rub" || justification[edit]?.ru === "RUB") && (
         <RubBox
           setEdit={setEdit}
           el={justification[edit]?.en}
           savefn={refresh}
         />
-      )}
+      )} */}
 
       <div className="just-menu ">
         <div className="btnsJust justif-all-btn">
           <Button onClick={() => setEdit("new")}>add</Button>
-          <Button onClick={() => setEdit("dmg")}>dmg</Button>
-          <Button onClick={() => setEdit("rub")}>Rub</Button>
           <TxtBtnsOverlay toJustif={toJustif} />
           <Button onClick={() => setJustification([])} disabled={!allJust}>
             <GrClearOption />

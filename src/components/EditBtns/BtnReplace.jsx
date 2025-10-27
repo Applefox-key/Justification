@@ -1,6 +1,6 @@
 import React from "react";
 
-import { replaceQuotesUniversal, replaceText } from "../../utils/utilStr";
+import { editTextAction, replaceQuotesUniversal, replaceText } from "../../utils/utilStr";
 import { GrBlockQuote } from "react-icons/gr";
 
 const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
@@ -10,6 +10,7 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
   };
 
   const replaceQU = (type) => {
+    // editTextAction(fieldid, handleTxt, setHandleTxt, type);
     // const newVal = replaceQuotes(handleTxt);
     const newVal = replaceQuotesUniversal(handleTxt, type);
     setHandleTxt(newVal);
@@ -34,7 +35,7 @@ const BtnReplace = ({ fieldid, handleTxt, setHandleTxt }) => {
         className="square-btn intense btn-replace"
         title="replace quotes"
         disabled={!handleTxt}
-        onClick={() => replaceQU()}>
+        onClick={() => replaceQU("straight")}>
         <GrBlockQuote />
       </button>
     </>

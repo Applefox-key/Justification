@@ -18,14 +18,12 @@ import DmgPrompt from "./DmgPrompt";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import PageRespTxt from "./PageRespTxt";
 import DimTaskAll from "./DimTaskAll";
-import PageRespRate from "./JustRew";
+import PageRespRate from "./PageRespRate";
 import DimAddDetail from "./DimAddDetail";
 import MyPortal from "../UI/MyPortal/MyPortal";
 
 import SideWordTmp from "./SideWordTmp";
 import DimPageTwoSides from "./DimPageTwoSides";
-import DimPageTwoSidesSBS from "./DimPageTwoSidesSBS";
-import JustRew from "./JustRew";
 
 const PageBodyTabs = ({ editParam, likert, children }) => {
   const [activeTab, setActiveTab] = useState({
@@ -50,11 +48,11 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
       // content: <HidenText text={editParam.item.Prompt} />,
       // content: <HidenText>18</HidenText>,
     },
-    // {
-    //   short: "RespTxt",
-    //   title: "RESPONSES TEXT",
-    //   // content: <RateInform item={editParam.item} />,
-    // },
+    {
+      short: "RespTxt",
+      title: "RESPONSES TEXT",
+      // content: <RateInform item={editParam.item} />,
+    },
     {
       short: "Response_A",
       title: "Model A",
@@ -63,41 +61,41 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
       content: <RateInformOne item={editParam.item} resp="a" />,
     },
     {
-      short: "Response_B",
+      short: "tbResponse_A",
+      title: "Model A",
+      alwaysShow: true,
+      content: <RateInformOne item={editParam.item} resp="a" />,
+    },
+    {
+      short: "tbResponse_B",
       title: "Model B",
       alwaysShow: true,
-      className: "page-work noScroll",
       content: <RateInformOne item={editParam.item} resp="b" />,
     },
+
     {
-      short: "SBSr",
+      short: "SBS",
       title: "SIDE by SIDE 🔷",
       content: null,
-      className: "page-work noScroll",
+      className: "page-work",
     },
-    // {
-    //   short: "SBS",
-    //   title: "SIDE by SIDE 🔷",
-    //   content: null,
-    //   className: "page-work",
-    // },
-    // {
-    //   short: "Rate",
-    //   title: "RATES",
-    //   // content: <RateInform item={editParam.item} />,
-    // },
     {
-      short: "Justifs",
+      short: "Rate",
+      title: "RATES",
+      // content: <RateInform item={editParam.item} />,
+    },
+    {
+      short: "Justif",
       title: "JUSTIFICATIONS 🔷",
       content: <RateLikert num={editParam.item.likert} callback={likert.setNewRate} />,
       className: "page-work noScroll",
     },
 
-    // {
-    //   short: "Review",
-    //   title: "REVIEW",
-    //   content: null,
-    // },
+    {
+      short: "Review",
+      title: "REVIEW",
+      content: null,
+    },
     {
       short: "DIM",
       title: "DIM",
@@ -114,11 +112,11 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
     //   content: null,
     //   className: "page-work noScroll",
     // },
-    // {
-    //   short: "RespRate",
-    //   title: "Resp & RATE",
-    //   // content: <RateInform item={editParam.item} />,
-    // },
+    {
+      short: "RespRate",
+      title: "Resp & RATE",
+      // content: <RateInform item={editParam.item} />,
+    },
     {
       short: "Task",
       title: "REVIEW TASK",
@@ -134,27 +132,47 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
     tbPrompt: <DmgPrompt editParam={{ ...editParam, likert }} />,
     Rate: <PageRate editParam={{ ...editParam, likert }} />,
     RespTxt: <PageRespTxt editParam={editParam} />,
-    // RespRate: <PageRespRate editParam={editParam} />,
-    // Review: <DmgPageReview editParam={{ ...editParam, likert }} />,
-    // Review_builder: <DmgPageReviewBuilder editParam={{ ...editParam, likert }} />,
+    RespRate: <PageRespRate editParam={editParam} />,
+    Review: <DmgPageReview editParam={{ ...editParam, likert }} />,
+    Review_builder: <DmgPageReviewBuilder editParam={{ ...editParam, likert }} />,
     SBSJ: <DmgRateByDim item={editParam.item} likert={likert} />,
-    Response_A: <DimPageTwoSides response="ResponseA" editParam={{ ...editParam, likert }} />,
-    Response_B: <DimPageTwoSides response="ResponseB" editParam={{ ...editParam, likert }} />,
-    SBSr: <DimPageTwoSidesSBS editParam={{ ...editParam, likert }} />,
-    // SBS: (
-    //   <DmgTwoResponses
-    //     editParam={{
-    //       ...editParam,
-    //       field: activeTab,
-    //       setAct,
-    //       activeTab: "SBS",
-    //     }}
-    //     dimArr={defaultDimSets[editParam.item.setName]}
-    //   />
-    // ),
-
-    // Justif: <PageJustif editParam={{ ...editParam, likert }} />,
-    Justifs: <JustRew editParam={{ ...editParam, likert }} />,
+    Response_A: <DimPageTwoSides resp="a" setAct={setAct} editParam={{ ...editParam, likert }} />,
+    tbResponse_A: (
+      <DmgOneResponse
+        editParam={{
+          ...editParam,
+          field: activeTab,
+          setAct,
+          activeTab: "tbResponse_A",
+        }}
+        dimArr={defaultDimSets[editParam.item.setName]}
+        resp="a"
+      />
+    ),
+    tbResponse_B: (
+      <DmgOneResponse
+        editParam={{
+          ...editParam,
+          field: activeTab,
+          setAct,
+          activeTab: "tbResponse_B",
+        }}
+        dimArr={defaultDimSets[editParam.item.setName]}
+        resp="b"
+      />
+    ),
+    SBS: (
+      <DmgTwoResponses
+        editParam={{
+          ...editParam,
+          field: activeTab,
+          setAct,
+          activeTab: "SBS",
+        }}
+        dimArr={defaultDimSets[editParam.item.setName]}
+      />
+    ),
+    Justif: <PageJustif editParam={{ ...editParam, likert }} />,
     Task: <DimTaskAll editParam={{ ...editParam, likert }} />,
   };
   const isPromptNeeded = activeTab.short !== "Prompt" && activeTab.short !== "RespRate";

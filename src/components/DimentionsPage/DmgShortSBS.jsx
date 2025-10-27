@@ -10,11 +10,7 @@ const DmgShortSBS = ({ editParam, dimArr, scoresSBS, showBody }) => {
     <>
       {dimArr.map((field, i) =>
         scoresSBS ? (
-          <DmgOneTab
-            editParam={{ ...editParam, field }}
-            small
-            showBody={showBody}
-          />
+          <DmgOneTab editParam={{ ...editParam, field }} small showBody={showBody} />
         ) : (
           <>
             <div className="rrr">
@@ -25,7 +21,7 @@ const DmgShortSBS = ({ editParam, dimArr, scoresSBS, showBody }) => {
                   show={!!editParam.item[field[resp]]}
                   fieldName={field[resp]}
                   placeholder={field[resp]}
-                  isActive={editParam.fieldId === field[resp]}
+                  fieldId={editParam.fieldId}
                   fieldVal={editParam.item[field[resp]]}
                   estim={editParam.item.Evals[field[resp]]}
                   fieldFn={editParam.fieldFn}

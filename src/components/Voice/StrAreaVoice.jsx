@@ -4,10 +4,7 @@ import { copyToClipboard, replaceWords } from "../../utils/utilStr";
 import { TbHttpDelete } from "react-icons/tb";
 import VoiceBtns from "./VoiceBtns";
 import { stopV } from "../../utils/voice";
-import {
-  MdOutlineRadioButtonChecked,
-  MdOutlineRadioButtonUnchecked,
-} from "react-icons/md";
+import { MdOutlineRadioButtonChecked, MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa";
 
 const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
@@ -47,16 +44,12 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
             if (e.key === "Enter" || e.key === "Escape") onOK(e);
           }}
         />{" "}
-        <Button
-          onClick={() => copyToClipboard(textRef.current.value)}
-          className="copy">
-          <FaRegCopy />
-        </Button>{" "}
         <div className="voice-btns-all">
           <VoiceBtns textRef={textRef} stopBtn={stopBtn} startBtn={startBtn} />{" "}
-          <Button
-            onClick={() => (textRef.current.value = "")}
-            className="delbtn">
+          <Button onClick={() => copyToClipboard(textRef.current.value)} className="copy">
+            <FaRegCopy />
+          </Button>{" "}
+          <Button onClick={() => (textRef.current.value = "")} className="delbtn">
             <TbHttpDelete />
           </Button>
           {!!actionFn && <Button onClick={onOK}>OK</Button>}
@@ -64,11 +57,7 @@ const StrAreaVoice = ({ actionFn, placeholder = "", type = "edit" }) => {
       </div>
 
       <div onClick={() => setIsRepl(!isRepl)} className="box-hov">
-        {isRepl ? (
-          <MdOutlineRadioButtonChecked />
-        ) : (
-          <MdOutlineRadioButtonUnchecked />
-        )}
+        {isRepl ? <MdOutlineRadioButtonChecked /> : <MdOutlineRadioButtonUnchecked />}
         format text when pasting{" "}
       </div>
     </div>

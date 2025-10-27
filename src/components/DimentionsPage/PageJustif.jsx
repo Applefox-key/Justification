@@ -6,8 +6,7 @@ import RateBoxes from "../Rate/RateBoxes";
 import { getActionButtons } from "../../utils/dimentions";
 
 const PageJustif = ({ editParam }) => {
-  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert, action } =
-    editParam;
+  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert, action } = editParam;
   const actionButtons = getActionButtons({ item, setItem, likert, action });
 
   return (
@@ -23,8 +22,8 @@ const PageJustif = ({ editParam }) => {
           ))}
           {/* <div className="rec">Hint: {likert.best.rec}</div> */}
         </div>
-      </div>
-
+      </div>{" "}
+      <div className="menu-accent ">Justification</div>
       <div className={"respDim-footer "}>
         <EditFieldDmg
           scale=""

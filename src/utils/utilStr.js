@@ -57,9 +57,7 @@ const sentencesCaps = (_text) => {
   const exceptionsArr = ["I", "English", "Russian"];
   let text = _text.replace(/\be\.g\./gi, "§EG§");
 
-  const exceptions = new Map(
-    exceptionsArr.map((word) => [word.toLowerCase(), word])
-  );
+  const exceptions = new Map(exceptionsArr.map((word) => [word.toLowerCase(), word]));
   exceptions.set("e.G.", "e.g.");
   exceptions.set("E.G.", "e.g.");
   exceptions.set("e.g.", "e.g.");
@@ -120,8 +118,47 @@ const sentencesCaps = (_text) => {
 //   return sentences.join("");
 // };
 
+// export const replaceQuotesUniversal = (txt, style = "typographic") => {
+//   if (!txt) return "";
+
+//   // 1️⃣ Определяем варианты кавычек
+//   const styles = {
+//     typographic: { open: "“", close: "”" },
+//     straight: { open: '"', close: '"' },
+//     guillemet: { open: "«", close: "»" },
+//   };
+
+//   const { open, close } = styles[style] || styles.typographic;
+
+//   // 2️⃣ Нормализуем все возможные кавычки
+//   let normalized = txt.replace(/[«»„”“"‚`‘’‹›']/g, '"');
+
+//   // 3️⃣ Каждую первую кавычку — в <open>, каждую вторую — в <close>
+//   let isOpening = true;
+//   let withPlaceholders = normalized.replace(/"/g, () => {
+//     const tag = isOpening ? "<open>" : "<close>";
+//     isOpening = !isOpening;
+//     return tag;
+//   });
+
+//   // 4️⃣ Убираем пробелы внутри кавычек, но не снаружи
+//   // Пример: <open>  Hello   <close>  → <open>Hello<close>
+//   withPlaceholders = withPlaceholders
+//     .replace(/<open>\s+/g, "<open>")
+//     .replace(/\s+<close>/g, "<close>");
+
+//   // 5️⃣ Заменяем плейсхолдеры на реальные кавычки
+//   const result = withPlaceholders
+//     .replace(/<open>/g, open)
+//     .replace(/<close>/g, close);
+
+//   return result;
+// };
 export const replaceQuotesUniversal = (txt, style = "typographic") => {
   if (!txt) return "";
+  const selection = window.getSelection();
+  const selectedText = selection.toString().trim();
+  console.log(selectedText);
 
   // 1️⃣ Определяем варианты кавычек
   const styles = {
@@ -131,11 +168,24 @@ export const replaceQuotesUniversal = (txt, style = "typographic") => {
   };
 
   const { open, close } = styles[style] || styles.typographic;
+  // ⚙️ 0️⃣ Если есть пустые шевроны («» или с пробелами), сохраняем их временно,
+  // чтобы они не изменялись при замене кавычек
+  const placeholders = [];
+  let protectedTxt = txt.replace(/«\s*»/g, (match) => {
+    const token = `__EMPTY_GUILLEMET_${placeholders.length}__`;
+    placeholders.push({ token, original: match });
+    return token;
+  });
 
-  // 2️⃣ Нормализуем все возможные кавычки
-  let normalized = txt.replace(/[«»„”“"‚`‘’‹›']/g, '"');
+  // 2️⃣ Нормализуем кавычки
+  // Одинарные кавычки заменяем на двойные, только если хотя бы с одной стороны пробел
+  let normalized = protectedTxt
+    // типографские кавычки → обычные двойные
+    .replace(/[«»„”“‚`‘’‹›]/g, '"')
+    // только одинарные с пробелом слева или справа → двойные
+    .replace(/(\s)'|'(\s)/g, (_, a, b) => (a ? `${a}"` : `"${b}`));
 
-  // 3️⃣ Каждую первую кавычку — в <open>, каждую вторую — в <close>
+  // 3️⃣ Каждую первую кавычку — <open>, вторую — <close>
   let isOpening = true;
   let withPlaceholders = normalized.replace(/"/g, () => {
     const tag = isOpening ? "<open>" : "<close>";
@@ -143,18 +193,93 @@ export const replaceQuotesUniversal = (txt, style = "typographic") => {
     return tag;
   });
 
-  // 4️⃣ Убираем пробелы внутри кавычек, но не снаружи
-  // Пример: <open>  Hello   <close>  → <open>Hello<close>
+  // 4️⃣ Убираем пробелы ТОЛЬКО внутри кавычек
+  // Пример: <open>  Hello   <close> → <open>Hello<close>
+  // но не трогаем пробелы снаружи
+  // withPlaceholders = withPlaceholders.replace(/<open>\s+/g, "<open>").replace(/\s+<close>/g, "<close>");
+  //    Удаляем пробелы непосредственно после <open> и непосредственно перед <close>,
+  //    но не трогаем пробелы между разными кавычечными фрагментами.
   withPlaceholders = withPlaceholders
-    .replace(/<open>\s+/g, "<open>")
-    .replace(/\s+<close>/g, "<close>");
-
+    .replace(/<open>\s+([^\s<])/g, "<open>$1") // <open>   Текст -> <open>Текст
+    .replace(/([^\s>])\s+<close>/g, "$1<close>"); // Текст   <close> -> Текст<close>
+  // 5️⃣ Удаляем запятую перед закрывающей кавычкой
+  // Пример: “Hello,” → “Hello”
+  withPlaceholders = withPlaceholders.replace(/,(\s*)<close>/g, "$1<close>");
   // 5️⃣ Заменяем плейсхолдеры на реальные кавычки
-  const result = withPlaceholders
-    .replace(/<open>/g, open)
-    .replace(/<close>/g, close);
-
+  let result = withPlaceholders.replace(/<open>/g, open).replace(/<close>/g, close);
+  // 7️⃣ Возвращаем сохранённые пустые шевроны обратно
+  for (const { token, original } of placeholders) {
+    result = result.replace(token, original);
+  }
   return result;
+};
+
+export const highlightWordsFromCursor = (textarea, wordCount) => {
+  const text = textarea.value;
+  const cursor = textarea.selectionStart;
+
+  // 1️⃣ Если курсор на пробеле — сдвигаем вправо к первому символу слова
+  let start = cursor;
+  while (start < text.length && /\s/.test(text[start])) {
+    start++;
+  }
+  if (start >= text.length) return;
+
+  // 2️⃣ Находим границы слова, на котором стоит курсор (влево и вправо)
+  let wordStart = start;
+  while (wordStart > 0 && /\S/.test(text[wordStart - 1])) {
+    wordStart--;
+  }
+
+  let wordEnd = start;
+  while (wordEnd < text.length && /\S/.test(text[wordEnd])) {
+    wordEnd++;
+  }
+
+  // 3️⃣ Теперь выделяем это и следующие слова
+  let wordsFound = 1;
+  let end = wordEnd;
+
+  const regex = /\S+/g;
+  regex.lastIndex = wordEnd;
+
+  while (wordsFound < wordCount) {
+    const match = regex.exec(text);
+    if (!match) break;
+    end = regex.lastIndex;
+    wordsFound++;
+  }
+
+  // 4️⃣ Устанавливаем выделение
+  textarea.focus();
+  textarea.setSelectionRange(wordStart, end);
+};
+export const normalizeLineEndings = (text) => {
+  if (!text) return "";
+
+  // Разбиваем по строкам
+  const lines = text.split(/\r?\n/);
+
+  // Регулярка для удаления знаков препинания в конце строки
+  const punctuationRegex = /[.,;:!?…]+$/;
+
+  // Обрабатываем строки
+  const processed = lines.map((line, index) => {
+    const trimmed = line.trim(); // убираем пробелы справа
+    // 1️⃣ Удаляем строки, которые заканчиваются двоеточием и не содержат кавычек
+    if (/:[\s]*$/.test(trimmed) && !/['"]/.test(trimmed)) {
+      return null; // помечаем как удаляемую
+    }
+    // 2️⃣ Убираем знаки препинания в конце
+    const withoutPunct = trimmed.replace(punctuationRegex, ""); // убираем знаки препинания
+    const isLast = index === lines.length - 1;
+
+    // 3️⃣ Добавляем ";" или "."
+    return withoutPunct + (isLast ? "." : ";");
+  });
+
+  // Склеиваем обратно
+  return processed.join("\n");
 };
 
 // export const replaceQuotes3 = (txt) => {
@@ -222,8 +347,20 @@ export const cleanAndCapitalize = (text) => {
 
   return text;
 };
+export const wrapCommonpartsInSpan = (text, partsArr) => {
+  let wrappedText = text;
 
-const replaceByArr = (replacementsArr, text) => {
+  partsArr.forEach((phrase) => {
+    if (!phrase.trim()) return;
+    // Экранируем специальные символы для корректного RegExp
+    const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "gi");
+    wrappedText = wrappedText.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+  });
+
+  return wrappedText;
+};
+export const replaceByArr = (replacementsArr, text) => {
   if (!text) return "";
   replacementsArr.forEach(({ oldT, newT, caseSensitive }) => {
     oldT.forEach((oldWord) => {
@@ -247,35 +384,25 @@ export const replacegen = (txt) => {
   return replaceByArr(replacementsGeneral, tmpText);
 };
 export const replaceWords = (allJust, onlyRespNames) => {
-  const allJust_ = !onlyRespNames
-    ? replacegen(allJust)
-    : replaceByArr(autoReplaceToModels, allJust);
+  const allJust_ = !onlyRespNames ? replacegen(allJust) : replaceByArr(autoReplaceToModels, allJust);
   return replaceByArr(replacementsResponses, allJust_);
 };
 export const replaceWordsInteractions = (allJust, onlyRespNames = false) => {
-  const allJust_ = !onlyRespNames
-    ? replacegen(allJust)
-    : replaceByArr(autoReplaceToModels, allJust);
+  const allJust_ = !onlyRespNames ? replacegen(allJust) : replaceByArr(autoReplaceToModels, allJust);
   return replaceByArr(replacementsInteractions, allJust_);
 };
 export const replaceNum = (text, onlyRespNames = false) => {
   // text = replacegen(text);
-  const text_ = !onlyRespNames
-    ? replacegen(text)
-    : replaceByArr(autoReplaceToModels, text);
+  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
   return replaceByArr(replacementsResponsesNum, text_);
 };
 export const replaceNumShort = (text, onlyRespNames = false) => {
   // text = replacegen(text);
-  const text_ = !onlyRespNames
-    ? replacegen(text)
-    : replaceByArr(autoReplaceToModels, text);
+  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
   return replaceByArr(replacementsResponsesNumShort, text_);
 };
 export const replaceNum2 = (text, onlyRespNames = false) => {
-  const text_ = !onlyRespNames
-    ? replacegen(text)
-    : replaceByArr(autoReplaceToModels, text);
+  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
 
   return replaceByArr(replacementsResponsesNum2, text_);
 };
@@ -317,9 +444,7 @@ export const highlightedText = (text, compliteCrit = []) => {
   const exArr = ["example_b", "example_a"];
   const regArr = ["some", "major", "minor", "no problems"];
   const regexPattern = new RegExp(
-    `(${[...compliteCrit, ...regArrA, ...regArrB, ...regArr, ...exArr].join(
-      "|"
-    )})`,
+    `(${[...compliteCrit, ...regArrA, ...regArrB, ...regArr, ...exArr].join("|")})`,
     "gi"
   );
   // Split the text by "example", keeping the word itself
@@ -331,10 +456,7 @@ export const highlightedText = (text, compliteCrit = []) => {
           {part}
         </span>
       );
-    else if (
-      compliteCrit.includes(part) ||
-      compliteCrit.includes(part.toLowerCase())
-    )
+    else if (compliteCrit.includes(part) || compliteCrit.includes(part.toLowerCase()))
       return (
         <span className="highlight-crit" key={index}>
           {part}
@@ -377,14 +499,10 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
   // const nonCyrillicRegex =
   //   /(?<![а-яёА-ЯЁ])[^\s.,!?;:"()«»—–0-9\-+=/*@#$%^&()[\]{}<>\\|~`']/gi;
   const nonCyrillicMatches = text.match(nonCyrillicRegex);
-  const uniqueNonCyrillic = nonCyrillicMatches
-    ? [...new Set(nonCyrillicMatches)]
-    : [];
+  const uniqueNonCyrillic = nonCyrillicMatches ? [...new Set(nonCyrillicMatches)] : [];
 
   const regexPattern = new RegExp(
-    `(${[...compliteCrit, ...regQ, ...regD, ...regS, ...uniqueNonCyrillic].join(
-      "|"
-    )})`,
+    `(${[...compliteCrit, ...regQ, ...regD, ...regS, ...uniqueNonCyrillic].join("|")})`,
     "gi"
   );
   // Split the text by "example", keeping the word itself
@@ -396,10 +514,7 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
           {part}
         </span>
       );
-    else if (
-      compliteCrit.includes(part) ||
-      compliteCrit.includes(part.toLowerCase())
-    )
+    else if (compliteCrit.includes(part) || compliteCrit.includes(part.toLowerCase()))
       return (
         <span className="highlight-orange" key={index}>
           {part}
@@ -423,11 +538,7 @@ export const highlightedCheckedText = (text, compliteCrit = []) => {
           {part}
         </span>
       );
-    else if (
-      part.toLowerCase().includes(`-`) ||
-      part.toLowerCase().includes(`–`) ||
-      part.toLowerCase().includes(`—`)
-    )
+    else if (part.toLowerCase().includes(`-`) || part.toLowerCase().includes(`–`) || part.toLowerCase().includes(`—`))
       return (
         <span className="highlight-dash" key={index}>
           {part}
@@ -448,12 +559,7 @@ const wordCaps = (text) =>
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
-export const voiceToEdit = (
-  val,
-  handleTxt,
-  setHandleTxt,
-  fieldId = "editArea"
-) => {
+export const voiceToEdit = (val, handleTxt, setHandleTxt, fieldId = "editArea") => {
   const newVal = val.en;
   let start = handleTxt.length;
   let end = handleTxt.length;
@@ -470,12 +576,7 @@ export const voiceToEdit = (
     const textBefore = handleTxt.slice(0, start);
     const textAfter = handleTxt.slice(end);
     const lastSymb = textBefore[textBefore.length - 1];
-    const newText =
-      textBefore +
-      (lastSymb === "." || textarea === null ? " " : "") +
-      newVal +
-      " " +
-      textAfter;
+    const newText = textBefore + (lastSymb === "." || textarea === null ? " " : "") + newVal + " " + textAfter;
     setHandleTxt(newText);
     return;
   }
@@ -523,7 +624,7 @@ const quoteEachLineI = (input, txt = " instead of ") => {
 
   return result.join("\n");
 };
-const getFragment = (textarea) => {
+const getFragmentText = (textarea) => {
   const text = textarea.value;
   const cursor = textarea.selectionStart;
 
@@ -563,9 +664,7 @@ const getFragment = (textarea) => {
     textarea.focus();
     const selectedText = text.slice(start, end + 1);
     if (selectedText) {
-      navigator.clipboard.writeText(selectedText).catch((err) => {
-        console.error("Ошибка копирования:", err);
-      });
+      return selectedText;
     }
     return;
   }
@@ -582,10 +681,45 @@ const getFragment = (textarea) => {
   textarea.setSelectionRange(start, end);
   textarea.focus();
   const selectedText = text.slice(start, end);
+  return selectedText;
+};
+
+const addFragmentToClipboard = async (textarea) => {
+  const selectedText = getFragmentText(textarea);
+  if (!selectedText) return;
+
+  try {
+    // Читаем, что уже есть в буфере
+    let oldClipboard = "";
+    try {
+      oldClipboard = await navigator.clipboard.readText();
+    } catch {
+      oldClipboard = "";
+    }
+
+    // Добавляем через запятую, если не пусто
+    const newClipboard = oldClipboard ? `${oldClipboard}, ${selectedText}` : selectedText;
+
+    await navigator.clipboard.writeText(newClipboard);
+    console.log("Добавлено в буфер:", newClipboard);
+  } catch (err) {
+    console.error("Ошибка при работе с буфером:", err);
+  }
+};
+const getFragment = (textarea) => {
+  const selectedText = getFragmentText(textarea);
   if (selectedText) {
     navigator.clipboard.writeText(selectedText).catch((err) => {
       console.error("Ошибка копирования:", err);
     });
+  }
+};
+export const clearClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText("");
+    console.log("Буфер очищен.");
+  } catch (err) {
+    console.error("Ошибка при очистке буфера:", err);
   }
 };
 
@@ -666,15 +800,7 @@ export const wordUnderCursor = (text, start) => {
   return [word, wordStart, wordEnd];
 };
 
-export const editTextAction = async (
-  fieldId,
-  text,
-  setText,
-  action,
-  ignoreNoselected = false,
-  newVal = null,
-  finalFn = null
-) => {
+export const editTextAction = async (fieldId, text, setText, action, ignoreNoselected = false, newVal = null) => {
   const textarea = document.getElementById(fieldId);
   if (!textarea && !text) return "";
   let start = textarea.selectionStart;
@@ -682,6 +808,11 @@ export const editTextAction = async (
   if (start === end && !ignoreNoselected) {
     return; // No text selected
   }
+  // let curs = start === end ? start : null;
+  let actionType = "editSelection"; //if np selection - than new result will be added to the cursor position
+  // action type-edit or add: if selection is - edit if no - paste to the cursor
+  // action type:edit all or select:    do action - if no selection - paste instead all text otherwise- replace selection to the cursor position
+
   let spaceBef = " ";
 
   if (action === "delSel") {
@@ -690,7 +821,10 @@ export const editTextAction = async (
     if (textarea !== null) textarea.setSelectionRange(start, start);
     return;
   }
-
+  if (action === "clearClipboard") {
+    clearClipboard();
+    return;
+  }
   const textF = text ? text : textarea.value;
   let selectedText = textF.slice(start, end);
 
@@ -699,46 +833,45 @@ export const editTextAction = async (
     if (textarea !== null) getFragment(textarea);
     return;
   }
+  if (action === "addFragment") {
+    if (textarea !== null) addFragmentToClipboard(textarea);
+    return;
+  }
   if (action === "add") {
     resultText = newVal || "";
   } else if (action === "upFirst") {
-    if (!selectedText)
-      [selectedText, start, end] = wordUnderCursor(text, start);
+    if (!selectedText) [selectedText, start, end] = wordUnderCursor(text, start);
     resultText = wordCaps(selectedText);
     spaceBef = "";
   } else if (action === "down") {
     // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
 
-    if (!selectedText)
-      [selectedText, start, end] = wordUnderCursor(text, start);
+    if (!selectedText) [selectedText, start, end] = wordUnderCursor(text, start);
 
     // debugger;
     resultText = selectedText.toLowerCase();
     spaceBef = "";
   } else if (action === "up") {
-    if (!selectedText)
-      [selectedText, start, end] = wordUnderCursor(text, start);
+    if (!selectedText) [selectedText, start, end] = wordUnderCursor(text, start);
     resultText = selectedText.toUpperCase();
     spaceBef = "";
-  } else if (action === "accent")
-    resultText = `"${selectedText}" instead of "${selectedText}"`;
+  } else if (action === "accent") resultText = `"${selectedText}" instead of "${selectedText}"`;
   else if (action === "quotation") resultText = `"${selectedText}"`;
+  else if (action === "lineEnding") resultText = normalizeLineEndings(selectedText);
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "quotationL") resultText = quoteEachLine(selectedText);
   else if (action === "transformAll") resultText = transformText(selectedText);
-  else if (action === "englBaseComm") {
+  else if (action === "typographic" || action === "straight" || action === "guillemet") {
+    selectedText = start === end ? textF : selectedText;
+    resultText = replaceQuotesUniversal(selectedText, action);
+    spaceBef = "";
+    actionType = "editAll";
+  } else if (action === "englBaseComm") {
     // замена кавычек на англ, убрать лишние пробелы, в т.ч внутри кавычек и скобок, лишние пробелы. Добавить большие буквы в начале предложений
     selectedText = start === end ? textF : selectedText;
     resultText = replaceQuotesUniversal(selectedText);
     resultText = cleanAndCapitalize(resultText);
-    const newText =
-      end === start
-        ? resultText
-        : textF.slice(0, start) + " " + resultText + textF.slice(end);
-    setText(newText);
-    if (textarea !== null)
-      textarea.setSelectionRange(start, start + resultText.length + 1);
-    return;
+    actionType = "editAll";
   } else if (action === "rubErrComm") {
     const pasteTxt = await navigator.clipboard.readText();
 
@@ -750,30 +883,28 @@ export const editTextAction = async (
   } else if (action === "quotationLP0") {
     // const pasteTxt = await navigator.clipboard.readText();
     resultText = quoteEachLinePlus(selectedText);
-  } else if (action === "quotationLI")
-    resultText = quoteEachLineI(selectedText);
-  else if (action === "quotationLB")
-    resultText = quoteEachLineI(selectedText, ": it is better to use ");
+  } else if (action === "quotationLI") resultText = quoteEachLineI(selectedText);
+  else if (action === "quotationLB") resultText = quoteEachLineI(selectedText, ": it is better to use ");
   else if (action === "linePairD") resultText = pairLines(selectedText);
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
   else if (action === "quotation3") resultText = `“${selectedText}”`;
-
-  const newText =
-    textF.slice(0, start) + spaceBef + resultText + textF.slice(end);
-
-  setText(newText);
-  if (textarea !== null)
-    textarea.setSelectionRange(start, start + resultText.length + 1);
+  // RESULT!!!!!!!!!!!!!!!!!!
+  if (actionType === "editAll") {
+    //Если выделения нет — заменяет весь текст на resultText
+    const newText = end === start ? resultText : textF.slice(0, start) + " " + resultText + textF.slice(end);
+    setText(newText);
+    if (textarea !== null) textarea.setSelectionRange(start, start + resultText.length + 1);
+  } else {
+    //edit select
+    //Если выделения нет — вставка на место курсора для контекстных вставок (например, кавычек, шаблонов)
+    const newText = textF.slice(0, start) + spaceBef + resultText + textF.slice(end);
+    setText(newText);
+    // не меняет весь текст если ничего не выделено - только кусочек, например чтобы добавить пустые кавычки
+    if (textarea !== null) textarea.setSelectionRange(start, start + resultText.length + 1);
+  }
 };
-export const editTextActionRef = (
-  ref,
-  text,
-  setText,
-  action,
-  ignoreNoselected = false,
-  newVal = null
-) => {
+export const editTextActionRef = (ref, text, setText, action, ignoreNoselected = false, newVal = null) => {
   if (!ref || !ref.current) return;
   const textarea = ref.current;
   // const textarea = document.getElementById("R1");
@@ -802,21 +933,15 @@ export const editTextActionRef = (
     // resultText = selectedText.replace(/\b\w/g, (char) => char.toLowerCase());
     resultText = selectedText.toLowerCase();
   else if (action === "up") resultText = selectedText.toUpperCase();
-  else if (action === "accent")
-    resultText = `"${selectedText}" instead of "${selectedText}"`;
+  else if (action === "accent") resultText = `"${selectedText}" instead of "${selectedText}"`;
   else if (action === "quotation") resultText = `"${selectedText}"`;
   else if (action === "quotation2") resultText = `«${selectedText}»`;
   else if (action === "staples") resultText = `(${selectedText})`;
   else if (action === "dash") resultText = ` — ${selectedText}`;
-  const newText =
-    text.slice(0, start) +
-    (start === 0 ? "" : " ") +
-    resultText +
-    text.slice(end);
+  const newText = text.slice(0, start) + (start === 0 ? "" : " ") + resultText + text.slice(end);
 
   setText(newText);
-  if (textarea !== null)
-    textarea.setSelectionRange(start, start + resultText.length + 1);
+  if (textarea !== null) textarea.setSelectionRange(start, start + resultText.length + 1);
 };
 export const getSelection = (fieldId) => {
   const textarea = document.getElementById(fieldId);
@@ -850,10 +975,7 @@ export const replaceText = (fieldId, handleTxt, oldText, newVal) => {
     // only selection
     const textBefore = handleTxt.slice(0, start);
     const selectedText = handleTxt.slice(start, end);
-    const newSelectedText = selectedText.replace(
-      new RegExp(oldText, "g"),
-      newVal
-    );
+    const newSelectedText = selectedText.replace(new RegExp(oldText, "g"), newVal);
     const textAfter = handleTxt.slice(end);
     const newText = textBefore + " " + newSelectedText + " " + textAfter;
     return newText;
@@ -911,12 +1033,9 @@ export const concatenateEnFields = (justification) => {
       if (val === "." || val === ",") {
         return acc + val;
       }
-      let formatVal = acc.endsWith(".")
-        ? val.charAt(0).toUpperCase() + val.slice(1)
-        : val;
+      let formatVal = acc.endsWith(".") ? val.charAt(0).toUpperCase() + val.slice(1) : val;
       formatVal = formatVal.replace("respond ", "Respond ");
-      if (!acc)
-        formatVal = formatVal.charAt(0).toUpperCase() + formatVal.slice(1);
+      if (!acc) formatVal = formatVal.charAt(0).toUpperCase() + formatVal.slice(1);
       return acc + " " + formatVal;
     }, "")
     .trim();
@@ -942,8 +1061,7 @@ export const addinside = (ref, str, setVal = null) => {
   const newVal = text.slice(0, cursorPos) + str + text.slice(cursorPos);
   if (setVal === null) return newVal;
   setVal(newVal);
-  ref.current.selectionStart = ref.current.selectionEnd =
-    cursorPos + str.length;
+  ref.current.selectionStart = ref.current.selectionEnd = cursorPos + str.length;
 };
 export const replaceEndings = (e, replacements) => {
   const str = e.target.value;
@@ -996,9 +1114,7 @@ export const checkPatternR = (text) => {
 };
 
 export const getNameByAorB = (value, set) => {
-  const item = defaultDimSets[set].find(
-    (obj) => obj.a === value || obj.b === value
-  );
+  const item = defaultDimSets[set].find((obj) => obj.a === value || obj.b === value);
   return item ? item.name : ""; // Возвращает поле name или null, если не найдено
 };
 
@@ -1043,9 +1159,7 @@ export const actionWithSelection = (fieldid, callback) => {
   const text = textarea.value;
   const selectedText = start === end ? text : text.slice(start, end); // No text selected — all text
   let resultText = callback(selectedText);
-  return start === end
-    ? resultText
-    : text.slice(0, start) + " " + resultText + text.slice(end);
+  return start === end ? resultText : text.slice(0, start) + " " + resultText + text.slice(end);
 };
 
 export const processStars = (fieldid) => {
@@ -1123,8 +1237,7 @@ export const replaceDotsInNumbers = (fieldid) => {
   return nv;
 };
 export const changeUsd = (fieldid) => {
-  const formating = (txt) =>
-    txt.replace(/долл\./g, "долларов").replace(/USD/g, "долларов США"); // заменяем \Times на \times
+  const formating = (txt) => txt.replace(/долл\./g, "долларов").replace(/USD/g, "долларов США"); // заменяем \Times на \times
   const nv = actionWithSelection(fieldid, formating);
   return nv;
 };
@@ -1178,8 +1291,15 @@ export const wordCount = (txt, field = "") => {
   const cleanedText = txt.replace(/[.,!?;:"()«»—]/g, "");
   if (!txt) return;
   const wc = cleanedText.split(/\s+/).filter((word) => word.length > 0).length;
+  // Считаем предложения
+  // Разделяем по точкам, восклицательным и вопросительным знакам
+  const sentences = txt
+    .split(/[.!?]+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+  const sc = sentences.length;
   sAlert({
-    title: "Word counts " + (field ? field : ""),
-    text: wc,
+    title: "Word & Sentence counts " + (field ? field.toUpperCase() : ""),
+    text: `Words: ${wc}\nSentences: ${sc}`,
   });
 };

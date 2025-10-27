@@ -112,7 +112,7 @@ export const hotReplaceTone = [
 export const autoreplaceGrammar = [
   {
     title: "MU",
-    newT: "— made-up words:",
+    newT: `— made-up words:\u00A0`,
     bold: true,
   },
   {
@@ -126,7 +126,7 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— unnatural phrases:`,
+    newT: `— unnatural phrases:\u00A0`,
     title: "UN",
     bold: true,
   },
@@ -149,7 +149,7 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— foreign language:`,
+    newT: `— foreign language:\u00A0`,
     title: "FR",
     bold: true,
   },
@@ -163,12 +163,12 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— misspelled words:`,
+    newT: `— misspelled words:\u00A0`,
     title: "SP",
     bold: true,
   },
   {
-    newT: `— Grammatical errors:`,
+    newT: `— grammatical errors:\u00A0`,
     title: "GR",
     bold: true,
   },
@@ -181,7 +181,7 @@ export const autoreplaceGrammar = [
     title: "GR inst",
   },
   {
-    newT: `Punctuation errors:`,
+    newT: `— punctuation errors: `,
     title: "punkt",
   },
   {
@@ -190,12 +190,12 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— incorrect word matching:`,
+    newT: `— incorrect word matching:\u00A0`,
     title: "WM",
     bold: true,
   },
   {
-    newT: `— incorrect word agreement:`,
+    newT: `— incorrect word agreement: `,
     title: "WA",
   },
   {
@@ -208,7 +208,7 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— wrong quotation marks (should be «»).`,
+    newT: `— wrong quotation marks (should be «»)`,
     title: "«»s",
     bold: true,
   },
@@ -230,7 +230,7 @@ export const autoreplaceGrammar = [
   },
 
   {
-    newT: `— BotModel uses uppercase after the colon, it should be a lowercase letter.`,
+    newT: `— uppercase after the colon (should be lowercase letter)`,
     title: ":As",
     bold: true,
   },
@@ -239,7 +239,7 @@ export const autoreplaceGrammar = [
     title: ":A",
   },
   {
-    newT: `No colon is needed after the title.`,
+    newT: `No colon is needed after the title`,
     title: "A:",
   },
   {
@@ -251,28 +251,39 @@ export const autoreplaceGrammar = [
     title: "ё",
   },
   {
-    newT: `— wrong preposition`,
+    newT: `— wrong preposition:\u00A0`,
     title: "в-во",
+    bold: true,
+  },
+  {
+    title: "ALLs",
+    newT: `— foreign language:\u00A0
+           — incorrect word matching:\u00A0
+           — made-up words:\u00A0
+           — misspelled words:\u00A0
+           — unnatural phrases:\u00A0
+          `,
+    bold: true,
   },
   {
     title: "ALL",
     newT: `— made-up words:
 
-           — unnatural phrases:
+           — unnatural phrases: 
 
-           — foreign language:
+           — foreign language: 
            
-           — misspelled words:
+           — misspelled words: 
 
-           — grammatical errors:
+           — grammatical errors: 
            
-           — incorrect word matching:
+           — incorrect word matching: 
 
-           — wrong quotation marks (should be «»).
+           — wrong quotation marks (should be «»)
 
-          — BotModel uses uppercase after the colon, it should be a lowercase letter.
+          — BotModel uses uppercase after the colon, it should be a lowercase letter
           `,
-    bold: true,
+    // bold: true,
   },
 ];
 export const hotReplaceJustif = [
@@ -737,7 +748,6 @@ export const autoreplaceRub = [
     title: `».`,
   },
 ];
-
 export const autoreplaceLocal = [
   {
     title: "❌ pov",
@@ -768,4 +778,202 @@ export const hotbtnsArrDef = [
   { name: "REVIEW", btns: hotReplaceRewiew },
   { name: "RUBRICS", btns: autoreplaceRub },
   { name: "LOCAL", btns: autoreplaceLocal },
+];
+export const hotJustifInstruction = [
+  {
+    title: "not follow",
+    newT: "The response does not follow the format, length, tone, exclusions, or other constraints explicitly mentioned in the prompt.",
+  },
+  {
+    title: "SP RU",
+    newT: "The response does not meet the system prompt, because it does not conform with the Russian language standard.",
+  },
+  {
+    title: "SP RU2",
+    newT: "The system prompt is also failed since the response is useless and does not conform with the Russian language standard.",
+  },
+  {
+    title: "SP RU 3",
+    newT: "Since the response is useless and does not conform with the Russian language standard, the system prompt has also failed ",
+  },
+  {
+    title: "SP AS",
+    newT: "The system prompt is also failed since the model is not useful as an assistant, and the response is useless",
+  },
+  {
+    title: "SP AS2",
+    newT: "Since the response is useless, and the model is not useful as an assistant, the system prompt has also failed.",
+  },
+  {
+    title: "SP AS3",
+    newT: "Since the model is not useful as an assistant, the system prompt has also failed.",
+    bold: true,
+  },
+  {
+    title: "extra facts",
+    newT: "The extra facts the model added are unhelpful.",
+  },
+  {
+    title: "constraints ignore",
+    newT: "The response ignores or violates key constraints in the prompt, making it unhelpful to the user.",
+  },
+  {
+    title: "user asked",
+    newT: " The user asked for _, but the response recommended/provided _. This does not follow the prompt's instructions.",
+  },
+  { title: "failed", newT: "The model has failed the task because ", bold: true },
+  {
+    title: "not use some info",
+    newT: "The model did not use some information provided by the user in any way.",
+  },
+  {
+    title: "not useful",
+    bold: true,
+    newT: "The response is not useful to the user because ",
+  },
+  {
+    title: "not truth",
+    bold: true,
+    newT: "The response will not be useful to the user because not all the information in it corresponds to reality. ",
+  },
+  {
+    title: "role",
+    newT: "The model fails to take on the role of ______ because",
+  },
+];
+export const hotJustifTruth = [
+  {
+    title: "inaccurately claims",
+    newT: "The response inaccurately claims that __ when in fact it's _.",
+  },
+  {
+    title: "pretends",
+    newT: "The response is not truthful, because it pretends that the text has been rewritten and changed, however, no requested changes have actually been made.",
+  },
+  {
+    title: "pretends suitable",
+    newT: "The response misleads the user by pretending to provide a suitable answer.",
+  },
+  {
+    title: "advices",
+    newT: "The model gives/provides completely unrealistic/strange/poor advices/ideas such as",
+  },
+  {
+    title: "inaccurate",
+    newT: "The response is inaccurate.",
+  },
+  {
+    title: "not follow instr",
+    newT: "The text is supposed to follow all user instructions, but it doesn't.",
+  },
+  {
+    title: "fabricated ref",
+    newT: "The response included fabricated details (_), which were not in the reference text.",
+  },
+  {
+    title: "does not correspond",
+    newT: " The response will not be useful to the user because not all the information in it corresponds to reality and reference text.",
+  },
+  {
+    title: "core requirement",
+    newT: "The model does not state the core requirement in the response, so it is assumed that the response meets all the requirements of the request, but this is not the case.",
+  },
+  {
+    title: "time",
+    newT: "Since the task is time-sensitive, and, the model provides inaccurate data without a cut-off date, the score will be reduced to major.",
+  },
+];
+export const hotJustifLength = [
+  {
+    title: "too detailed",
+    newT: "The response is either overly detailed",
+  },
+  {
+    title: "unrelated details",
+    newT: "A response includes unrelated details:",
+  },
+  {
+    title: "long pleasantries",
+    newT: "The response contains long pleasantries that lead to lack of focus on the answer.",
+  },
+  {
+    title: "rephrases",
+    newT: "The response rephrases the same ideas.",
+  },
+  {
+    title: "unrelated opinions",
+    newT: "Adding suggestions, opinions, or unrelated information",
+  },
+  { title: "short", newT: "The response is too short. " },
+  { title: "long", newT: "The response is too long." },
+  {
+    title: "short-long",
+    newT: `The response is too long and short at the same time. 
+          It is too short since there is little useful information in the response.
+          It is too long since it contains unnecessary unuseful details.`,
+  },
+  {
+    title: "short-long2",
+    newT: `Since none of __ provided by the model are suitable, the response is both long and short. Since the lack of information has already been penalized by other dimensions, the response is a bit long. `,
+  },
+  {
+    title: "pleasantries",
+    newT: "The response contains pleasantries (last/first paragraph/sentence).",
+  },
+  {
+    title: "not all info is used",
+    newT: "The model does not use all the information provided by the user in the prompt.",
+  },
+  {
+    title: "already evaluated",
+    newT: `Since this error has already been evaluated in other dimensions, "too verbose/short (minor/major) issue" score is selected.`,
+  },
+];
+export const hotJustifTone = [
+  {
+    newT: `BotModel provides a lot of information but lacks structure. Adding bullet points or bolding key details would improve readability`,
+    title: "Presentation",
+  },
+  {
+    newT: `There was no need to use a bulleted list inside a numbered list for just one item.`,
+    title: "bulleted 1",
+  },
+  {
+    newT: `It contains phrases that are too complex for the target audience.`,
+    title: "too complex",
+  },
+  {
+    newT: `The tone is completely inappropriate. Instead of being formal, the nonsensical word choices make it sound absurd and unprofessional.`,
+    title: "unprofessional",
+  },
+  {
+    newT: `The user also asked for an official style. Although the model tries, the text as a whole does not look official.`,
+    title: "not official",
+  },
+  {
+    newT: `The response is too official: it uses the pronoun “вы” when addressing the user. In Russia, “ты” is more often used when addressing a _`,
+    title: "too official вы",
+  },
+  {
+    newT: `The phrases used are unusual for the specified character`,
+    title: "phrases (chatbot)",
+  },
+  {
+    newT: `The tone used is unusual for the specified character`,
+    title: "tone (chatbot)",
+  },
+  {
+    newT: `due to numerous localization errors, the response cannot be used as a blog post`,
+    title: "localization errors",
+  },
+  {
+    newT: `The writing style does not match what is expected`,
+    title: "writing style",
+  },
+];
+export const hotJustifHarmf = [
+  {
+    newT: `BotModel recommends using platforms whose activities are prohibited by law in the country (Instagram, Facebook)`,
+    title: "platforms",
+  },
 ];

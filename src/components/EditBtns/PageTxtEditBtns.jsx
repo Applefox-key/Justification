@@ -35,14 +35,10 @@ const PageTxtEditBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
 
   return (
     <div className="d-flex  align-items-center">
-      <FormatBtn
-        handleTxt={handleTxt}
-        setHandleTxt={setHandleTxt}
-        action={action}
-      />
+      <FormatBtn handleTxt={handleTxt} setHandleTxt={setHandleTxt} action={action} />
       <div className="topsmallbtns-box">
         <BtnFragm handleTxt={handleTxt} setHandleTxt={setHandleTxt} />
-      </div>{" "}
+      </div>
       <Button
         className="btnToHis hintBtn"
         disabled={!handleTxt}
@@ -54,29 +50,16 @@ const PageTxtEditBtns = ({ fieldid, statesVal, onOK, action = "RAB" }) => {
         }}>
         <AiOutlineClear />
       </Button>
-      <Button
-        className="btnToHis hintBtn"
-        disabled={!handleTxt}
-        onClick={(e) => copyToClipboard(handleTxt)}>
+      <Button className="btnToHis hintBtn" disabled={!handleTxt} onClick={(e) => copyToClipboard(handleTxt)}>
         <ImCopy />
       </Button>{" "}
-      <Button
-        className="btnToHis hintBtn"
-        onClick={(e) => pasteFromClipboard()}>
+      <Button className="btnToHis hintBtn" onClick={(e) => pasteFromClipboard()}>
         <FaRegPaste />
       </Button>{" "}
-      <button
-        className="btnToHis hintBtn"
-        title="word count"
-        onClick={() => wordCount(item[fieldid], fieldid)}>
+      <button className="btnToHis hintBtn" title="word count" onClick={() => wordCount(item[fieldid], fieldid)}>
         <LiaCalculatorSolid />
       </button>{" "}
-      <FlowerBtnUniv
-        className="hintBtn "
-        fieldId={fieldid}
-        fieldVal={item[fieldid]}
-        setNewVal={setHandleTxt}
-      />
+      <FlowerBtnUniv className="hintBtn " fieldId={fieldid} fieldVal={item[fieldid]} setNewVal={setHandleTxt} />
       {onOK && (
         <Button className="btnToHis" onClick={onOK}>
           OK

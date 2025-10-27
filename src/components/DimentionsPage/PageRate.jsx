@@ -4,22 +4,14 @@ import EditFieldDmg from "../Dimentions/EditFieldDmg";
 
 import { compose, rateIcons } from "../../utils/rates";
 import RateBoxes from "../Rate/RateBoxes";
+import ScalableInput from "../EditBtns/ScalableInput";
 
 const PageRate = ({ editParam }) => {
-  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert } =
-    editParam;
+  const { setIsTxt, item, setItem, fieldFn, fieldId, isTxt, likert } = editParam;
 
   const getClassName = (resp = "a", val) => {
-    const colorStyle = !val
-      ? "empty"
-      : val === 3
-      ? "yellow"
-      : val < 3
-      ? "red"
-      : "green";
-    return resp === "a"
-      ? `evals-spanl ${colorStyle}`
-      : `evals-spanr ${colorStyle}`;
+    const colorStyle = !val ? "empty" : val === 3 ? "yellow" : val < 3 ? "red" : "green";
+    return resp === "a" ? `evals-spanl ${colorStyle}` : `evals-spanr ${colorStyle}`;
   };
 
   return (
@@ -29,34 +21,26 @@ const PageRate = ({ editParam }) => {
 
         <div>
           <div>
-            <button onClick={() => likert.getRecomendation(null, true)}>
-              get hint
-            </button>
-            <button onClick={() => compose(item, setItem, "RateA", 1)}>
-              Rate A
-            </button>
-            <button onClick={() => compose(item, setItem, "RateB", 2)}>
-              Rate B
-            </button>
+            <button onClick={() => likert.getRecomendation(null, true)}>get hint</button>
+            <button onClick={() => compose(item, setItem, "RateA", 1)}>Rate A</button>
+            <button onClick={() => compose(item, setItem, "RateB", 2)}>Rate B</button>
           </div>
         </div>
       </div>
       <div className={"respDim-footer "}>
         <>
-          <EditFieldDmg
-            scale=""
+          <ScalableInput
             key={"RateA"}
             fieldName={"RateA"}
             placeholder={"RateA"}
-            setIsTxt={setIsTxt}
-            classN={
+            className={
               (fieldId === "RateA" ? "dimField active-field" : "dimField") +
               (likert.best.fields.includes("RateA") ? " best-field" : "")
             }
-            isTxt={isTxt && fieldId === "RateA"}
-            isActive={fieldId === "RateA"}
+            fieldId={fieldId}
             fieldVal={item["RateA"]}
             fieldFn={fieldFn}
+            onChange={(val) => fieldFn.setNewVal(val)}
           />
           <div className="mt-4">
             <div className="evals-dim">
@@ -65,11 +49,7 @@ const PageRate = ({ editParam }) => {
                   <div className="d-flex flex-row" key={i}>
                     <span
                       rate={rateIcons[item.Evals[field.b]]}
-                      title={
-                        item.Evals[field.a] > item.Evals[field.b]
-                          ? item.Evals[field.a] - item.Evals[field.b]
-                          : ""
-                      }
+                      title={item.Evals[field.a] > item.Evals[field.b] ? item.Evals[field.a] - item.Evals[field.b] : ""}
                       className={getClassName("a", item.Evals[field.a])}>
                       {item.Evals[field.a]}
                     </span>
@@ -77,11 +57,7 @@ const PageRate = ({ editParam }) => {
 
                     <span
                       rate={rateIcons[item.Evals[field.b]]}
-                      title={
-                        item.Evals[field.b] > item.Evals[field.a]
-                          ? item.Evals[field.b] - item.Evals[field.a]
-                          : ""
-                      }
+                      title={item.Evals[field.b] > item.Evals[field.a] ? item.Evals[field.b] - item.Evals[field.a] : ""}
                       className={getClassName("b", item.Evals[field.b])}>
                       {item.Evals[field.b]}
                     </span>
@@ -91,20 +67,19 @@ const PageRate = ({ editParam }) => {
             </div>
           </div>
 
-          <EditFieldDmg
-            scale=""
+          <ScalableInput
+            // btnSide=""
             key={"RateB"}
             fieldName={"RateB"}
             placeholder={"RateB"}
-            setIsTxt={setIsTxt}
-            classN={
+            className={
               (fieldId === "RateB" ? "dimField active-field" : "dimField") +
               (likert.best.fields.includes("RateB") ? " best-field" : "")
             }
-            isTxt={isTxt && fieldId === "RateB"}
-            isActive={fieldId === "RateB"}
+            fieldId={fieldId}
             fieldVal={item["RateB"]}
             fieldFn={fieldFn}
+            onChange={(val) => fieldFn.setNewVal(val)}
           />
         </>
       </div>

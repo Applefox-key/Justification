@@ -51,6 +51,7 @@ const MenuBtnsWrap = ({ btnsArr, alwaysOpen, defaultOpen = null }) => {
                     title={btn.title}
                     onMouseDown={(e) => onHandleCLick(e, btn)}
                     onContextMenu={(e) => onHandleCLick(e, btn)}>
+                    {btn.grLabel ? btn.grLabel : ""}
                     {btn.label}
                   </button>
                   {btn.subList && (

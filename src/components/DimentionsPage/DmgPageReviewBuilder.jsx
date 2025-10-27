@@ -5,10 +5,10 @@ import { getActionButtons } from "../../utils/dimentions";
 import DmgRateByDim from "./DmgRateByDim";
 import { getCursorPosById } from "../../utils/DOMfn";
 import DimAddDetail from "./DimAddDetail";
+import DmgResumeByDim from "./DmgResumeByDim";
 
 const DmgPageReviewBuilder = ({ editParam }) => {
-  const { setIsTxt, item, fieldFn, fieldId, isTxt, setItem, likert, action } =
-    editParam;
+  const { setIsTxt, item, fieldFn, fieldId, isTxt, setItem, likert, action } = editParam;
   const [showFormTxt, setShowFormTxt] = useState(false);
   const posRev = useRef();
   const setByDim = () => {
@@ -51,8 +51,9 @@ const DmgPageReviewBuilder = ({ editParam }) => {
           </div>
         </div>
 
+        {/* <DmgRateByDim item={item} likert={likert} className="partly-height" /> */}
         {showFormTxt ? (
-          <DmgRateByDim item={item} likert={likert} className="partly-height" />
+          <DmgResumeByDim item={item} likert={likert} className="partly-height" />
         ) : (
           <EditFieldDmg
             key="Justif"
@@ -79,12 +80,7 @@ const DmgPageReviewBuilder = ({ editParam }) => {
             <button onClick={() => updateReview("@1:")}>@1</button>
             <button onClick={() => updateReview("@2:")}>@2</button>
           </div>
-          <DimAddDetail
-            id="showForm"
-            title="show by dim"
-            val={showFormTxt}
-            setVal={setByDim}
-          />
+          <DimAddDetail id="showForm" title="show by dim" val={showFormTxt} setVal={setByDim} />
         </div>
 
         <EditFieldDmg

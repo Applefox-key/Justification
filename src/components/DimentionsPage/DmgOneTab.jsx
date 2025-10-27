@@ -5,29 +5,12 @@ import DmgFieldEditPage from "./DmgFieldEditPage";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 
 const DmgOneTab = ({ editParam, small, showBody }) => {
-  const {
-    field,
-    setIsTxt,
-    fieldId,
-    isTxt,
-    item,
-    fieldFn,
-    pasteToText,
-    action,
-    setAct,
-    activeTab,
-  } = editParam;
+  const { field, setIsTxt, fieldId, isTxt, item, fieldFn, pasteToText, action, setAct, activeTab } = editParam;
   console.log(showBody);
 
   const [closed, setClosed] = useState(!showBody);
-  const classA = () =>
-    "dimField " +
-    (small ? "sm " : "") +
-    (fieldId === field.a ? "active-field" : "");
-  const classB = () =>
-    "dimField " +
-    (small ? "sm " : "") +
-    (fieldId === field.b ? "active-field" : "");
+  const classA = () => "dimField " + (small ? "sm " : "") + (fieldId === field.a ? "active-field" : "");
+  const classB = () => "dimField " + (small ? "sm " : "") + (fieldId === field.b ? "active-field" : "");
 
   useEffect(() => {
     if (typeof showBody === "boolean") {
@@ -38,14 +21,7 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
 
   return (
     <>
-      {!closed && (
-        <DimBtnsHot
-          field={field}
-          pasteToText={pasteToText}
-          action={action}
-          set={item.setName}
-        />
-      )}
+      {!closed && <DimBtnsHot field={field} pasteToText={pasteToText} action={action} set={item.setName} />}
       <div className={closed ? "one-dim-close" : "one-dim"}>
         <DmgFieldEditPage
           autoFocus
@@ -53,9 +29,11 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
           fieldName={field.a}
           placeholder={field.a}
           setIsTxt={setIsTxt}
+          fullsize
           scale="right"
           btnSide="up"
           classN={classA()}
+          fieldId={fieldId}
           isTxt={isTxt && fieldId === field.a}
           isActive={fieldId === field.a}
           fieldVal={item[field.a]}
@@ -65,11 +43,7 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
         />
         <div>
           <div className="field-box-score">
-            <RateDmgScale
-              horiz={closed}
-              val={item.Evals[field.a]}
-              setVal={(v) => fieldFn.setNewEstim(v, field.a)}
-            />
+            <RateDmgScale horiz={closed} val={item.Evals[field.a]} setVal={(v) => fieldFn.setNewEstim(v, field.a)} />
             {small && (
               <div className="wrap-dim-nav ">
                 <button
@@ -79,18 +53,12 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
                 </button>{" "}
               </div>
             )}
-            <RateDmgScale
-              horiz={closed}
-              val={item.Evals[field.b]}
-              setVal={(v) => fieldFn.setNewEstim(v, field.b)}
-            />
+            <RateDmgScale horiz={closed} val={item.Evals[field.b]} setVal={(v) => fieldFn.setNewEstim(v, field.b)} />
           </div>
           {!small && (
             <div className="wrap-dim-nav ">
               {defaultDimSets[editParam.item.setName].map((field, i) => (
-                <button
-                  className={activeTab === field.short ? "activeTab" : ""}
-                  onClick={() => setAct(field)}>
+                <button className={activeTab === field.short ? "activeTab" : ""} onClick={() => setAct(field)}>
                   {field.short}
                 </button>
               ))}
@@ -108,6 +76,7 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
           isTxt={isTxt && fieldId === field.b}
           isActive={fieldId === field.b}
           fieldVal={item[field.b]}
+          fieldId={fieldId}
           estim={item.Evals[field.b]}
           fieldFn={fieldFn}
         />

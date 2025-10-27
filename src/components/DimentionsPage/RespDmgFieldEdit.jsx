@@ -7,7 +7,7 @@ import ScalableInput from "../EditBtns/ScalableInput";
 const RespDmgFieldEdit = ({
   autoFocus,
   fieldName,
-  isActive,
+  fieldId,
   fieldVal,
   estim = null,
   small = null,
@@ -42,17 +42,13 @@ const RespDmgFieldEdit = ({
           </span>
 
           {scale === "left" && (
-            <RateDmgScale
-              horiz={true}
-              val={estim}
-              setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
-            />
+            <RateDmgScale horiz={true} val={estim} setVal={(v) => fieldFn.setNewEstim(v, fieldName)} />
           )}
         </div>
 
         {sh ? (
           <ScalableInput
-            isActive={isActive}
+            fieldId={fieldId}
             fieldName={fieldName}
             fieldVal={fieldVal}
             fieldFn={fieldFn}
@@ -60,9 +56,7 @@ const RespDmgFieldEdit = ({
             id={fieldName}
             autoFocus={autoFocus}
             onChange={(val) => fieldFn.setNewVal(val)}
-            className={
-              "fieldDim " + (small ? "dimFieldSmall " : "") + (classN || "")
-            }
+            className={"fieldDim " + (small ? "dimFieldSmall " : "") + (classN || "")}
             placeholder={placeholder}
             onKeyDown={fieldFn.onKeyDown}
           />
@@ -70,11 +64,7 @@ const RespDmgFieldEdit = ({
           <div className="field-val-close"> {fieldVal}</div>
         )}
         {scale === "right" && (
-          <RateDmgScale
-            horiz={!show}
-            val={estim}
-            setVal={(v) => fieldFn.setNewEstim(v, fieldName)}
-          />
+          <RateDmgScale horiz={!show} val={estim} setVal={(v) => fieldFn.setNewEstim(v, fieldName)} />
         )}
       </>
     </div>

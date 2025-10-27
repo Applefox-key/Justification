@@ -10,6 +10,7 @@ const DmgFieldEditPage = ({
   fieldVal,
   fieldFn,
   classN,
+  fieldId,
   btnSide,
   small = null,
   scale = null,
@@ -20,18 +21,21 @@ const DmgFieldEditPage = ({
       <>
         {show ? (
           <ScalableInput
-            isActive={isActive}
+            fieldId={fieldId}
             fieldName={fieldName}
             fieldVal={fieldVal}
             fieldFn={fieldFn}
             btnSide={btnSide}
             small={small}
-            id={(small ? "" : "clone-") + fieldName}
+            // id={(small ? "" : "clone-") + fieldName}
+            id={fieldName}
             autoFocus={autoFocus}
             className={"fieldDim " + (small ? "dimFieldSmall " : "") + classN}
             placeholder={placeholder}
             onKeyDown={fieldFn.onKeyDown}
-            onChange={(val) => fieldFn.setNewVal(val)}
+            onChange={(val) => {
+              fieldFn.setNewVal(val);
+            }}
           />
         ) : (
           <div className="field-val-close"> {fieldVal}</div>

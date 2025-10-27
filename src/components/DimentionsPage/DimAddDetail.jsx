@@ -1,22 +1,30 @@
 import React from "react";
 import { FaMinus } from "react-icons/fa";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
+import { VscTriangleRight } from "react-icons/vsc";
 
-const DimAddDetail = ({ val, setVal, title, id, isBtn }) => {
+const DimAddDetail = ({ val, setVal, title, id, isBtn, dvd }) => {
   return (
-    <div className="add-details ps-1">
+    <div className={`add-details ps-1 ${dvd ? "detail-dvd" : ""}`}>
       {isBtn ? (
-        <button id="show-body-dim" onClick={() => setVal(!val)}>
-          <FaMinus className={!val ? " " : "arr-down"} /> {title}
+        <button
+          id={"show-body-" + id}
+          onClick={() => setVal(!val)}
+          className={!val ? "show-body-dim w-100" : "show-body-dim btn-on w-100"}>
+          {title} <VscTriangleRight className={!val ? " " : "arr-down"} />
         </button>
       ) : (
         <>
-          <input
-            id={id}
-            type="checkbox"
-            checked={val}
-            onChange={() => setVal(!val)}
-          />
-          <label htmlFor={id}>{title}</label>
+          <button
+            id={"show-body-" + id}
+            onClick={() => setVal(!val)}
+            className={!val ? "show-body-dim w-100" : "show-body-dim btn-on w-100"}>
+            {title} {!val ? <MdOutlineRadioButtonUnchecked /> : <IoIosCheckmarkCircleOutline />}
+          </button>
+          {/* 
+          <input id={id} type="checkbox" checked={val} onChange={() => setVal(!val)} />
+          <label htmlFor={id}>{title}</label> */}
         </>
       )}
     </div>

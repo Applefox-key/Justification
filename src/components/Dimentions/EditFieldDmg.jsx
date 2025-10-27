@@ -37,6 +37,7 @@ const EditFieldDmg = ({
     cursorPos.current = curs;
     fieldFn.setNewVal(val);
   };
+
   useEffect(() => {
     if (ref.current && cursorPos.current !== null) {
       ref.current.selectionStart = cursorPos.current;

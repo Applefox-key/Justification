@@ -52,19 +52,15 @@ const BtnArchive = ({ txt, setTxt }) => {
     // } else {
 
     let needSave = {};
-    if (!currentTxt.id)
-      needSave = { id: isAutoSave ? "autosave" : "save-" + archiveLS.length };
-    if (!currentTxt.name)
-      needSave.name = isAutoSave ? "last task (autosave)" : "Noname";
+    if (!currentTxt.id) needSave = { id: isAutoSave ? "autosave" : "save-" + archiveLS.length };
+    if (!currentTxt.name) needSave.name = isAutoSave ? "last task (autosave)" : "Noname";
     if (Object.keys(needSave).length) {
       setTxt({ ...txt, ...needSave });
     }
     const txtToSave = { ...currentTxt, ...needSave };
 
     // Проверка существования объекта по id+name
-    const existingIndex = archiveLS.findIndex(
-      (item) => item.id === txtToSave.id
-    );
+    const existingIndex = archiveLS.findIndex((item) => item.id === txtToSave.id);
 
     let updatedItems;
     let msg = "";
@@ -72,15 +68,11 @@ const BtnArchive = ({ txt, setTxt }) => {
       // Обновляем существующий
       updatedItems = [...archiveLS];
       updatedItems[existingIndex] = txtToSave;
-      msg = `${txtToSave.name} | has been updated in the archive${
-        isAutoSave ? " (AUTOSAVE)" : ""
-      }`;
+      msg = `${txtToSave.name} | has been updated in the archive${isAutoSave ? " (AUTOSAVE)" : ""}`;
     } else {
       // Добавляем новый в начало
       updatedItems = [txtToSave, ...archiveLS];
-      msg = `${txtToSave.name} | has been added to the archive${
-        isAutoSave ? " (AUTOSAVE)" : ""
-      }`;
+      msg = `${txtToSave.name} | has been added to the archive${isAutoSave ? " (AUTOSAVE)" : ""}`;
     }
     setArchiveLS(updatedItems);
     localStorage.setItem("items", JSON.stringify(updatedItems));
@@ -180,24 +172,10 @@ const BtnArchive = ({ txt, setTxt }) => {
   return (
     <>
       <div className="fragmBtn">
-        <button
-          className=" btnToHis hintBtn ms-1"
-          onClick={handleSave}
-          title="to and from archive">
+        <button className=" btnToHis hintBtn ms-1" onClick={handleSave} title="to and from archive">
           <TfiSave />
         </button>
         <div className="archive-box">
-          {/* <div className="d-flex">
-            <button onClick={replacelast}>save list</button>{" "}
-            <button onClick={replacelast}>load list</button>{" "}
-          </div> */}
-          {/* <button onClick={replacelast}>replace last</button>{" "} */}
-          {/* <div className="archive-last" title="last 4 saves (turns)s">
-            <button onClick={save4Items}>+4 turns</button>{" "}
-            <button onClick={getElementsByNamePattern}>
-              get all turns review
-            </button>
-          </div> */}
           <button onClick={clearItems}>clear</button>
           {archiveLS.map((oneF, i) => (
             <div className="one-item" key={i}>
@@ -211,9 +189,7 @@ const BtnArchive = ({ txt, setTxt }) => {
               </div>
               <div className="title">
                 {oneF.name ? oneF.name : "empty name"}
-                <span className="spanid">
-                  {oneF.id ? oneF.id : "no id"}
-                </span>{" "}
+                <span className="spanid">{oneF.id ? oneF.id : "no id"}</span>{" "}
                 <div className="save-cont">
                   {oneF.name && <span className="spanName">{oneF.name}</span>}
                   {oneF.Prompt && <span>{oneF.Prompt}</span>}
