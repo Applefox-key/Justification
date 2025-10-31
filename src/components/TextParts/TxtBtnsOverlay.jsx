@@ -19,12 +19,7 @@ const TxtBtnsOverlay = ({ toJustif, edit = false }) => {
         <Button onClick={handleClick} className={edit ? "w100 " : "w-100"}>
           templates
         </Button>
-        <Overlay
-          show={show}
-          target={target}
-          placement={edit ? "left" : "bottom"}
-          container={ref}
-          containerPadding={20}>
+        <Overlay show={show} target={target} placement={edit ? "left" : "bottom"} container={ref} containerPadding={20}>
           <Popover id={edit ? "popover-containedR" : "popover-contained"}>
             <TemplatesBox toJustif={toJustif} edit={edit} />
           </Popover>

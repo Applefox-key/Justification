@@ -1,8 +1,9 @@
+import { baseRespName } from "./utilStr";
 import { hotbtnsArrDef } from "../constants/hotPaste";
 import { defaultRubJust } from "../constants/rubricsTemplates";
 import { textParts } from "../constants/textParts";
 import { constructDefItem } from "./dimentions";
-import { baseRespName } from "./utilStr";
+
 import isEqual from "lodash/isEqual";
 
 export const toLS = (key, value) => {
@@ -104,20 +105,13 @@ export const txtHotReplaceGet = () => {
 export const setRespNames = (action, setAction, currentI = null) => {
   const keys = Object.keys(baseRespName);
   const currentIndex = keys.indexOf(action);
-  const nextIndex =
-    currentI === null ? (currentIndex + 1) % keys.length : currentI;
+  const nextIndex = currentI === null ? (currentIndex + 1) % keys.length : currentI;
   const newV = Object.keys(baseRespName)[nextIndex];
   localStorage.setItem("lastAction", newV);
   setAction(newV);
 };
 
-export const saveToArchItems = (
-  txtRef,
-  archiveLS,
-  setArchiveLS,
-  setPopup,
-  isAutoSave = false
-) => {
+export const saveToArchItems = (txtRef, archiveLS, setArchiveLS, setPopup, isAutoSave = false) => {
   if (!txtRef.current) return;
 
   const txtToSave = { ...txtRef.current };
@@ -147,20 +141,12 @@ export const saveToArchItems = (
     updatedItems[existingIndex] = txtToSave;
     localStorage.setItem("items", JSON.stringify(updatedItems));
     if (!isAutoSave) setArchiveLS(updatedItems);
-    setPopup(
-      txtToSave.name +
-        "| has been updated in the archive " +
-        (isAutoSave ? " (AUTOSAVE)" : "")
-    );
+    setPopup(txtToSave.name + "| has been updated in the archive " + (isAutoSave ? " (AUTOSAVE)" : ""));
     return;
   }
 
   localStorage.setItem("items", JSON.stringify([txtToSave, ...archiveLS]));
   if (!isAutoSave) setArchiveLS([txtToSave, ...archiveLS]);
 
-  setPopup(
-    txtToSave.name +
-      "| has been added to the archive " +
-      (isAutoSave ? " (AUTOSAVE)" : "")
-  );
+  setPopup(txtToSave.name + "| has been added to the archive " + (isAutoSave ? " (AUTOSAVE)" : ""));
 };

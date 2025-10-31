@@ -18,6 +18,9 @@ import PageBtns from "../EditBtns/PageBtns";
 import { defaultKey } from "../../utils/defaultKey";
 import DimAddDetail from "./DimAddDetail";
 import { getNewOrParseDmg } from "../../utils/dimentions";
+import { Button } from "react-bootstrap";
+import SidePanel from "../TextParts/SidePanel";
+import DimTab from "./DimTab";
 
 const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -36,7 +39,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
   });
 
   const fieldId = useMemo(() => {
-    return textRef && textRef.current && textRef.current.id ? textRef.current.id : "Prompt";
+    return textRef && textRef.current && (textRef.current.id ?? "Prompt");
   }, [textRef]);
 
   const fieldFn = {
@@ -87,7 +90,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
     setTextSelected(selectedText);
   };
   const pasteToText = (val) => {
-    const newVal = applyAction(val.en || val, action);
+    const newVal = applyAction({ text: val.en || val, action });
     editTextActionRef(textRef, item[fieldId], fieldFn.setNewVal, "add", true, newVal);
   };
 
@@ -135,7 +138,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
                 isTxt,
               }}
             />
-          </div>
+          </div>{" "}
           <PageBtns
             fieldid={fieldId}
             action={action}
@@ -148,7 +151,7 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
             }}
           />
         </div>
-      </MyPortal>
+      </MyPortal>{" "}
       <DmgPageHeader
         editParam={{
           clear,
@@ -171,8 +174,6 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
       />
       <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="pagedimbody">
         <div className="d-flex edit100 h-100 ">
-          {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
-
           <div className="editParts-wrap">
             <div id="portal-got-resp"></div>
             <div className={dimHeight()}>
@@ -186,16 +187,12 @@ const DmgPageBody = ({ actionFn, item, setItem, action }) => {
                   isTxt,
                   pasteToText,
                   action,
+                  isTemplates,
+                  setIsTemplates,
+                  addIssueName,
+                  setAddIssueName,
                 }}
                 likert={likert}>
-                <div className="taskidBox w-100">
-                  <DimAddDetail
-                    id="issueNameCh"
-                    title="add dim name to issue"
-                    val={addIssueName}
-                    setVal={setAddIssueName}
-                  />
-                </div>
                 <div id="portal-on-tabs"> </div>
               </PageBodyTabs>
             </div>

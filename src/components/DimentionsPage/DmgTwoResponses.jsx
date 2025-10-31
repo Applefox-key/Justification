@@ -7,13 +7,17 @@ import DmgShortSBS from "./DmgShortSBS";
 import DimAddDetail from "./DimAddDetail";
 import DimLastField from "./DimLastField";
 import { VscTriangleRight } from "react-icons/vsc";
+import RateInformOne from "../Rate/RateInformOne";
+import { defaultDimSets } from "../../constants/dimDefault";
 
-const DmgTwoResponses = ({ editParam, dimArr, hideResp, dmg }) => {
+const DmgTwoResponses = ({ editParam, hideResp, dmg }) => {
+  const dimArr = defaultDimSets[editParam.item.setName];
   const { item, fieldId } = editParam;
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
   const [scoresSBS, setScoresSBS] = useState(false);
   const [showBody, setShowBody] = useState(true);
   const [isRate, setIsRate] = useState(false);
+
   useEffect(() => {
     const elem = document.getElementById("page-dim");
     if (!elem) return;
@@ -60,9 +64,11 @@ const DmgTwoResponses = ({ editParam, dimArr, hideResp, dmg }) => {
         </MyPortal>
       )}
       {/* <MyPortal containerId="portal-dmg-arrow"> */}
-      <MyPortal containerId="portal-on-tabs">
+      <MyPortal containerId="portal-sub-menu-left">
         {!hideResp && <DimAddDetail id="showRateSwitch" title="Show responses" val={isRate} setVal={setIsRate} isBtn />}
         {!dmg && <DimAddDetail title="Dimentions scores" val={showBody} setVal={setShowBody} isBtn />}
+
+        <RateInformOne item={editParam.item} />
       </MyPortal>
       {dmg && (
         <MyPortal containerId="portal-dmg-arrow">
@@ -70,8 +76,7 @@ const DmgTwoResponses = ({ editParam, dimArr, hideResp, dmg }) => {
         </MyPortal>
       )}
       <div className="two-resp-wrap">
-        {/* {short ? ( */}
-        <DmgShortSBS editParam={editParam} dimArr={dimArr} showBody={showBody} scoresSBS={scoresSBS} />
+        <DmgShortSBS editParam={editParam} showBody={showBody} scoresSBS={scoresSBS} />
       </div>
     </>
   );

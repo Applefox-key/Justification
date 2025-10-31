@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import EditFieldRub from "./EditFieldRub";
 import { rubEx } from "../../utils/readXls";
 import { FaAngleDoubleRight } from "react-icons/fa";
-import {
-  detectHeightRub,
-  getRubricName,
-  labelsFullVerdictRub,
-} from "../../utils/analysis";
+import { detectHeightRub, getRubricName, labelsFullVerdictRub } from "../../utils/analysis";
 import { SlRefresh } from "react-icons/sl";
 import RubLinks from "./RubLinks";
 
 import InfoRubBtn from "./InfoRubBtn";
 import EditDragable from "./EditDragable";
 import { copyToClipboard } from "../../utils/utilStr";
+import { scrollToId } from "../../utils/DOMfn";
 
 const SummaryRub = ({ editParam }) => {
   const [editEl, setEditEl] = useState(0);
@@ -36,14 +33,6 @@ const SummaryRub = ({ editParam }) => {
     setEditEl(null); // Сбрасываем выбранное поле
   };
 
-  const scrollToId = (e, id) => {
-    e.stopPropagation();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      el.focus();
-    }
-  };
   const handleClickLinks = (e) => {
     e.stopPropagation();
     setisLinks(!isLinks);
@@ -70,8 +59,7 @@ const SummaryRub = ({ editParam }) => {
     e.stopPropagation();
 
     if (e.button === 2) {
-      const vl =
-        labelsFullVerdictRub[i - 1] + " " + editParam.item["justifSBS"];
+      const vl = labelsFullVerdictRub[i - 1] + " " + editParam.item["justifSBS"];
       copyToClipboard(vl);
     }
     if (e.button === 3) {
@@ -85,10 +73,7 @@ const SummaryRub = ({ editParam }) => {
         <EditDragable
           title={"Crit " + (editEl.crit + 1) + ": Response-" + editEl.fieldName}
           closeModal={closeModal}
-          crit={getRubricName(
-            editParam.item.rubricator[editEl.crit],
-            editParam.item.version
-          )}
+          crit={getRubricName(editParam.item.rubricator[editEl.crit], editParam.item.version)}
           critEr={editParam.item.rubricator[editEl.crit][editEl.fieldName]}
           fieldId={editEl.fieldName + "-" + editEl.crit}
           fieldFn={fieldFn}
@@ -97,9 +82,7 @@ const SummaryRub = ({ editParam }) => {
               fieldName={editEl.fieldName + "-" + editEl.crit}
               placeholder={editEl.fieldName}
               isActive={editEl.fieldId === editEl.fieldName}
-              fieldVal={
-                editParam.item.rubricator[editEl.crit][editEl.fieldName]
-              }
+              fieldVal={editParam.item.rubricator[editEl.crit][editEl.fieldName]}
               fieldFn={fieldFn}
             />
           }
@@ -108,9 +91,7 @@ const SummaryRub = ({ editParam }) => {
       <div
         onClick={() => editParam.setShowSummary(!editParam.showSummary)}
         className={
-          editParam.showSummary
-            ? "body-dim-line rub-title sumTitle"
-            : "body-dim-line rub-title justify-content-end"
+          editParam.showSummary ? "body-dim-line rub-title sumTitle" : "body-dim-line rub-title justify-content-end"
         }>
         {editParam.showSummary && (
           <div className="">
@@ -130,10 +111,7 @@ const SummaryRub = ({ editParam }) => {
               </button>
             ))}{" "}
             {["jbS1", "ovrS1", "link1", "justifSBS"].map((el, i) => (
-              <button
-                key={i}
-                className="hintBtn"
-                onClick={(e) => scrollToId(e, el)}>
+              <button key={i} className="hintBtn" onClick={(e) => scrollToId(e, el)}>
                 {el.charAt(0).toUpperCase()}
               </button>
             ))}{" "}
@@ -141,115 +119,87 @@ const SummaryRub = ({ editParam }) => {
         )}{" "}
         <div>
           SUMMARY
-          <FaAngleDoubleRight
-            className={editParam.showSummary ? "arr-down " : ""}
-          />
+          <FaAngleDoubleRight className={editParam.showSummary ? "arr-down " : ""} />
         </div>
       </div>
-      <div
-        className={detectHeightRub(
-          editParam.showSummary,
-          editParam.showRubricator && editParam.showSummary
-        )}>
+      <div className={detectHeightRub(editParam.showSummary, editParam.showRubricator && editParam.showSummary)}>
         {editParam.showSummary && (
           <>
             {" "}
             <div className={"dimBox pt-0"}>
               {isLinks && editParam.showSummary && (
-                <RubLinks
-                  links={editParam.item.links}
-                  fieldFn={fieldFn}
-                  editParam={editParam}
-                />
+                <RubLinks links={editParam.item.links} fieldFn={fieldFn} editParam={editParam} />
               )}
 
-              {Array.from({ length: editParam.countR }, (_, i) => i + 1).map(
-                (el) => (
-                  <div
-                    className={
-                      editParam.countR === 2
-                        ? "rub-sum-box rub2"
-                        : "rub-sum-box"
-                    }
-                    key={el}>
-                    {editParam.showSummary && (
-                      <InfoRubBtn
-                        editParam={editParam}
-                        fieldFn={fieldFn}
-                        el={el}
-                        edit={openModalForEdit}
-                        editEl={editEl}
-                      />
-                    )}
-                    <div
-                      className={
-                        editParam.showSummary
-                          ? "rub-span rub-spanShow"
-                          : "rub-span"
-                      }>
-                      <button
-                        id={"jbS" + el}
-                        className="refBtn"
-                        onClick={() => editParam.fieldFn.summ(el)}>
-                        №{el}
-                        {editParam.item["eval" + el] && (
-                          <span>
-                            <span className="rub-eval">
-                              {editParam.item["eval" + el]}
-                              {editParam.showSummary && (
-                                <span className="rub-stat">
-                                  {ev[editParam.item["eval" + el]].name}
-                                  <br />
-                                  {ev[editParam.item["eval" + el]].mn}
-                                  <br />
-                                  {ev[editParam.item["eval" + el]].mj}
-                                  <br />
-                                  <br />( {editParam.item["stat" + el]})
-                                </span>
-                              )}
-                            </span>
-                            <span className="rub-stat">
-                              {editParam.item["stat" + el]}
-                            </span>
+              {Array.from({ length: editParam.countR }, (_, i) => i + 1).map((el) => (
+                <div className={editParam.countR === 2 ? "rub-sum-box rub2" : "rub-sum-box"} key={el}>
+                  {editParam.showSummary && (
+                    <InfoRubBtn
+                      editParam={editParam}
+                      fieldFn={fieldFn}
+                      el={el}
+                      edit={openModalForEdit}
+                      editEl={editEl}
+                    />
+                  )}
+                  <div className={editParam.showSummary ? "rub-span rub-spanShow" : "rub-span"}>
+                    <button id={"jbS" + el} className="refBtn" onClick={() => editParam.fieldFn.summ(el)}>
+                      №{el}
+                      {editParam.item["eval" + el] && (
+                        <span>
+                          <span className="rub-eval">
+                            {editParam.item["eval" + el]}
+                            {editParam.showSummary && (
+                              <span className="rub-stat">
+                                {ev[editParam.item["eval" + el]].name}
+                                <br />
+                                {ev[editParam.item["eval" + el]].mn}
+                                <br />
+                                {ev[editParam.item["eval" + el]].mj}
+                                <br />
+                                <br />( {editParam.item["stat" + el]})
+                              </span>
+                            )}
                           </span>
-                        )}
-                        <SlRefresh />
-                      </button>
-                    </div>
-                    {editParam.showSummary && (
-                      <>
-                        <EditFieldRub
-                          fieldName={"justif" + el}
-                          placeholder={"justif" + el}
-                          isActive={editParam.fieldId === "justif" + el}
-                          fieldVal={editParam.item["justif" + el]}
-                          fieldFn={fieldFn}
-                        />{" "}
-                        <button
-                          id={"ovrS" + el}
-                          className="refBtn sumcolor"
-                          onClick={() => editParam.fieldFn.summ(el, true)}>
-                          №{el} OVERALL <SlRefresh />
-                        </button>
-                        <EditFieldRub
-                          fieldName={"overall" + el}
-                          placeholder={"overall" + el}
-                          isActive={editParam.fieldId === "overall" + el}
-                          fieldVal={editParam.item["overall" + el]}
-                          fieldFn={fieldFn}
-                        />
-                        <EditFieldRub
-                          fieldName={"link" + el}
-                          placeholder={"link" + el}
-                          isActive={editParam.fieldId === "link" + el}
-                          fieldVal={editParam.item["link" + el]}
-                          fieldFn={fieldFn}
-                        />
-                      </>
-                    )}
+                          <span className="rub-stat">{editParam.item["stat" + el]}</span>
+                        </span>
+                      )}
+                      <SlRefresh />
+                    </button>
                   </div>
-                )
-              )}
+                  {editParam.showSummary && (
+                    <>
+                      <EditFieldRub
+                        fieldName={"justif" + el}
+                        placeholder={"justif" + el}
+                        isActive={editParam.fieldId === "justif" + el}
+                        fieldVal={editParam.item["justif" + el]}
+                        fieldFn={fieldFn}
+                      />{" "}
+                      <button
+                        id={"ovrS" + el}
+                        className="refBtn sumcolor"
+                        onClick={() => editParam.fieldFn.summ(el, true)}>
+                        №{el} OVERALL <SlRefresh />
+                      </button>
+                      <EditFieldRub
+                        fieldName={"overall" + el}
+                        placeholder={"overall" + el}
+                        isActive={editParam.fieldId === "overall" + el}
+                        fieldVal={editParam.item["overall" + el]}
+                        fieldFn={fieldFn}
+                      />
+                      <EditFieldRub
+                        fieldName={"link" + el}
+                        placeholder={"link" + el}
+                        isActive={editParam.fieldId === "link" + el}
+                        fieldVal={editParam.item["link" + el]}
+                        fieldFn={fieldFn}
+                      />
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
             <br />
             <EditFieldRub

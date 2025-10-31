@@ -12,17 +12,14 @@ const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
   const refBox = useRef(null);
   useOutsideClick(refBox, () => setIsOpen(null));
   // const setPopup = usePopup();
-  const btnsArr = useMemo(
-    () => (btnsArrD === null ? txtHotReplaceGet() : btnsArrD),
-    [btnsArrD]
-  );
+  const btnsArr = useMemo(() => (btnsArrD === null ? txtHotReplaceGet() : btnsArrD), [btnsArrD]);
 
   const onContextMenuClick = useRightClickCopy();
   const onHandleCLick = (e, newT, model = "") => {
     e.stopPropagation();
     let b = e.button;
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
-    const newVal = applyAction(newFr_, action);
+    const newVal = applyAction({ text: newFr_, action });
     if (b === 0) {
       //left mouse button
       toJustif(newVal);
@@ -42,13 +39,7 @@ const HotBtns = ({ toJustif, action = "RAB", btnsArrD = null }) => {
           setIsOpen={setIsOpen}
         />
       ))}
-      {!btnsArrD && (
-        <RateHot
-          callback={onHandleCLick}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        />
-      )}
+      {!btnsArrD && <RateHot callback={onHandleCLick} isOpen={isOpen} setIsOpen={setIsOpen} />}
     </div>
   );
 };

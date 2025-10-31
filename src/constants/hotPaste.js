@@ -217,8 +217,13 @@ export const autoreplaceGrammar = [
     title: "«»",
   },
   {
-    newT: `In BotModel the hyphen should be replaced with a dash.`,
+    newT: `— the hyphen is used insteаd of a dash;`,
     title: "—",
+    bold: true,
+  },
+  {
+    newT: `In BotModel the hyphen should be replaced with a dash.`,
+    title: "—L",
   },
   {
     newT: `In BotModel the quotation marks should be replaced with «», and the hyphen should be replaced with a dash`,
@@ -231,12 +236,12 @@ export const autoreplaceGrammar = [
 
   {
     newT: `— uppercase after the colon (should be lowercase letter)`,
-    title: ":As",
+    title: ":A",
     bold: true,
   },
   {
     newT: `BotModel uses uppercase after the colon. In this case, by the rules of the Russian language, after the colon should be a lowercase letter.`,
-    title: ":A",
+    title: ":A__",
   },
   {
     newT: `No colon is needed after the title`,
@@ -249,6 +254,7 @@ export const autoreplaceGrammar = [
   {
     newT: `The letter "ё" is inconsistently used`,
     title: "ё",
+    bold: true,
   },
   {
     newT: `— wrong preposition:\u00A0`,
@@ -840,6 +846,10 @@ export const hotJustifInstruction = [
     title: "role",
     newT: "The model fails to take on the role of ______ because",
   },
+  {
+    newT: `due to numerous localization errors, the response cannot be used as a blog post/business letter/`,
+    title: "localization errors",
+  },
 ];
 export const hotJustifTruth = [
   {
@@ -871,16 +881,33 @@ export const hotJustifTruth = [
     newT: "The response included fabricated details (_), which were not in the reference text.",
   },
   {
+    title: "adding",
+    newT: "The model adds fictitious information: although the user did not indicate that ___, the model ___.",
+  },
+  {
+    title: "adding2",
+    newT: "The model adds fictitious information and ____, although the user did not indicate/mentione that ___.",
+  },
+  {
     title: "does not correspond",
     newT: " The response will not be useful to the user because not all the information in it corresponds to reality and reference text.",
   },
+
   {
     title: "core requirement",
     newT: "The model does not state the core requirement in the response, so it is assumed that the response meets all the requirements of the request, but this is not the case.",
   },
   {
+    title: "core accuracy",
+    newT: "Core requirement accuracy is also broken. ",
+  },
+  {
     title: "time",
     newT: "Since the task is time-sensitive, and, the model provides inaccurate data without a cut-off date, the score will be reduced to major.",
+  },
+  {
+    newT: `due to numerous localization errors, the response cannot be used as a blog post/business letter/`,
+    title: "localization errors",
   },
 ];
 export const hotJustifLength = [

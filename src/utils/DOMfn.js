@@ -11,6 +11,14 @@ export const getCursorPosById = (id) => {
   }
   return null;
 };
+export const scrollToId = (e, id) => {
+  if (e) e.stopPropagation();
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+    el.focus();
+  }
+};
 
 /**
  * Converts a (possibly nested) object into text where each line is a non-empty field value

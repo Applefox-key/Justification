@@ -4,12 +4,13 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { VscTriangleRight } from "react-icons/vsc";
 
-const DimAddDetail = ({ val, setVal, title, id, isBtn, dvd }) => {
+const DimAddDetail = ({ val, setVal, title, id, isBtn, dvd, hint = "" }) => {
   return (
     <div className={`add-details ps-1 ${dvd ? "detail-dvd" : ""}`}>
       {isBtn ? (
         <button
           id={"show-body-" + id}
+          title={hint}
           onClick={() => setVal(!val)}
           className={!val ? "show-body-dim w-100" : "show-body-dim btn-on w-100"}>
           {title} <VscTriangleRight className={!val ? " " : "arr-down"} />
@@ -19,6 +20,7 @@ const DimAddDetail = ({ val, setVal, title, id, isBtn, dvd }) => {
           <button
             id={"show-body-" + id}
             onClick={() => setVal(!val)}
+            title={hint}
             className={!val ? "show-body-dim w-100" : "show-body-dim btn-on w-100"}>
             {title} {!val ? <MdOutlineRadioButtonUnchecked /> : <IoIosCheckmarkCircleOutline />}
           </button>

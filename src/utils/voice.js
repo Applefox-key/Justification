@@ -1,5 +1,4 @@
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.continuous = true;
 recognition.interimResults = true;
@@ -22,7 +21,7 @@ export const startV = (textarea, lang = "") => {
   let interimTranscript = "";
   let finalTranscript = "";
   // textarea.current.value = "";
-  recognition.lang = lang ? lang : "en-US";
+  recognition.lang = lang ?? "en-US";
 
   recognition.onresult = (event) => {
     interimTranscript = "";

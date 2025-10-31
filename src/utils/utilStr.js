@@ -301,7 +301,7 @@ export const normalizeLineEndings = (text) => {
 //   newVal = newVal.replace(/»/g, "”"); //русские закр на англ
 //   return newVal;
 // };
-export const cleanAndCapitalize = (text) => {
+export const cleanAndCapitalize = (text, toLowerC = false) => {
   // text = text.replace(/\s+/g, " ").trim();
 
   text = text.trim();
@@ -333,7 +333,7 @@ export const cleanAndCapitalize = (text) => {
       return part;
     } else {
       // not a link
-      // part = part.toLowerCase();
+      if (toLowerC) part = part.toLowerCase();
       part = sentencesCaps(part);
       return part;
     }
@@ -375,37 +375,50 @@ export const replaceByArr = (replacementsArr, text) => {
 export const replacePunctuations = (allJust) => {
   return replaceByArr(replacementsPunctuation, allJust);
 };
-export const replacegen = (txt) => {
+export const replacegen = (txt, toLowerC = false) => {
   let tmpText = replacePunctuations(txt);
-  tmpText = cleanAndCapitalize(tmpText);
+  tmpText = cleanAndCapitalize(tmpText, toLowerC);
 
   // Replace all sequences of spaces with a single space
   // tmpText = tmpText.replace(/\s+/g, " ");
   return replaceByArr(replacementsGeneral, tmpText);
 };
-export const replaceWords = (allJust, onlyRespNames) => {
-  const allJust_ = !onlyRespNames ? replacegen(allJust) : replaceByArr(autoReplaceToModels, allJust);
+export const replaceWords = (allJust, onlyRespNames, toLowerC = false) => {
+  const allJust_ = !onlyRespNames ? replacegen(allJust, toLowerC) : replaceByArr(autoReplaceToModels, allJust);
   return replaceByArr(replacementsResponses, allJust_);
 };
-export const replaceWordsInteractions = (allJust, onlyRespNames = false) => {
-  const allJust_ = !onlyRespNames ? replacegen(allJust) : replaceByArr(autoReplaceToModels, allJust);
+export const replaceWordsInteractions = (allJust, onlyRespNames = false, toLowerC = false) => {
+  const allJust_ = !onlyRespNames ? replacegen(allJust, toLowerC) : replaceByArr(autoReplaceToModels, allJust);
   return replaceByArr(replacementsInteractions, allJust_);
 };
-export const replaceNum = (text, onlyRespNames = false) => {
+export const replaceNum = (text, onlyRespNames = false, toLowerC = false) => {
   // text = replacegen(text);
-  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
+  const text_ = !onlyRespNames ? replacegen(text, toLowerC) : replaceByArr(autoReplaceToModels, text);
   return replaceByArr(replacementsResponsesNum, text_);
 };
-export const replaceNumShort = (text, onlyRespNames = false) => {
+export const replaceNumShort = (text, onlyRespNames = false, toLowerC = false) => {
   // text = replacegen(text);
-  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
+  const text_ = !onlyRespNames ? replacegen(text, toLowerC) : replaceByArr(autoReplaceToModels, text);
   return replaceByArr(replacementsResponsesNumShort, text_);
 };
-export const replaceNum2 = (text, onlyRespNames = false) => {
-  const text_ = !onlyRespNames ? replacegen(text) : replaceByArr(autoReplaceToModels, text);
+export const replaceNum2 = (text, onlyRespNames = false, toLowerC = false) => {
+  const text_ = !onlyRespNames ? replacegen(text, toLowerC) : replaceByArr(autoReplaceToModels, text);
 
   return replaceByArr(replacementsResponsesNum2, text_);
 };
+
+export const baseRespName = {
+  "INT": {
+    R1: "Interaction 1",
+    R2: "Interaction 2",
+    fn: replaceWordsInteractions,
+  },
+  "@R": { R1: "@Response 1", R2: "@Response 2", fn: replaceNum },
+  "@R12": { R1: "@R1", R2: "@R1", fn: replaceNumShort },
+  "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
+  "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
+};
+
 export const numIsteadLetter = (text, setText) => {
   // text = replacegen(text);
 
@@ -1013,17 +1026,17 @@ export const fromJsonString = (jsonString) => {
     return { ...defaultDim };
   }
 };
-export const baseRespName = {
-  "INT": {
-    R1: "Interaction 1",
-    R2: "Interaction 2",
-    fn: replaceWordsInteractions,
-  },
-  "@R": { R1: "@Response 1", R2: "@Response 2", fn: replaceNum },
-  "@R12": { R1: "@R1", R2: "@R1", fn: replaceNumShort },
-  "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
-  "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
-};
+// export const baseRespName = {
+//   "INT": {
+//     R1: "Interaction 1",
+//     R2: "Interaction 2",
+//     fn: replaceWordsInteractions,
+//   },
+//   "@R": { R1: "@Response 1", R2: "@Response 2", fn: replaceNum },
+//   "@R12": { R1: "@R1", R2: "@R1", fn: replaceNumShort },
+//   "RAB": { R1: "Response A", R2: "Response B", fn: replaceWords },
+//   "R12": { R1: "Response 1", R2: "Response 2", fn: replaceNum2 },
+// };
 
 export const concatenateEnFields = (justification) => {
   if (!justification.length) return "";
@@ -1041,12 +1054,17 @@ export const concatenateEnFields = (justification) => {
     .trim();
 };
 
-export const applyAction = (newFr_, action = "", onlyRespNames = false) => {
-  if (!action) return newFr_;
-  const newVal = baseRespName[action].fn(newFr_, onlyRespNames);
+export const applyAction = (param) => {
+  const { text, action = "", onlyRespNames = false, toLowerC = false } = param;
+  if (!action) return text;
+  const newVal = baseRespName[action].fn(text, onlyRespNames, toLowerC);
   return newVal;
 };
-
+// export const applyAction = (newFr_, action = "", onlyRespNames = false) => {
+//   if (!action) return newFr_;
+//   const newVal = baseRespName[action].fn(newFr_, onlyRespNames);
+//   return newVal;
+// };
 export const replaceEndings1 = (str, replacements) => {
   for (const [oldEnding, newEnding] of replacements) {
     if (str.endsWith(oldEnding)) {

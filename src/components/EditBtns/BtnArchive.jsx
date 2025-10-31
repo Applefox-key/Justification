@@ -185,16 +185,22 @@ const BtnArchive = ({ txt, setTxt }) => {
                 </button>{" "}
                 <button onClick={() => clearItem(i)} className="delbtn ">
                   DELETE
-                </button>
+                </button>{" "}
+                <div className="contentbtn ">
+                  🔍
+                  <div className="save-cont">
+                    {oneF.name && (
+                      <span className="spanName">
+                        {oneF.id}-{oneF.name}
+                      </span>
+                    )}
+                    {oneF.Prompt && <span>{oneF.Prompt}</span>}
+                  </div>
+                </div>
               </div>
               <div className="title">
-                {oneF.name ? oneF.name : "empty name"}
-                <span className="spanid">{oneF.id ? oneF.id : "no id"}</span>{" "}
-                <div className="save-cont">
-                  {oneF.name && <span className="spanName">{oneF.name}</span>}
-                  {oneF.Prompt && <span>{oneF.Prompt}</span>}
-                  {/* {oneF.R3 && <span>{oneF.R3}</span>} */}
-                </div>
+                {oneF.name ?? "empty name"}
+                <span className="spanid"> {oneF.id ?? "no id"}</span>{" "}
               </div>
             </div>
           ))}

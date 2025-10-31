@@ -90,7 +90,7 @@ export const getActionButtons = (param) => {
   ];
 };
 export const constructDefItem = (sn) => {
-  const setName = sn ? sn : "set2";
+  const setName = sn ?? "set2";
   const defAB = defaultDimSets[setName].reduce((acc, { a, b }) => {
     acc[a] = "";
     acc[b] = "";

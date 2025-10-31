@@ -3,22 +3,9 @@ import { sAlert } from "./alert";
 import { summariseRub } from "./analysis";
 import { defaultKey } from "./defaultKey";
 import { saveToHistorygeneral } from "./localStorage";
-import {
-  defaultRubrics,
-  rubExExample,
-  defaultRubJust,
-  defaultRubricator,
-} from "../constants/rubricsTemplates";
+import { defaultRubrics, rubExExample, defaultRubJust, defaultRubricator } from "../constants/rubricsTemplates";
 
-export const createFieldFn = (
-  item,
-  setItem,
-  textRef,
-  setTextRef,
-  action,
-  fieldId,
-  setPopup
-) => {
+export const createFieldFn = (item, setItem, textRef, setTextRef, action, fieldId, setPopup) => {
   const fieldFn = {
     delRub: async (index) => {
       const result = await sAlert({
@@ -33,9 +20,7 @@ export const createFieldFn = (
         setItem((prev) => {
           return {
             ...prev,
-            rubricator: prev.rubricator.filter(
-              (it, i) => i !== parseInt(index)
-            ),
+            rubricator: prev.rubricator.filter((it, i) => i !== parseInt(index)),
           };
         });
     },
@@ -88,15 +73,12 @@ export const createFieldFn = (
     getFieldValue: (fieldName = "") => {
       if (!item) return "";
       if (!fieldId && !fieldName) return "";
-      const [field, index] = fieldName
-        ? fieldName.split("-")
-        : fieldId.split("-");
+      const [field, index] = fieldName ? fieldName.split("-") : fieldId.split("-");
 
       const dr = { ...defaultRubricator };
       if (field in item) return item[field];
 
-      if (item.rubricator.length > index && field in dr)
-        return item.rubricator[index][field];
+      if (item.rubricator.length > index && field in dr) return item.rubricator[index][field];
       else return "";
       // return field in item
       //   ? item[field]
@@ -111,16 +93,12 @@ export const createFieldFn = (
       //   : item[field];
     },
     setNewVal: (val, fieldName = "") => {
-      const [field, index] = fieldName
-        ? fieldName.split("-")
-        : fieldId.split("-");
+      const [field, index] = fieldName ? fieldName.split("-") : fieldId.split("-");
       if (field in defaultRubricator)
         setItem((prev) => {
           return {
             ...prev,
-            rubricator: prev.rubricator.map((it, i) =>
-              i === parseInt(index) ? { ...it, [field]: val } : it
-            ),
+            rubricator: prev.rubricator.map((it, i) => (i === parseInt(index) ? { ...it, [field]: val } : it)),
           };
         });
       else setItem({ ...item, [field]: val });
@@ -156,10 +134,7 @@ export const createFieldFn = (
         setItem((prev) => {
           return {
             ...prev,
-            rubricator: [
-              ...prev.rubricator,
-              { ...defaultRubricator, new: true },
-            ],
+            rubricator: [...prev.rubricator, { ...defaultRubricator, new: true }],
           };
         });
     },
@@ -255,9 +230,7 @@ export const createFieldFn = (
         const len = parts.length;
 
         const mainText = parts.slice(0, len - 4).join("\t"); // всё до последних 4 полей
-        const [rubric, example] = mainText.split(
-          /например|Например|Например,|например,|Например:|например:/
-        );
+        const [rubric, example] = mainText.split(/например|Например|Например,|например,|Например:|например:/);
         // const [rubric, example] = mainText.split("Например");
         const score1 = scores[parts[len - 4].trim()];
         const score2 = scores[parts[len - 3].trim()];
@@ -314,12 +287,7 @@ export const createFieldFn = (
         const rubric = rubricRaw?.trim() || "";
         const example = exampleRaw?.trim() || "";
 
-        const [score1, score2, score3, score4] = [
-          s1Raw,
-          s2Raw,
-          s3Raw,
-          s4Raw,
-        ].map((val) => scores[val.trim()] ?? -1);
+        const [score1, score2, score3, score4] = [s1Raw, s2Raw, s3Raw, s4Raw].map((val) => scores[val.trim()] ?? -1);
         const comment = "";
         rubrArr.push({
           ...defaultRubricator,
@@ -348,37 +316,7 @@ export const createFieldFn = (
       setTextRef(ref);
     },
     onKeyDown: (e) => {
-      defaultKey(
-        e,
-        fieldId,
-        fieldFn.getFieldValue(fieldId),
-        fieldFn.setNewVal,
-        action
-      );
-      // if (e.key === "F4") {
-      //   const val = fieldFn.getFieldValue(fieldId);
-      //   const newVal = applyAction(val, action);
-      //   fieldFn.setNewVal(newVal);
-      // } else if (e.key === "F2") {
-      //   editTextAction(
-      //     fieldId,
-      //     item[fieldId],
-      //     fieldFn.setNewVal,
-      //     "englBaseComm",
-      //     true
-      //   );
-      // } else if (
-      //   e.ctrlKey &&
-      //   (e.key.toLowerCase() === "b" || e.key.toLowerCase() === "и")
-      // ) {
-      //   editTextAction(
-      //     fieldId,
-      //     item[fieldId],
-      //     fieldFn.setNewVal,
-      //     "getFragment",
-      //     true
-      //   );
-      // }
+      defaultKey(e, fieldId, fieldFn.getFieldValue(fieldId), fieldFn.setNewVal, action);
     },
     notNew: (index) => {
       setItem((prev) => {
@@ -404,8 +342,7 @@ export const createFieldFn = (
       setItem({ ...newV });
     },
     clearAll: () => {
-      if (window.confirm("Clear task?"))
-        saveToHistorygeneral({ en: JSON.stringify(item), ru: "RUB" }, setPopup);
+      if (window.confirm("Clear task?")) saveToHistorygeneral({ en: JSON.stringify(item), ru: "RUB" }, setPopup);
       setItem({ ...defaultRubJust });
     },
     addLinkToRub: (linkObj) => {
@@ -434,9 +371,7 @@ export const createFieldFn = (
       setItem((prev) => {
         return {
           ...prev,
-          links: prev.links.map((it, i) =>
-            i === parseInt(index) ? { ...it, ...val } : it
-          ),
+          links: prev.links.map((it, i) => (i === parseInt(index) ? { ...it, ...val } : it)),
         };
       });
     },
@@ -447,8 +382,6 @@ export const createFieldFn = (
 export const getCriterisText = (criteria, version) =>
   `${criteria.rubric}  
 ${
-  criteria.exExample === null || !criteria.example
-    ? ""
-    : rubExExample[Number(criteria.exExample)][version]
+  criteria.exExample === null || !criteria.example ? "" : rubExExample[Number(criteria.exExample)][version]
 }             
 ${criteria.example}`;

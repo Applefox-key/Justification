@@ -7,10 +7,24 @@ const RateInformOne = ({ item, resp }) => {
     <div className="rate-inform-dmg">
       {defaultDimSets[item.setName].map((field, i) => (
         <div key={i} className="rateInform">
-          <div className="ico" dataScore={item.Evals[field[resp]] || ""}>
-            {rateIcons[item.Evals[field[resp]]]}
-          </div>
-          <div>{field.short}</div>
+          {resp ? (
+            <>
+              <div className="ico" dataScore={item.Evals[field[resp]] || ""}>
+                {rateIcons[item.Evals[field[resp]]]}
+              </div>
+              <div>{field.short}</div>
+            </>
+          ) : (
+            <>
+              <div className="ico" dataScore={item.Evals[field.a] || ""}>
+                {rateIcons[item.Evals[field.a]]}
+              </div>
+              <div className="ico" dataScore={item.Evals[field.b] || ""}>
+                {rateIcons[item.Evals[field.b]]}
+              </div>
+              <div className="d-short">{field.short}</div>{" "}
+            </>
+          )}
         </div>
       ))}
     </div>

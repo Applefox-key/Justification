@@ -79,7 +79,8 @@ export const defaultKey = (e, fieldId, value, setValue, action) => {
   }
   if (e.key === "F4") {
     const val = value;
-    const newVal = applyAction(val, action);
+    // const newVal = applyAction(val, action);
+    const newVal = applyAction({ text: val, action, toLowerC: true });
     setValue(newVal);
     type = "";
   } else if (e.key === "F2") {

@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { delFromHistory, getHistory } from "../../utils/localStorage";
 import { objectToText } from "../../utils/DOMfn";
-import MyPortal from "../UI/MyPortal/MyPortal";
 
 const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
   const elP = (el) => {
@@ -11,7 +10,7 @@ const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
 
     const obj = JSON.parse(el.en);
     let nm = (obj.name ?? "") + (obj.taskId ?? "") + (obj.id ?? "");
-    return [nm ? nm : "NONAME noid", obj];
+    return [nm ?? "NONAME noid", obj];
   };
 
   const renderOneVariant = (el, i) => {
@@ -23,9 +22,7 @@ const ContentSideItems = ({ itemsArr, toJustif, setCurrBtn, currentBtn }) => {
     }
     return (
       <>
-        {currentBtn.name === "history" && (
-          <span className="history-txt">{objectToText(content)}</span>
-        )}
+        {currentBtn.name === "history" && <span className="history-txt">{objectToText(content)}</span>}
         <div>{title}</div>
       </>
     );

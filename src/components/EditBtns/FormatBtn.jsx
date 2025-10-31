@@ -1,7 +1,9 @@
 import { Button } from "react-bootstrap";
 import React from "react";
-import { applyAction, baseRespName } from "../../utils/utilStr";
+import { applyAction } from "../../utils/utilStr";
 import { HiRefresh } from "react-icons/hi";
+import { baseRespName } from "../../utils/utilStr";
+import { toLower } from "lodash";
 
 const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
   return (
@@ -9,7 +11,8 @@ const FormatBtn = ({ handleTxt, action, setHandleTxt }) => {
       <Button
         className="btnToHis"
         onClick={(e) => {
-          const newVal = applyAction(handleTxt, action);
+          // const newVal = applyAction(handleTxt, action, false, true); text, action = "", onlyRespNames = false, toLowerC = false
+          const newVal = applyAction({ text: handleTxt, action, toLowerC: true });
           setHandleTxt(newVal);
         }}>
         {/* FORMAT (F4) */}

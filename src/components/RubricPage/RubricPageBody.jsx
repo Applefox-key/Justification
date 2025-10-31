@@ -24,24 +24,13 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
   const [countR, setCountR] = useState(4);
 
   const fieldId = useMemo(() => {
-    return textRef && textRef.current && textRef.current.id
-      ? textRef.current.id
-      : "prompt";
+    return textRef && textRef.current && textRef.current.id ? textRef.current.id : "prompt";
   }, [textRef]);
 
   const setPopup = usePopup();
 
   const fieldFn = useMemo(
-    () =>
-      createFieldFn(
-        item,
-        setItem,
-        textRef,
-        setTextRef,
-        action,
-        fieldId,
-        setPopup
-      ),
+    () => createFieldFn(item, setItem, textRef, setTextRef, action, fieldId, setPopup),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [item, action, fieldId, textRef]
   );
@@ -54,15 +43,8 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
     setTextSelected(selectedText);
   };
   const pasteToText = (val) => {
-    const newVal = applyAction(val.en || val, action);
-    editTextActionRef(
-      textRef,
-      fieldFn.getFieldValue(),
-      fieldFn.setNewVal,
-      "add",
-      true,
-      newVal
-    );
+    const newVal = applyAction({ text: val.en || val, action });
+    editTextActionRef(textRef, fieldFn.getFieldValue(), fieldFn.setNewVal, "add", true, newVal);
   };
 
   const toHist = () => {
@@ -141,10 +123,7 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
         />
       </div>
       <div className="task-head-box"></div>
-      <div
-        onClick={clickOnPhrase}
-        onTouchEnd={clickOnPhrase}
-        className="editarearub pagedimbody">
+      <div onClick={clickOnPhrase} onTouchEnd={clickOnPhrase} className="editarearub pagedimbody">
         {/* <span className="fieldid-t">{fieldId}</span> */}
         <div className="d-flex edit100 h-100 ">
           {isTemplates && <TemplatesBox edit toJustif={pasteToText} />}
@@ -165,17 +144,14 @@ const RubricPageBody = ({ actionFn, item, setItem, action }) => {
                   <button onClick={fieldFn.setVersion} className="button-count">
                     Version:
                     <span className={item.version === 0 ? "pinkB" : ""}>0</span>
-                    {"/"}{" "}
-                    <span className={item.version === 1 ? "pinkB" : ""}>1</span>
+                    {"/"} <span className={item.version === 1 ? "pinkB" : ""}>1</span>
                     {/* <span>{countR}</span> */}
                   </button>
                   <button onClick={fieldFn.setRCount} className="button-count">
                     Resp. num:
                     <span className={item.countR === 2 ? "pinkB" : ""}>2</span>
-                    {"/"}{" "}
-                    <span className={item.countR === 3 ? "pinkB" : ""}>3</span>
-                    {"/"}{" "}
-                    <span className={item.countR === 4 ? "pinkB" : ""}>4</span>
+                    {"/"} <span className={item.countR === 3 ? "pinkB" : ""}>3</span>
+                    {"/"} <span className={item.countR === 4 ? "pinkB" : ""}>4</span>
                     {/* <span>{countR}</span> */}
                   </button>
                 </div>

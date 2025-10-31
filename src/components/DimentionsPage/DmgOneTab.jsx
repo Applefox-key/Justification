@@ -4,7 +4,7 @@ import { defaultDimSets } from "../../constants/dimDefault";
 import DmgFieldEditPage from "./DmgFieldEditPage";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 
-const DmgOneTab = ({ editParam, small, showBody }) => {
+const DmgOneTab = ({ editParam, small, showBody, noMenu = false }) => {
   const { field, setIsTxt, fieldId, isTxt, item, fieldFn, pasteToText, action, setAct, activeTab } = editParam;
   console.log(showBody);
 
@@ -21,7 +21,7 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
 
   return (
     <>
-      {!closed && <DimBtnsHot field={field} pasteToText={pasteToText} action={action} set={item.setName} />}
+      {!closed || (noMenu && <DimBtnsHot field={field} pasteToText={pasteToText} action={action} set={item.setName} />)}
       <div className={closed ? "one-dim-close" : "one-dim"}>
         <DmgFieldEditPage
           autoFocus
@@ -50,7 +50,7 @@ const DmgOneTab = ({ editParam, small, showBody }) => {
                   className={!closed ? "activeTab " + (small ? "h-6" : "") : ""}
                   onClick={() => setClosed(!closed)}>
                   {field.short}
-                </button>{" "}
+                </button>
               </div>
             )}
             <RateDmgScale horiz={closed} val={item.Evals[field.b]} setVal={(v) => fieldFn.setNewEstim(v, field.b)} />

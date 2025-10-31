@@ -1,11 +1,13 @@
 import { defaultDimSets } from "../constants/dimDefault";
 import { recomDim } from "./analysis";
-import { applyAction, replaceByArr, wrapCommonpartsInSpan } from "./utilStr";
+import { compareTextCategoriesLang, compareTextsByParts, compareTextsBySentences } from "./compareTxt";
+import { applyAction } from "./utilStr";
 const minDiv = `➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖`;
 const minDivShort = `➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖`;
 // export const rateIcons = ["⚪", "🔴", "🔴", "🟡", "🟢", "🟢"];
 export const rateIcons = ["✖️", "🔴", "🔴", "🟡", "🟢", "🟢"];
 export const rateColorClasses = ["", "red-border", "red-border", "orange-border", "green-border", "green-border"];
+export const rateBackColorClasses = ["", "red-border", "red-border", "orange-border", "green-border", "green-border"];
 const formatTextBullet = (txt) => {
   if (!txt) return "";
   return txt
@@ -25,197 +27,6 @@ export const compose = (item, setItem, fieldId, r) => {
   else return newArr.join(`\n`);
 };
 
-export const compareTextsBySentences = (text1, text2, formatText = false) => {
-  const splitToSentences = (text) =>
-    text
-      .split(/(?<=[.!?])\s+/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-  const sentences1 = splitToSentences(text1);
-  const sentences2 = splitToSentences(text2);
-
-  const normalize = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
-
-  const norm1 = sentences1.map(normalize);
-  const norm2 = sentences2.map(normalize);
-
-  const set2 = new Set(norm2);
-  const set1 = new Set(norm1);
-
-  // --- определяем общие ---
-  const common = [];
-  norm1.forEach((s, i) => {
-    if (set2.has(s)) common.push(sentences1[i]);
-  });
-  console.log(common);
-  let textForm1 = "";
-  let textForm2 = "";
-  if (formatText) {
-    textForm1 = wrapCommonpartsInSpan(text1, common);
-    textForm2 = wrapCommonpartsInSpan(text2, common);
-  }
-  // --- добавляем примеры в общий блок ---
-  const exampleStarters = ["for example", "for instance", "such as"];
-  const startsWithExample = (s) => exampleStarters.some((p) => normalize(s).startsWith(p));
-
-  const commonWithExamples = common.map((commonSentence) => {
-    const idx1 = sentences1.findIndex((s) => normalize(s) === normalize(commonSentence));
-    const idx2 = sentences2.findIndex((s) => normalize(s) === normalize(commonSentence));
-
-    const next1 = sentences1[idx1 + 1];
-    const next2 = sentences2[idx2 + 1];
-
-    let ex1 = next1 && startsWithExample(next1) ? next1 : null;
-    let ex2 = next2 && startsWithExample(next2) ? next2 : null;
-
-    const replacements = [
-      { oldT: ["the response is"], newT: "both responses are", caseSensitive: true },
-      { oldT: ["the model is"], newT: "both models are", caseSensitive: true },
-      { oldT: ["the answer is"], newT: "both answers are", caseSensitive: true },
-      { oldT: ["the response"], newT: "both responses", caseSensitive: true },
-      { oldT: ["the model"], newT: "both models", caseSensitive: true },
-      { oldT: ["the answer"], newT: "both answers", caseSensitive: true },
-      { oldT: ["The response is"], newT: "Both responses are", caseSensitive: true },
-      { oldT: ["The model is"], newT: "Both models are", caseSensitive: true },
-      { oldT: ["The answer is"], newT: "Both answers are", caseSensitive: true },
-      { oldT: ["The response"], newT: "Both responses", caseSensitive: true },
-      { oldT: ["The model"], newT: "Both models", caseSensitive: true },
-      { oldT: ["The answer"], newT: "Both answers", caseSensitive: true },
-    ];
-    let commonForm = commonSentence;
-    if (formatText) {
-      commonForm = wrapCommonpartsInSpan(commonSentence, common);
-    }
-    const commonSentenceNormalize = replaceByArr(replacements, commonForm);
-
-    ex1 = !ex1
-      ? ""
-      : ex1
-          .replace(/\bfor example,\b/gi, "")
-          .replace(/\bfor example\b/gi, "")
-          .replace(/\bfor instance,\b/gi, "")
-          .replace(/\bfor instance\b/gi, "");
-    ex2 = !ex2
-      ? ""
-      : ex2
-          .replace(/\bfor example,\b/gi, "")
-          .replace(/\bfor example\b/gi, "")
-          .replace(/\bfor instance,\b/gi, "")
-          .replace(/\bfor instance\b/gi, "");
-    if (ex1 || ex2) {
-      return `${commonSentenceNormalize} For example:\n   → @1 ${ex1 || "(нет примера)"}\n   → @2${
-        ex2 || "(нет примера)"
-      }`;
-    }
-    return commonSentenceNormalize;
-  });
-
-  // --- исключаем "for example..." из уникальных ---
-  const isExampleSentence = (s) => startsWithExample(s);
-
-  const unique1 = sentences1.filter((s) => !set2.has(normalize(s)) && !isExampleSentence(s));
-  const unique2 = sentences2.filter((s) => !set1.has(normalize(s)) && !isExampleSentence(s));
-
-  // --- форматируем вывод ---
-  const formatTextBullet = (arr) => arr.join("\n▪️");
-
-  let result = "";
-  if (commonWithExamples.length) result += "@BOTH RESPONSES:\n▪️" + commonWithExamples.join("\n▪️") + "\n";
-  if (unique1.length) result += "@1:\n▪️" + formatTextBullet(unique1) + "\n";
-  if (unique2.length) result += "@2:\n▪️" + formatTextBullet(unique2);
-
-  return !formatText ? result : { resume: result, text1: textForm1, text2: textForm2 };
-};
-export const compareTextCategoriesLang = (text1, text2) => {
-  // Функция для извлечения всех частей от "—" до ":" из текста
-  const extractParts = (text) => {
-    return Array.from(
-      text.matchAll(/—\s*([^:;]+)(?=[:;]|$)/g) // ищем до двоеточия, точки с запятой или конца текста
-    ).map((m) => m[1].trim());
-  };
-
-  const parts1 = extractParts(text1);
-  const parts2 = extractParts(text2);
-
-  // Общие
-  const common = parts1.filter((x) => parts2.includes(x));
-
-  // Уникальные
-  const unique1 = parts1.filter((x) => !parts2.includes(x));
-  const unique2 = parts2.filter((x) => !parts1.includes(x));
-
-  // Возвращаем строки
-
-  let result = "";
-  if (common.length) result += "Both responses use " + common.join(", ");
-  if (unique1.length) result += ". @1 uses " + unique1.join(", ");
-  if (unique2.length) result += ". @2 uses " + unique2.join(", ");
-  return result;
-};
-export const compareTextsByParts = (text1, text2) => {
-  // Функция разбивает текст на строки и выделяет часть до и после двоеточия
-  const splitToParts = (text) =>
-    text
-      .split("\n")
-      .map((line) => {
-        const match = line.match(/^\s*[-–—]?\s*(.+?):\s*(.*)$/); // до и после двоеточия
-        if (!match) return null;
-        return { before: match[1].trim(), after: match[2].trim() };
-      })
-      .filter(Boolean);
-
-  const parts1 = splitToParts(text1);
-  const parts2 = splitToParts(text2);
-
-  // Нормализуем для сравнения
-  const normalize = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
-
-  const norm1 = parts1.map((p) => normalize(p.before));
-  const norm2 = parts2.map((p) => normalize(p.before));
-
-  const set2 = new Set(norm2);
-  const common = [];
-  const unique1 = [];
-  const unique2 = [];
-  const ex1 = [];
-  const ex2 = [];
-
-  // Сравнение для первого текста
-  norm1.forEach((s, i) => {
-    if (set2.has(s)) {
-      common.push(parts1[i].before);
-      if (parts1[i].after) ex1.push(parts1[i].after);
-    } else {
-      unique1.push(parts1[i].before);
-      if (parts1[i].after) ex1.push(parts1[i].after);
-    }
-  });
-
-  // Для второго текста
-  const set1 = new Set(norm1);
-  parts2.forEach((p, i) => {
-    if (!set1.has(norm2[i])) {
-      unique2.push(p.before);
-      if (p.after) ex2.push(p.after);
-    } else if (p.after) {
-      ex2.push(p.after);
-    }
-  });
-
-  // Формирование результата
-  let result = "";
-  if (common.length) result += "Both responses use " + common.join(", ");
-  if (unique1.length) result += "@1 uses " + unique1.join(", ");
-  if (unique2.length) result += "@2 uses " + unique2.join(", ");
-  if (ex1 || ex2) {
-    result += `\nFor example, \n`;
-    if (ex1.length) result += "@1 " + ex1.join(" ") + "\n";
-    if (ex2.length) result += "@2 " + ex2.join(" ");
-  }
-
-  return result;
-};
 export const getVerdictbyOneDim = (ea, eb, dim) => {
   let verdict = "";
   if (ea > eb) {
@@ -246,9 +57,21 @@ export const getResumeByDim = (item, formatResults = false) => {
     else {
       let res = compareTextsBySentences(texta, textb, formatResults);
       if (formatResults) {
-        resume = res.resume;
-        texta = res.text1;
-        textb = res.text2;
+        resume = res.resume
+          .replace(/@1:/g, `<span class="resp-marked">@1</span>`)
+          .replace(/@2:/g, `<span class="resp-marked">@2</span>`)
+          .replace(/🔰@BOTH RESPONSES:/g, `<span class="resp-marked">🔰@BOTH RESPONSES:</span>`);
+
+        const formatSpanPer = (tx) =>
+          "▫️" +
+          tx
+            .replace(/\s+/g, " ")
+            .replace(/\. /g, ".\n▫️")
+            .replace(/\.<\/span>/g, ".</span>\n▫️");
+
+        texta = formatSpanPer(res.text1);
+
+        textb = formatSpanPer(res.text2); //.split("\n").join(`\n▪️`);
       } else resume = res;
     }
     const verdict = getVerdictbyOneDim(item.Evals[dim.a], item.Evals[dim.b], dim);
@@ -256,6 +79,7 @@ export const getResumeByDim = (item, formatResults = false) => {
   });
   return mainResult;
 };
+
 export const getResumeByDimTXT = (item, formatResults = false) => {
   let tmpResult = getResumeByDim(item, formatResults);
 
@@ -325,7 +149,7 @@ export const composeRateBothByDim = (param) => {
     // rateStrDim += `
     //   ${divider} ${elAb.name.toUpperCase()}🔘${divider}${resDim.join("\n")}`;
     rateStrDim += `\n${minDivShort}\n🔘${elAb.name.toUpperCase()}\n${minDivShort}\n${resDim.join("\n")}`;
-    if (action !== null) rateStrDim = applyAction(rateStrDim, action, true);
+    if (action !== null) rateStrDim = applyAction({ text: rateStrDim, action, onlyRespNames: true });
   });
   if (setItem)
     setItem({
@@ -488,7 +312,7 @@ export const composeRateByScores = (param) => {
   }
 
   let rateStrDim = parts.join("\n");
-  if (action !== null) rateStrDim = applyAction(rateStrDim, action, true);
+  if (action !== null) rateStrDim = applyAction({ text: rateStrDim, action, onlyRespNames: true });
   setItem({
     ...item,
     [fieldId]: `${rateStr}\n${rateStrDim}\n ${item.Rate} `,
@@ -675,7 +499,8 @@ export const justificationByScores = (param) => {
     parts.push(`${dimTxtSame.join("\n")}`);
   }
 
-  const rateStrDim = action === null ? parts.join("\n") : applyAction(parts.join("\n"), action, true);
+  const rateStrDim =
+    action === null ? parts.join("\n") : applyAction({ text: parts.join("\n"), action, onlyRespNames: true });
 
   setItem({
     ...item,
@@ -754,7 +579,8 @@ export const justificationBySentences = (param) => {
     parts.push(`${dimTxtSame.join("\n")}`);
   }
 
-  const rateStrDim = action === null ? parts.join("\n") : applyAction(parts.join("\n"), action, true);
+  const rateStrDim =
+    action === null ? parts.join("\n") : applyAction({ text: parts.join("\n"), action, onlyRespNames: true });
 
   setItem({
     ...item,
@@ -804,7 +630,7 @@ export const composeRateBothSimple = (param) => {
   const rateStrDim =
     action === null
       ? dimTxtA + "\n" + dimTxtB + "\n" + dimTxtSame
-      : applyAction(dimTxtA + "\n" + dimTxtB + "\n" + dimTxtSame, action, true);
+      : applyAction({ text: dimTxtA + "\n" + dimTxtB + "\n" + dimTxtSame, action, onlyRespNames: true });
 
   if (fieldId && setItem)
     setItem({

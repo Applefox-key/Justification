@@ -6,7 +6,7 @@ import { sideBtnsData } from "../../constants/sideBtnsFiled";
 const SideBtnsFiled = ({ statesVal, fieldId, alwaysOpen }) => {
   const { handleTxt, setHandleTxt } = statesVal;
 
-  const applyAction = useCallback(
+  const applyActionP = useCallback(
     (action, isIgnore = false) => {
       if (!fieldId) return;
       editTextAction(fieldId, handleTxt, setHandleTxt, action, isIgnore);
@@ -29,7 +29,7 @@ const SideBtnsFiled = ({ statesVal, fieldId, alwaysOpen }) => {
     editTextAction(fieldId, handleTxt, setHandleTxt, "add", true, val);
   };
   const btnsArr = sideBtnsData({
-    applyAction,
+    applyActionP,
     replace,
     replaceQU,
     pasteToText,

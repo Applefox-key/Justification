@@ -10,10 +10,7 @@ export const replacementsEnding = [
   [["ipu"], "The response has a problem with punctuation"],
   [["lf"], "language fluency"],
   [["ozw"], "Otherwise,"],
-  [
-    ["o5", "о5", "h5", "щ5"],
-    "Otherwise, BotModel is fully consistent with the user's prompt. There are no issues.",
-  ],
+  [["o5", "о5", "h5", "щ5"], "Otherwise, BotModel is fully consistent with the user's prompt. There are no issues."],
   [["numl"], "The response uses a numbered list unnecessarily."],
   [["куыи", "res2", "отв2", "resb", "респ2"], "Response B"],
   [["tres", "куыз", "отвв"], "the response"],
@@ -24,16 +21,10 @@ export const replacementsEnding = [
   [["##"], `“”`],
   [["tns"], `turn1\nturn2\nturn3\nturn4\n`],
   [["trn"], `turn`],
-  [
-    ["dim", "вшь"],
-    `Instruction Following\nLanguage fluency\nCoherence\nFactuality\nPresentation\nTone\n`,
-  ],
+  [["dim", "вшь"], `Instruction Following\nLanguage fluency\nCoherence\nFactuality\nPresentation\nTone\n`],
   [["exx", "прр"], "for example, "],
   [["кк", "йй", "qq"], "«»"],
-  [
-    ["refr"],
-    `It is better to rephrase some fragments in the response since it sounds unnatural (" ").`,
-  ],
+  [["refr"], `It is better to rephrase some fragments in the response since it sounds unnatural (" ").`],
   [["@@"], `""`],
 ];
 //hot list
@@ -124,7 +115,6 @@ export const autoReplaceToModels = [
       "interaction a",
       "interaction 1",
       "interaction one",
-      " 1 ",
     ],
     newT: "BotModela",
     caseSensitive: false,
@@ -168,7 +158,6 @@ export const autoReplaceToModels = [
       "interaction b",
       "interaction 2",
       "interaction two",
-      " 2 ",
     ],
     newT: "BotModelb",
     caseSensitive: false,
@@ -213,6 +202,16 @@ const autoReplaceWords = [
   {
     oldT: ["russian"],
     newT: "Russian",
+    caseSensitive: true,
+  },
+  {
+    oldT: ["promo"],
+    newT: "prompt",
+    caseSensitive: true,
+  },
+  {
+    oldT: ["Promo"],
+    newT: "Prompt",
     caseSensitive: true,
   },
   {

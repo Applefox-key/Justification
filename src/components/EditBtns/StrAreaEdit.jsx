@@ -1,11 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import {
-  voiceToEdit,
-  editTextAction,
-  applyAction,
-  replaceEndings,
-} from "../../utils/utilStr";
+import { voiceToEdit, editTextAction, applyAction, replaceEndings } from "../../utils/utilStr";
 import RatingOverlay from "../Rate/RatingOverlay";
 import TopBtns from "./TopBtns";
 import SideBtns from "./SideBtns";
@@ -16,13 +11,7 @@ import { replacementsEnding } from "../../constants/replacements";
 import InFormatBtn from "./InFormatBtn";
 import ReplaceBtn from "./ReplaceBtn";
 
-const StrAreaEdit = ({
-  actionFn,
-  placeholder = "",
-  handleTxt,
-  setHandleTxt,
-  action,
-}) => {
+const StrAreaEdit = ({ actionFn, placeholder = "", handleTxt, setHandleTxt, action }) => {
   const [textSelected, setTextSelected] = useState("");
   const [isTxt, setIsTxt] = useState(false);
   const [isTemplates, setIsTemplates] = useState(false);
@@ -67,22 +56,18 @@ const StrAreaEdit = ({
     },
   };
   const pasteToText = (val) => {
-    const newVal = applyAction(val.en || val, action);
+    const newVal = applyAction({ text: val.en || val, action });
     editTextAction("editArea", handleTxt, setHandleTxt, "add", true, newVal);
   };
 
   return (
     <>
       <div className="d-flex flex-wrap">
-        <Button
-          className={"btnToHis" + (isTemplates ? " isTmp" : "")}
-          onClick={(e) => setIsTemplates(!isTemplates)}>
+        <Button className={"btnToHis" + (isTemplates ? " isTmp" : "")} onClick={(e) => setIsTemplates(!isTemplates)}>
           Templates
         </Button>
 
-        <Button
-          className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")}
-          onClick={(e) => setIsHotBtns(!isHotBtns)}>
+        <Button className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")} onClick={(e) => setIsHotBtns(!isHotBtns)}>
           HOT
         </Button>
 
@@ -109,11 +94,7 @@ const StrAreaEdit = ({
             </div>
           ) : (
             <div className="d-flex w-100 h-100">
-              {isTemplates ? (
-                <TemplatesBox edit toJustif={pasteToText} />
-              ) : (
-                <></>
-              )}
+              {isTemplates ? <TemplatesBox edit toJustif={pasteToText} /> : <></>}
               <Form.Control
                 as="textarea"
                 id={"editArea"}
@@ -130,7 +111,7 @@ const StrAreaEdit = ({
                   else {
                     lasttxt.saveLast();
                     if (e.key === "F4") {
-                      const newVal = applyAction(handleTxt, action);
+                      const newVal = applyAction({ text: handleTxt, action });
                       setHandleTxt(newVal);
                     }
                   }

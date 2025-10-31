@@ -1,33 +1,35 @@
 import React, { useState } from "react";
 import { defaultDimSets } from "../../constants/dimDefault";
 import DmgOneTab from "./DmgOneTab";
-import PageJustif from "./PageJustif";
+
 import PageRate from "./PageRate";
 
 import RateLikert from "../Rate/RateLikert";
 
-import DmgOneResponse from "./DmgOneResponse";
 import RateInformOne from "../Rate/RateInformOne";
 import OneTab from "./OneTab";
 import DimTab from "./DimTab";
-import DmgPageReview from "./DmgPageReview";
-import DmgPageReviewBuilder from "./DmgPageReviewBuilder";
-import DmgTwoResponses from "./DmgTwoResponses";
+
 import DmgRateByDim from "./DmgRateByDim";
 import DmgPrompt from "./DmgPrompt";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import PageRespTxt from "./PageRespTxt";
 import DimTaskAll from "./DimTaskAll";
-import PageRespRate from "./PageRespRate";
+
 import DimAddDetail from "./DimAddDetail";
 import MyPortal from "../UI/MyPortal/MyPortal";
 
 import SideWordTmp from "./SideWordTmp";
 import DimPageTwoSides from "./DimPageTwoSides";
+import DimPageTwoSidesSBS from "./DimPageTwoSidesSBS";
+import JustRew from "./JustRew";
+import WinDragable from "./WinDragable";
+
+import SidePanel from "../TextParts/SidePanel";
 
 const PageBodyTabs = ({ editParam, likert, children }) => {
   const [activeTab, setActiveTab] = useState({
-    short: "SBS",
+    short: "Prompt",
     className: "page-work",
   });
   const [showPrompt, setShowPrompt] = useState(false);
@@ -38,21 +40,15 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
   const dims = defaultDimSets[editParam.item.setName].map((field) => field.short);
   const tabs = [
     {
-      short: "tbPrompt",
+      short: "Prompt",
       title: (
         <>
           <IoChatboxEllipsesOutline /> Prompt 🔷
         </>
       ),
       alwaysShow: true,
-      // content: <HidenText text={editParam.item.Prompt} />,
-      // content: <HidenText>18</HidenText>,
     },
-    {
-      short: "RespTxt",
-      title: "RESPONSES TEXT",
-      // content: <RateInform item={editParam.item} />,
-    },
+
     {
       short: "Response_A",
       title: "Model A",
@@ -61,39 +57,29 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
       content: <RateInformOne item={editParam.item} resp="a" />,
     },
     {
-      short: "tbResponse_A",
-      title: "Model A",
-      alwaysShow: true,
-      content: <RateInformOne item={editParam.item} resp="a" />,
-    },
-    {
-      short: "tbResponse_B",
+      short: "Response_B",
       title: "Model B",
       alwaysShow: true,
+      className: "page-work noScroll",
       content: <RateInformOne item={editParam.item} resp="b" />,
+    },
+    {
+      short: "SBSr",
+      title: "SIDE by SIDE 🔷",
+      content: null,
+      className: "page-work noScroll",
     },
 
     {
-      short: "SBS",
-      title: "SIDE by SIDE 🔷",
-      content: null,
-      className: "page-work",
-    },
-    {
-      short: "Rate",
-      title: "RATES",
-      // content: <RateInform item={editParam.item} />,
-    },
-    {
-      short: "Justif",
-      title: "JUSTIFICATIONS 🔷",
+      short: "Justifs",
+      title: "SUMMARY 🔷",
       content: <RateLikert num={editParam.item.likert} callback={likert.setNewRate} />,
       className: "page-work noScroll",
     },
 
     {
-      short: "Review",
-      title: "REVIEW",
+      short: "Task",
+      title: "All TASK",
       content: null,
     },
     {
@@ -101,27 +87,20 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
       title: "DIM",
       content: <DimTab item={editParam.item} fieldFn={editParam.fieldFn} activeTab={activeTab} setAct={setAct} />,
     },
-    // {
-    //   short: "SBSJ",
-    //   title: "COMPARE SBS",
-    //   content: null,
-    // },
-    // {
-    //   short: "Review_builder",
-    //   title: "REVIEW BUILDER",
-    //   content: null,
-    //   className: "page-work noScroll",
-    // },
+
     {
-      short: "RespRate",
-      title: "Resp & RATE",
-      // content: <RateInform item={editParam.item} />,
+      short: "TMP",
+      title: "TEMPLATES",
+      content: <SideWordTmp editParam={editParam} />,
     },
+  ];
+  const tmpArr = [
     {
-      short: "Task",
-      title: "REVIEW TASK",
-      content: null,
+      short: "DIM",
+      title: "DIM",
+      content: <DimTab item={editParam.item} fieldFn={editParam.fieldFn} activeTab={activeTab} setAct={setAct} />,
     },
+
     {
       short: "TMP",
       title: "TEMPLATES",
@@ -129,75 +108,80 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
     },
   ];
   const renderTabs = {
-    tbPrompt: <DmgPrompt editParam={{ ...editParam, likert }} />,
+    Prompt: <DmgPrompt editParam={{ ...editParam, likert }} />,
     Rate: <PageRate editParam={{ ...editParam, likert }} />,
     RespTxt: <PageRespTxt editParam={editParam} />,
-    RespRate: <PageRespRate editParam={editParam} />,
-    Review: <DmgPageReview editParam={{ ...editParam, likert }} />,
-    Review_builder: <DmgPageReviewBuilder editParam={{ ...editParam, likert }} />,
+    // RespRate: <PageRespRate editParam={editParam} />,
+    // Review: <DmgPageReview editParam={{ ...editParam, likert }} />,
+    // Review_builder: <DmgPageReviewBuilder editParam={{ ...editParam, likert }} />,
     SBSJ: <DmgRateByDim item={editParam.item} likert={likert} />,
-    Response_A: <DimPageTwoSides resp="a" setAct={setAct} editParam={{ ...editParam, likert }} />,
-    tbResponse_A: (
-      <DmgOneResponse
-        editParam={{
-          ...editParam,
-          field: activeTab,
-          setAct,
-          activeTab: "tbResponse_A",
-        }}
-        dimArr={defaultDimSets[editParam.item.setName]}
-        resp="a"
-      />
-    ),
-    tbResponse_B: (
-      <DmgOneResponse
-        editParam={{
-          ...editParam,
-          field: activeTab,
-          setAct,
-          activeTab: "tbResponse_B",
-        }}
-        dimArr={defaultDimSets[editParam.item.setName]}
-        resp="b"
-      />
-    ),
-    SBS: (
-      <DmgTwoResponses
-        editParam={{
-          ...editParam,
-          field: activeTab,
-          setAct,
-          activeTab: "SBS",
-        }}
-        dimArr={defaultDimSets[editParam.item.setName]}
-      />
-    ),
-    Justif: <PageJustif editParam={{ ...editParam, likert }} />,
+    Response_A: <DimPageTwoSides response="ResponseA" editParam={{ ...editParam, likert }} />,
+    Response_B: <DimPageTwoSides response="ResponseB" editParam={{ ...editParam, likert }} />,
+    SBSr: <DimPageTwoSidesSBS editParam={{ ...editParam, likert }} />,
+
+    // Justif: <PageJustif editParam={{ ...editParam, likert }} />,
+    Justifs: <JustRew editParam={{ ...editParam, likert }} />,
     Task: <DimTaskAll editParam={{ ...editParam, likert }} />,
   };
   const isPromptNeeded = activeTab.short !== "Prompt" && activeTab.short !== "RespRate";
   return (
     <>
-      {/* <div className="block-left"> */}
-      <MyPortal containerId="portal-on-tabs">
+      <MyPortal containerId="portal-sub-menu-left">
         {isPromptNeeded && (
-          <DimAddDetail id="showPrompt" title="Show Prompt text" val={showPrompt} setVal={setShowPrompt} isBtn />
+          <DimAddDetail id="showPrompt" title="Prompt text" val={showPrompt} setVal={setShowPrompt} isBtn />
         )}
       </MyPortal>
+      {editParam.isTemplates && (
+        <SidePanel>
+          <div className="tabs">
+            {children}
+            {tmpArr.map((tab) => (
+              <OneTab
+                key={tab.short}
+                id={tab.short}
+                alwShow={tab.alwaysShow}
+                isActive={
+                  tab.short === "DIM" ? activeTab && dims.includes(activeTab.short) : activeTab?.short === tab.short
+                }
+                onClick={
+                  tab.short === "DIM" || tab.short === "TMP"
+                    ? null
+                    : () =>
+                        setAct({
+                          short: tab.short,
+                          className: tab.className || "page-work",
+                        })
+                }
+                title={tab.title}>
+                {tab.content}
+              </OneTab>
+            ))}
+
+            {/* <OneTab
+          isActive={activeTab && dims.includes(activeTab.short)}
+          onClick={null}
+          title="Dimentions">
+          <DimTab
+            item={editParam.item}
+            fieldFn={editParam.fieldFn}
+            activeTab={activeTab}
+            setAct={setAct}
+          />
+        </OneTab> */}
+          </div>
+        </SidePanel>
+      )}
       <div className="w-100">
         {isPromptNeeded && showPrompt && (
-          <>
-            <div className="menu-accent ">Prompt</div>
-            <div className={"respDim-footer half-p"}>{editParam.item["Prompt"]}</div>
-          </>
+          <WinDragable title="prompt" close={() => setShowPrompt(false)}>
+            {editParam.item["Prompt"]}
+          </WinDragable>
         )}
         <div className="d-flex w-100">
           <div id="portal-dmg-page-colon" />
           <div className="page-work-wrap">
             <div id="portal-dmg-page-row" />
-            <div
-              className={`${activeTab?.className || "page-work"} ${showPrompt && isPromptNeeded ? "mh-50" : ""}`}
-              id="page-dim">
+            <div className={`${activeTab?.className || "page-work"} `} id="page-dim">
               {activeTab && renderTabs[activeTab.short]
                 ? renderTabs[activeTab.short]
                 : activeTab && (
@@ -215,7 +199,6 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
           </div>
         </div>
       </div>
-      {/* </div> */}
       <div className="tabs">
         {children}
         {tabs.map((tab) => (
@@ -239,19 +222,7 @@ const PageBodyTabs = ({ editParam, likert, children }) => {
             {tab.content}
           </OneTab>
         ))}
-
-        {/* <OneTab
-          isActive={activeTab && dims.includes(activeTab.short)}
-          onClick={null}
-          title="Dimentions">
-          <DimTab
-            item={editParam.item}
-            fieldFn={editParam.fieldFn}
-            activeTab={activeTab}
-            setAct={setAct}
-          />
-        </OneTab> */}
-      </div>{" "}
+      </div>
     </>
   );
 };

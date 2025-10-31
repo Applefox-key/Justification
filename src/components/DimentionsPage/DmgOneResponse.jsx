@@ -5,13 +5,14 @@ import MyPortal from "../UI/MyPortal/MyPortal";
 import DimAddDetail from "./DimAddDetail";
 import DimLastField from "./DimLastField";
 import { Form } from "react-bootstrap";
-
-const DmgOneResponse = ({ editParam, dimArr, resp }) => {
-  const { item, fieldFn, fieldId, activeTab } = editParam;
+import { defaultDimSets } from "../../constants/dimDefault";
+//not in use
+const DmgOneResponse = ({ editParam, resp }) => {
+  const { item, fieldFn, fieldId } = editParam;
+  const dimArr = defaultDimSets[editParam.item.setName];
   const currField = dimArr.filter((el) => el.a === fieldId || el.b === fieldId);
   const [showRate, setShowRate] = useState("Response");
-  // const [lastF, setLastF] = useState({ name: "", poz: 0 });
-  // const fieldRate = resp === "a" ? "RateA" : "RateB";
+
   const fieldResp = showRate + resp.toUpperCase();
   const switchShowRate = (val = "") => {
     let nv = val === "" ? (showRate === null ? "Response" : null) : val;
@@ -30,7 +31,8 @@ const DmgOneResponse = ({ editParam, dimArr, resp }) => {
           />
         )}
       </MyPortal>
-      <MyPortal containerId="portal-on-tabs">
+      {/* <MyPortal containerId="portal-on-tabs"> */}
+      <MyPortal containerId="portal-sub-menu-left">
         <DimAddDetail id="showRfSwitch" title="Show Response" val={showRate} setVal={() => switchShowRate()} isBtn />
         {showRate && (
           <div className="d-flex justify-content-between mt-2">

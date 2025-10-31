@@ -3,6 +3,8 @@ import { defaultDimSets } from "../../constants/dimDefault";
 import DmgTwoResponses from "./DmgTwoResponses";
 import PageRate from "./PageRate";
 import PageRespTxt from "./PageRespTxt";
+import MyPortal from "../UI/MyPortal/MyPortal";
+import RateInformOne from "../Rate/RateInformOne";
 
 const DimPageTwoSidesSBS = ({ editParam }) => {
   const [content, setContent] = useState("DMG");
@@ -20,7 +22,6 @@ const DimPageTwoSidesSBS = ({ editParam }) => {
             activeTab: "SBS",
           }}
           dmg
-          dimArr={defaultDimSets[editParam.item.setName]}
         />
       </>
     ),

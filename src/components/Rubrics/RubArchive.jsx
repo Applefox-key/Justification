@@ -88,48 +88,38 @@ const RubArchive = ({ txt, setTxt }) => {
   return (
     <>
       <div className="fragmBtn">
-        <button
-          className=" btnToHis hintBtn ms-1"
-          onClick={saveItems}
-          title="to and from archive">
+        <button className=" btnToHis hintBtn ms-1" onClick={saveItems} title="to and from archive">
           <TfiSave />
         </button>
         <div className="archive-box">
           <div className="d-flex w-100">
-            <button onClick={replacelast}>replace last</button>{" "}
-            <button onClick={clearItems}>clear</button>
+            <button onClick={replacelast}>replace last</button> <button onClick={clearItems}>clear</button>
           </div>
-          {/* <div className="archive-last" title="last 4 saves (turns)s">
-            <button onClick={save4Items}>+4 turns</button>{" "}
-            <button onClick={getElementsByNamePattern}>
-              get all turns review
-            </button>
-          </div> */}
+
           {items.map((oneF, i) => (
             <div className="one-item" key={i}>
-              {/* <div className="d-flex justify-content-between"> */}
               <div className="d-flex">
-                <button
-                  onClick={() => replaceItems(oneF, items.length - i)}
-                  className="loadbtn ">
+                <button onClick={() => replaceItems(oneF, items.length - i)} className="loadbtn ">
                   LOAD
                 </button>{" "}
                 <button onClick={() => clearItem(i)} className="delbtn ">
                   DELETE
                 </button>
+                <div className="contentbtn ">
+                  🔍
+                  <div className="save-cont">
+                    {oneF.name && (
+                      <span className="spanName">
+                        {oneF.id}
+                        {oneF.name}
+                      </span>
+                    )}
+                    {oneF.prompt && <span>{oneF.prompt}</span>}
+                  </div>
+                </div>
               </div>
-              <div className="title">
-                {oneF.name
-                  ? oneF.name
-                  : oneF.id
-                  ? oneF.id
-                  : "save" + (items.length - i)}
-              </div>
-              {/* </div> */}
-              <div className="save-cont">
-                {oneF.name && <span className="spanName">{oneF.name}</span>}
-                {oneF.prompt && <span>{oneF.prompt}</span>}
-              </div>
+
+              <div className="title"> {oneF.name ?? oneF.id ?? "save" + (items.length - i)}</div>
             </div>
           ))}
         </div>

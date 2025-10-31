@@ -6,7 +6,7 @@ const CheckRespBtn = ({ item, fieldRate }) => {
   const chekF = (isRef) => {
     let result = "";
     if (isRef) {
-      result = `Проверь верна ли соответсвует ли информация в новом тексте  источнику. игнорируй языковые ошибки. Нужен только спискок грубых ошибок искажающих информацию источника.   
+      result = `Проверь соответствует ли информация в новом тексте  источнику. игнорируй языковые ошибки. Нужен только спискок грубых ошибок искажающих информацию источника.   
       ИСТОЧНИК: "${item.Prompt}"
       НОВЫЙ ТЕКСТ: "${item[fieldRate]}"`;
     } else
@@ -21,7 +21,7 @@ const CheckRespBtn = ({ item, fieldRate }) => {
   };
 
   return (
-    <div className="format-btns ">
+    <div className={`format-btns `}>
       <Button className=" m-0">
         <HiRefresh />
         Check

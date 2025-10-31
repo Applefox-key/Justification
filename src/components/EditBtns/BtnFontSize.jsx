@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
-const BtnFontSize = ({ nameV = "--vertical-font" }) => {
+const BtnFontSize = ({ nameV = "--vertical-font", small }) => {
   const [font, setFont] = useState(0.7);
 
   const setVerticalCardFonrSize = (prop = "") => {
@@ -16,11 +16,7 @@ const BtnFontSize = ({ nameV = "--vertical-font" }) => {
     setVerticalCardFonrSize(newValue);
   };
   useEffect(() => {
-    const size =
-      parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue(nameV),
-        2
-      ) || 1.2;
+    const size = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(nameV), 2) || 1.2;
     if (size !== font) setFont(size);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,7 +30,8 @@ const BtnFontSize = ({ nameV = "--vertical-font" }) => {
           <IoMdArrowDropdown />
         </button>
       </div>
-      F
+
+      {small ? <span>F</span> : "F"}
       <div className="font-size-manage">
         <span> {font.toFixed(1)}</span>
       </div>

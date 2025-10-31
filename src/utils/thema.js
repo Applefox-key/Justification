@@ -8,6 +8,7 @@ const dayTheme = {
   "--item-back": "#e5e9ea",
   "--accent": "#bcc5e8",
   "--menu": "#e2e2e2",
+  "--bl-menu-back": "#b5cdec",
   "--sec-back": "#c7cacf91",
   "--sec-menu": "#ffffff61",
   "--second-color": "#868686",
@@ -18,6 +19,8 @@ const dayTheme = {
   "--input-back": "#f9f9f9",
   "--input-color": "#494949",
   "--back-mark": "#fff3cd",
+  "--day-pink": "pink",
+  "--back-serv": "#dce9fa",
 };
 
 const nightTheme = {
@@ -39,6 +42,9 @@ const nightTheme = {
   "--input-back": "#0e0e0e",
   "--input-color": "#949494",
   "--back-mark": "#343452",
+  "--bl-menu-back": "#343452",
+  "--day-pink": "#555a81",
+  "--back-serv": "#627895ff",
 };
 export const changeTheme = (isCheckedDay) => {
   toLS("thema", isCheckedDay ? "day" : "night");

@@ -7,7 +7,7 @@ const DimBtnsHot = ({ field, pasteToText, action, set }) => {
 
   const getNewVal = (newT, model = "") => {
     let newFr_ = model ? newT.replace(/BotModel/g, "BotModel" + model) : newT;
-    return applyAction(newFr_, action);
+    return applyAction({ text: newFr_, action });
   };
   useEffect(() => {
     const val = field?.justif?.length < 15;

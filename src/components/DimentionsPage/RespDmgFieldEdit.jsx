@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import RateDmgScale from "../Dimentions/RateDmgScale";
 
 import ScalableInput from "../EditBtns/ScalableInput";
+import DimAddDetail from "./DimAddDetail";
 
 const RespDmgFieldEdit = ({
   autoFocus,
@@ -17,9 +18,13 @@ const RespDmgFieldEdit = ({
   scale = null,
   show = true,
   clBox = "",
+  focus = null,
+  setFocus,
   showBody,
+  children,
 }) => {
   const [sh, setSh] = useState(show);
+
   const switchSh = (e) => {
     e.stopPropagation();
     setSh(!sh);
@@ -37,15 +42,25 @@ const RespDmgFieldEdit = ({
       className={`one-resp-box ${sh ? "" : "h-min"} ${clBox} `}>
       <>
         <div className="header-one-dim">
-          <span onClick={switchSh} className={estim === 0 ? "empty-estim" : ""}>
+          <span onClick={switchSh} className={estim === 0 ? "d-flex empty-estim" : "d-flex"}>
             {fieldName}
           </span>
 
           {scale === "left" && (
-            <RateDmgScale horiz={true} val={estim} setVal={(v) => fieldFn.setNewEstim(v, fieldName)} />
+            <div className="d-flex">
+              {children}
+              {setFocus && (
+                <DimAddDetail
+                  id={"foc" + fieldName}
+                  title=""
+                  val={!!focus}
+                  setVal={(val) => setFocus(val ? fieldName : "")}
+                />
+              )}
+              <RateDmgScale horiz={true} val={estim} setVal={(v) => fieldFn.setNewEstim(v, fieldName)} />
+            </div>
           )}
         </div>
-
         {sh ? (
           <ScalableInput
             fieldId={fieldId}

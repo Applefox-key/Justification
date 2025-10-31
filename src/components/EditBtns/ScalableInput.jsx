@@ -38,7 +38,6 @@ const ScalableInput = (props) => {
     onChange,
     onKeyDownPrew,
     onFocus,
-
     className,
     children,
     fieldId,
@@ -52,6 +51,8 @@ const ScalableInput = (props) => {
   const quotes = () => {
     editTextAction(fieldName, fieldVal, fieldFn.setNewVal, "englBaseComm", true);
   };
+  // console.log("btnSide", btnSide);
+
   const ref = useRef(null);
   const cursorPos = useRef(null);
 
@@ -107,7 +108,7 @@ const ScalableInput = (props) => {
       spellCheck
       // onKeyDown={handleChange}
       onKeyDown={handleOnKeyDown}
-      className={className + (btnSide ? " right-pad " : "pad-text-" + btnSide)}
+      className={`${className || ""} pad-text-${btnSide}`}
       onChange={handleChange}
       {...inputProps}
       value={fieldVal}
@@ -117,6 +118,7 @@ const ScalableInput = (props) => {
       onFocus={handleOnFocus}
     />
   );
+  console.log(autoHeight);
   return (
     <>
       {!!children && <HeaderInputSA title={fieldName} btns={children} />}

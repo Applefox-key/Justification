@@ -33,7 +33,7 @@ export const autoJustifRub = (rubricator) => {
           example = ":" + example;
         }
         const secL = getSecondLine(criterion.comment);
-        let com = secL ? secL : negationPhrase(criterion.rubric);
+        let com = secL ?? negationPhrase(criterion.rubric);
         let comJ = `— ${com}${example}`;
         if (!resultObj[response]) {
           resultObj[response] = { doesNot: [], other: [] };
@@ -55,13 +55,8 @@ export const autoJustifRub = (rubricator) => {
   keys.forEach((response) => {
     const item = resultObj[response];
     result += `${response}:\n`;
-    result += item.doesNot.length
-      ? `The Response ${response} does not: \n ${
-          item.doesNot.join("\n") + "\n"
-        }`
-      : "";
-    result +=
-      (item.other.length ? `Also: \n ${item.other.join(`\n`)}` : "") + "\n";
+    result += item.doesNot.length ? `The Response ${response} does not: \n ${item.doesNot.join("\n") + "\n"}` : "";
+    result += (item.other.length ? `Also: \n ${item.other.join(`\n`)}` : "") + "\n";
   });
 
   return result.trim();
@@ -93,8 +88,7 @@ export const autoJustifRub1 = (rubricator) => {
               title: (!secL ? "does not " : "") + com,
               errors: [],
             };
-          if (example)
-            resultObjAll[critNum].errors.push(`Response${response}:${example}`);
+          if (example) resultObjAll[critNum].errors.push(`Response${response}:${example}`);
         } else {
           //not all have issues
           if (!resultObj[response]) {
@@ -119,11 +113,8 @@ export const autoJustifRub1 = (rubricator) => {
   keys.forEach((response) => {
     const item = resultObj[response];
     result += `🔘The Response${response} \n`;
-    result += !!item.doesNot?.length
-      ? `DOES NOT:\n${item.doesNot.join("\n") + "\n"}`
-      : "";
-    result +=
-      (item.other.length ? `ALSO: \n ${item.other.join(`\n`)}` : "") + "\n";
+    result += !!item.doesNot?.length ? `DOES NOT:\n${item.doesNot.join("\n") + "\n"}` : "";
+    result += (item.other.length ? `ALSO: \n ${item.other.join(`\n`)}` : "") + "\n";
   });
 
   if (resultObjAll) {

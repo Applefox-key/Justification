@@ -17,6 +17,8 @@ const wordsList1 = [
   "For example, ",
   "However, ",
   "Otherwise, ",
+  "etc. ",
+  "e.g., ",
 ];
 const wordsListPart2 = [
   { title: "The response", label: "The response", bold: true },
@@ -47,7 +49,7 @@ const wordsListPart2 = [
   },
 ];
 
-export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) => {
+export const sideBtnsData = ({ applyActionP, replace, replaceQU, pasteToText }) => {
   //simple paste to the text - btn words
   const wordsListPart1 = wordsList1.map((el) => ({
     title: el,
@@ -63,7 +65,7 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
       grLabel: "R",
       btns: [
         { title: "replace dash", label: "-", onClick: () => replace("-", "—") },
-        { title: "replace quotes1", label: "«»", onClick: () => replaceQU("guillemet") },
+        { title: "replace quotes1", label: "«»", bold: true, onClick: () => replaceQU("guillemet") },
         { title: "replace quotes2", label: <GrBlockQuote />, bold: true, onClick: () => replaceQU("straight") },
         { title: "replace quotes3", label: `""`, onClick: () => replaceQU("straight"), bold: true },
       ],
@@ -75,16 +77,15 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
         {
           title: "add quotation2 for selection",
           label: "«»",
-          onClick: () => applyAction("quotation2", true),
+          onClick: () => applyActionP("quotation2", true),
           bold: true,
         },
-        { title: "add quotation for selection", label: `""`, onClick: () => applyAction("quotation", true) },
-        { title: "to “” for selection", label: <GrBlockQuote />, onClick: () => applyAction("quotation3", true) },
+        { title: "add quotation for selection", label: `""`, onClick: () => applyActionP("quotation", true) },
+        { title: "to “” for selection", label: <GrBlockQuote />, onClick: () => applyActionP("quotation3", true) },
         {
           title: "add staples for selection",
           label: <PiBracketsRoundBold />,
-          onClick: () => applyAction("staples", true),
-          bold: true,
+          onClick: () => applyActionP("staples", true),
         },
       ],
     },
@@ -98,7 +99,7 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
               "<BsList />
             </>
           ),
-          onClick: () => applyAction("quotationL", true),
+          onClick: () => applyActionP("quotationL", true),
         },
         {
           title: "paste text and add quotation to every line +,",
@@ -108,7 +109,7 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
               ,"
             </>
           ),
-          onClick: () => applyAction("quotationLP0", true),
+          onClick: () => applyActionP("quotationLP0", true),
         },
         {
           title: "paste text and add quotation to every line +,",
@@ -118,34 +119,34 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
               <BsList />
             </>
           ),
-          onClick: () => applyAction("quotationLP", true),
+          onClick: () => applyActionP("quotationLP", true),
         },
         {
           title: `add quotation to every line with the text and remove ENTER`,
           label: <LuListTree />,
           bold: true,
-          onClick: () => applyAction("transformAll", true),
+          onClick: () => applyActionP("transformAll", true),
         },
         {
           title: `add quotation to every pair line with the text "instead of"`,
           label: <>INS</>,
-          onClick: () => applyAction("quotationLI", true),
+          onClick: () => applyActionP("quotationLI", true),
         },
         {
           title: `add quotation to every line with the text "it is better to use"`,
           label: <>Bett</>,
-          onClick: () => applyAction("quotationLB", true),
+          onClick: () => applyActionP("quotationLB", true),
         },
         {
           title: `add quotation to every odd line and join with even line using — "`,
           label: <> —</>,
-          onClick: () => applyAction("linePairD", true),
+          onClick: () => applyActionP("linePairD", true),
         },
         {
           title: "add ;/. to each line of selection",
           label: ";.",
           bold: true,
-          onClick: () => applyAction("lineEnding", true),
+          onClick: () => applyActionP("lineEnding", true),
         },
       ],
     },
@@ -155,17 +156,17 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
         {
           title: "Uppercase first letter Alt+Q",
           label: <RxLetterCaseCapitalize />,
-          onClick: () => applyAction("upFirst"),
+          onClick: () => applyActionP("upFirst"),
         },
         {
           title: "Lowercase Alt+A",
           label: <RxLetterCaseLowercase />,
-          onClick: () => applyAction("down"),
+          onClick: () => applyActionP("down"),
         },
         {
           title: "Uppercase",
           label: <RxLetterCaseUppercase />,
-          onClick: () => applyAction("up"),
+          onClick: () => applyActionP("up"),
         },
       ],
     },
@@ -175,12 +176,12 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
         {
           title: "accent selection",
           label: <TbSlashes />,
-          onClick: () => applyAction("accent"),
+          onClick: () => applyActionP("accent"),
         },
         {
           title: "delete selection",
           label: <BiSolidEraser />,
-          onClick: () => applyAction("delSel"),
+          onClick: () => applyActionP("delSel"),
         },
       ],
     },
@@ -194,7 +195,7 @@ export const sideBtnsData = ({ applyAction, replace, replaceQU, pasteToText }) =
         {
           title: "Adding a words",
           label: "words",
-          onClick: () => applyAction("upFirst"),
+          onClick: () => applyActionP("upFirst"),
           subList: [
             ...wordsListPart1,
             ...wordsListPart2.map((el) => ({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DimPageOneSide from "./DimPageOneSide";
 import { defaultDimSets } from "../../constants/dimDefault";
-import RespDmgFieldEdit from "./RespDmgFieldEdit";
+
 import { compose } from "../../utils/rates";
 import ScalableInput from "../EditBtns/ScalableInput";
 import DimLastField from "./DimLastField";
@@ -10,11 +10,11 @@ import MyPortal from "../UI/MyPortal/MyPortal";
 import DimBtnsHot from "../Dimentions/DimBtnsHot";
 import DmgSingleResponse from "./DmgSingleResponse";
 import PromptRate from "./PromptRate";
+import RateInformOne from "../Rate/RateInformOne";
 
 const DimPageTwoSides = ({ editParam, response }) => {
   const [content, setContent] = useState({ left: response, right: "DMG" });
 
-  console.log(response);
   const resp = response === "ResponseA" ? "a" : "b";
   const setContentVal = (side, newVal) => {
     const secondSide = side === "left" ? "right" : "left";
@@ -25,23 +25,27 @@ const DimPageTwoSides = ({ editParam, response }) => {
   useEffect(() => {
     setContent({ left: response, right: "DMG" });
   }, [response]);
-  const dimArr = defaultDimSets[editParam.item.setName];
-  const currField = dimArr.filter((el) => el.a === editParam.fieldId || el.b === editParam.fieldId);
+
+  const currField = defaultDimSets[editParam.item.setName].filter(
+    (el) => el.a === editParam.fieldId || el.b === editParam.fieldId
+  );
   const contentArr = {
     [`${response}`]: (
       <DimLastField fieldRate={response} fieldId={editParam.fieldId} item={editParam.item} fieldFn={editParam.fieldFn}>
-        <div className="me-4">ALT+X: with coma</div>
-        <div className="me-4">ALT+Z: new row</div>
+        {/* <div className="me-4">ALT+X: with coma</div>
+        <div className="me-4">ALT+Z: new row</div> */}
+        <RateInformOne item={editParam.item} resp={resp} />
         {<CheckRespBtn item={editParam.item} fieldRate={response} />}
       </DimLastField>
     ),
+
     [`Rate${resp.toUpperCase()}`]: (
       <ScalableInput
         fieldName={`Rate${resp.toUpperCase()}`}
         fieldId={editParam.fieldId}
         fieldVal={editParam.item[`Rate${resp.toUpperCase()}`]}
         fieldFn={editParam.fieldFn}
-        item={editParam.item}
+        // item={editParam.item}
         onChange={(val) => {
           editParam.fieldFn.setNewVal(val);
         }}>
@@ -51,24 +55,9 @@ const DimPageTwoSides = ({ editParam, response }) => {
       </ScalableInput>
     ),
     Prompt: <PromptRate editParam={editParam} content={content} rate={`Rate${resp.toUpperCase()}`} />,
-    DMG: <DmgSingleResponse editParam={editParam} dimArr={dimArr} resp={resp} />,
+    DMG: <DmgSingleResponse editParam={editParam} resp={resp} />,
   };
-  //    <>
-  //         {dimArr.map((field, i) => (
-  //           <RespDmgFieldEdit
-  //             key={i}
-  //             scale="left"
-  //             //   clBox={showRate ? "w-100" : ""}
-  //             show={true}
-  //             fieldName={field[resp]}
-  //             placeholder={field[resp]}
-  //             fieldId={editParam.fieldId}
-  //             fieldVal={editParam.item[field[resp]]}
-  //             estim={editParam.item.Evals[field[resp]]}
-  //             fieldFn={editParam.fieldFn}
-  //           />
-  //         ))}
-  //       </>
+
   return (
     <div className="two-sides-wrap">
       <MyPortal containerId="portal-got-resp">

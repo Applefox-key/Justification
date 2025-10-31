@@ -4,18 +4,23 @@ import DmgPageReviewBuilder from "./DmgPageReviewBuilder";
 import PageJustif from "./PageJustif";
 import DmgPageReview from "./DmgPageReview";
 import DmgResumeByDim from "./DmgResumeByDim";
+import MyPortal from "../UI/MyPortal/MyPortal";
+import RateInformOne from "../Rate/RateInformOne";
 
 const JustRew = ({ editParam }) => {
-  const [content, setContent] = useState("Both");
+  const [content, setContent] = useState("Resume");
 
   const contentArr = {
+    Both: <DmgPageReviewBuilder editParam={editParam} />,
     Justification: <PageJustif editParam={editParam} />,
     Rewiew: <DmgPageReview editParam={{ ...editParam }} />,
     Resume: <DmgResumeByDim item={editParam.item} />,
-    Both: <DmgPageReviewBuilder editParam={editParam} />,
   };
   return (
     <div className={`two-sides-wrap`}>
+      <MyPortal containerId="portal-sub-menu-left">
+        <RateInformOne item={editParam.item} />
+      </MyPortal>
       <div className={`one-side w-100`}>
         <div className="one-side-panel">
           {Object.keys(contentArr).map((field, i) => (
@@ -25,7 +30,7 @@ const JustRew = ({ editParam }) => {
               checked={content === field}
               onClick={() => setContent(field)}>
               {field}
-              {content === "DMG" && content === field && <div id="portal-dmg-arrow"> </div>}
+              {content === "Resume" && content === field && <div id="portal-res-arrow"> </div>}
             </button>
           ))}
         </div>

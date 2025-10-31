@@ -1,10 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import {
-  voiceToEdit,
-  editTextActionRef,
-  applyAction,
-} from "../../utils/utilStr";
+import { voiceToEdit, editTextActionRef, applyAction } from "../../utils/utilStr";
 import TemplatesBox from "../TextParts/TemplatesBox";
 import HotBtns from "../Hint/HotBtns";
 import TopBtns from "../EditBtns/TopBtns";
@@ -13,12 +9,12 @@ import EditField from "./EditField";
 import { saveToHistorygeneral } from "../../utils/localStorage";
 import RateBoxes from "../Rate/RateBoxes";
 import BtnArchive from "../EditBtns/BtnArchive";
-import { baseRespName } from "../../utils/utilStr";
 import { FaStar } from "react-icons/fa";
 import VoiceDragable from "../Voice/VoiceDragable";
 import { TbBoxAlignTop } from "react-icons/tb";
 import { usePopup } from "../../hooks/usePopup";
 import { useRateLikert } from "../../hooks/useRateLikert";
+import { baseRespName } from "../../utils/utilStr";
 
 const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textSelected, setTextSelected] = useState("");
@@ -29,9 +25,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   const [textRef, setTextRef] = useState(null);
 
   const fieldId = useMemo(() => {
-    return textRef && textRef.current && textRef.current.id
-      ? textRef.current.id
-      : "Prompt";
+    return textRef && textRef.current && textRef.current.id ? textRef.current.id : "Prompt";
   }, [textRef]);
 
   const fieldFn = {
@@ -51,7 +45,8 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     onKeyDown: (e) => {
       if (e.key === "F4") {
         const val = item[fieldId];
-        const newVal = applyAction(val, action);
+        // const newVal = applyAction(val, action);
+        const newVal = applyAction({ text: val, action, toLowerC: true });
         fieldFn.setNewVal(newVal);
       }
     },
@@ -65,15 +60,8 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     setTextSelected(selectedText);
   };
   const pasteToText = (val) => {
-    const newVal = applyAction(val.en || val, action);
-    editTextActionRef(
-      textRef,
-      item[fieldId],
-      fieldFn.setNewVal,
-      "add",
-      true,
-      newVal
-    );
+    const newVal = applyAction({ text: val.en || val, action });
+    editTextActionRef(textRef, item[fieldId], fieldFn.setNewVal, "add", true, newVal);
   };
   const compose = (r3targ = true) => {
     const rateStr = best.title;
@@ -86,19 +74,13 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     else {
       const cursorPos = textRef.current.selectionStart;
       const text = item[fieldId];
-      const newVal =
-        text.slice(0, cursorPos) +
-        rateStr +
-        " " +
-        item.R0 +
-        text.slice(cursorPos);
+      const newVal = text.slice(0, cursorPos) + rateStr + " " + item.R0 + text.slice(cursorPos);
 
       setItem({
         ...item,
         [fieldId]: newVal,
       });
-      textRef.current.selectionStart = textRef.current.selectionEnd =
-        cursorPos + textRef.length;
+      textRef.current.selectionStart = textRef.current.selectionEnd = cursorPos + textRef.length;
     }
   };
   const setPopup = usePopup();
@@ -134,9 +116,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
     }
   };
   const turnsTMP = () => {
-    const userConfirmed = window.confirm(
-      "Do you want to clear text and add a template?"
-    );
+    const userConfirmed = window.confirm("Do you want to clear text and add a template?");
     if (!userConfirmed) return;
     const txt = `TURN1.\n\nTURN2.\n\nTURN3.\n\nTURN4.`;
     setItem({ R1: `PROMPT.\n\n${txt}`, R2: txt, R3: txt, R0: "" });
@@ -149,14 +129,10 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
   return (
     <>
       <div className="d-flex flex-wrap align-items-center justify-content-start mb-1">
-        <Button
-          className={"btnToHis" + (isTemplates ? " isTmp" : "")}
-          onClick={(e) => setIsTemplates(!isTemplates)}>
+        <Button className={"btnToHis" + (isTemplates ? " isTmp" : "")} onClick={(e) => setIsTemplates(!isTemplates)}>
           Templates
         </Button>
-        <Button
-          className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")}
-          onClick={(e) => setIsHotBtns(!isHotBtns)}>
+        <Button className={"btnToHis hintBtn" + (isHotBtns ? " isTmp" : "")} onClick={(e) => setIsHotBtns(!isHotBtns)}>
           HOT
         </Button>
         <TopBtns
@@ -187,17 +163,14 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                       placeholder={i + 1}
                       setIsTxt={setIsTxt}
                       classN={
-                        (fieldId === field ? "active-field" : "") +
-                        (best.fields.includes(field) ? " best-field" : "")
+                        (fieldId === field ? "active-field" : "") + (best.fields.includes(field) ? " best-field" : "")
                       }
                       isTxt={isTxt && fieldId === field}
                       isActive={fieldId === field}
                       fieldVal={item[field]}
                       fieldFn={fieldFn}
                     />
-                    {best.fields.includes(field) && (
-                      <FaStar className={field + "best star"} />
-                    )}
+                    {best.fields.includes(field) && <FaStar className={field + "best star"} />}
                   </>
                 ))}
               </div>
@@ -214,9 +187,7 @@ const EditArea = ({ actionFn, item, setItem, action, setIsCheckerMode }) => {
                 <div>
                   {" "}
                   <button onClick={turnsTMP}>Turns TMPL</button>
-                  <button onClick={() => compose(false)}>
-                    rate to active text field
-                  </button>
+                  <button onClick={() => compose(false)}>rate to active text field</button>
                   <button onClick={() => compose(true)}>compose</button>
                   <button onClick={clear}>clear all parts</button>{" "}
                 </div>

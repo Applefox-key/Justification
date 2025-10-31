@@ -21,7 +21,7 @@ const PromptRate = ({ editParam, content, rate }) => {
           fieldId={editParam.fieldId}
           fieldVal={editParam.item[rate]}
           fieldFn={editParam.fieldFn}
-          item={editParam.item}
+          // item={editParam.item}
           onChange={(val) => {
             editParam.fieldFn.setNewVal(val);
           }}

@@ -38,8 +38,7 @@ const TextChecker = ({ close }) => {
       quotesMatches.push(quoteMatch[0]); // Полная строка с кавычками
     }
     if (quotesMatches.length > 0) {
-      rextJust =
-        "In the response the quotation marks should be replaced with «».";
+      rextJust = "In the response the quotation marks should be replaced with «».";
       foundErrors.push({
         type: "quote",
         matches: quotesMatches,
@@ -76,7 +75,7 @@ const TextChecker = ({ close }) => {
     if (foundErrors.length > 0) {
       foundErrors.unshift({
         type: "resultTxt",
-        matches: rextJust ? rextJust : "",
+        matches: rextJust ?? "",
       });
     }
     foundErrors.unshift({

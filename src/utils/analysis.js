@@ -76,9 +76,7 @@ const evalStat = (resp, criteria) => {
   let nonCritMinor = nonCriticalScores.filter((score) => score === 2).length;
   let nonCritMajor = nonCriticalScores.filter((score) => score === 3).length;
   let allOnes = criteria.every((c) => c[resp] === 1 || c[resp] === 0);
-  let criticalOnes = criticalScores.every(
-    (score) => score === 1 || score === 0
-  );
+  let criticalOnes = criticalScores.every((score) => score === 1 || score === 0);
   let hasNonCriticalAboveOne = nonCriticalScores.some((score) => score > 1);
   return {
     criticalScores,
@@ -94,15 +92,9 @@ const evalStat = (resp, criteria) => {
 };
 
 const evalStatHalf = (evalStHalf) => {
-  let allOnes =
-    evalStHalf.critMinor +
-      evalStHalf.critMajor +
-      evalStHalf.nonCritMinor +
-      evalStHalf.nonCritMajor ===
-    0;
+  let allOnes = evalStHalf.critMinor + evalStHalf.critMajor + evalStHalf.nonCritMinor + evalStHalf.nonCritMajor === 0;
   let criticalOnes = evalStHalf.critMinor + evalStHalf.critMajor === 0;
-  let hasNonCriticalAboveOne =
-    evalStHalf.nonCritMinor + evalStHalf.nonCritMajor !== 0;
+  let hasNonCriticalAboveOne = evalStHalf.nonCritMinor + evalStHalf.nonCritMajor !== 0;
   return {
     ...evalStHalf,
     criticalOnes,
@@ -356,17 +348,9 @@ export const compareResponses = (evaluation) => {
 
 export const createJustifSheema = (respEval, verdict, toJustif) => {
   //both[no min maj] a b
-  const levParts = [
-    " no issues with ",
-    " some problems with ",
-    " major problems with ",
-  ];
+  const levParts = [" no issues with ", " some problems with ", " major problems with "];
   const respParts = ["Both responses have", "Response A has", "Response B has"];
-  const exampleParts = [
-    ". Response A: EXAMPLE_A. Response B: EXAMPLE_B. ",
-    ": EXAMPLE_A. ",
-    ": EXAMPLE_B. ",
-  ];
+  const exampleParts = [". Response A: EXAMPLE_A. Response B: EXAMPLE_B. ", ": EXAMPLE_A. ", ": EXAMPLE_B. "];
   const resAr = [
     [[], [], []],
     [[], [], []],
@@ -397,10 +381,7 @@ export const createJustifSheema = (respEval, verdict, toJustif) => {
       let rowL = "";
       lev.forEach((crit, ci) => {
         if (li === 0)
-          rowL =
-            (ci === 0 ? respParts[ri] + levParts[li] : "") +
-            crit +
-            (ci === lev.length - 1 ? ". " : ", ");
+          rowL = (ci === 0 ? respParts[ri] + levParts[li] : "") + crit + (ci === lev.length - 1 ? ". " : ", ");
         else rowL = respParts[ri] + levParts[li] + crit + exampleParts[ri];
         resArr.push(rowL);
       });
@@ -468,8 +449,7 @@ export const recomDim = (evals, critSet) => {
   try {
     let ev = { ...evals };
     delete ev.Rate;
-    if (Object.values(ev).some((value) => value === 0))
-      return { recom: "", detales: "" };
+    if (Object.values(ev).some((value) => value === 0)) return { recom: "", detales: "" };
     const criteria = !critSet
       ? [
           { id: "Instructions", isCrit: true },
@@ -489,10 +469,8 @@ export const recomDim = (evals, critSet) => {
     };
     criteria.forEach((criterion, i) => {
       const dif = evals[`${criterion.id}_A`] - evals[`${criterion.id}_B`];
-      rate.A[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] +=
-        evals[`${criterion.id}_A`];
-      rate.B[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] +=
-        evals[`${criterion.id}_B`];
+      rate.A[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] += evals[`${criterion.id}_A`];
+      rate.B[`score${criterion.isCrit ? "Crit" : "NonCrit"}`] += evals[`${criterion.id}_B`];
 
       if (dif !== 0) {
         const win = dif > 0 ? "A" : "B";
@@ -504,24 +482,10 @@ export const recomDim = (evals, critSet) => {
     rate.B.avScore = ((rate.B.scoreCrit + rate.B.scoreNonCrit) / 6).toFixed(2);
     rate.A.avScoreCr = (rate.A.scoreCrit / 3).toFixed(2);
     rate.B.avScoreCr = (rate.B.scoreCrit / 3).toFixed(2);
-    rate.winCrit =
-      rate.A.dimCrit === rate.B.dimCrit
-        ? null
-        : rate.A.dimCrit > rate.B.dimCrit
-        ? "A"
-        : "B";
-    rate.winScore =
-      rate.A.avScore === rate.B.avScore
-        ? null
-        : rate.A.avScore > rate.B.avScore
-        ? "A"
-        : "B";
+    rate.winCrit = rate.A.dimCrit === rate.B.dimCrit ? null : rate.A.dimCrit > rate.B.dimCrit ? "A" : "B";
+    rate.winScore = rate.A.avScore === rate.B.avScore ? null : rate.A.avScore > rate.B.avScore ? "A" : "B";
     rate.winNonCrit =
-      rate.A.dimNonCrit === rate.B.dimNonCrit
-        ? null
-        : rate.A.dimNonCrit > rate.B.dimNonCrit
-        ? "A"
-        : "B";
+      rate.A.dimNonCrit === rate.B.dimNonCrit ? null : rate.A.dimNonCrit > rate.B.dimNonCrit ? "A" : "B";
 
     rate.difCrit = Math.abs(rate.A.dimCrit - rate.B.dimCrit);
     rate.difNonCrit = Math.abs(rate.A.dimNonCrit - rate.B.dimNonCrit);
@@ -530,23 +494,20 @@ export const recomDim = (evals, critSet) => {
     if (rate.winCrit === null && rate.winNonCrit === null) {
       if (rate.winScore === null)
         anRecom = `EQUALLY GOOD/BAD: Both responses are very close in quality. Choose either Response A or Response B based on personal preference. (rec#0)`;
-      else
-        anRecom = `SLIGHTLY BETTER: Response ${rate.winScore} has higher average score. (rec#2)`;
+      else anRecom = `SLIGHTLY BETTER: Response ${rate.winScore} has higher average score. (rec#2)`;
     } else if (rate.difCrit !== 0) {
       if (rate.difCrit === 1)
         if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null)
           if (rate.difCrit + rate.difNonCrit < 3)
             if (Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1)
               anRecom = `BETTER: Response ${rate.winCrit} significantly outperforms in 1 important criteria. (rec#3_1)`;
-            else
-              anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria. (rec#3)`;
+            else anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria. (rec#3)`;
           else if (
             parseFloat(rate[rate.winCrit].avScore) === 5 &&
             parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
           )
             anRecom = `MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other. (rec#4)`;
-          else
-            anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#5)`;
+          else anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#5)`;
         //winners a and b
         else {
           anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1 important criteria while another response better in non important. (rec#6)`;
@@ -557,10 +518,7 @@ export const recomDim = (evals, critSet) => {
         Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) >= 1
       )
         anRecom = `BETTER: Response ${rate.winCrit} significantly outperforms in 2 important criteria. (rec#3_0)`;
-      else if (
-        rate.difCrit + rate.difNonCrit <= 2 &&
-        Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) < 1
-      )
+      else if (rate.difCrit + rate.difNonCrit <= 2 && Math.abs(rate.A.avScoreCr - rate.B.avScoreCr) < 1)
         anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 1–2 criteria. (rec#3_2)`;
       else if (rate.winCrit === rate.winNonCrit || rate.winNonCrit === null) {
         if (
@@ -568,45 +526,33 @@ export const recomDim = (evals, critSet) => {
           parseFloat(rate[rate.winCrit === "A" ? "B" : "A"].avScore) <= 3
         )
           anRecom = `MUCH BETTER: Response ${rate.winCrit} significantly outperforms the other. (rec#7)`;
-        else
-          anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#8)`;
+        else anRecom = `BETTER: Response ${rate.winCrit}  outperforms in more then 2 criteria. (rec#8)`;
       } //winners a and b
       //better non crit win 1 crit but lose 2 crit
-      else if (
-        rate.winNonCrit !== null &&
-        rate[rate.winNonCrit]?.dimCrit !== 0
-      ) {
+      else if (rate.winNonCrit !== null && rate[rate.winNonCrit]?.dimCrit !== 0) {
         anRecom = `SLIGHTLY BETTER: Response ${rate.winCrit} outperforms in 2 important criteria but it is worth in other, also another response better in one important criteria. (rec#9)`;
       }
       //better noncrit only non crit
-      else
-        anRecom = `BETTER: Response ${rate.winCrit}  is stronger in most important criteria. (rec#10)`;
+      else anRecom = `BETTER: Response ${rate.winCrit}  is stronger in most important criteria. (rec#10)`;
       ///crit dif is null
     } else if (rate.difNonCrit < 3)
       anRecom = `SLIGHTLY BETTER: Response ${rate.winNonCrit} outperforms in 1–2 criteria. (rec#11)`;
-    else
-      anRecom = `BETTER: Response ${rate.winNonCrit} outperforms in more than 2 criteria. (rec#12)`;
+    else anRecom = `BETTER: Response ${rate.winNonCrit} outperforms in more than 2 criteria. (rec#12)`;
 
     const avCritA = (rate.A.scoreCrit / 3).toFixed(2);
     const avNonCritA = (rate.A.scoreNonCrit / 3).toFixed(2);
     const avCritB = (rate.B.scoreCrit / 3).toFixed(2);
     const avNonCritB = (rate.B.scoreNonCrit / 3).toFixed(2);
-    const detales = `Total scores: \nA ${
-      rate.A.scoreNonCrit + rate.A.scoreCrit
-    } ( crit: ${rate.A.scoreCrit} other: ${rate.A.scoreNonCrit} )
-  B ${rate.B.scoreNonCrit + rate.B.scoreCrit} ( crit: ${
-      rate.B.scoreCrit
-    } other: ${rate.B.scoreNonCrit} )
+    const detales = `Total scores: \nA ${rate.A.scoreNonCrit + rate.A.scoreCrit} ( crit: ${rate.A.scoreCrit} other: ${
+      rate.A.scoreNonCrit
+    } )
+  B ${rate.B.scoreNonCrit + rate.B.scoreCrit} ( crit: ${rate.B.scoreCrit} other: ${rate.B.scoreNonCrit} )
     \nAverage rate:
    A ${rate.A.avScore} ( crit: ${avCritA} other: ${avNonCritA} )
    B ${rate.B.avScore} ( crit: ${avCritB} other: ${avNonCritB} )
    \nBetter dimentions:
-   A ${rate.A.dimNonCrit + rate.A.dimCrit} ( crit: ${rate.A.dimCrit} other: ${
-      rate.A.dimNonCrit
-    } )
-   B ${rate.B.dimNonCrit + rate.B.dimCrit} ( crit: ${rate.B.dimCrit} other: ${
-      rate.B.dimNonCrit
-    } )`;
+   A ${rate.A.dimNonCrit + rate.A.dimCrit} ( crit: ${rate.A.dimCrit} other: ${rate.A.dimNonCrit} )
+   B ${rate.B.dimNonCrit + rate.B.dimCrit} ( crit: ${rate.B.dimCrit} other: ${rate.B.dimNonCrit} )`;
 
     return { recom: anRecom, detales: detales };
   } catch (error) {
@@ -642,9 +588,7 @@ export const summariseRub = (item, i = null, ovr = false) => {
 
         result["score" + ind].just +=
           (isAdd === "start"
-            ? `Crit${txt_n} ${numR + 1} (${
-                item["score" + ind] === 1 ? "minor" : "major"
-              } issue): `
+            ? `Crit${txt_n} ${numR + 1} (${item["score" + ind] === 1 ? "minor" : "major"} issue): `
             : "") + jtxt;
       }
     });
@@ -661,8 +605,7 @@ export const summariseRub = (item, i = null, ovr = false) => {
     else if (mnp > 0) est = 4;
 
     newV["eval" + ind] = est;
-    newV["stat" + ind] =
-      "MINOR- " + (mnp ? mnp : 0) + "% MAJOR- " + (mjp ? mjp : 0) + "%";
+    newV["stat" + ind] = "MINOR- " + (mnp ?? 0) + "% MAJOR- " + (mjp ?? 0) + "%";
     newV["justif" + ind] = result["score" + ind].just;
   };
   const newV = { ...item };
@@ -706,13 +649,10 @@ export const sumJustificationRub = (item) => {
 // export const getRubricName = (criteria, getTxt = false, version = 0, formatText=) => {
 
 export const getRubricName = (criteria, version = 0, format = []) => {
-  let name =
-    criteria.rubric.charAt(0).toUpperCase() +
-    criteria.rubric.slice(1).trimEnd();
+  let name = criteria.rubric.charAt(0).toUpperCase() + criteria.rubric.slice(1).trimEnd();
   // if (!name.endsWith(".")) name += ".";
   let formatText = !format.length;
-  if (!criteria.example && formatText)
-    return name.endsWith(".") ? name : name + ".";
+  if (!criteria.example && formatText) return name.endsWith(".") ? name : name + ".";
 
   //example
   let exa = "";
@@ -724,12 +664,8 @@ export const getRubricName = (criteria, version = 0, format = []) => {
   let exSep = exampleSeparators[Number(criteria.exExample)];
   let sepVal = exSep.value[version];
   if (sepVal) {
-    name =
-      name.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") +
-      exSep.punkt.nameEnd;
-    exa =
-      exa.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") +
-      exSep.punkt.exEnd;
+    name = name.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") + exSep.punkt.nameEnd;
+    exa = exa.replace(/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]$/, "") + exSep.punkt.exEnd;
   }
   // if (sepVal && !name.endsWith(exSep.punkt)) name += exSep.punkt;
   // if (exa && exSep.punkt === " (") exa += ")";
@@ -756,12 +692,7 @@ export const getRubricName = (criteria, version = 0, format = []) => {
     ) : (
       <>{sepVal + " "}</>
     );
-  let formatExample =
-    format.includes("example") || format.includes("all") ? (
-      <i>{exa}</i>
-    ) : (
-      <>{exa}</>
-    );
+  let formatExample = format.includes("example") || format.includes("all") ? <i>{exa}</i> : <>{exa}</>;
   return (
     <>
       {formatName}

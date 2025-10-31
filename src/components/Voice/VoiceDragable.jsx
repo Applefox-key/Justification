@@ -11,10 +11,7 @@ const VoiceDragable = ({ toJustif, nameF }) => {
 
   return (
     <>
-      <Button
-        onClick={() => setShow(!show)}
-        title="VOICE"
-        className="btnToHis hintBtn  mt-0 mb-0">
+      <Button onClick={() => setShow(!show)} title="VOICE" className="btnToHis hintBtn  mt-0 mb-0">
         <MdKeyboardVoice />
       </Button>
       {show && (
@@ -36,11 +33,7 @@ const VoiceDragable = ({ toJustif, nameF }) => {
                   <RiDragMoveFill />
                 </div>{" "}
               </div>
-              <StrAreaVoice
-                placeholder="...your notes"
-                type="voiceOver"
-                actionFn={toJustif}
-              />
+              <StrAreaVoice placeholder="...your notes" type="voiceOver" actionFn={toJustif} />
             </div>
           </div>
         </Draggable>
